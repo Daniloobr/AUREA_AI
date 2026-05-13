@@ -69,3 +69,31 @@ def token_required(f):
         return f(current_user, *args, **kwargs)
 
     return decorated
+
+def admin_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = None
+        if 'Authorization' in request.headers:
+            auth_header = request.headers['Authorization']
+            try:
+                token = auth_header.split(" ")[1]
+            except IndexError:
+                return jsonify({'success': False, 'error': 'Bearer token malformed'}), 401
+        elif request.cookies.get('auth_token'):
+            token = request.cookies.get('auth_token')
+
+        if not token:
+            return jsonify({'success': False, 'error': 'Token is missing'}), 401
+
+        resp = decode_token(token)
+        if isinstance(resp, str) and (resp.startswith('Signature') or resp.startswith('Invalid')):
+            return jsonify({'success': False, 'error': resp}), 401
+
+        current_user = User.query.get(resp)
+        if not current_user or not current_user.is_admin:
+            return jsonify({'success': False, 'error': 'Admin access required'}), 403
+
+        return f(current_user, *args, **kwargs)
+
+    return decorated

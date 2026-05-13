@@ -61,11 +61,13 @@ def create_app():
     from routes.generate import generate_bp
     from routes.gallery import gallery_bp
     from routes.auth import auth_bp
+    from routes.admin import admin_bp
 
     app.register_blueprint(upload_bp, url_prefix='/api/upload')
     app.register_blueprint(generate_bp, url_prefix='/api/generate')
     app.register_blueprint(gallery_bp, url_prefix='/api/gallery')
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
+    app.register_blueprint(admin_bp, url_prefix='/api/admin')
 
     # ─── Serve uploaded/generated files ───
     @app.route('/uploads/<path:filename>')

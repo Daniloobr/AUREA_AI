@@ -219,6 +219,61 @@ def google_auth():
         "is_new_user": is_new_user
     })
 
+@auth_bp.route('/forgot-password', methods=['POST'])
+def forgot_password():
+    data = request.json
+    email = data.get('email')
+    
+    user = User.query.filter_by(email=email, is_active=True).first()
+    if not user:
+        # We return success anyway for security (don't leak if email exists)
+        return jsonify({"success": True, "message": "Se o e-mail existir, você receberá um link de recuperação."})
+
+    import secrets
+    from datetime import datetime, timedelta
+    from models.db_models import PasswordResetToken
+    from services.email_service import email_service
+
+    # Generate token
+    token = secrets.token_urlsafe(32)
+    expires = datetime.utcnow() + timedelta(hours=1)
+    
+    reset_token = PasswordResetToken(user_id=user.id, token=token, expires_at=expires)
+    db.session.add(reset_token)
+    db.session.commit()
+
+    # Send Email
+    reset_link = f"http://localhost:3000/reset-password?token={token}"
+    email_service.send_password_reset(user.email, reset_link)
+
+    return jsonify({"success": True, "message": "E-mail de recuperação enviado."})
+
+@auth_bp.route('/reset-password', methods=['POST'])
+def reset_password():
+    data = request.json
+    token = data.get('token')
+    new_password = data.get('password')
+
+    if not token or not new_password:
+        return jsonify({"success": False, "error": "Token e nova senha são obrigatórios"}), 400
+
+    from models.db_models import PasswordResetToken
+    reset_record = PasswordResetToken.query.filter_by(token=token, used=False).first()
+
+    if not reset_record or reset_record.expires_at < datetime.utcnow():
+        return jsonify({"success": False, "error": "Token inválido ou expirado"}), 400
+
+    user = User.query.get(reset_record.user_id)
+    if not user:
+        return jsonify({"success": False, "error": "Usuário não encontrado"}), 404
+
+    # Change password
+    user.set_password(new_password)
+    reset_record.used = True
+    db.session.commit()
+
+    return jsonify({"success": True, "message": "Senha alterada com sucesso!"})
+
 @auth_bp.route('/logout', methods=['POST'])
 def logout():
     response = make_response(jsonify({"success": True, "message": "Logout realizado"}))

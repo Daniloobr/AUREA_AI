@@ -12,6 +12,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False, index=True)
     password_hash = db.Column(db.String(128), nullable=False)
     credits_balance = db.Column(db.Integer, default=25) # Bônus inicial: 25 moedas
+    is_admin = db.Column(db.Boolean, default=False)
     is_active = db.Column(db.Boolean, default=True) # Para LGPD (Exclusão Lógica)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
@@ -31,9 +32,20 @@ class User(db.Model):
             "name": self.name if self.is_active else "Usuário Excluído",
             "email": self.email if self.is_active else "anonimo@lumiere.com",
             "credits_balance": self.credits_balance,
+            "is_admin": self.is_admin,
             "is_active": self.is_active,
             "created_at": self.created_at.isoformat()
         }
+
+class PasswordResetToken(db.Model):
+    __tablename__ = 'password_reset_tokens'
+    
+    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
+    token = db.Column(db.String(100), unique=True, nullable=False)
+    expires_at = db.Column(db.DateTime, nullable=False)
+    used = db.Column(db.Boolean, default=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 class Transaction(db.Model):
     __tablename__ = 'transactions'
