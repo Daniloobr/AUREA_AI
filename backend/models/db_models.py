@@ -11,7 +11,7 @@ class User(db.Model):
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False, index=True)
     password_hash = db.Column(db.String(128), nullable=False)
-    credits_balance = db.Column(db.Integer, default=100) # Bônus inicial: 100 moedas
+    credits_balance = db.Column(db.Integer, default=25) # Bônus inicial: 25 moedas
     is_active = db.Column(db.Boolean, default=True) # Para LGPD (Exclusão Lógica)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     

@@ -45,7 +45,7 @@ class EmailService:
             <h2 style="color: #9857CB;">Sua jornada artística começou!</h2>
             <p>Olá, <strong>{name}</strong>,</p>
             <p>Seja bem-vinda ao <strong>Lumière Studios</strong>. Seu acesso ao estúdio de fotografia por IA mais avançado do mundo está liberado.</p>
-            <p>Você acaba de ganhar <strong>100 créditos</strong> para começar a criar seus primeiros ensaios.</p>
+            <p>Você acaba de ganhar <strong>25 créditos</strong> para começar a criar seu primeiro ensaio.</p>
             <div style="margin: 30px 0;">
                 <a href="https://lumiere.com/generate" style="background: #9857CB; color: white; padding: 15px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">Começar meu Ensaio</a>
             </div>

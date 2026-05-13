@@ -26,7 +26,7 @@ def register():
     if user: return jsonify({"success": False, "error": "Email já cadastrado"}), 409
 
     try:
-        INITIAL_BONUS = 100
+        INITIAL_BONUS = 25
         new_user = User(name=name, email=email, credits_balance=INITIAL_BONUS)
         new_user.set_password(password)
         
