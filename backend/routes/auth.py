@@ -166,6 +166,59 @@ def delete_account(current_user):
         db.session.rollback()
         return jsonify({"success": False, "error": str(e)}), 500
 
+@auth_bp.route('/google', methods=['POST'])
+def google_auth():
+    data = request.json
+    email = data.get('email')
+    name = data.get('name')
+
+    if not email:
+        return jsonify({"success": False, "error": "Email é obrigatório"}), 400
+
+    user = User.query.filter_by(email=email).first()
+    
+    is_new_user = False
+    if not user:
+        # Create new user for Google login
+        is_new_user = True
+        INITIAL_BONUS = 25
+        user = User(
+            name=name or email.split('@')[0], 
+            email=email, 
+            credits_balance=INITIAL_BONUS,
+            is_active=True
+        )
+        # Dummy password for OAuth users
+        user.set_password(os.urandom(24).hex())
+        db.session.add(user)
+        db.session.flush()
+
+        # Bonus transaction
+        bonus_txn = Transaction(
+            user_id=user.id,
+            type='bonus_initial',
+            amount=INITIAL_BONUS,
+            balance_before=0,
+            balance_after=INITIAL_BONUS,
+            description="Bônus de boas-vindas (Google)"
+        )
+        db.session.add(bonus_txn)
+        
+        try:
+            from services.email_service import email_service
+            email_service.send_welcome(user.email, user.name)
+        except: pass
+
+    db.session.commit()
+
+    token = generate_token(user.id)
+    return jsonify({
+        "success": True,
+        "user": user.to_dict(),
+        "token": token,
+        "is_new_user": is_new_user
+    })
+
 @auth_bp.route('/logout', methods=['POST'])
 def logout():
     response = make_response(jsonify({"success": True, "message": "Logout realizado"}))
