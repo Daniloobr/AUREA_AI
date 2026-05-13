@@ -187,7 +187,7 @@ export default function RegisterPage() {
               className="w-full h-16 mt-4 bg-white text-black rounded-2xl font-bold text-lg hover:bg-zinc-200 transition-all active:scale-[0.98] flex justify-center items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed premium-shadow"
             >
               {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : (
-                <>Criar Conta VIP <ArrowRight className="w-5 h-5" /></>
+                <>Criar Conta <ArrowRight className="w-5 h-5" /></>
               )}
             </button>
             
@@ -199,6 +199,13 @@ export default function RegisterPage() {
 
             <button 
               type="button"
+              onClick={async () => {
+                const { supabase } = await import('@/lib/supabase');
+                await supabase.auth.signInWithOAuth({
+                  provider: 'google',
+                  options: { redirectTo: `${window.location.origin}/auth/callback` }
+                });
+              }}
               className="w-full h-14 bg-white/[0.03] border border-white/10 hover:bg-white/[0.08] text-white rounded-2xl font-semibold text-sm transition-all flex justify-center items-center gap-3"
             >
               <svg viewBox="0 0 24 24" className="w-5 h-5" xmlns="http://www.w3.org/2000/svg">

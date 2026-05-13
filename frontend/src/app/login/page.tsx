@@ -151,6 +151,13 @@ export default function LoginPage() {
 
             <button 
               type="button"
+              onClick={async () => {
+                const { supabase } = await import('@/lib/supabase');
+                await supabase.auth.signInWithOAuth({
+                  provider: 'google',
+                  options: { redirectTo: `${window.location.origin}/auth/callback` }
+                });
+              }}
               className="w-full h-14 bg-white/[0.03] border border-white/10 hover:bg-white/[0.08] text-white rounded-2xl font-semibold text-sm transition-all flex justify-center items-center gap-3"
             >
               <svg viewBox="0 0 24 24" className="w-5 h-5" xmlns="http://www.w3.org/2000/svg">
