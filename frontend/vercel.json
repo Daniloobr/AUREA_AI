@@ -2,7 +2,8 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://aureaia-backend.up.railway.app/api/$1"
+      "destination": "https://aureaia-backend.onrender.com/api/$1"
+
     }
   ]
 }
