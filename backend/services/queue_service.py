@@ -17,6 +17,36 @@ import json
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+def refund_credits(user_id, amount, description="Reembolso por falha na geração"):
+    """
+    Refunds credits to a user and records the transaction.
+    """
+    try:
+        user = User.query.get(user_id)
+        if not user:
+            logger.error(f"Cannot refund: User {user_id} not found.")
+            return False
+
+        old_balance = user.credits_balance
+        user.credits_balance += amount
+        
+        txn = Transaction(
+            user_id=user_id,
+            type='credit_refund',
+            amount=amount,
+            balance_before=old_balance,
+            balance_after=user.credits_balance,
+            description=description
+        )
+        db.session.add(txn)
+        db.session.commit()
+        logger.info(f"Refunded {amount} credits to user {user_id}. Reason: {description}")
+        return True
+    except Exception as e:
+        db.session.rollback()
+        logger.error(f"Critical error during refund for user {user_id}: {e}")
+        return False
+
 def process_generation_pipeline(app, job_id, image_urls, tipo_ensaio, custom_prompt=None):
     """
     Background thread that processes the AI generation.
@@ -39,63 +69,88 @@ def process_generation_pipeline(app, job_id, image_urls, tipo_ensaio, custom_pro
                 db.session.commit()
 
                 local_paths = []
+                temp_files = []
                 for url in image_urls:
-                    filename = os.path.basename(url)
-                    p = os.path.join(Config.UPLOAD_FOLDER, filename)
-                    if os.path.exists(p):
-                        local_paths.append(p)
+                    if url.startswith('http'):
+                        # Download cloud image for local processing (face detection)
+                        try:
+                            resp = requests.get(url, timeout=30)
+                            resp.raise_for_status()
+                            filename = f"temp_{uuid.uuid4().hex[:8]}_{os.path.basename(url.split('?')[0])}"
+                            temp_path = os.path.join(Config.UPLOAD_FOLDER, filename)
+                            with open(temp_path, 'wb') as f:
+                                f.write(resp.content)
+                            local_paths.append(temp_path)
+                            temp_files.append(temp_path)
+                        except Exception as e:
+                            logger.warning(f"Could not download image from {url}: {e}")
+                    else:
+                        # Check local path (fallback/migration)
+                        filename = os.path.basename(url)
+                        p = os.path.join(Config.UPLOAD_FOLDER, filename)
+                        if os.path.exists(p):
+                            local_paths.append(p)
                 
                 if not local_paths:
-                    raise FileNotFoundError("Nenhuma das imagens de referência foi encontrada no servidor.")
+                    raise FileNotFoundError("Nenhuma das imagens de referência pôde ser acessada.")
 
                 # Use face_service to rank images and pick the best face
                 ranked_faces = face_service.get_face_quality_rank(local_paths)
                 
+                best_face_local_path = None
                 if ranked_faces:
                     # Pick the best one
                     best_face = ranked_faces[0]
-                    local_input_path = best_face["face_crop_path"]
-                    logger.info(f"Melhor rosto selecionado para geração: {local_input_path} (Score: {best_face['quality_score']})")
+                    best_face_local_path = best_face["face_crop_path"]
+                    logger.info(f"Melhor rosto selecionado para geração: {best_face_local_path}")
                 else:
                     # Fallback to the first image if no face detected in any
-                    local_input_path = local_paths[0]
+                    best_face_local_path = local_paths[0]
                     logger.warning("Nenhum rosto claro detectado. Usando a primeira imagem como fallback.")
 
-            # 3. Call Replicate (Real AI)
-            job.status = "generating"
-            job.progress = 50
-            job.message = "Processando sua obra de arte via FLUX + PuLID..."
-            db.session.commit()
+                # 3. Call Replicate (Real AI)
+                job.status = "generating"
+                job.progress = 50
+                job.message = "Processando sua obra de arte via FLUX + PuLID..."
+                db.session.commit()
 
-            ai_result = generate_with_retry(
-                image_path=local_input_path,
-                prompt=prompt,
-                negative_prompt=negative_prompt,
-                id_weight=1.0 if local_input_path else 0.0
-            )
+                # IMPORTANT: If we have a face crop, we upload it to Supabase so Replicate can access it
+                # because Replicate needs a public URL or a file stream.
+                # We'll pass the local path to replicate_service which handles the upload/stream.
+                ai_result = generate_with_retry(
+                    image_path=best_face_local_path,
+                    prompt=prompt,
+                    negative_prompt=negative_prompt,
+                    id_weight=1.0 if best_face_local_path else 0.0
+                )
+
+                # Cleanup temp input files
+                for f in temp_files:
+                    if os.path.exists(f): os.remove(f)
 
             if ai_result["success"] and ai_result["images"]:
-                # 4. Download and save images locally
-                final_images = []
+                # 4. Process and Save Outputs
+                from services.supabase_service import supabase_service
+                final_cloud_urls = []
+                
                 for idx, remote_url in enumerate(ai_result["images"]):
+                    # Download to temp
                     local_path = download_generated_image(remote_url)
                     if local_path:
-                        rel_url = f"/uploads/outputs/{os.path.basename(local_path)}"
-                        final_images.append(rel_url)
+                        # Upload to Supabase
+                        filename = os.path.basename(local_path)
+                        cloud_url = supabase_service.upload_image(local_path, filename, bucket="outputs")
+                        if cloud_url:
+                            final_cloud_urls.append(cloud_url)
+                        
+                        # Cleanup local output
+                        if os.path.exists(local_path):
+                            os.remove(local_path)
 
-                if not final_images:
-                    raise Exception("Falha ao salvar as imagens geradas localmente.")
+                if not final_cloud_urls:
+                    raise Exception("Falha ao salvar as imagens geradas no Supabase.")
 
-                # 5. Mirror to Supabase if available
-                from services.supabase_service import supabase_service
-                cloud_images = []
-                for local_url in final_images:
-                    filename = os.path.basename(local_url)
-                    local_path = os.path.join(Config.OUTPUTS_FOLDER, filename)
-                    cloud_url = supabase_service.upload_image(local_path, bucket="ensaios")
-                    cloud_images.append(cloud_url if cloud_url else local_url)
-
-                job.set_images(cloud_images)
+                job.set_images(final_cloud_urls)
                 job.status = "completed"
                 job.progress = 100
                 job.message = "Sucesso! Seu ensaio premium está pronto."
@@ -119,7 +174,12 @@ def process_generation_pipeline(app, job_id, image_urls, tipo_ensaio, custom_pro
             logger.error(f"Error in pipeline for job {job_id}: {e}")
             job.status = "failed"
             job.error = str(e)
+            job.message = "Ocorreu um erro técnico. Suas moedas foram reembolsadas."
             db.session.commit()
+
+            # Automatic Refund
+            if job.cost_moedas > 0:
+                refund_credits(job.user_id, job.cost_moedas, f"Falha automática: {str(e)[:100]}")
 
 def queue_generation(user_id: str, image_urls: list = None, tipo_ensaio: str = None, prompt: str = None) -> str:
     """
@@ -189,3 +249,40 @@ def get_job_status(job_id: str) -> dict:
     job = GenerationJob.query.get(job_id)
     if not job: return None
     return job.to_dict()
+
+def recover_stuck_jobs(app):
+    """
+    Finds jobs stuck in processing states and refunds them.
+    This handles cases where the server crashed or restarted.
+    """
+    with app.app_context():
+        # Any job that is 'generating', 'validating' or 'queued' and is older than 20 minutes
+        # is likely stuck because the thread died on server restart.
+        from datetime import datetime, timedelta
+        timeout_limit = datetime.utcnow() - timedelta(minutes=20)
+        
+        stuck_jobs = GenerationJob.query.filter(
+            GenerationJob.status.in_(['queued', 'validating', 'generating']),
+            GenerationJob.updated_at < timeout_limit
+        ).all()
+
+        if not stuck_jobs:
+            return
+
+        logger.info(f"Detectados {len(stuck_jobs)} jobs travados. Iniciando recuperação/reembolso...")
+        
+        for job in stuck_jobs:
+            try:
+                job.status = "failed"
+                job.error = "Sistema reiniciado durante o processamento."
+                job.message = "O sistema foi reiniciado. Suas moedas foram devolvidas."
+                
+                # Refund
+                if job.cost_moedas > 0:
+                    refund_credits(job.user_id, job.cost_moedas, "Reembolso por reinicialização do sistema")
+                
+                db.session.commit()
+                logger.info(f"Job {job.id} recuperado e reembolsado.")
+            except Exception as e:
+                db.session.rollback()
+                logger.error(f"Erro ao recuperar job {job.id}: {e}")

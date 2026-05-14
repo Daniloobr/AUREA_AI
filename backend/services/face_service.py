@@ -189,13 +189,26 @@ def _generate_face_crop(img, face_x, face_y, face_w, face_h, img_w, img_h) -> st
     # Resize to 1024x1024
     final_crop = cv2.resize(canvas, (1024, 1024), interpolation=cv2.INTER_LANCZOS4)
 
-    # Save
+    # Save temporarily
     crop_filename = f"face_crop_{uuid.uuid4().hex[:8]}.jpg"
-    crop_path = str(Path(Config.FACE_CROPS_FOLDER) / crop_filename)
-    cv2.imwrite(crop_path, final_crop, [cv2.IMWRITE_JPEG_QUALITY, 95])
+    temp_crop_path = str(Path(Config.FACE_CROPS_FOLDER) / crop_filename)
+    cv2.imwrite(temp_crop_path, final_crop, [cv2.IMWRITE_JPEG_QUALITY, 95])
 
-    logger.info(f"Face crop saved: {crop_path}")
-    return crop_path
+    # Upload to Supabase
+    from services.supabase_service import supabase_service
+    cloud_url = supabase_service.upload_image(temp_crop_path, crop_filename, bucket="crops")
+    
+    # Cleanup local
+    if os.path.exists(temp_crop_path):
+        os.remove(temp_crop_path)
+
+    if cloud_url:
+        logger.info(f"Face crop uploaded to Supabase: {cloud_url}")
+        return cloud_url
+    else:
+        # Fallback to local path if upload fails (though we should avoid this)
+        logger.warning(f"Face crop upload failed, returning local path (might fail in production)")
+        return temp_crop_path
 
 
 def get_face_quality_rank(image_paths: list) -> list:

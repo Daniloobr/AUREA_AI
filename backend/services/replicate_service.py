@@ -64,9 +64,6 @@ def generate_images(
         if not token or 'YOUR_' in token:
             raise ValueError("Replicate API token is missing.")
 
-        if image_path and not os.path.exists(image_path):
-            raise FileNotFoundError(f"Image not found: {image_path}")
-
         logger.info(f"Starting FLUX-PuLID Generation...")
         logger.info(f"  prompt: {prompt[:80]}...")
         logger.info(f"  id_weight: {id_weight}, seed: {seed}")
@@ -86,14 +83,15 @@ def generate_images(
             "true_cfg": 1.0, 
         }
 
-        # Add image if provided
         if image_path:
-            image_file = open(image_path, "rb")
-            replicate_input["main_face_image"] = image_file
-        else:
-            # If no image, we might need to use a different model or adjust PuLID settings
-            # But for now we just try without it, though PuLID usually requires it.
-            logger.warning("Generating without main_face_image (PuLID might fail)")
+            if image_path.startswith('http'):
+                # Pass URL directly to Replicate
+                replicate_input["main_face_image"] = image_path
+            else:
+                if not os.path.exists(image_path):
+                    raise FileNotFoundError(f"Image not found: {image_path}")
+                image_file = open(image_path, "rb")
+                replicate_input["main_face_image"] = image_file
 
         try:
             output = replicate.run(
@@ -101,7 +99,7 @@ def generate_images(
                 input=replicate_input
             )
         finally:
-            if image_path and 'image_file' in locals():
+            if image_path and not image_path.startswith('http') and 'image_file' in locals():
                 image_file.close()
 
         elapsed = round(time.time() - start_time, 2)

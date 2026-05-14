@@ -22,11 +22,26 @@ class Config:
     # ──────────────────────────────────────────────
     # API Keys
     # ──────────────────────────────────────────────
-    REPLICATE_API_TOKEN = os.environ.get(
-        'REPLICATE_API_TOKEN',
-        'r8_6WKxOsZ27q9bp46f2jMxU1SAiI3OAPb3JTuna'
-    )
-    SECRET_KEY = os.environ.get('SECRET_KEY', 'ai-photo-studio-secret-2026')
+    REPLICATE_API_TOKEN = os.environ.get('REPLICATE_API_TOKEN')
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    ADMIN_SECRET_KEY = os.environ.get('ADMIN_SECRET_KEY')
+
+    # ──────────────────────────────────────────────
+    # Security & Production
+    # ──────────────────────────────────────────────
+    FLASK_ENV = os.environ.get('FLASK_ENV', 'production')
+    FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:3000')
+    
+    # CORS: In production, we MUST define ALLOWED_ORIGINS. Never use '*'
+    _origins = os.environ.get('ALLOWED_ORIGINS')
+    if _origins:
+        ALLOWED_ORIGINS = [o.strip() for o in _origins.split(',')]
+    else:
+        if FLASK_ENV == 'development':
+            ALLOWED_ORIGINS = ['http://localhost:3000', 'http://localhost:4000', 'http://127.0.0.1:3000', 'http://127.0.0.1:4000']
+        else:
+            # Restricted by default in production if not configured
+            ALLOWED_ORIGINS = [] 
 
     # ──────────────────────────────────────────────
     # Storage Paths

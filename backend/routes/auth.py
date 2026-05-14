@@ -1,8 +1,9 @@
-from flask import Blueprint, request, jsonify, make_response
+from flask import Blueprint, request, jsonify, make_response, current_app
 import os
 from models.db_models import User, Transaction
 from database import db
 from utils.auth_utils import generate_token, token_required
+from limiter_instance import limiter
 import logging
 from datetime import datetime
 
@@ -10,6 +11,7 @@ logger = logging.getLogger(__name__)
 auth_bp = Blueprint('auth', __name__)
 
 @auth_bp.route('/register', methods=['POST'])
+@limiter.limit("20 per hour")
 def register():
     data = request.json
     if not data: return jsonify({"success": False, "error": "Dados inválidos"}), 400
@@ -18,12 +20,16 @@ def register():
     email = data.get('email')
     password = data.get('password')
 
+    logger.info(f"Tentativa de registro: {email}")
+
     if not name or not email or not password:
         return jsonify({"success": False, "error": "Todos os campos são obrigatórios"}), 400
 
     # Check if user exists
     user = User.query.filter_by(email=email).first()
-    if user: return jsonify({"success": False, "error": "Email já cadastrado"}), 409
+    if user: 
+        logger.warning(f"Tentativa de registro com email já existente: {email}")
+        return jsonify({"success": False, "error": "Email já cadastrado"}), 409
 
     try:
         INITIAL_BONUS = 25
@@ -45,12 +51,16 @@ def register():
         db.session.add(bonus_txn)
         db.session.commit()
 
-        # Send Welcome Email (Async safe via threading if needed, but for now simple)
-        try:
-            from services.email_service import email_service
-            email_service.send_welcome(new_user.email, new_user.name)
-        except Exception as e:
-            logger.warning(f"Failed to send welcome email: {e}")
+        # Send Welcome Email (Async to prevent timeout)
+        import threading
+        def send_async_email(email, name):
+            try:
+                from services.email_service import email_service
+                email_service.send_welcome(email, name)
+            except Exception as e:
+                logger.warning(f"Failed to send welcome email: {e}")
+
+        threading.Thread(target=send_async_email, args=(new_user.email, new_user.name), daemon=True).start()
 
         token = generate_token(new_user.id)
         return jsonify({
@@ -62,10 +72,14 @@ def register():
 
     except Exception as e:
         db.session.rollback()
-        logger.error(f"Erro no registro: {str(e)}")
-        return jsonify({"success": False, "error": "Erro interno ao criar usuário"}), 500
+        logger.error(f"CRITICAL: Erro no registro de {email}: {str(e)}", exc_info=True)
+        return jsonify({
+            "success": False, 
+            "error": f"Erro interno no servidor: {str(e)[:50]}" 
+        }), 500
 
 @auth_bp.route('/login', methods=['POST'])
+@limiter.limit("10 per minute")
 def login():
     data = request.json
     email = data.get('email')
@@ -116,10 +130,10 @@ def get_transactions(current_user):
 @auth_bp.route('/admin/credits', methods=['POST'])
 def admin_add_credits():
     # Protection via Env Variable
-    admin_secret = os.getenv('ADMIN_SECRET_KEY', 'default_secret_key')
+    admin_secret = current_app.config.get('ADMIN_SECRET_KEY')
     provided_key = request.headers.get('X-Admin-Key')
     
-    if provided_key != admin_secret:
+    if not admin_secret or provided_key != admin_secret:
         return jsonify({"success": False, "error": "Não autorizado"}), 403
 
     data = request.json
@@ -153,7 +167,7 @@ def delete_account(current_user):
     """
     try:
         current_user.name = "Usuário Excluído"
-        current_user.email = f"deleted_{current_user.id}@lumiere.ai"
+        current_user.email = f"deleted_{current_user.id}@aureaia.com"
         current_user.password_hash = "DELETED_" + str(uuid.uuid4())
         current_user.is_active = False
         
@@ -167,6 +181,7 @@ def delete_account(current_user):
         return jsonify({"success": False, "error": str(e)}), 500
 
 @auth_bp.route('/google', methods=['POST'])
+@limiter.limit("20 per hour")
 def google_auth():
     data = request.json
     email = data.get('email')
@@ -220,6 +235,7 @@ def google_auth():
     })
 
 @auth_bp.route('/forgot-password', methods=['POST'])
+@limiter.limit("3 per hour")
 def forgot_password():
     data = request.json
     email = data.get('email')
@@ -243,7 +259,8 @@ def forgot_password():
     db.session.commit()
 
     # Send Email
-    reset_link = f"http://localhost:3000/reset-password?token={token}"
+    frontend_url = current_app.config.get('FRONTEND_URL', 'http://localhost:3000')
+    reset_link = f"{frontend_url}/reset-password?token={token}"
     email_service.send_password_reset(user.email, reset_link)
 
     return jsonify({"success": True, "message": "E-mail de recuperação enviado."})

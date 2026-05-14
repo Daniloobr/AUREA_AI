@@ -1,29 +1,55 @@
 import type { Metadata } from "next";
-import { Inter, Sora } from "next/font/google";
-import Link from "next/link";
+import { Cormorant_Garamond, Montserrat } from "next/font/google";
 import "./globals.css";
-import { Sparkles, Crown, LogOut } from "lucide-react";
-
 import { AuthProvider } from "@/contexts/AuthContext";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 
-// Fontes Premium solicitadas
-const inter = Inter({
-  variable: "--font-inter",
+// ─── Tipografia ───────────────────────────────────────────────────────────────
+// Cormorant Garamond: títulos serifados elegantes
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
+  variable: "--font-cormorant",
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
 });
 
-const sora = Sora({
-  variable: "--font-sora",
+// Montserrat: corpo de texto sans-serif refinado
+const montserrat = Montserrat({
   subsets: ["latin"],
+  variable: "--font-montserrat",
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
 });
 
+// ─── SEO ──────────────────────────────────────────────────────────────────────
 export const metadata: Metadata = {
-  title: "Lumière Maternity | Alta Costura em IA",
-  description: "Ensaios fotográficos cinematográficos de maternidade.",
+  title: "AureaIA™ | Seu ensaio de maternidade. Em casa. Em minutos.",
+  description:
+    "Crie sua obra-prima. Tecnologia de estúdio profissional ao alcance de todas as famílias. Seu momento único, eternizado em alta definição — sem sair de casa.",
+  keywords: [
+    "ensaio de maternidade",
+    "fotos de gestante",
+    "inteligência artificial",
+    "estúdio virtual",
+    "AureaIA",
+    "obra prima",
+  ],
+  openGraph: {
+    title: "AureaIA™ — Seu momento único, eternizado.",
+    description:
+      "Tecnologia de estúdio profissional. Direção de arte digital. Resultados que eternizam sua jornada única.",
+    siteName: "AureaIA",
+    locale: "pt_BR",
+    type: "website",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
-import { Navbar } from "@/components/Navbar";
-
+// ─── Layout raiz ─────────────────────────────────────────────────────────────
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -32,31 +58,14 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className="scroll-smooth">
       <body
-        className={`${inter.variable} ${sora.variable} antialiased bg-onyx-950 text-zinc-100 min-h-screen flex flex-col font-sans selection:bg-brand-purple selection:text-white`}
+        className={`${montserrat.variable} ${cormorant.variable} antialiased bg-black text-white min-h-screen flex flex-col font-sans`}
       >
         <AuthProvider>
           <Navbar />
-          {/* Content Wrapper */}
           <main className="flex-1 w-full pt-16">
             {children}
           </main>
-
-          {/* Footer */}
-          <footer className="w-full py-10 px-6 md:px-10 border-t border-white/5 bg-onyx-950">
-            <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-brand-lavender" />
-                <p className="text-xs font-medium text-zinc-500 font-display tracking-widest uppercase">
-                  LUMIÈRE STUDIOS © 2026
-                </p>
-              </div>
-              <div className="flex items-center gap-6">
-                <a href="#" className="text-xs text-zinc-500 hover:text-white transition-colors">Termos</a>
-                <a href="#" className="text-xs text-zinc-500 hover:text-white transition-colors">Privacidade</a>
-                <a href="#" className="text-xs text-zinc-500 hover:text-white transition-colors">Instagram</a>
-              </div>
-            </div>
-          </footer>
+          <Footer />
         </AuthProvider>
       </body>
     </html>

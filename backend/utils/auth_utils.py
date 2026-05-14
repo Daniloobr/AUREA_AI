@@ -10,13 +10,13 @@ def generate_token(user_id):
     """
     try:
         payload = {
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=7),
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24),
             'iat': datetime.datetime.utcnow(),
             'sub': user_id
         }
         return jwt.encode(
             payload,
-            current_app.config.get('SECRET_KEY', 'dev_secret_key'),
+            current_app.config['SECRET_KEY'],
             algorithm='HS256'
         )
     except Exception as e:
@@ -29,7 +29,7 @@ def decode_token(auth_token):
     try:
         payload = jwt.decode(
             auth_token, 
-            current_app.config.get('SECRET_KEY', 'dev_secret_key'),
+            current_app.config['SECRET_KEY'],
             algorithms=['HS256']
         )
         return payload['sub']

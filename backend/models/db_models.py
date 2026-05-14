@@ -12,6 +12,8 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False, index=True)
     password_hash = db.Column(db.String(128), nullable=False)
     credits_balance = db.Column(db.Integer, default=25) # Bônus inicial: 25 moedas
+    phone = db.Column(db.String(20), nullable=True)
+    cpf = db.Column(db.String(14), nullable=True)
     is_admin = db.Column(db.Boolean, default=False)
     is_active = db.Column(db.Boolean, default=True) # Para LGPD (Exclusão Lógica)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -30,7 +32,7 @@ class User(db.Model):
         return {
             "id": self.id,
             "name": self.name if self.is_active else "Usuário Excluído",
-            "email": self.email if self.is_active else "anonimo@lumiere.com",
+            "email": self.email if self.is_active else "anonimo@aureaia.com",
             "credits_balance": self.credits_balance,
             "is_admin": self.is_admin,
             "is_active": self.is_active,
@@ -52,11 +54,14 @@ class Transaction(db.Model):
     
     id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False, index=True)
-    type = db.Column(db.String(50)) # 'bonus_initial', 'generation_cost', 'admin_credit'
-    amount = db.Column(db.Integer)
+    type = db.Column(db.String(50)) # 'bonus_initial', 'generation_cost', 'admin_credit', 'purchase'
+    amount = db.Column(db.Integer) # credits amount
     balance_before = db.Column(db.Integer)
     balance_after = db.Column(db.Integer)
     description = db.Column(db.String(255))
+    status = db.Column(db.String(20), default='completed') # 'pending', 'completed', 'failed'
+    external_id = db.Column(db.String(100), unique=True, nullable=True) # SyncPay ID
+    paid_amount = db.Column(db.Float, nullable=True) # BRL value
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 class GenerationJob(db.Model):

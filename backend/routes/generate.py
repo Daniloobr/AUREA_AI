@@ -7,6 +7,7 @@ from flask import Blueprint, request, jsonify
 from services.prompt_engine import get_available_styles
 from services.queue_service import queue_generation, get_job_status
 from utils.auth_utils import token_required
+from limiter_instance import limiter
 import logging
 
 logger = logging.getLogger(__name__)
@@ -16,6 +17,7 @@ generate_bp = Blueprint('generate', __name__)
 
 @generate_bp.route('', methods=['POST'], strict_slashes=False)
 @generate_bp.route('/', methods=['POST'], strict_slashes=False)
+@limiter.limit("30 per hour")
 @token_required
 def generate(current_user):
     """

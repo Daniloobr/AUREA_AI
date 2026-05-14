@@ -1,18 +1,10 @@
-"""
-Upload Route — Production Grade
-==================================
-Handles file uploads with comprehensive validation:
-- MIME type checking
-- File size limits
-- Extension whitelist
-- Unique filename generation
-"""
 import os
 import uuid
 import imghdr
 from flask import Blueprint, request, jsonify
 from werkzeug.utils import secure_filename
 from config import Config
+from services.supabase_service import supabase_service
 import logging
 
 logger = logging.getLogger(__name__)
@@ -34,7 +26,7 @@ def upload_file():
     
     Accepts multipart/form-data with 'file' field.
     Validates file type, size, and content.
-    Returns the relative URL for the uploaded file.
+    Returns the Supabase public URL for the uploaded file.
     """
     if 'file' not in request.files:
         return jsonify({"error": "Nenhum arquivo enviado"}), 400
@@ -48,19 +40,20 @@ def upload_file():
             "error": "Tipo de arquivo não permitido. Use: PNG, JPG, JPEG ou WEBP"
         }), 400
 
+    filepath = None
     try:
         # Generate unique filename
         ext = file.filename.rsplit('.', 1)[1].lower()
         filename = f"{uuid.uuid4()}.{ext}"
         filepath = os.path.join(Config.UPLOAD_FOLDER, filename)
 
-        # Save file
+        # Save file temporarily for validation
         file.save(filepath)
 
         # Validate actual file content (not just extension)
         actual_type = imghdr.what(filepath)
         if actual_type not in ['jpeg', 'png', 'webp']:
-            os.remove(filepath)
+            if os.path.exists(filepath): os.remove(filepath)
             return jsonify({
                 "error": "O conteúdo do arquivo não é uma imagem válida"
             }), 400
@@ -68,25 +61,34 @@ def upload_file():
         # Check file size
         file_size = os.path.getsize(filepath)
         if file_size > Config.MAX_CONTENT_LENGTH:
-            os.remove(filepath)
+            if os.path.exists(filepath): os.remove(filepath)
             return jsonify({
                 "error": f"Arquivo muito grande. Máximo: {Config.MAX_CONTENT_LENGTH // (1024*1024)}MB"
             }), 400
 
-        # Return relative URL
-        image_url = f"/uploads/{filename}"
+        # Upload to Supabase
+        cloud_url = supabase_service.upload_image(filepath, filename, bucket="inputs")
+        
+        if not cloud_url:
+            raise Exception("Falha ao subir imagem para o armazenamento em nuvem.")
 
-        logger.info(f"Upload successful: {filename} ({file_size // 1024}KB, type={actual_type})")
+        # Cleanup local file
+        if os.path.exists(filepath):
+            os.remove(filepath)
+
+        logger.info(f"Upload to Supabase successful: {filename} ({file_size // 1024}KB)")
 
         return jsonify({
             "message": "Upload realizado com sucesso",
             "filename": filename,
-            "url": image_url,
-            "file_url": image_url, # Para compatibilidade com o novo frontend
+            "url": cloud_url,
+            "file_url": cloud_url, # Para compatibilidade com o frontend
             "size_kb": file_size // 1024,
             "type": actual_type,
         }), 200
 
     except Exception as e:
         logger.error(f"Upload error: {e}")
+        if filepath and os.path.exists(filepath):
+            os.remove(filepath)
         return jsonify({"error": f"Erro no upload: {str(e)}"}), 500

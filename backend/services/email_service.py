@@ -9,8 +9,8 @@ logger = logging.getLogger(__name__)
 class EmailService:
     def __init__(self):
         self.api_key = os.environ.get('SENDGRID_API_KEY')
-        self.from_email = os.environ.get('EMAIL_FROM', 'contato@lumierestudios.com')
-        self.from_name = os.environ.get('EMAIL_FROM_NAME', 'Lumière Studios')
+        self.from_email = os.environ.get('EMAIL_FROM', 'contato@aureaia.com')
+        self.from_name = os.environ.get('EMAIL_FROM_NAME', 'AureaIA')
         
         if self.api_key:
             self.client = SendGridAPIClient(self.api_key)
@@ -39,15 +39,15 @@ class EmailService:
             return False
 
     def send_welcome(self, to_email, name):
-        subject = f"Bem-vinda ao Lumière, {name.split(' ')[0]}! ✨"
+        subject = f"Bem-vinda ao AureaIA, {name.split(' ')[0]}! ✨"
         html = f"""
         <div style="font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
             <h2 style="color: #9857CB;">Sua jornada artística começou!</h2>
             <p>Olá, <strong>{name}</strong>,</p>
-            <p>Seja bem-vinda ao <strong>Lumière Studios</strong>. Seu acesso ao estúdio de fotografia por IA mais avançado do mundo está liberado.</p>
+            <p>Seja bem-vinda ao <strong>AureaIA</strong>. Seu acesso ao estúdio de fotografia por IA mais avançado do mundo está liberado.</p>
             <p>Você acaba de ganhar <strong>25 créditos</strong> para começar a criar seu primeiro ensaio.</p>
             <div style="margin: 30px 0;">
-                <a href="https://lumiere.com/generate" style="background: #9857CB; color: white; padding: 15px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">Começar meu Ensaio</a>
+                <a href="{Config.FRONTEND_URL}/generate" style="background: #9857CB; color: white; padding: 15px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">Começar meu Ensaio</a>
             </div>
             <p style="color: #666; font-size: 12px;">Se precisar de ajuda, responda a este e-mail.</p>
         </div>
@@ -62,7 +62,7 @@ class EmailService:
             <p>Boas notícias! Sua geração de fotos por IA acaba de ser concluída com sucesso.</p>
             <p>Estamos ansiosos para que você veja o resultado final.</p>
             <div style="margin: 30px 0;">
-                <a href="https://lumiere.com/history" style="background: #000; color: white; padding: 15px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">Ver meu Álbum</a>
+                <a href="{Config.FRONTEND_URL}/history" style="background: #000; color: white; padding: 15px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">Ver meu Álbum</a>
             </div>
             <p>As imagens ficarão disponíveis para download por 24 horas.</p>
             <p style="color: #666; font-size: 12px;">ID do pedido: {job_id}</p>
@@ -71,11 +71,11 @@ class EmailService:
         return self._send(to_email, subject, html)
 
     def send_password_reset(self, to_email, reset_link):
-        subject = "Recuperação de Senha — Lumière"
+        subject = "Recuperação de Senha — AureaIA"
         html = f"""
         <div style="font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
             <h2>Esqueceu sua senha?</h2>
-            <p>Recebemos uma solicitação para redefinir a senha da sua conta no Lumière.</p>
+            <p>Recebemos uma solicitação para redefinir a senha da sua conta no AureaIA.</p>
             <p>Clique no botão abaixo para escolher uma nova senha:</p>
             <div style="margin: 30px 0;">
                 <a href="{reset_link}" style="background: #9857CB; color: white; padding: 15px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">Redefinir Senha</a>

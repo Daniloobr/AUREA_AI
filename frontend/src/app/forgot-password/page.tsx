@@ -33,31 +33,31 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen bg-onyx-950 text-white flex items-center justify-center p-6 font-sans">
-      <div className="absolute top-[-20%] right-[-20%] w-[600px] h-[600px] rounded-full bg-brand-purple/5 blur-[120px] pointer-events-none" />
+    <div className="min-h-screen bg-[#0A0A0A] text-[#F5F5F7] flex items-center justify-center p-6 font-sans">
+      <div className="absolute top-[-20%] right-[-20%] w-[600px] h-[600px] rounded-full bg-[#748FCC]/5 blur-[120px] pointer-events-none" />
 
       <motion.div 
         initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-[440px] space-y-8"
       >
         <div className="text-center space-y-4">
-          <div className="w-12 h-12 rounded-2xl bg-brand-purple/20 flex items-center justify-center text-brand-lavender mx-auto">
+          <div className="w-12 h-12 rounded-2xl bg-[#748FCC]/10 flex items-center justify-center text-[#748FCC] mx-auto shadow-sm">
             <Sparkles className="w-6 h-6" />
           </div>
-          <h1 className="text-3xl font-display font-bold tracking-tighter">Recuperar Senha</h1>
-          <p className="text-zinc-500 font-light">Enviaremos um link de acesso para o seu e-mail.</p>
+          <h1 className="text-3xl font-serif font-bold tracking-tighter text-[#F5F5F7]">Recuperar Senha</h1>
+          <p className="text-[#B8BCC4] font-light">Enviaremos um link de acesso para o seu e-mail.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest ml-1">Seu E-mail</label>
+            <label className="text-[10px] font-bold text-[#B8BCC4] uppercase tracking-widest ml-1">Seu E-mail</label>
             <div className="relative group">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-600 group-focus-within:text-brand-purple transition-colors" />
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#8A9099] group-focus-within:text-[#748FCC] transition-colors" />
               <input 
                 type="email" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full h-16 px-6 pl-12 rounded-2xl border border-white/5 bg-white/[0.03] text-white focus:border-brand-purple/50 focus:outline-none transition-all"
+                className="w-full h-16 px-6 pl-12 rounded-2xl border border-[#1F2329] bg-[#121417] text-[#F5F5F7] focus:border-[#748FCC]/50 focus:outline-none transition-all"
                 placeholder="exemplo@email.com"
                 required 
               />
@@ -70,14 +70,14 @@ export default function ForgotPasswordPage() {
           <button 
             type="submit" 
             disabled={loading}
-            className="w-full h-16 bg-white text-black rounded-2xl font-bold text-lg hover:bg-zinc-200 transition-all flex justify-center items-center gap-3 disabled:opacity-50"
+            className="w-full h-16 bg-[#748FCC] text-[#F5F5F7] rounded-2xl font-bold text-lg hover:bg-[#5F7DB8] transition-all flex justify-center items-center gap-3 disabled:opacity-50 shadow-lg shadow-[#748FCC]/10"
           >
             {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Enviar Link'}
           </button>
         </form>
 
         <div className="text-center">
-          <Link href="/login" className="inline-flex items-center gap-2 text-zinc-500 hover:text-white transition-colors text-sm">
+          <Link href="/login" className="inline-flex items-center gap-2 text-[#B8BCC4] hover:text-[#748FCC] transition-colors text-sm">
             <ArrowLeft className="w-4 h-4" /> Voltar para o Login
           </Link>
         </div>

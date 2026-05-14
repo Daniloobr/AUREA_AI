@@ -8,6 +8,7 @@ from database import db
 from models.db_models import GenerationJob
 from config import Config
 from services.supabase_service import supabase_service
+from services.queue_service import recover_stuck_jobs
 
 logger = logging.getLogger(__name__)
 
@@ -19,10 +20,13 @@ def start_cleanup_scheduler(app):
         with app.app_context():
             while True:
                 try:
-                    logger.info("Iniciando rotina de limpeza de 24 horas...")
+                    logger.info("Iniciando rotina de limpeza e recuperação...")
                     perform_cleanup()
+                    
+                    # Also check for stuck jobs from previous sessions
+                    recover_stuck_jobs(app)
                 except Exception as e:
-                    logger.error(f"Erro na rotina de limpeza: {e}")
+                    logger.error(f"Erro na rotina de limpeza/recuperação: {e}")
                 
                 # Sleep for 1 hour before next check
                 time.sleep(3600)
@@ -38,7 +42,7 @@ def perform_cleanup():
     cutoff_time = datetime.utcnow() - timedelta(hours=24)
     
     # 1. Find jobs older than 24 hours
-    expired_jobs = GenerationJob.query.filter(GenerationJob.created_at < cutoff_time).all()
+    expired_jobs = GenerationJob.query.filter(GenerationJob.created_at < cutoff_time, GenerationJob.status != "expired").all()
     
     if not expired_jobs:
         logger.info("Nenhuma imagem expirada para limpar.")
@@ -48,44 +52,47 @@ def perform_cleanup():
 
     for job in expired_jobs:
         try:
-            # A. Delete local files
+            # A. Delete files
             images = json.loads(job.images_json) if job.images_json else []
             
             # Delete output images
             for img_url in images:
-                if img_url.startswith('/uploads/'):
-                    filename = os.path.basename(img_url)
-                    local_path = os.path.join(Config.OUTPUTS_FOLDER, filename)
-                    if os.path.exists(local_path):
-                        os.remove(local_path)
-                        logger.debug(f"Removido arquivo local: {local_path}")
-                    
-                    # Delete from Supabase if it was mirrored
-                    supabase_service.client.storage.from_("ensaios").remove([filename])
+                filename = os.path.basename(img_url.split('?')[0])
+                # Delete local if exists (legacy)
+                local_path = os.path.join(Config.OUTPUTS_FOLDER, filename)
+                if os.path.exists(local_path):
+                    os.remove(local_path)
+                
+                # Delete from Supabase - DISABLED FOR PRODUCTION TO ENSURE NO LOSS
+                # try:
+                #     supabase_service.client.storage.from_("outputs").remove([filename])
+                #     # Also try legacy bucket
+                #     supabase_service.client.storage.from_("ensaios").remove([filename])
+                # except: pass
 
             # Delete input images
             if job.input_image_url:
                 try:
+                    # Check if it's a JSON list
                     input_urls = json.loads(job.input_image_url)
-                    for url in input_urls:
-                        filename = os.path.basename(url)
-                        local_path = os.path.join(Config.UPLOAD_FOLDER, filename)
-                        if os.path.exists(local_path):
-                            os.remove(local_path)
-                        
-                        # Delete from Supabase
-                        supabase_service.client.storage.from_("ensaios").remove([filename])
+                    if not isinstance(input_urls, list): input_urls = [str(input_urls)]
                 except:
-                    # Fallback for single string URL
-                    filename = os.path.basename(job.input_image_url)
+                    input_urls = [job.input_image_url]
+
+                for url in input_urls:
+                    if not url: continue
+                    filename = os.path.basename(url.split('?')[0])
+                    # Delete local if exists
                     local_path = os.path.join(Config.UPLOAD_FOLDER, filename)
                     if os.path.exists(local_path):
                         os.remove(local_path)
-                    supabase_service.client.storage.from_("ensaios").remove([filename])
+                    
+                    # Delete from Supabase - DISABLED FOR PRODUCTION TO ENSURE NO LOSS
+                    # try:
+                    #     supabase_service.client.storage.from_("inputs").remove([filename])
+                    # except: pass
 
-            # B. Mark job as expired or delete it
-            # We'll mark as 'expired' to keep a record of the transaction/credit use, 
-            # but clear the images to save space.
+            # B. Mark job as expired
             job.status = "expired"
             job.set_images([])
             job.message = "Imagens removidas automaticamente após 24h por segurança."

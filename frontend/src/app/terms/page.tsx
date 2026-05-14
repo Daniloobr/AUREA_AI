@@ -7,63 +7,66 @@ import { ArrowLeft, BookOpen, CheckCircle2, AlertTriangle } from 'lucide-react';
 
 export default function TermsOfUse() {
   return (
-    <div className="min-h-screen bg-onyx-950 text-zinc-300 font-sans selection:bg-brand-purple selection:text-white">
-      <div className="max-w-4xl mx-auto px-6 py-20">
-        <Link href="/register" className="inline-flex items-center gap-2 text-brand-lavender hover:text-white transition-colors mb-12 group">
+    <div className="min-h-screen bg-[#0A0A0A] text-[#F5F5F7] font-sans selection:bg-[#748FCC] selection:text-white">
+      {/* Texture Overlay */}
+      <div className="fixed inset-0 pointer-events-none opacity-[0.03] z-0 texture-linen" />
+
+      <div className="max-w-4xl mx-auto px-6 py-20 relative z-10">
+        <Link href="/register" className="inline-flex items-center gap-2 text-[#748FCC] hover:text-[#5F7DB8] transition-colors mb-12 group font-bold uppercase text-[10px] tracking-widest">
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
           Voltar para o cadastro
         </Link>
 
         <header className="space-y-4 mb-16 text-center lg:text-left">
-          <div className="w-12 h-12 rounded-2xl bg-brand-purple/10 flex items-center justify-center text-brand-purple mb-6 mx-auto lg:mx-0">
-            <BookOpen className="w-6 h-6" />
+          <div className="w-16 h-16 rounded-full bg-[#748FCC]/10 flex items-center justify-center text-[#748FCC] mb-6 mx-auto lg:mx-0 shadow-sm">
+            <BookOpen className="w-8 h-8" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-display font-bold text-white tracking-tighter">Termos de <span className="text-gradient">Uso</span></h1>
-          <p className="text-zinc-500 font-light">Válido a partir de: 13 de Maio de 2026</p>
+          <h1 className="text-4xl md:text-5xl font-serif font-medium text-[#F5F5F7] tracking-tight">Termos de <span className="italic text-[#748FCC]">Uso</span></h1>
+          <p className="text-[#B8BCC4] font-bold text-[10px] uppercase tracking-[0.2em]">Última atualização: 14 de Maio de 2026</p>
         </header>
 
-        <div className="space-y-12 leading-relaxed text-lg">
+        <div className="space-y-12 leading-relaxed text-base bg-[#121417] backdrop-blur-md p-10 md:p-16 rounded-[50px] border border-[#1F2329] shadow-sm">
           <section className="space-y-4">
-            <h2 className="text-2xl font-display font-bold text-white flex items-center gap-3">
-              <CheckCircle2 className="w-5 h-5 text-brand-purple" /> 1. Aceite dos Termos
+            <h2 className="text-2xl font-serif font-medium text-[#F5F5F7] flex items-center gap-3">
+              <CheckCircle2 className="w-5 h-5 text-[#748FCC]" /> 1. Aceite dos Termos
             </h2>
-            <p>
-              Ao acessar e utilizar o <strong>Lumière Studios</strong>, você concorda em cumprir estes termos. Nosso serviço utiliza inteligência artificial generativa para criar retratos artísticos baseados em fotos enviadas pelo usuário.
+            <p className="text-[#B8BCC4]">
+              Ao acessar e utilizar a <strong>AureaIA</strong>, você concorda em cumprir estes termos. Nosso serviço utiliza inteligência artificial generativa de ponta para criar retratos artísticos baseados em fotos enviadas pelo usuário, visando a celebração da maternidade.
             </p>
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-display font-bold text-white flex items-center gap-3">
-              <AlertTriangle className="w-5 h-5 text-brand-purple" /> 2. Uso Responsável
+            <h2 className="text-2xl font-serif font-medium text-[#F5F5F7] flex items-center gap-3">
+              <AlertTriangle className="w-5 h-5 text-[#748FCC]" /> 2. Uso Responsável
             </h2>
-            <p>
-              Você declara ser a proprietária das fotos enviadas ou possuir autorização expressa para utilizá-las. É estritamente proibido enviar fotos de terceiros sem consentimento, imagens de nudez, violência ou qualquer conteúdo ilegal.
+            <p className="text-[#B8BCC4]">
+              Você declara ser a proprietária das fotos enviadas ou possuir autorização expressa. É estritamente proibido enviar fotos de terceiros sem consentimento, ou qualquer conteúdo que fira a dignidade humana. A AureaIA preza pela elegância e respeito em todas as suas criações.
             </p>
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-display font-bold text-white">3. Créditos e Pagamentos</h2>
-            <p>
-              O sistema funciona através de créditos virtuais (moedas). Cada geração de ensaio consome <strong>25 créditos</strong>. Créditos adquiridos não são reembolsáveis após o uso da ferramenta de geração, dada a natureza do custo de processamento computacional imediato da IA.
+            <h2 className="text-2xl font-serif font-medium text-[#F5F5F7]">3. Créditos e Investimento</h2>
+            <p className="text-[#B8BCC4]">
+              O sistema funciona através de créditos virtuais. Cada criação de ensaio consome <strong>25 créditos</strong>. Dada a natureza do processamento imediato de alta performance, créditos utilizados não são passíveis de reembolso, garantindo a reserva dos recursos computacionais para sua arte.
             </p>
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-display font-bold text-white">4. Propriedade Intelectual</h2>
-            <p>
-              Você detém os direitos de uso sobre as imagens geradas pela nossa IA para fins pessoais e de mídia social. No entanto, o Lumière Studios reserva-se o direito de remover qualquer conteúdo que viole nossas diretrizes éticas.
+            <h2 className="text-2xl font-serif font-medium text-[#F5F5F7]">4. Propriedade Artística</h2>
+            <p className="text-[#B8BCC4]">
+              Você detém os direitos de uso sobre as imagens geradas pela nossa IA para fins pessoais e compartilhamento social. A AureaIA atua como seu estúdio digital, provendo a tecnologia para que sua beleza seja eternizada.
             </p>
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-display font-bold text-white">5. Limitação de Responsabilidade</h2>
-            <p>
-              A IA pode, ocasionalmente, gerar artefatos visuais ou interpretações artísticas inesperadas. Ao utilizar o serviço, você compreende que os resultados são gerados de forma algorítmica e podem variar em fidelidade.
+            <h2 className="text-2xl font-serif font-medium text-[#F5F5F7]">5. Natureza da Inteligência Artificial</h2>
+            <p className="text-[#B8BCC4]">
+              A IA é uma ferramenta de interpretação artística. Ao utilizar o serviço, você compreende que os resultados são criações algorítmicas que visam a estética editorial, podendo apresentar variações artísticas únicas em cada geração.
             </p>
           </section>
 
-          <footer className="pt-12 border-t border-white/5 text-sm text-zinc-500">
-            <p>© 2026 Lumière Studios — Transformando momentos em arte eterna.</p>
+          <footer className="pt-12 border-t border-white/5 text-[10px] font-bold text-[#B8BCC4]/30 uppercase tracking-widest text-center md:text-left">
+            <p>© 2026 AureaIA — Eternizando a jornada da vida através da arte.</p>
           </footer>
         </div>
       </div>

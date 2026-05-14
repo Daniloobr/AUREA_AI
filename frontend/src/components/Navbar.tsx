@@ -1,71 +1,144 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Sparkles, Crown, LogOut } from "lucide-react";
+import { usePathname } from 'next/navigation';
+import { Sparkles, Menu, X, User, Image, CreditCard, HelpCircle, LogOut } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "@/components/ui/Button";
 
 export function Navbar() {
   const { user, logout } = useAuth();
+  const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const isLanding = pathname === '/';
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const landingLinks = [
+    { name: 'Início', href: '#hero' },
+    { name: 'Como Funciona', href: '#como-funciona' },
+    { name: 'Exemplos', href: '#exemplos' },
+    { name: 'Planos', href: '/credits' },
+    { name: 'Sobre', href: '#sobre' },
+    { name: 'Contato', href: 'mailto:ola@aureaia.com' },
+  ];
+
+  const authLinks = [
+    { name: 'Criar Ensaio', href: '/generate', icon: Sparkles },
+    { name: 'Galeria Privada', href: '/gallery', icon: Image },
+    { name: 'Adquirir Créditos', href: '/credits', icon: CreditCard },
+    { name: 'Minha Conta', href: '/dashboard', icon: User },
+    { name: 'Ateliê', href: '/help', icon: HelpCircle },
+  ];
+
+  const navItems = isLanding && !user ? landingLinks : authLinks;
 
   return (
-    <header className="w-full fixed top-0 z-[100] transition-all duration-300 bg-onyx-950/60 backdrop-blur-xl border-b border-white/5">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
+    <header className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 h-20 border-b ${scrolled ? 'bg-[#0A0A0A]/95 backdrop-blur-xl border-white/8' : 'bg-transparent border-transparent'}`}>
+      <div className="max-w-[1400px] mx-auto px-6 md:px-10 h-full flex items-center justify-between">
         
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-purple to-brand-lavender flex items-center justify-center text-white shadow-lg group-hover:shadow-brand-purple/25 transition-all duration-500">
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className="w-9 h-9 rounded-xl bg-[#748FCC] flex items-center justify-center text-[#F5F5F7] transition-all duration-500 shadow-lg shadow-[#748FCC]/10 group-hover:scale-105">
             <Sparkles className="w-4 h-4" />
           </div>
-          <span className="font-display font-bold text-xl tracking-tight text-white">
-            Lumière
+          <span className="font-serif font-bold text-xl tracking-widest text-[#F5F5F7] uppercase opacity-90 group-hover:opacity-100 transition-opacity">
+            AureaIA
           </span>
         </Link>
         
-        {/* Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
-          <Link href="/generate" className="text-sm font-medium text-zinc-400 hover:text-white transition-colors">
-            Estúdio
-          </Link>
-          <Link href="/history" className="text-sm font-medium text-zinc-400 hover:text-white transition-colors">
-            Galeria
-          </Link>
-          <Link href="/pricing" className="text-sm font-medium text-brand-lavender hover:text-white transition-colors flex items-center gap-1.5">
-            <Crown className="w-3.5 h-3.5" /> Planos
-          </Link>
+        {/* Desktop Navigation */}
+        <nav className="hidden lg:flex items-center gap-8">
+          {navItems.map((item) => (
+            <Link 
+              key={item.href} 
+              href={item.href} 
+              className={`text-[13px] font-medium transition-all duration-300 hover:text-[#F5F5F7] ${
+                pathname === item.href ? 'text-[#F5F5F7]' : 'text-[#B8BCC4]'
+              }`}
+            >
+              {item.name}
+            </Link>
+          ))}
         </nav>
         
-        {/* User Actions */}
-        <div className="flex items-center gap-4">
+        {/* User / Auth */}
+        <div className="flex items-center gap-5">
           {user ? (
-            <>
-              <div className="hidden sm:flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
-                <div className="w-1.5 h-1.5 rounded-full bg-brand-emerald shadow-[0_0_8px_rgba(129,227,134,0.5)]" />
-                <span className="font-display font-semibold text-[11px] tracking-wider text-zinc-300 uppercase">
-                  {user.credits_balance} Créditos
-                </span>
+            <div className="hidden md:flex items-center gap-5">
+              <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#121417] border border-white/10">
+                <span className="text-[11px] font-bold text-[#F5F5F7] tracking-[0.1em]">✦ {user.credits_balance} MOEDAS</span>
               </div>
-              
-              <div className="h-4 w-[1px] bg-white/10 hidden sm:block" />
-              
               <button 
                 onClick={logout}
-                className="text-sm font-medium text-zinc-400 hover:text-rose-400 transition-colors flex items-center gap-2 group"
+                className="text-[#B8BCC4] hover:text-[#748FCC] transition-all duration-300"
+                title="Sair do Estúdio"
               >
-                <LogOut className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
-                <span className="hidden sm:inline">Sair</span>
+                <LogOut className="w-5 h-5" />
               </button>
-            </>
+            </div>
           ) : (
-            <Link 
-              href="/login" 
-              className="bg-white text-black px-5 py-2 rounded-full text-sm font-bold hover:bg-brand-lavender transition-all"
-            >
-              Entrar
+            <Link href="/login">
+              <Button className="h-10 px-6 text-[12px] font-semibold rounded-full bg-[#748FCC] hover:bg-[#5F7DB8] flex items-center gap-2">
+                <Sparkles className="w-3.5 h-3.5" />
+                Acessar Studio
+              </Button>
             </Link>
           )}
+
+          {/* Mobile Menu Toggle */}
+          <button 
+            className="lg:hidden text-white p-2 hover:bg-white/5 rounded-full transition-colors"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Menu de navegação"
+          >
+            {isMenuOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile Navigation */}
+      {isMenuOpen && (
+        <div className="lg:hidden absolute top-20 left-0 right-0 bg-[#0A0A0A]/97 backdrop-blur-2xl border-b border-white/10 animate-fade-in">
+          <nav className="flex flex-col p-8 gap-6">
+            {navItems.map((item) => (
+              <Link 
+                key={item.href} 
+                href={item.href} 
+                onClick={() => setIsMenuOpen(false)}
+                className={`text-sm font-medium transition-colors ${
+                  pathname === item.href ? 'text-[#748FCC]' : 'text-[#B8BCC4]'
+                }`}
+              >
+                {item.name}
+              </Link>
+            ))}
+            {user && (
+              <>
+                <div className="pt-4 border-t border-white/10 flex items-center gap-2 px-1">
+                  <span className="text-[11px] font-bold text-[#F5F5F7] tracking-[0.1em] uppercase">✦ {user.credits_balance} Moedas</span>
+                </div>
+                <button 
+                  onClick={() => {
+                    logout();
+                    setIsMenuOpen(false);
+                  }}
+                  className="text-sm font-medium text-[#748FCC]/80 flex items-center gap-4"
+                >
+                  <LogOut className="w-5 h-5" />
+                  Sair do Estúdio
+                </button>
+              </>
+            )}
+          </nav>
+        </div>
+      )}
     </header>
   );
 }

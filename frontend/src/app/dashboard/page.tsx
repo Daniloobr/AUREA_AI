@@ -4,116 +4,218 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { apiService } from '@/services/api';
-import { Sparkles, Camera, History, CreditCard, ChevronRight, Wand2 } from 'lucide-react';
+import { Sparkles, Camera, CreditCard, ChevronRight, Loader2, ArrowUpRight, ArrowDownLeft } from 'lucide-react';
 import Link from 'next/link';
 
 export default function DashboardPage() {
   const { user, token } = useAuth();
-  const [stats, setStats] = useState({ jobs: 0, credits: 0 });
+  const [jobCount, setJobCount] = useState(0);
+  const [transactions, setTransactions] = useState<any[]>([]);
+  const [loadingTxns, setLoadingTxns] = useState(true);
 
   useEffect(() => {
     const fetchStats = async () => {
-      if (token) {
-        const response = await apiService.get('/gallery', token);
-        if (response.gallery) {
-          setStats({
-            jobs: response.count,
-            credits: user?.credits_balance || 0
-          });
+      if (!token) return;
+      try {
+        const [galleryRes, txnsRes] = await Promise.all([
+          apiService.get('/gallery', token),
+          apiService.get('/auth/user/transactions', token),
+        ]);
+
+        if (galleryRes.gallery) {
+          setJobCount(galleryRes.count || galleryRes.gallery.length);
         }
+        if (txnsRes.transactions) {
+          setTransactions(txnsRes.transactions.slice(0, 5));
+        }
+      } catch (err) {
+        console.error('Erro ao buscar dados do painel:', err);
+      } finally {
+        setLoadingTxns(false);
       }
     };
     fetchStats();
   }, [token, user]);
 
+  const stats = [
+    {
+      label: 'Moedas Disponíveis',
+      value: `✦ ${user?.credits_balance ?? 0}`,
+      icon: CreditCard,
+      href: '/credits',
+    },
+    {
+      label: 'Ensaios Criados',
+      value: jobCount,
+      icon: Camera,
+      href: '/gallery',
+    },
+    {
+      label: 'Imagens Geradas',
+      value: jobCount * 4,
+      icon: Sparkles,
+      href: '/gallery',
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-onyx-950 p-6 md:p-12 font-inter">
-      <div className="max-w-7xl mx-auto space-y-12">
-        
-        {/* Header Section */}
-        <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <div className="min-h-screen bg-[#0A0A0A] text-[#F5F5F7] p-6 md:p-12 font-sans">
+      <div className="max-w-5xl mx-auto space-y-14 pt-8">
+
+        {/* ── Cabeçalho ──────────────────────────────────────────────── */}
+        <header className="flex flex-col md:flex-row md:items-center justify-between gap-8">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
+            className="space-y-2"
           >
-            <h1 className="text-4xl md:text-5xl font-bold text-white font-sora tracking-tight mb-2">
-              Olá, <span className="text-brand-purple">{user?.name.split(' ')[0]}</span>
+            <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#B8BCC4]">
+              AureaIA™ • Minha Conta
+            </p>
+            <h1 className="text-4xl md:text-5xl font-serif font-medium tracking-tight text-[#F5F5F7]">
+              Olá, <span className="italic text-[#748FCC]">{user?.name?.split(' ')[0] ?? 'Artista'}</span>
             </h1>
-            <p className="text-zinc-400 font-medium">Bem-vinda ao seu estúdio fotográfico de elite.</p>
+            <p className="text-[#B8BCC4] font-light">
+              Bem-vinda ao seu estúdio fotográfico particular.
+            </p>
           </motion.div>
 
-          <Link 
+          <Link
             href="/generate"
-            className="group relative px-8 py-4 bg-white text-black rounded-2xl font-bold flex items-center gap-3 hover:scale-[1.02] active:scale-[0.98] transition-all overflow-hidden"
+            className="group inline-flex items-center gap-3 px-8 py-4 bg-[#748FCC] text-[#F5F5F7] rounded-[16px] font-bold hover:bg-[#5F7DB8] transition-all shadow-lg shadow-[#748FCC]/20 hover:shadow-[0_0_40px_rgba(116,143,204,0.35)] shrink-0"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-brand-purple/20 to-brand-lavender/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-            <Wand2 className="w-5 h-5" />
-            Novo Ensaio IA
-            <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <Sparkles className="w-5 h-5" />
+            Acessar Ateliê
+            <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </header>
 
-        {/* Stats Grid */}
+        {/* ── Stats ──────────────────────────────────────────────────── */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            { label: 'Créditos Disponíveis', value: user?.credits_balance, icon: CreditCard, color: 'text-brand-emerald', bg: 'bg-brand-emerald/10' },
-            { label: 'Ensaios Realizados', value: stats.jobs, icon: Camera, color: 'text-brand-purple', bg: 'bg-brand-purple/10' },
-            { label: 'Fotos Geradas', value: stats.jobs * 4, icon: Sparkles, color: 'text-brand-lavender', bg: 'bg-brand-lavender/10' },
-          ].map((stat, idx) => (
+          {stats.map((stat, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }}
-              className="bg-white/5 border border-white/10 p-8 rounded-[32px] group hover:border-white/20 transition-all"
             >
-              <div className={`${stat.bg} ${stat.color} w-12 h-12 rounded-2xl flex items-center justify-center mb-6`}>
-                <stat.icon className="w-6 h-6" />
-              </div>
-              <p className="text-zinc-500 font-bold text-xs uppercase tracking-[0.2em] mb-1">{stat.label}</p>
-              <h3 className="text-4xl font-bold text-white tracking-tighter">{stat.value}</h3>
+              <Link href={stat.href}>
+                <div className="bg-[#121417] border border-[#1F2329] p-8 rounded-[24px] group hover:border-[#748FCC]/40 transition-all duration-500 cursor-pointer hover:shadow-[0_0_40px_rgba(116,143,204,0.15)]">
+                  <div className="w-12 h-12 rounded-2xl bg-[#748FCC]/10 border border-[#748FCC]/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                    <stat.icon className="w-6 h-6 text-[#748FCC]" />
+                  </div>
+                  <p className="text-[#B8BCC4] font-bold text-[10px] uppercase tracking-[0.2em] mb-2">
+                    {stat.label}
+                  </p>
+                  <h3 className="text-4xl font-medium text-[#F5F5F7] tracking-tight">{stat.value}</h3>
+                </div>
+              </Link>
             </motion.div>
           ))}
         </div>
 
-        {/* Quick Actions / Recent Activity */}
+        {/* ── Extrato + Acesso rápido ─────────────────────────────────── */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="bg-white/5 border border-white/10 rounded-[40px] p-10 overflow-hidden relative group">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-brand-purple/10 blur-[80px] rounded-full pointer-events-none group-hover:bg-brand-purple/20 transition-all" />
-            <h2 className="text-2xl font-bold text-white mb-8 flex items-center gap-3 font-sora">
-              <Sparkles className="text-brand-lavender w-6 h-6" />
-              Recém Criadas
-            </h2>
-            <div className="flex flex-col items-center justify-center py-12 text-center space-y-4">
-              <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
-                <History className="text-zinc-600 w-8 h-8" />
-              </div>
-              <p className="text-zinc-500 font-medium max-w-[280px]">
-                Suas gerações recentes aparecerão aqui. Comece um novo ensaio agora!
-              </p>
-              <Link href="/history" className="text-brand-purple font-bold hover:underline">Ver galeria completa</Link>
-            </div>
-          </div>
 
-          <div className="bg-gradient-to-br from-brand-purple/20 to-brand-lavender/10 border border-white/10 rounded-[40px] p-10 flex flex-col justify-between">
-            <div>
-              <h2 className="text-3xl font-bold text-white mb-4 font-sora tracking-tight">Vire Pro</h2>
-              <p className="text-zinc-300 font-medium leading-relaxed mb-8">
-                Desbloqueie estilos exclusivos, gerações ilimitadas e resolução 4K para suas memórias mais preciosas.
-              </p>
+          {/* Extrato de créditos */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="bg-[#121417] border border-[#1F2329] rounded-[32px] p-10 flex flex-col gap-8"
+          >
+            <h2 className="text-2xl font-serif font-medium flex items-center gap-3 text-[#F5F5F7]">
+              <CreditCard className="w-5 h-5 text-[#748FCC]" />
+              Extrato de Moedas
+            </h2>
+
+            <div className="space-y-3 flex-1">
+              {loadingTxns ? (
+                <div className="py-12 flex justify-center">
+                  <Loader2 className="w-8 h-8 animate-spin text-[#748FCC]" />
+                </div>
+              ) : transactions.length > 0 ? (
+                transactions.map((txn) => (
+                  <div
+                    key={txn.id}
+                    className="flex items-center justify-between p-4 rounded-[16px] bg-white/[0.02] border border-white/5 hover:border-[#748FCC]/20 transition-colors"
+                  >
+                    <div className="flex items-center gap-3">
+                      {txn.amount > 0 ? (
+                        <ArrowDownLeft className="w-4 h-4 text-emerald-400 shrink-0" />
+                      ) : (
+                        <ArrowUpRight className="w-4 h-4 text-[#8A9099] shrink-0" />
+                      )}
+                      <div>
+                        <span className="text-sm font-medium text-[#F5F5F7] block leading-tight line-clamp-1">
+                          {txn.description}
+                        </span>
+                        <span className="text-[10px] text-[#B8BCC4] uppercase tracking-widest">
+                          {new Date(txn.created_at).toLocaleDateString('pt-BR')}
+                        </span>
+                      </div>
+                    </div>
+                    <span className={`text-sm font-bold shrink-0 ml-4 ${txn.amount > 0 ? 'text-emerald-400' : 'text-[#B8BCC4]'}`}>
+                      {txn.amount > 0 ? '+' : ''}{txn.amount}
+                    </span>
+                  </div>
+                ))
+              ) : (
+                <p className="text-[#B8BCC4] text-center py-12 font-light">
+                  Nenhuma transação encontrada ainda.
+                </p>
+              )}
             </div>
-            <button className="w-full bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-2xl py-5 font-bold hover:bg-white/20 transition-all flex items-center justify-center gap-2">
-              <Crown className="w-5 h-5 text-brand-lavender" />
-              Ver Planos Premium
-            </button>
-          </div>
+
+            <Link
+              href="/credits"
+              className="w-full bg-[#748FCC] text-[#F5F5F7] rounded-[16px] py-4 font-bold hover:bg-[#5F7DB8] transition-all flex items-center justify-center gap-2 text-sm shadow-lg shadow-[#748FCC]/10"
+            >
+              Adquirir Moedas ✦
+            </Link>
+          </motion.div>
+
+          {/* Acesso rápido */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="bg-[#121417] border border-[#1F2329] rounded-[32px] p-10 flex flex-col gap-8"
+          >
+            <h2 className="text-2xl font-serif font-medium flex items-center gap-3 text-[#F5F5F7]">
+              <Sparkles className="w-5 h-5 text-[#748FCC]" />
+              Acesso Rápido
+            </h2>
+
+            <div className="flex flex-col gap-4 flex-1">
+              {[
+                { label: 'Ateliê de Criação', desc: 'Transforme suas fotos em obra-prima', href: '/generate' },
+                { label: 'Sua Galeria', desc: 'Reveja seus ensaios eternizados', href: '/gallery' },
+                { label: 'Adquirir Moedas', desc: 'Expanda seu acervo de memórias', href: '/credits' },
+                { label: 'Suporte & Ajuda', desc: 'Tire suas dúvidas com nossa equipe', href: '/help' },
+              ].map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="group flex items-center justify-between p-5 rounded-[16px] bg-white/[0.02] border border-white/5 hover:border-[#748FCC]/30 hover:bg-[#748FCC]/5 transition-all duration-300"
+                >
+                  <div>
+                    <p className="text-sm font-medium text-[#F5F5F7]">{item.label}</p>
+                    <p className="text-[11px] text-[#B8BCC4] font-light mt-0.5">{item.desc}</p>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-[#B8BCC4] group-hover:text-[#748FCC] group-hover:translate-x-1 transition-all" />
+                </Link>
+              ))}
+            </div>
+
+            <p className="text-[10px] uppercase tracking-[0.3em] text-[#B8BCC4]/30 text-center font-bold">
+              Seu momento. Eternizado.
+            </p>
+          </motion.div>
         </div>
+
       </div>
     </div>
   );
 }
-
-const Crown = ({ className }: { className?: string }) => (
-  <svg className={className} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>
-);

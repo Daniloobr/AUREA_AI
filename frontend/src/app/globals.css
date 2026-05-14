@@ -1,109 +1,184 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   TEMA AureaIA – Nova Paleta "Silent Luxury Blue"
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root {
+  --bg-primary: #0A0A0A;
+  --bg-secondary: #121417;
+  --border-subtle: #1F2329;
+  --text-primary: #F5F5F7;
+  --text-secondary: #B8BCC4;
+  --text-disabled: #8A9099;
+  --accent-primary: #748FCC;
+  --accent-hover: #5F7DB8;
+  --accent-glow: #9FB3E6;
+  --accent-bg-light: rgba(116, 143, 204, 0.12);
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --border-elegant: rgba(255, 255, 255, 0.08);
+}
+
 @theme {
-  --font-sans: var(--font-inter);
-  --font-display: var(--font-sora);
-  
-  --color-brand-purple: #9857CB;
-  --color-brand-lavender: #AAA7EB;
-  --color-brand-emerald: #81E386;
-  
-  --color-onyx-950: #050505;
-  --color-onyx-900: #09090B;
-  --color-onyx-800: #121214;
-  --color-onyx-700: #1A1A1E;
-  
-  --radius-xl: 1rem;
-  --radius-2xl: 1.5rem;
-  --radius-3xl: 2rem;
+  /* Fontes */
+  --font-sans: var(--font-montserrat, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif);
+  --font-serif: var(--font-cormorant, "Cormorant Garamond", serif);
+
+  /* ─── Paleta de cores (Mapeamento para Tailwind se necessário) ────────── */
+  --color-bg-main: var(--bg-primary);
+  --color-bg-card: var(--bg-secondary);
+  --color-accent: var(--accent-primary);
 }
 
+/* ─── Base ───────────────────────────────────────────────────────────────── */
 @layer base {
-  :root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 6%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 263.4 70% 50.4%;
-    --primary-foreground: 210 20% 98%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 263.4 70% 50.4%;
-    --radius: 1rem;
-  }
-}
-
-@layer base {
-  * {
-    border-color: hsl(var(--border));
-  }
   body {
-    background-color: #050505;
-    color: hsl(var(--foreground));
-    font-family: var(--font-sans), sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    @apply antialiased;
+    font-family: var(--font-sans);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+  }
+
+  /* Títulos: serifados para tom luxuoso */
+  h1, h2, h3, h4 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+  }
+
+  h5, h6 {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
   }
   
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-display), sans-serif;
+  p, span, label {
+    color: var(--text-secondary);
   }
 }
 
+/* ─── Componentes ────────────────────────────────────────────────────────── */
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-[12px] font-medium transition-all duration-300 active:scale-[0.98];
+    background-color: var(--accent-primary);
+    color: var(--text-primary);
+    padding: 0.75rem 1.5rem;
+  }
+  .btn-primary:hover {
+    background-color: var(--accent-hover);
+    box-shadow: 0 0 40px rgba(116, 143, 204, 0.35);
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-[12px] font-medium transition-all duration-300 active:scale-[0.98];
+    background-color: transparent;
+    color: var(--accent-primary);
+    border: 1px solid var(--accent-primary);
+    padding: 0.75rem 1.5rem;
+  }
+  .btn-secondary:hover {
+    background-color: var(--accent-bg-light);
+    color: var(--accent-hover);
+  }
+
+  .card-apple {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-elegant);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .card-apple:hover {
+    box-shadow: 0 0 40px rgba(116, 143, 204, 0.15);
+  }
+
+  .input-apple {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    color: var(--text-primary);
+    padding: 0.75rem 1rem;
+    font-family: var(--font-sans);
+    transition: all 0.3s;
+  }
+  .input-apple:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 15px rgba(116, 143, 204, 0.15);
+  }
+}
+
+/* ─── Utilitários ────────────────────────────────────────────────────────── */
 @layer utilities {
-  .glass {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  .glass-dark {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-elegant);
   }
 
-  .glass-morphism {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+  .text-mist {
+    color: var(--text-disabled);
   }
 
-  .text-gradient {
-    background: linear-gradient(135deg, #FFF 0%, #AAA7EB 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  .border-aurea {
+    border: 1px solid var(--border-elegant);
   }
 
-  .premium-shadow {
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .font-serif {
+    font-family: var(--font-serif);
+  }
+
+  .font-sans {
+    font-family: var(--font-sans);
   }
   
-  .shimmer {
-    background: linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.05) 50%,
-      rgba(255, 255, 255, 0) 100%
-    );
-    background-size: 200% 100%;
-    animation: shimmer 2s infinite;
+  .glow-accent {
+    box-shadow: 0 0 40px rgba(116, 143, 204, 0.35);
   }
+}
+
+/* ─── Seleção de texto ───────────────────────────────────────────────────── */
+::selection {
+  background: var(--accent-primary);
+  color: var(--text-primary);
+}
+
+/* ─── Animações ──────────────────────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
 }
 
-::selection {
-  background: #9857CB;
-  color: white;
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
 }
+
+@keyframes neonPulse {
+  0%, 100% { box-shadow: 0 0 60px rgba(116, 143, 204, 0.2), inset 0 0 60px rgba(116, 143, 204, 0.05); }
+  50% { box-shadow: 0 0 100px rgba(116, 143, 204, 0.35), inset 0 0 100px rgba(116, 143, 204, 0.1); }
+}
+
+.neon-ring {
+  animation: neonPulse 4s ease-in-out infinite;
+}
+
+/* ─── Scrollbar estilizada ───────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--accent-primary); border-radius: 2px; }

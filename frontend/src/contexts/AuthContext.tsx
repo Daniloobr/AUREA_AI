@@ -2,12 +2,14 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { apiService } from '@/services/api';
 
 interface User {
   id: string;
   name: string;
   email: string;
   credits_balance: number;
+  is_admin?: boolean;
 }
 
 interface AuthContextType {
@@ -17,6 +19,7 @@ interface AuthContextType {
   login: (token: string, user: User) => void;
   logout: () => void;
   updateUser: (user: User) => void;
+  refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -91,8 +94,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('auth_user', JSON.stringify(newUser));
   };
 
+  const refreshUser = async () => {
+    await refreshCredits();
+  };
+
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, logout, updateUser }}>
+    <AuthContext.Provider value={{ user, token, loading, login, logout, updateUser, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );
