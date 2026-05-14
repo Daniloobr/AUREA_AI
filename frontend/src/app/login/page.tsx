@@ -81,7 +81,8 @@ export default function LoginPage() {
             <div className="space-y-2">
               <div className="flex justify-between items-center">
                 <label className="text-[11px] font-bold text-[#B8BCC4] uppercase tracking-widest">Senha</label>
-                <Link href="/forgot-password" stroke="currentColor" className="text-[11px] font-bold text-[#748FCC] hover:text-[#5F7DB8] transition-colors uppercase tracking-widest">Esqueci</Link>
+                <Link href="/forgot-password" className="text-[11px] font-bold text-[#748FCC] hover:text-[#5F7DB8] transition-colors uppercase tracking-widest">Esqueci</Link>
+
               </div>
               <input 
                 type="password" 

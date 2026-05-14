@@ -62,7 +62,8 @@ export default function AdminDashboard() {
   const handleDeleteUser = async (userId: string) => {
     if (!confirm("Tem certeza que deseja desativar este usuário?")) return;
     try {
-      const res = await apiService.delete(`/admin/users/${userId}`, token!);
+      const res = await apiService.remove(`/admin/users/${userId}`, token!);
+
       if (res.success) {
         alert("Usuário desativado.");
         fetchData();
@@ -210,10 +211,6 @@ function StatCard({ icon, label, value, trend, color = "text-aurea-text" }: any)
         <div className="text-aurea-text/40 text-xs font-bold uppercase tracking-[0.2em] mb-1">{label}</div>
         <div className={`text-4xl font-serif font-medium ${color}`}>{value}</div>
       </div>
-    </div>
-  );
-}
- </div>
     </div>
   );
 }
