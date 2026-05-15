@@ -34,14 +34,22 @@ class Config:
     
     # CORS: In production, we MUST define ALLOWED_ORIGINS. Never use '*'
     _origins = os.environ.get('ALLOWED_ORIGINS')
+    
+    # Process FRONTEND_URL to ensure no trailing slash
+    frontend_origin = FRONTEND_URL.rstrip('/') if FRONTEND_URL else None
+
     if _origins:
-        ALLOWED_ORIGINS = [o.strip() for o in _origins.split(',')]
+        ALLOWED_ORIGINS = [o.strip().rstrip('/') for o in _origins.split(',')]
+        if frontend_origin and frontend_origin not in ALLOWED_ORIGINS:
+            ALLOWED_ORIGINS.append(frontend_origin)
     else:
         if FLASK_ENV == 'development':
             ALLOWED_ORIGINS = ['http://localhost:3000', 'http://localhost:4000', 'http://127.0.0.1:3000', 'http://127.0.0.1:4000']
+            if frontend_origin and frontend_origin not in ALLOWED_ORIGINS:
+                ALLOWED_ORIGINS.append(frontend_origin)
         else:
-            # Restricted by default in production if not configured
-            ALLOWED_ORIGINS = [] 
+            # Fallback for production: allow FRONTEND_URL if available
+            ALLOWED_ORIGINS = [frontend_origin] if frontend_origin else []
 
     # ──────────────────────────────────────────────
     # Storage Paths

@@ -94,7 +94,7 @@ def login():
             "user": user.to_dict(),
             "token": token
         }))
-        response.set_cookie('auth_token', token, httponly=True, secure=True, samesite='Lax')
+        response.set_cookie('auth_token', token, httponly=True, secure=True, samesite='None')
         return response
 
     return jsonify({"success": False, "error": "Email ou senha incorretos"}), 401
@@ -180,15 +180,38 @@ def delete_account(current_user):
         db.session.rollback()
         return jsonify({"success": False, "error": str(e)}), 500
 
-@auth_bp.route('/google', methods=['POST'])
+@auth_bp.route('/google-login', methods=['POST'])
 @limiter.limit("20 per hour")
-def google_auth():
+def google_login():
     data = request.json
-    email = data.get('email')
-    name = data.get('name')
+    access_token = data.get('access_token') or data.get('id_token')
+
+    if not access_token:
+        return jsonify({"success": False, "error": "Token de acesso é obrigatório"}), 400
+
+    try:
+        from services.supabase_service import supabase_service
+        if not supabase_service.client:
+            return jsonify({"success": False, "error": "Serviço de autenticação indisponível"}), 500
+
+        # Validate token and get user from Supabase
+        user_response = supabase_service.client.auth.get_user(access_token)
+        if not user_response or not user_response.user:
+            return jsonify({"success": False, "error": "Token inválido ou expirado"}), 401
+            
+        supabase_user = user_response.user
+        email = supabase_user.email
+        
+        # Try to extract name from user_metadata
+        metadata = supabase_user.user_metadata or {}
+        name = metadata.get('name') or metadata.get('full_name') or email.split('@')[0]
+        
+    except Exception as e:
+        logger.error(f"Erro ao validar token do Supabase: {e}")
+        return jsonify({"success": False, "error": "Falha na validação do token"}), 401
 
     if not email:
-        return jsonify({"success": False, "error": "Email é obrigatório"}), 400
+        return jsonify({"success": False, "error": "Email não fornecido pelo provedor"}), 400
 
     user = User.query.filter_by(email=email).first()
     
@@ -198,7 +221,7 @@ def google_auth():
         is_new_user = True
         INITIAL_BONUS = 25
         user = User(
-            name=name or email.split('@')[0], 
+            name=name, 
             email=email, 
             credits_balance=INITIAL_BONUS,
             is_active=True
@@ -227,12 +250,15 @@ def google_auth():
     db.session.commit()
 
     token = generate_token(user.id)
-    return jsonify({
+    response = make_response(jsonify({
         "success": True,
         "user": user.to_dict(),
         "token": token,
         "is_new_user": is_new_user
-    })
+    }))
+    # Manter compatibilidade com JWT atual (set cookie)
+    response.set_cookie('auth_token', token, httponly=True, secure=True, samesite='None')
+    return response
 
 @auth_bp.route('/forgot-password', methods=['POST'])
 @limiter.limit("3 per hour")

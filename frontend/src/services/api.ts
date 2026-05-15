@@ -1,5 +1,15 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 
+let _apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || 
                      (process.env.NEXT_PUBLIC_BACKEND_URL ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/api` : '/api');
+
+// Remove barras no final
+_apiBaseUrl = _apiBaseUrl.replace(/\/+$/, '');
+
+// Garante que tenha /api no final se for uma URL completa
+if (_apiBaseUrl.startsWith('http') && !_apiBaseUrl.endsWith('/api')) {
+    _apiBaseUrl += '/api';
+}
+
+const API_BASE_URL = _apiBaseUrl;
 
 
 export const apiService = {
