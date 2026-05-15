@@ -1,136 +1,101 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, os
 from models.db_models import db, User, Transaction
-from services.syncpay_service import syncpay_service
+from services.stripe_service import stripe_service
 from utils.auth_utils import token_required
-import os
-from datetime import datetime, timedelta
 
 checkout_bp = Blueprint('checkout', __name__)
 
-# Preços fixos definidos no PDR v1.1.0
-PRICES = {
-    "100": {"credits": 100, "price": 25.00, "description": "100 créditos no AureaIA"},
-    "250": {"credits": 250, "price": 50.00, "description": "250 créditos no AureaIA"},
-    "500": {"credits": 500, "price": 120.00, "description": "500 créditos no AureaIA"}
+# Mapeamento de precos do Stripe para créditos
+# Atualize essas chaves com os price_ids reais do Stripe Dashboard
+STRIPE_PRICES = {
+    "price_100_credits": 100,
+    "price_250_credits": 250,
+    "price_500_credits": 500
 }
 
-@checkout_bp.route('/create-session', methods=['POST'])
+@checkout_bp.route('/create-checkout-session', methods=['POST'])
 @token_required
 def create_session(current_user):
-    print(f"DEBUG: create_session call for user {current_user.email}")
     data = request.get_json()
-    package_id = str(data.get('package_id'))
-    print(f"DEBUG: package_id: {package_id}")
+    price_id = data.get('price_id')
     
-    if package_id not in PRICES:
-        print(f"DEBUG: Invalid package_id: {package_id}")
-        return jsonify({"error": "Pacote inválido"}), 400
+    if not price_id or price_id not in STRIPE_PRICES:
+        return jsonify({"error": "Pacote inválido ou não informado"}), 400
     
-    package = PRICES[package_id]
-    
+    frontend_url = os.environ.get('FRONTEND_URL', 'http://localhost:3000')
+    success_url = f"{frontend_url}/credits?success=true"
+    cancel_url = f"{frontend_url}/credits?canceled=true"
+
     try:
-        # 1. Cria uma transação pendente no banco
-        new_transaction = Transaction(
+        session_data = stripe_service.create_checkout_session(
+            price_id=price_id,
             user_id=current_user.id,
-            type='purchase',
-            amount=package['credits'],
-            balance_before=current_user.credits_balance,
-            balance_after=current_user.credits_balance, # Não muda ainda
-            description=package['description'],
-            status='pending',
-            paid_amount=package['price']
+            user_email=current_user.email,
+            success_url=success_url,
+            cancel_url=cancel_url
         )
         
-        db.session.add(new_transaction)
-        db.session.commit() # Commit para gerar o ID da transação
-        print(f"DEBUG: Transaction created: {new_transaction.id}")
+        if not session_data:
+            return jsonify({"error": "Falha ao criar sessão de pagamento no Stripe."}), 500
+            
+        return jsonify(session_data), 200
         
-        # 2. Prepara dados do cliente para a SyncPay
-        client_data = {
-            "name": current_user.name,
-            "email": current_user.email,
-            "phone": current_user.phone or "51999999999",
-            "cpf": current_user.cpf or "" # Placeholder ou vazio
-        }
-        
-        # 3. Chama o serviço da SyncPay
-        pix_charge = syncpay_service.create_pix_charge(
-            amount=package['price'],
-            external_reference=new_transaction.id,
-            description=package['description'],
-            client_data=client_data
-        )
-        
-        if not pix_charge:
-            print("DEBUG: SyncPay charge creation failed")
-            # Se falhar, marcamos como falha
-            new_transaction.status = 'failed'
-            db.session.commit()
-            return jsonify({
-                "success": False,
-                "error": "O gateway SyncPay não pôde processar a cobrança. Verifique as credenciais ou tente novamente."
-            }), 500
-        
-        # Atualiza a transação com o ID da SyncPay (identifier)
-        new_transaction.external_id = pix_charge['transaction_id']
-        db.session.commit()
-        print(f"DEBUG: Transaction updated with external_id: {new_transaction.external_id}")
-        
-        return jsonify({
-            "transaction_id": new_transaction.id,
-            "pix_code": pix_charge['pix_code'],
-            "identifier_syncpay": pix_charge['transaction_id'],
-            "status": "pending"
-        }), 201
     except Exception as e:
-        print(f"ERROR in create_session: {str(e)}")
-        db.session.rollback()
+        print(f"ERROR in create_checkout_session: {str(e)}")
         return jsonify({"error": f"Erro interno: {str(e)}"}), 500
 
-@checkout_bp.route('/status/<transaction_id>', methods=['GET'])
-@token_required
-def get_status(current_user, transaction_id):
-    transaction = Transaction.query.filter_by(id=transaction_id, user_id=current_user.id).first()
-    
-    if not transaction:
-        return jsonify({"error": "Transação não encontrada"}), 404
-    
-    return jsonify({
-        "status": transaction.status,
-        "amount": transaction.amount,
-        "paid_amount": transaction.paid_amount
-    }), 200
+@checkout_bp.route('/stripe-webhook', methods=['POST'])
+def stripe_webhook():
+    payload = request.data
+    sig_header = request.headers.get('Stripe-Signature')
+    webhook_secret = os.environ.get('STRIPE_WEBHOOK_SECRET')
 
-def webhook_syncpay():
-    # De acordo com o PDR: Valida o header de assinatura se existir. Se não, ao menos verifique o identifier.
-    data = request.get_json()
+    if not webhook_secret:
+        print("ERROR: STRIPE_WEBHOOK_SECRET is not configured.")
+        return jsonify({"error": "Webhook secret not configured"}), 500
+
+    event = stripe_service.handle_webhook(payload, sig_header, webhook_secret)
     
-    # Log para debug
-    print(f"Webhook SyncPay recebido: {data}")
-    
-    event = data.get('event')
-    # A SyncPay envia o identifier (ID da transação na SyncPay)
-    identifier = data.get('identifier') or data.get('id')
-    
-    if event == 'payment.confirmed' and identifier:
-        # Localiza a transação pelo identifier_syncpay (external_id)
-        transaction = Transaction.query.filter_by(external_id=identifier, status='pending').first()
+    if event is None:
+        return jsonify({"error": "Invalid payload or signature"}), 400
+
+    # Lida com o evento de pagamento concluído
+    if event['type'] == 'checkout.session.completed':
+        session = event['data']['object']
         
-        if transaction:
-            user = User.query.get(transaction.user_id)
-            if user:
-                # Atualiza saldo
-                transaction.balance_before = user.credits_balance
-                user.credits_balance += transaction.amount
-                transaction.balance_after = user.credits_balance
-                transaction.status = 'completed'
-                
-                db.session.commit()
-                print(f"Pagamento confirmado para usuário {user.email}. {transaction.amount} créditos adicionados.")
-                return jsonify({"status": "success"}), 200
-            else:
-                print(f"Usuário não encontrado para transação {identifier}")
-        else:
-            print(f"Transação não encontrada ou já processada: {identifier}")
+        user_id = session.get('client_reference_id')
+        metadata = session.get('metadata', {})
+        price_id = metadata.get('price_id')
+        
+        if not user_id or not price_id:
+            print(f"ERROR: Webhook missing user_id or price_id. Session ID: {session.get('id')}")
+            return jsonify({"status": "ignored", "reason": "missing data"}), 200
+
+        credits_to_add = STRIPE_PRICES.get(price_id)
+        if not credits_to_add:
+            print(f"ERROR: Unknown price_id in webhook: {price_id}")
+            return jsonify({"status": "ignored", "reason": "unknown price"}), 200
+
+        user = User.query.get(user_id)
+        if user:
+            old_balance = user.credits_balance
+            user.credits_balance += credits_to_add
             
-    return jsonify({"status": "ignored"}), 200
+            # Registra transação
+            new_tx = Transaction(
+                user_id=user.id,
+                type='stripe_purchase',
+                amount=credits_to_add,
+                balance_before=old_balance,
+                balance_after=user.credits_balance,
+                description=f"Compra de {credits_to_add} moedas via Stripe",
+                status='completed',
+                external_id=session.get('id')
+            )
+            db.session.add(new_tx)
+            db.session.commit()
+            print(f"SUCCESS: Added {credits_to_add} credits to user {user.email}")
+        else:
+            print(f"ERROR: User {user_id} not found for Stripe webhook.")
+
+    return jsonify({"status": "success"}), 200

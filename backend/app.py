@@ -93,9 +93,9 @@ def create_app():
     app.register_blueprint(styles_bp, url_prefix='/api/styles')
     app.register_blueprint(checkout_bp, url_prefix='/api/checkout')
 
-    # Rota específica para o Webhook da SyncPay conforme pedido no PDR
-    from routes.checkout import webhook_syncpay
-    app.add_url_rule('/api/webhooks/syncpay', view_func=webhook_syncpay, methods=['POST'])
+    # Rota específica para o Webhook do Stripe
+    from routes.checkout import stripe_webhook
+    app.add_url_rule('/api/webhooks/stripe', view_func=stripe_webhook, methods=['POST'])
 
     # ─── Servir arquivos carregados/gerados ───
     @app.route('/uploads/<path:filename>')
