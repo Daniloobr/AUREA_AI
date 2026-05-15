@@ -58,7 +58,7 @@ export default function GeneratePage() {
           const filtered = res.styles.filter((s: Style) => allowedIds.includes(s.id));
 
           const finalStyles = filtered.map((s: Style) => {
-            const overrides: Partial<Style> = { cover: `/thumbnails/${s.id}.jpg` };
+            const overrides: Partial<Style> = { cover: `/thumbnails/${s.id}.png` };
             if (s.id === 'luxury_studio') overrides.name = 'Luxury Studio';
             if (s.id === 'golden_hour_nature') overrides.name = 'Golden Hour Nature';
             if (s.id === 'boho_chic') overrides.name = 'Boho Chic';
@@ -304,7 +304,7 @@ export default function GeneratePage() {
                 >
                   <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-10 transition-opacity" />
                   <img
-                    src={`/thumbnails/${style.id}.jpg`}
+                    src={`/thumbnails/${style.id}.png`}
                     alt={style.name}
                     className={`w-full h-full object-cover transition-all duration-[2s] group-hover:scale-110 ${selectedStyle?.id === style.id ? 'opacity-100 scale-110' : 'opacity-40 scale-105 group-hover:opacity-80'
                       }`}
