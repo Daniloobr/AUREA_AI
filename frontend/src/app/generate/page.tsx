@@ -46,8 +46,23 @@ export default function GeneratePage() {
         // Usando a nova rota /api/styles conforme PDR 1.0.0
         const res = await apiService.get('/styles');
         if (res.styles) {
-          setStyles(res.styles);
-          setSelectedStyle(res.styles[0]);
+          const allowedIds = ['luxury_studio', 'golden_hour_nature', 'boho_chic', 'black_white_editorial'];
+          const filtered = res.styles.filter((s: any) => allowedIds.includes(s.id));
+          
+          const finalStyles = filtered.map((s: any) => {
+            const overrides: any = { cover: `/thumbnails/${s.id}.jpg` };
+            if (s.id === 'luxury_studio') overrides.name = 'Luxury Studio';
+            if (s.id === 'golden_hour_nature') overrides.name = 'Golden Hour Nature';
+            if (s.id === 'boho_chic') overrides.name = 'Boho Chic';
+            if (s.id === 'black_white_editorial') overrides.name = 'Black & White Editorial';
+            return { ...s, ...overrides };
+          });
+
+          // Caso a ordem do backend seja diferente, podemos forçar a ordem da tabela
+          const orderedStyles = allowedIds.map(id => finalStyles.find(s => s.id === id)).filter(Boolean);
+
+          setStyles(orderedStyles);
+          setSelectedStyle(orderedStyles[0] || null);
         }
       } catch (err) {
         console.error("Erro ao carregar estilos:", err);
@@ -284,10 +299,10 @@ export default function GeneratePage() {
               >
                 <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-10 transition-opacity" />
                 <img 
-                  src={style.cover} 
+                  src={`/thumbnails/${style.id}.jpg`} 
                   alt={style.name} 
                   className={`w-full h-full object-cover transition-all duration-[2s] group-hover:scale-110 ${
-                    selectedStyle?.id === style.id ? 'opacity-100 scale-105' : 'opacity-40 group-hover:opacity-80'
+                    selectedStyle?.id === style.id ? 'opacity-100 scale-110' : 'opacity-40 scale-105 group-hover:opacity-80'
                   }`} 
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
