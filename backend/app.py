@@ -139,13 +139,24 @@ def create_app():
     logger.info(f"  Uploads: {Config.UPLOAD_FOLDER}")
     logger.info("═" * 60)
 
-# ─── Iniciar Agendador de Limpeza (Retenção de 24h) ───
+    with app.app_context():
+        try:
+            from models.db_models import User, GenerationJob, Transaction, PasswordResetToken
+            db.create_all()
+            logger.info("✅ Banco de dados inicializado e tabelas verificadas.")
+        except Exception as e:
+            logger.error(f"❌ Erro ao inicializar banco de dados: {e}")
+
+    # ─── Iniciar Agendador de Limpeza (Retenção de 24h) ───
     from services.cleanup_service import start_cleanup_scheduler
     start_cleanup_scheduler(app)
 
     # ─── Recuperar Jobs Travados (Crash Recovery) ───
-    from services.queue_service import recover_stuck_jobs
-    recover_stuck_jobs(app)
+    try:
+        from services.queue_service import recover_stuck_jobs
+        recover_stuck_jobs(app)
+    except Exception as e:
+        logger.error(f"⚠️ Erro ao recuperar jobs: {e}")
 
     return app
 
