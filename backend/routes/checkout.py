@@ -5,21 +5,34 @@ from utils.auth_utils import token_required
 
 checkout_bp = Blueprint('checkout', __name__)
 
-# Mapeamento de precos do Stripe para créditos
-# Atualize essas chaves com os price_ids reais do Stripe Dashboard
+# Mapeamento dos pacotes para os IDs reais do Stripe.
+# ATENÇÃO: Substitua os valores "price_..." abaixo pelos IDs reais gerados no seu Stripe Dashboard
 STRIPE_PRICES = {
-    "price_100_credits": 100,
-    "price_250_credits": 250,
-    "price_500_credits": 500
+    "100_credits": "price_1TXBt5AXb2fn2YJDXDIF0iKk",
+    "200_credits": "price_1TXBtWAXb2fn2YJDZxm1s4Xz",
+    "400_credits": "price_1TXBtrAXb2fn2YJDNsCz53jj"
+}
+
+# Mapeamento de price_id para quantidade de créditos a adicionar
+PRICE_TO_CREDITS = {
+    "price_1TXBt5AXb2fn2YJDXDIF0iKk": 100,
+    "price_1TXBtWAXb2fn2YJDZxm1s4Xz": 200,
+    "price_1TXBtrAXb2fn2YJDNsCz53jj": 400,
 }
 
 @checkout_bp.route('/create-checkout-session', methods=['POST'])
 @token_required
 def create_session(current_user):
     data = request.get_json()
+    
+    # Suporta receber tanto o nome do pacote (ex: "100_credits") quanto o price_id direto
+    package_name = data.get('package_id')
     price_id = data.get('price_id')
     
-    if not price_id or price_id not in STRIPE_PRICES:
+    if package_name and package_name in STRIPE_PRICES:
+        price_id = STRIPE_PRICES[package_name]
+        
+    if not price_id or price_id not in PRICE_TO_CREDITS:
         return jsonify({"error": "Pacote inválido ou não informado"}), 400
     
     frontend_url = os.environ.get('FRONTEND_URL', 'http://localhost:3000')
@@ -71,7 +84,7 @@ def stripe_webhook():
             print(f"ERROR: Webhook missing user_id or price_id. Session ID: {session.get('id')}")
             return jsonify({"status": "ignored", "reason": "missing data"}), 200
 
-        credits_to_add = STRIPE_PRICES.get(price_id)
+        credits_to_add = PRICE_TO_CREDITS.get(price_id)
         if not credits_to_add:
             print(f"ERROR: Unknown price_id in webhook: {price_id}")
             return jsonify({"status": "ignored", "reason": "unknown price"}), 200
