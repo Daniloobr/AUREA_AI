@@ -17,13 +17,15 @@ def register():
     if not data: return jsonify({"success": False, "error": "Dados inválidos"}), 400
 
     name = data.get('name')
-    email = data.get('email')
+    raw_email = data.get('email')
     password = data.get('password')
 
-    logger.info(f"Tentativa de registro: {email}")
-
-    if not name or not email or not password:
+    if not name or not raw_email or not password:
         return jsonify({"success": False, "error": "Todos os campos são obrigatórios"}), 400
+
+    email = raw_email.lower().strip()
+
+    logger.info(f"Tentativa de registro: {email}")
 
     # Check if user exists
     user = User.query.filter_by(email=email).first()
@@ -82,7 +84,7 @@ def register():
 @limiter.limit("10 per minute")
 def login():
     data = request.json
-    email = data.get('email')
+    email = data.get('email', '').lower().strip()
     password = data.get('password')
 
     user = User.query.filter_by(email=email, is_active=True).first()
@@ -200,11 +202,11 @@ def google_login():
             return jsonify({"success": False, "error": "Token inválido ou expirado"}), 401
             
         supabase_user = user_response.user
-        email = supabase_user.email
+        email = supabase_user.email.lower().strip() if supabase_user.email else None
         
         # Try to extract name from user_metadata
         metadata = supabase_user.user_metadata or {}
-        name = metadata.get('name') or metadata.get('full_name') or email.split('@')[0]
+        name = metadata.get('name') or metadata.get('full_name') or (email.split('@')[0] if email else 'User')
         
     except Exception as e:
         logger.error(f"Erro ao validar token do Supabase: {e}")
@@ -264,7 +266,7 @@ def google_login():
 @limiter.limit("3 per hour")
 def forgot_password():
     data = request.json
-    email = data.get('email')
+    email = data.get('email', '').lower().strip()
     
     user = User.query.filter_by(email=email, is_active=True).first()
     if not user:

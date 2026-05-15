@@ -1,8 +1,11 @@
+from flask import request
 from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
+
+def get_real_ip():
+    return request.headers.get("X-Forwarded-For", request.remote_addr).split(',')[0].strip()
 
 limiter = Limiter(
-    key_func=get_remote_address,
+    key_func=get_real_ip,
     default_limits=["300 per day", "100 per hour"],
     storage_uri="memory://",
 )
