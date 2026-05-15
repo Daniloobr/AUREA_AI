@@ -4,11 +4,11 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { apiService } from '@/services/api';
-import { 
-  Sparkles, 
-  Upload, 
-  Check, 
-  Loader2, 
+import {
+  Sparkles,
+  Upload,
+  Check,
+  Loader2,
   AlertCircle,
   X,
   ChevronRight,
@@ -19,16 +19,24 @@ import {
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 
-// ─── Estilos editoriais ───────────────────────────────────────────────────────
-// STYLES will be fetched from API
+// ─── Interface para os estilos ──────────────────────────────────────────────
+interface Style {
+  id: string;
+  name: string;
+  category?: string;
+  description?: string;
+  cover?: string;
+  prompt?: string;
+  [key: string]: any; // para outros campos opcionais que possam vir da API
+}
 
-// ─── Componente principal ─────────────────────────────────────────────────────
+// ─── Componente principal ─────────────────────────────────────────────────
 export default function GeneratePage() {
   const { user, token, updateUser } = useAuth();
   const router = useRouter();
-  
-  const [styles, setStyles] = useState<any[]>([]);
-  const [selectedStyle, setSelectedStyle] = useState<any>(null);
+
+  const [styles, setStyles] = useState<Style[]>([]);
+  const [selectedStyle, setSelectedStyle] = useState<Style | null>(null);
   const [loadingStyles, setLoadingStyles] = useState(true);
   const [imageFiles, setImageFiles] = useState<(File | null)[]>([null, null, null]);
   const [previewUrls, setPreviewUrls] = useState<(string | null)[]>([null, null, null]);
@@ -47,10 +55,10 @@ export default function GeneratePage() {
         const res = await apiService.get('/styles');
         if (res.styles) {
           const allowedIds = ['luxury_studio', 'golden_hour_nature', 'boho_chic', 'black_white_editorial'];
-          const filtered = res.styles.filter((s: any) => allowedIds.includes(s.id));
-          
-          const finalStyles = filtered.map((s: any) => {
-            const overrides: any = { cover: `/thumbnails/${s.id}.jpg` };
+          const filtered = res.styles.filter((s: Style) => allowedIds.includes(s.id));
+
+          const finalStyles = filtered.map((s: Style) => {
+            const overrides: Partial<Style> = { cover: `/thumbnails/${s.id}.jpg` };
             if (s.id === 'luxury_studio') overrides.name = 'Luxury Studio';
             if (s.id === 'golden_hour_nature') overrides.name = 'Golden Hour Nature';
             if (s.id === 'boho_chic') overrides.name = 'Boho Chic';
@@ -59,7 +67,7 @@ export default function GeneratePage() {
           });
 
           // Caso a ordem do backend seja diferente, podemos forçar a ordem da tabela
-          const orderedStyles = allowedIds.map(id => finalStyles.find(s => s.id === id)).filter(Boolean);
+          const orderedStyles = allowedIds.map(id => finalStyles.find((s: Style) => s.id === id)).filter(Boolean) as Style[];
 
           setStyles(orderedStyles);
           setSelectedStyle(orderedStyles[0] || null);
@@ -96,7 +104,7 @@ export default function GeneratePage() {
       return;
     }
     if (!selectedStyle) return;
-    
+
     // Verificação local de créditos (antes de chamar o backend)
     if ((user?.credits_balance || 0) < 25) {
       setShowCreditModal(true);
@@ -114,7 +122,7 @@ export default function GeneratePage() {
       for (const file of activeFiles) {
         const formData = new FormData();
         formData.append('file', file);
-        
+
         const uploadRes = await fetch(`${apiUrl}/api/upload`, {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${token}` },
@@ -125,7 +133,7 @@ export default function GeneratePage() {
         const uploadData = await uploadRes.json();
         uploadedUrls.push(uploadData.file_url || uploadData.url);
       }
-      
+
       // Solicitar geração ao backend
       const genRes = await apiService.post('/generate', {
         image_urls: uploadedUrls,
@@ -157,11 +165,11 @@ export default function GeneratePage() {
   // ─── Renderização ────────────────────────────────────────────────────────
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-[#F5F5F7] flex flex-col lg:flex-row font-sans overflow-hidden">
-      
+
       {/* ── Sidebar: Controles ─────────────────────────────────────────── */}
       <div className="w-full lg:w-[480px] bg-[#121417] border-r border-[#1F2329] p-8 lg:p-10 flex flex-col pt-24 lg:h-screen overflow-y-auto shrink-0 z-10">
         <div className="space-y-10">
-          
+
           {/* Cabeçalho do painel */}
           <header className="space-y-4">
             <div className="flex items-center justify-between">
@@ -191,15 +199,14 @@ export default function GeneratePage() {
                 Sua Essência (Mín. 3 fotos)
               </label>
             </div>
-            
+
             {/* Grid de upload — layout preservado */}
             <div className="grid grid-cols-3 gap-4">
               {[0, 1, 2].map((idx) => (
                 <label key={idx} className={`block group aspect-[3/4] ${generating ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}>
                   <input type="file" className="hidden" disabled={generating} onChange={(e) => handleFileChange(idx, e)} accept="image/*" />
-                  <div className={`w-full h-full rounded-[24px] border-2 border-dashed transition-all duration-500 flex flex-col items-center justify-center relative overflow-hidden bg-black/20 ${
-                    previewUrls[idx] ? 'border-[#748FCC]' : 'border-[#1F2329] hover:border-[#748FCC]/50'
-                  }`}>
+                  <div className={`w-full h-full rounded-[24px] border-2 border-dashed transition-all duration-500 flex flex-col items-center justify-center relative overflow-hidden bg-black/20 ${previewUrls[idx] ? 'border-[#748FCC]' : 'border-[#1F2329] hover:border-[#748FCC]/50'
+                    }`}>
                     {previewUrls[idx] ? (
                       <img src={previewUrls[idx]!} className="w-full h-full object-cover" alt={`Foto ${idx + 1}`} />
                     ) : (
@@ -232,7 +239,7 @@ export default function GeneratePage() {
                 Toque Especial (Opcional)
               </label>
             </div>
-            <textarea 
+            <textarea
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               placeholder="Ex: Em um jardim de lavandas sob a luz suave do outono..."
@@ -285,45 +292,40 @@ export default function GeneratePage() {
               ))
             ) : (
               styles.map((style) => (
-              <motion.div
-                key={style.id}
-                whileHover={!generating ? { y: -10 } : undefined}
-                onClick={() => !generating && setSelectedStyle(style)}
-                className={`group relative rounded-[32px] overflow-hidden border-2 transition-all duration-700 aspect-[4/5] ${
-                  generating ? 'cursor-not-allowed' : 'cursor-pointer'
-                } ${
-                  selectedStyle?.id === style.id 
-                    ? 'border-[#748FCC] shadow-2xl bg-[#121417]' 
-                    : 'border-[#1F2329] hover:border-[#748FCC]/30 bg-[#121417]'
-                }`}
-              >
-                <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-10 transition-opacity" />
-                <img 
-                  src={`/thumbnails/${style.id}.jpg`} 
-                  alt={style.name} 
-                  className={`w-full h-full object-cover transition-all duration-[2s] group-hover:scale-110 ${
-                    selectedStyle?.id === style.id ? 'opacity-100 scale-110' : 'opacity-40 scale-105 group-hover:opacity-80'
-                  }`} 
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
-                
-                <div className="absolute bottom-8 left-8 right-8">
-                  <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#748FCC] mb-2 block">{style.category}</span>
-                  <h3 className="text-xl font-medium text-[#F5F5F7] mb-2">{style.name}</h3>
-                  <p className={`text-[11px] text-[#B8BCC4] leading-relaxed transition-all duration-500 line-clamp-2 font-light ${
-                    selectedStyle?.id === style.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
-                  }`}>
-                    {style.description}
-                  </p>
-                </div>
+                <motion.div
+                  key={style.id}
+                  whileHover={!generating ? { y: -10 } : undefined}
+                  onClick={() => !generating && setSelectedStyle(style)}
+                  className={`group relative rounded-[32px] overflow-hidden border-2 transition-all duration-700 aspect-[4/5] ${generating ? 'cursor-not-allowed' : 'cursor-pointer'
+                    } ${selectedStyle?.id === style.id
+                      ? 'border-[#748FCC] shadow-2xl bg-[#121417]'
+                      : 'border-[#1F2329] hover:border-[#748FCC]/30 bg-[#121417]'
+                    }`}
+                >
+                  <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-10 transition-opacity" />
+                  <img
+                    src={`/thumbnails/${style.id}.jpg`}
+                    alt={style.name}
+                    className={`w-full h-full object-cover transition-all duration-[2s] group-hover:scale-110 ${selectedStyle?.id === style.id ? 'opacity-100 scale-110' : 'opacity-40 scale-105 group-hover:opacity-80'
+                      }`}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
 
-                <div className={`absolute top-6 right-6 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 ${
-                  selectedStyle?.id === style.id ? 'bg-[#748FCC] text-white scale-100' : 'bg-black/50 text-white scale-0 group-hover:scale-100'
-                }`}>
-                  <Check className="w-5 h-5" />
-                </div>
-              </motion.div>
-            )))}
+                  <div className="absolute bottom-8 left-8 right-8">
+                    <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#748FCC] mb-2 block">{style.category}</span>
+                    <h3 className="text-xl font-medium text-[#F5F5F7] mb-2">{style.name}</h3>
+                    <p className={`text-[11px] text-[#B8BCC4] leading-relaxed transition-all duration-500 line-clamp-2 font-light ${selectedStyle?.id === style.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                      }`}>
+                      {style.description}
+                    </p>
+                  </div>
+
+                  <div className={`absolute top-6 right-6 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 ${selectedStyle?.id === style.id ? 'bg-[#748FCC] text-white scale-100' : 'bg-black/50 text-white scale-0 group-hover:scale-100'
+                    }`}>
+                    <Check className="w-5 h-5" />
+                  </div>
+                </motion.div>
+              )))}
           </div>
         </div>
       </div>
@@ -331,7 +333,7 @@ export default function GeneratePage() {
       {/* ── Overlay de geração / sucesso ──────────────────────────────── */}
       <AnimatePresence>
         {(generating || success) && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="fixed inset-0 z-[200] bg-[#0A0A0A]/95 backdrop-blur-xl flex flex-col items-center justify-center p-8 text-center"
           >
@@ -340,8 +342,8 @@ export default function GeneratePage() {
               {success ? 'Sua obra-prima está sendo preparada...' : 'Iniciando a Criação Artística'}
             </h2>
             <p className="text-[#B8BCC4] font-light text-lg max-w-lg leading-relaxed">
-              {success 
-                ? 'Em breve você poderá contemplar seu ensaio em sua Galeria Privada.' 
+              {success
+                ? 'Em breve você poderá contemplar seu ensaio em sua Galeria Privada.'
                 : 'Estamos combinando sua essência com as texturas e luzes de nossa coleção editorial.'}
             </p>
           </motion.div>
@@ -352,7 +354,7 @@ export default function GeneratePage() {
       <AnimatePresence>
         {showCreditModal && (
           <div className="fixed inset-0 z-[300] bg-black/80 backdrop-blur-sm flex items-center justify-center p-6">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
               className="bg-[#121417] border border-[#1F2329] p-10 rounded-[24px] max-w-md w-full text-center space-y-8"
             >
@@ -386,7 +388,7 @@ export default function GeneratePage() {
       {/* ── Toast de erro ─────────────────────────────────────────────── */}
       <AnimatePresence>
         {error && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }}
             className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[300] bg-white text-black px-6 py-4 rounded-full flex items-center gap-4 shadow-2xl"
           >
