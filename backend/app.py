@@ -40,6 +40,7 @@ def create_app():
             app.config['SECRET_KEY'] = 'dev_secret_key_low_security'
             logger.warning("⚠️ SECRET_KEY não definida. Usando chave de desenvolvimento!")
         else:
+            print("CRITICAL ERROR: SECRET_KEY is not set in the environment variables! Please add it in the Render dashboard.")
             raise RuntimeError("CRITICAL: SECRET_KEY não configurada no ambiente!")
     
     # CORS — Restricted to ALLOWED_ORIGINS for production security

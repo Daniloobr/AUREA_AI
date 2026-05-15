@@ -103,4 +103,5 @@ class Config:
         ]:
             os.makedirs(folder, exist_ok=True)
 
-        os.environ['REPLICATE_API_TOKEN'] = Config.REPLICATE_API_TOKEN
+        if Config.REPLICATE_API_TOKEN:
+            os.environ['REPLICATE_API_TOKEN'] = Config.REPLICATE_API_TOKEN
