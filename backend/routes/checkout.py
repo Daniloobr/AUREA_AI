@@ -21,7 +21,7 @@ PRICE_TO_CREDITS = {
     "price_1TXBtrAXb2fn2YJDNsCz53jj": 400,
 }
 
-@checkout_bp.route('/create-checkout-session', methods=['POST'])
+@checkout_bp.route('/create-session', methods=['POST'])
 @token_required
 def create_session(current_user):
     data = request.get_json()
