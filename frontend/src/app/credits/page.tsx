@@ -17,7 +17,7 @@ import { QRCodeSVG } from 'qrcode.react';
    ═══════════════════════════════════════════════════════════════════════════ */
 const PACKAGES = [
   {
-    id: '100',
+    id: '100_credits',
     name: 'Essencial',
     credits: 100,
     price: '25',
@@ -32,16 +32,16 @@ const PACKAGES = [
     ],
   },
   {
-    id: '250',
+    id: '200_credits',
     name: 'Ateliê',
-    credits: 250,
+    credits: 200,
     price: '50',
     priceValue: 50.00,
     popular: true,
     icon: Sparkles,
     badge: '✦ Mais Escolhido',
     features: [
-      '10 ensaios completos',
+      '8 ensaios completos',
       'Acesso a todos os estilos',
       'Download em alta resolução',
       'Créditos nunca expiram',
@@ -49,15 +49,15 @@ const PACKAGES = [
     ],
   },
   {
-    id: '500',
+    id: '400_credits',
     name: 'Maison',
-    credits: 500,
+    credits: 400,
     price: '120',
     priceValue: 120.00,
     icon: Gem,
     badge: 'VIP',
     features: [
-      '20 ensaios completos',
+      '16 ensaios completos',
       'Acesso a todos os estilos',
       'Download em alta resolução',
       'Créditos nunca expiram',
@@ -105,17 +105,12 @@ export default function CreditsPage() {
       const response = await apiService.checkout.createSession(pkg.id, token || undefined);
       console.log("Resposta da API:", response);
       
-      if (response.transaction_id) {
-        setPixData({
-          ...response,
-          package_name: pkg.name,
-          amount: pkg.priceValue
-        });
-        setPaymentStatus('pending');
-        setShowPixModal(true);
+      if (response.url) {
+        // Redireciona para o Stripe Checkout
+        window.location.href = response.url;
       } else {
         console.error("Erro retornado pela API:", response.error);
-        setNotification({ message: response.error || 'Erro ao gerar PIX', type: 'error' });
+        setNotification({ message: response.error || 'Erro ao gerar checkout', type: 'error' });
       }
     } catch (error: any) {
       console.error("Erro catastrófico no handleBuy:", error);
