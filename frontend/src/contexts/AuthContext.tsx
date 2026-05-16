@@ -9,6 +9,7 @@ interface User {
   name: string;
   email: string;
   credits_balance: number;
+  cpf?: string;
   is_admin?: boolean;
 }
 
