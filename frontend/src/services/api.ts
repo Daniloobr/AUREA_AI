@@ -84,10 +84,10 @@ export const apiService = {
   },
 
   checkout: {
-    createSession: (packageId: string, token?: string) => 
-      apiService.post('/checkout/create-session', { package_id: packageId }, token),
+    createPixPayment: (data: any, token?: string) => 
+      apiService.post('/create-pix-payment', data, token),
     
-    getStatus: (transactionId: string, token?: string) => 
-      apiService.get(`/checkout/status/${transactionId}`, token),
+    getOrderStatus: (orderId: string, token?: string) => 
+      apiService.get(`/pagseguro/status/${orderId}`, token),
   }
 };

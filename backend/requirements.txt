@@ -1,42 +1,41 @@
 # Production Server
-gunicorn==21.2.0
-
-# Database
-Flask-SQLAlchemy==3.1.1
-
-SQLAlchemy>=2.0.30
-psycopg2-binary==2.9.9
-
-# Core Framework
-Flask==3.0.2
-Flask-Cors==4.0.0
-Werkzeug==3.0.1
-
-# Authentication
-PyJWT==2.8.0
-bcrypt==4.1.2
-
-# AI Generation
-replicate==0.25.1
-
-# Image Processing & Face Detection
-opencv-python-headless==4.9.0.80
-numpy>=1.26.4
-Pillow>=10.3.0
-mediapipe>=0.10.13
-
-# Environment
-python-dotenv==1.0.1
-
-# Logging
-colorama==0.4.6
-
-# HTTP Requests (for downloading generated images)
-requests==2.31.0
-# Security
-Flask-Limiter==3.7.0
-Flask-Talisman==1.1.0
-
-# Cloud Storage
-supabase==2.4.0
-stripe>=10.0.0
+2: gunicorn==21.2.0
+3: 
+4: # Database
+5: Flask-SQLAlchemy==3.1.1
+6: 
+7: SQLAlchemy>=2.0.30
+8: psycopg2-binary==2.9.9
+9: 
+10: # Core Framework
+11: Flask==3.0.2
+12: Flask-Cors==4.0.0
+13: Werkzeug==3.0.1
+14: 
+15: # Authentication
+16: PyJWT==2.8.0
+17: bcrypt==4.1.2
+18: 
+19: # AI Generation
+20: replicate==0.25.1
+21: 
+22: # Image Processing & Face Detection
+23: opencv-python-headless==4.9.0.80
+24: numpy>=1.26.4
+25: Pillow>=10.3.0
+26: mediapipe>=0.10.13
+27: 
+28: # Environment
+29: python-dotenv==1.0.1
+30: 
+31: # Logging
+32: colorama==0.4.6
+33: 
+34: # HTTP Requests (for downloading generated images)
+35: requests==2.31.0
+36: # Security
+37: Flask-Limiter==3.7.0
+38: Flask-Talisman==1.1.0
+39: 
+40: # Cloud Storage
+41: supabase==2.4.0

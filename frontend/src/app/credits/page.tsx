@@ -67,9 +67,9 @@ const PACKAGES = [
 ];
 
 interface PixData {
-  transaction_id: string;
-  pix_code: string;
-  identifier_syncpay: string;
+  order_id: string;
+  qr_code_text: string;
+  qr_code_image: string;
   package_name: string;
   amount: number;
 }
@@ -85,8 +85,8 @@ export default function CreditsPage() {
 
   // Função para copiar código PIX
   const copyPixCode = () => {
-    if (pixData?.pix_code) {
-      navigator.clipboard.writeText(pixData.pix_code);
+    if (pixData?.qr_code_text) {
+      navigator.clipboard.writeText(pixData.qr_code_text);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
@@ -98,23 +98,36 @@ export default function CreditsPage() {
       setNotification({ message: 'Você precisa estar logado para comprar créditos.', type: 'error' });
       return;
     }
-    console.log("Iniciando compra do pacote:", pkg.id);
+    
+    // O CPF é obrigatório no PagSeguro. Em um app real, pegaríamos do cadastro.
+    const cpf = user.cpf || prompt("Para gerar seu PIX, informe seu CPF (apenas números):");
+    if (!cpf) return;
+
     setLoadingPackageId(pkg.id);
     try {
-      console.log("Chamando API createSession...");
-      const response = await apiService.checkout.createSession(pkg.id, token || undefined);
-      console.log("Resposta da API:", response);
+      const response = await apiService.checkout.createPixPayment({
+        amount: Math.round(pkg.priceValue * 100),
+        customer_name: user.name,
+        customer_email: user.email,
+        customer_tax_id: cpf,
+        package_id: pkg.id
+      }, token || undefined);
       
-      if (response.url) {
-        // Redireciona para o Stripe Checkout
-        window.location.href = response.url;
+      if (response.success) {
+        setPixData({
+          order_id: response.order_id,
+          qr_code_text: response.qr_code_text,
+          qr_code_image: response.qr_code_image,
+          package_name: pkg.name,
+          amount: pkg.priceValue
+        });
+        setPaymentStatus('pending');
+        setShowPixModal(true);
       } else {
-        console.error("Erro retornado pela API:", response.error);
-        setNotification({ message: response.error || 'Erro ao gerar checkout', type: 'error' });
+        setNotification({ message: response.error || 'Erro ao gerar PIX', type: 'error' });
       }
     } catch (error: any) {
-      console.error("Erro catastrófico no handleBuy:", error);
-      setNotification({ message: error.message || 'Erro de conexão com o servidor', type: 'error' });
+      setNotification({ message: error.message || 'Erro de conexão', type: 'error' });
     } finally {
       setLoadingPackageId(null);
     }
@@ -124,11 +137,11 @@ export default function CreditsPage() {
   useEffect(() => {
     let interval: NodeJS.Timeout;
 
-    if (showPixModal && pixData?.transaction_id && paymentStatus === 'pending') {
+    if (showPixModal && pixData?.order_id && paymentStatus === 'pending') {
       interval = setInterval(async () => {
         try {
-          const response = await apiService.checkout.getStatus(pixData.transaction_id, token || undefined);
-          if (response.status === 'completed') {
+          const response = await apiService.checkout.getOrderStatus(pixData.order_id, token || undefined);
+          if (response.status === 'PAID') {
             setPaymentStatus('completed');
             setNotification({ message: 'Pagamento confirmado com sucesso!', type: 'success' });
             if (refreshUser) refreshUser();
@@ -332,10 +345,16 @@ export default function CreditsPage() {
                   </div>
 
                   {/* QR Code */}
-                  <div className="bg-white p-6 rounded-2xl inline-block shadow-[0_0_50px_rgba(116,143,204,0.15)]">
-                    {pixData?.pix_code ? (
+                  <div className="bg-white p-4 rounded-2xl inline-block shadow-[0_0_50px_rgba(116,143,204,0.15)]">
+                    {pixData?.qr_code_image ? (
+                      <img 
+                        src={pixData.qr_code_image} 
+                        alt="QR Code PIX"
+                        className="w-[220px] h-[220px]"
+                      />
+                    ) : pixData?.qr_code_text ? (
                       <QRCodeSVG 
-                        value={pixData.pix_code} 
+                        value={pixData.qr_code_text} 
                         size={220}
                         level="M"
                         includeMargin={false}
@@ -365,7 +384,7 @@ export default function CreditsPage() {
                       <p className="text-[11px] text-[#B8BCC4] uppercase font-bold tracking-widest">Código PIX (Copia e Cola)</p>
                       <div className="flex gap-2">
                         <div className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-[#B8BCC4] truncate text-left font-mono">
-                          {pixData?.pix_code}
+                          {pixData?.qr_code_text}
                         </div>
                         <Button 
                           onClick={copyPixCode}
@@ -443,7 +462,7 @@ export default function CreditsPage() {
               Créditos insuficientes? Adquira mais e continue transformando memórias.
             </p>
             <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.3em] text-[#B8BCC4]/30 font-bold">
-              Ambiente de pagamento seguro · SyncPay Gateway · AureaIA™
+              Ambiente de pagamento seguro · PagSeguro (PagBank) · AureaIA™
             </p>
           </div>
         </motion.div>

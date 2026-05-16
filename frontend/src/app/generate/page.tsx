@@ -45,6 +45,14 @@ export default function GeneratePage() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showCreditModal, setShowCreditModal] = useState(false);
+  const { loading: authLoading } = useAuth();
+
+  // ─── Proteger rota ────────────────────────────────────────────────────────
+  React.useEffect(() => {
+    if (!authLoading && !token) {
+      router.push('/login');
+    }
+  }, [token, authLoading, router]);
 
   // ─── Carregar estilos do backend ──────────────────────────────────────────
   React.useEffect(() => {
