@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'ghost';
@@ -12,12 +13,12 @@ export const Button = ({
   className = '', 
   ...props 
 }: ButtonProps) => {
-  const baseStyles = "inline-flex items-center justify-center gap-2 rounded-[12px] font-medium transition-all duration-300 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none cursor-pointer";
+  const baseStyles = "relative inline-flex items-center justify-center gap-2 rounded-[14px] font-semibold transition-all duration-300 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed overflow-hidden";
   
   const variants = {
-    primary: "bg-[#748FCC] text-[#F5F5F7] hover:bg-[#5F7DB8] hover:shadow-[0_0_40px_rgba(116,143,204,0.35)]",
-    secondary: "bg-transparent text-[#748FCC] border border-[#748FCC] hover:bg-[rgba(116,143,204,0.12)] hover:text-[#5F7DB8]",
-    ghost: "bg-transparent text-[#F5F5F7] hover:bg-[#121417]"
+    primary: "bg-[#748FCC] text-[#F5F5F7] hover:bg-[#5F7DB8] shadow-lg shadow-[#748FCC]/20 hover:shadow-xl hover:shadow-[#748FCC]/30",
+    secondary: "bg-transparent text-[#748FCC] border border-[#748FCC]/50 hover:border-[#748FCC] hover:bg-[#748FCC]/5",
+    ghost: "bg-transparent text-[#F5F5F7] hover:bg-white/5"
   };
 
   return (
@@ -27,8 +28,17 @@ export const Button = ({
       {...props}
     >
       {isLoading ? (
-        <div className="w-5 h-5 border-2 border-[#F5F5F7]/20 border-t-[#F5F5F7] rounded-full animate-spin" />
-      ) : children}
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+          <span className="opacity-80">Carregando...</span>
+        </div>
+      ) : (
+        <span className="flex items-center gap-2">{children}</span>
+      )}
+      
+      {/* Subtle hover overlay */}
+      <div className="absolute inset-0 bg-white/10 opacity-0 hover:opacity-100 transition-opacity pointer-events-none" />
     </button>
   );
 };
+

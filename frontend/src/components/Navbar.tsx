@@ -23,10 +23,8 @@ export function Navbar() {
   const landingLinks = [
     { name: 'Início', href: '#hero' },
     { name: 'Como Funciona', href: '#como-funciona' },
-    { name: 'Exemplos', href: '#exemplos' },
+    { name: 'Galeria Editorial', href: '#exemplos' },
     { name: 'Planos', href: '/credits' },
-    { name: 'Sobre', href: '#sobre' },
-    { name: 'Contato', href: 'mailto:ola@aureaia.com' },
   ];
 
   const authLinks = [
@@ -34,7 +32,6 @@ export function Navbar() {
     { name: 'Galeria Privada', href: '/gallery', icon: Image },
     { name: 'Adquirir Créditos', href: '/credits', icon: CreditCard },
     { name: 'Minha Conta', href: '/dashboard', icon: User },
-    { name: 'Ateliê', href: '/help', icon: HelpCircle },
   ];
 
   const navItems = isLanding && !user ? landingLinks : authLinks;

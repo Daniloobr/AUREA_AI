@@ -178,7 +178,7 @@ export default function LandingPage() {
                 href="#exemplos"
                 className="h-14 px-8 text-sm font-semibold rounded-full border border-white/15 hover:border-white/30 transition-all inline-flex items-center gap-2 text-[#F5F5F7]"
               >
-                Ver exemplos
+                Explorar Galeria
                 <Play className="w-4 h-4 fill-current" />
               </Link>
             </div>
@@ -362,7 +362,7 @@ export default function LandingPage() {
       <section id="exemplos" className="py-28 sm:py-40 px-6 sm:px-8 bg-[#0A0A0A] scroll-mt-20">
         <div className="max-w-[1400px] mx-auto">
           <div className="text-center mb-16 sm:mb-20 space-y-5">
-            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.4em] text-[#748FCC]">Feito Para Você</span>
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.4em] text-[#748FCC]">Galeria Editorial</span>
             <h2 className="text-3xl sm:text-5xl md:text-6xl font-serif font-semibold tracking-tight text-[#F5F5F7]">
               Do seu jeito. Do <span className="italic">seu sonho.</span>
               <br />

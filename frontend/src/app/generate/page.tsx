@@ -167,7 +167,7 @@ export default function GeneratePage() {
     <div className="min-h-screen bg-[#0A0A0A] text-[#F5F5F7] flex flex-col lg:flex-row font-sans overflow-hidden">
 
       {/* ── Sidebar: Controles ─────────────────────────────────────────── */}
-      <div className="w-full lg:w-[480px] bg-[#121417] border-r border-[#1F2329] p-8 lg:p-10 flex flex-col pt-24 lg:h-screen overflow-y-auto shrink-0 z-10">
+      <div className="w-full lg:w-[460px] bg-[#121417] border-r border-[#1F2329] p-6 md:p-8 lg:p-10 flex flex-col pt-24 lg:h-screen overflow-y-auto shrink-0 z-10">
         <div className="space-y-10">
 
           {/* Cabeçalho do painel */}
@@ -269,7 +269,7 @@ export default function GeneratePage() {
 
       {/* ── Área principal: Seleção de estilo ─────────────────────────── */}
       {/* Layout de grid preservado integralmente */}
-      <div className="flex-1 lg:h-screen overflow-y-auto p-8 lg:p-16 bg-[#0A0A0A] relative pt-24 lg:pt-32 z-10">
+      <div className="flex-1 lg:h-screen overflow-y-auto p-6 md:p-10 lg:p-16 bg-[#0A0A0A] relative pt-12 lg:pt-32 z-10">
         <div className="max-w-5xl mx-auto space-y-12">
           <header className="space-y-4">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/8 text-[#748FCC] font-bold text-[10px] tracking-[0.2em] uppercase">

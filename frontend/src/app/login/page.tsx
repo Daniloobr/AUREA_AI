@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { apiService } from '@/services/api';
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
-import { ArrowRight, Mail, Lock, Loader2, Sparkles, AlertCircle } from 'lucide-react';
+import { ArrowRight, Mail, Lock, Loader2, Sparkles, AlertCircle, User } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
 export default function LoginPage() {
@@ -78,87 +78,102 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-[#F5F5F7] flex flex-col md:flex-row font-sans">
+    <div className="min-h-screen bg-[#0A0A0A] text-[#F5F5F7] flex items-center justify-center font-sans relative overflow-hidden">
       
-      {/* Image Column */}
-      <div className="hidden lg:block w-1/2 relative overflow-hidden">
+      {/* Background Image with Overlay */}
+      <div className="absolute inset-0 z-0">
         <img 
-          src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1600&auto=format&fit=crop&grayscale=true" 
+          src="/images/login-bg.png" 
           alt="AureaIA Experience" 
-          className="w-full h-full object-cover opacity-60 grayscale"
+          className="w-full h-full object-cover opacity-50"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A] via-transparent to-transparent" />
-        <div className="absolute bottom-20 left-20 space-y-4">
-          <h2 className="text-6xl font-medium tracking-tight">Sua luz,<br /><span className="text-[#B8BCC4]">eternizada.</span></h2>
-        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A]/80 via-[#0A0A0A]/40 to-[#0A0A0A]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-transparent to-[#0A0A0A]/90" />
       </div>
 
-      {/* Form Column */}
-      <div className="flex-1 flex items-center justify-center p-6">
+      <div className="container relative z-10 flex items-center justify-center p-6">
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          className="w-full max-w-[400px] space-y-12"
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="w-full max-w-[480px] bg-[#0D0D10]/80 backdrop-blur-2xl p-8 md:p-12 rounded-[32px] border border-white/10 shadow-2xl shadow-black/50"
         >
-          <div className="space-y-4">
-            <div className="w-12 h-12 rounded-[12px] bg-[#748FCC] flex items-center justify-center">
-              <Sparkles className="w-6 h-6 text-[#F5F5F7]" />
-            </div>
-            <h1 className="text-4xl font-serif font-medium tracking-tight text-[#F5F5F7]">Bem-vinda de volta.</h1>
-            <p className="text-[#B8BCC4] font-light">Acesse seu estúdio particular e continue eternizando momentos únicos.</p>
+          <div className="space-y-4 mb-10 text-center">
+            <motion.div 
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.2, type: "spring" }}
+              className="w-16 h-16 rounded-[20px] bg-[#748FCC] flex items-center justify-center mx-auto shadow-lg shadow-[#748FCC]/20"
+            >
+              <Sparkles className="w-8 h-8 text-[#F5F5F7]" />
+            </motion.div>
+            <h1 className="text-4xl font-serif font-medium tracking-tight text-[#F5F5F7]">Bem-vinda de volta</h1>
+            <p className="text-[#B8BCC4] font-light italic">Acesse seu estúdio e eternize sua história.</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
-              <label className="text-[11px] font-bold text-[#B8BCC4] uppercase tracking-widest">E-mail</label>
-              <input 
-                type="email" 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full h-12 px-4 rounded-[12px] bg-[#121417] border border-[#1F2329] focus:border-[#748FCC] focus:outline-none transition-all text-[#F5F5F7] placeholder:text-[#8A9099]/30"
-                placeholder="seu@email.com"
-                required 
-              />
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="space-y-2 group">
+              <label className="text-[11px] font-bold text-[#B8BCC4] uppercase tracking-widest ml-1 transition-colors group-focus-within:text-[#748FCC]">E-mail</label>
+              <div className="relative">
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#B8BCC4]/40" />
+                <input 
+                  type="email" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full h-13 pl-11 pr-4 rounded-[16px] bg-[#121417]/50 border border-[#1F2329] focus:border-[#748FCC] focus:bg-[#121417] focus:outline-none transition-all text-[#F5F5F7] placeholder:text-[#8A9099]/30"
+                  placeholder="seu@email.com"
+                  required 
+                />
+              </div>
             </div>
             
-            <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <label className="text-[11px] font-bold text-[#B8BCC4] uppercase tracking-widest">Senha</label>
-                <Link href="/forgot-password" className="text-[11px] font-bold text-[#748FCC] hover:text-[#5F7DB8] transition-colors uppercase tracking-widest">Esqueci</Link>
-
+            <div className="space-y-2 group">
+              <div className="flex justify-between items-center ml-1">
+                <label className="text-[11px] font-bold text-[#B8BCC4] uppercase tracking-widest transition-colors group-focus-within:text-[#748FCC]">Senha</label>
+                <Link href="/forgot-password" disabled className="text-[10px] font-bold text-[#748FCC]/80 hover:text-[#748FCC] transition-colors uppercase tracking-widest">Esqueci a senha</Link>
               </div>
-              <input 
-                type="password" 
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full h-12 px-4 rounded-[12px] bg-[#121417] border border-[#1F2329] focus:border-[#748FCC] focus:outline-none transition-all text-[#F5F5F7] placeholder:text-[#8A9099]/30"
-                placeholder="••••••••"
-                required 
-              />
+              <div className="relative">
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#B8BCC4]/40" />
+                <input 
+                  type="password" 
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full h-13 pl-11 pr-4 rounded-[16px] bg-[#121417]/50 border border-[#1F2329] focus:border-[#748FCC] focus:bg-[#121417] focus:outline-none transition-all text-[#F5F5F7] placeholder:text-[#8A9099]/30"
+                  placeholder="••••••••"
+                  required 
+                />
+              </div>
             </div>
 
-            {error && (
-              <div className="flex items-center gap-3 text-red-500 text-sm font-light bg-red-500/10 p-4 rounded-[12px]">
-                <AlertCircle className="w-4 h-4" />
-                <span>{error}</span>
-              </div>
-            )}
+            <AnimatePresence>
+              {error && (
+                <motion.div 
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="flex items-center gap-3 text-red-400 text-sm font-light bg-red-400/10 p-4 rounded-[16px] border border-red-400/20"
+                >
+                  <AlertCircle className="w-4 h-4 shrink-0" />
+                  <span>{error}</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
             
             <Button 
               type="submit" 
               isLoading={loading}
-              className="w-full h-12"
+              className="w-full h-14 rounded-[16px] bg-[#748FCC] hover:bg-[#5F7DB8] shadow-xl shadow-[#748FCC]/20 text-[15px] font-bold tracking-wide"
             >
-              Entrar
+              Entrar no Studio
             </Button>
           </form>
 
-          <div className="relative">
+          <div className="relative my-8">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-[#1F2329]"></div>
+              <div className="w-full border-t border-white/5"></div>
             </div>
-            <div className="relative flex justify-center text-[11px] uppercase tracking-widest font-bold">
-              <span className="bg-[#0A0A0A] px-4 text-[#8A9099]">Ou continue com</span>
+            <div className="relative flex justify-center text-[10px] uppercase tracking-[0.2em] font-bold">
+              <span className="bg-[#0D0D10]/0 px-4 text-[#B8BCC4]/60">ou acesse com</span>
             </div>
           </div>
 
@@ -166,7 +181,7 @@ export default function LoginPage() {
             type="button"
             onClick={handleGoogleLogin}
             disabled={loading}
-            className="w-full h-12 flex items-center justify-center gap-3 bg-white text-[#0A0A0A] rounded-[12px] font-medium hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full h-13 flex items-center justify-center gap-3 bg-white text-[#0A0A0A] rounded-[16px] font-bold text-[14px] hover:bg-gray-100 transition-all active:scale-[0.98] disabled:opacity-50"
           >
             <svg viewBox="0 0 24 24" className="w-5 h-5">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
@@ -177,9 +192,11 @@ export default function LoginPage() {
             Entrar com Google
           </button>
 
-          <p className="text-center text-sm text-[#B8BCC4]">
-            Primeira vez aqui?{' '}<Link href="/register" className="text-[#F5F5F7] hover:text-[#B8BCC4] transition-colors font-medium underline underline-offset-4">Criar sua conta</Link>
-          </p>
+          <div className="mt-10 text-center">
+            <p className="text-sm text-[#B8BCC4]">
+              Ainda não tem conta?{' '}<Link href="/register" className="text-[#F5F5F7] hover:text-[#748FCC] transition-all font-medium border-b border-[#F5F5F7]/30 hover:border-[#748FCC]">Criar meu acesso</Link>
+            </p>
+          </div>
         </motion.div>
       </div>
     </div>
