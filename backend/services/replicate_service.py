@@ -65,9 +65,9 @@ def generate_images(
             
         if not token or 'YOUR_' in token:
             raise ValueError("Replicate API token is missing.")
-            
-        import replicate
-        replicate.api_token = token
+
+        # Garante que a env var também está limpa (sem \n)
+        os.environ['REPLICATE_API_TOKEN'] = token
 
         logger.info(f"Starting Imagen 4 Ultra Generation...")
         logger.info(f"  prompt: {prompt[:80]}...")
@@ -83,7 +83,7 @@ def generate_images(
             "safety_filter_level": safety_filter_level
         }
 
-        client = replicate.Client()
+        client = replicate.Client(api_token=token)
         output = client.run(
             Config.REPLICATE_MODEL_SLUG,
             input=replicate_input
