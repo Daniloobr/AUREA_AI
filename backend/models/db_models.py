@@ -61,9 +61,6 @@ class Transaction(db.Model):
     description = db.Column(db.String(255))
     status = db.Column(db.String(20), default='completed') # 'pending', 'completed', 'failed'
     external_id = db.Column(db.String(100), unique=True, nullable=True) # PagSeguro Order ID or Legacy ID
-    pagseguro_order_id = db.Column(db.String(100), nullable=True)
-    pagseguro_charge_id = db.Column(db.String(100), nullable=True)
-    paid_amount = db.Column(db.Float, nullable=True) # BRL value
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 class GenerationJob(db.Model):

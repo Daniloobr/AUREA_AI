@@ -94,7 +94,8 @@ def generate_images(
                 replicate_input["main_face_image"] = image_file
 
         try:
-            output = replicate.run(
+            client = replicate.Client(api_token=token)
+            output = client.run(
                 Config.REPLICATE_MODEL_SLUG,
                 input=replicate_input
             )

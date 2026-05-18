@@ -17,6 +17,15 @@ export default function LoginPage() {
   const { login } = useAuth();
 
   React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('expired') === 'true') {
+        setError('Sessão expirada. Por favor, faça login novamente.');
+      }
+    }
+  }, []);
+
+  React.useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === 'SIGNED_IN' && session) {
         setLoading(true);

@@ -26,6 +26,16 @@ export const apiService = {
         headers,
         credentials: 'include',
       });
+      
+      if (response.status === 401) {
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('auth_token');
+          document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+          window.location.href = '/login?expired=true';
+        }
+        return { success: false, error: 'Sessão expirada. Por favor, faça login novamente.' };
+      }
+      
       const contentType = response.headers.get("content-type");
       if (contentType && contentType.indexOf("application/json") !== -1) {
         return await response.json();
@@ -55,6 +65,15 @@ export const apiService = {
         credentials: 'include',
       });
       
+      if (response.status === 401) {
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('auth_token');
+          document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+          window.location.href = '/login?expired=true';
+        }
+        return { success: false, error: 'Sessão expirada. Por favor, faça login novamente.' };
+      }
+      
       const contentType = response.headers.get("content-type");
       if (contentType && contentType.indexOf("application/json") !== -1) {
         return await response.json();
@@ -80,6 +99,16 @@ export const apiService = {
       headers,
       credentials: 'include',
     });
+    
+    if (response.status === 401) {
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('auth_token');
+        document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+        window.location.href = '/login?expired=true';
+      }
+      return { success: false, error: 'Sessão expirada. Por favor, faça login novamente.' };
+    }
+    
     return response.json();
   }
 };

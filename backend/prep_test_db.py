@@ -23,8 +23,7 @@ with app.app_context():
         type='purchase',
         amount=100,
         status='pending',
-        external_id=identifier,
-        paid_amount=25.00
+        external_id=identifier
     )
     db.session.add(txn)
     db.session.commit()
