@@ -1,16 +1,13 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Check, Sparkles, ShieldCheck, Gem, Star, Zap, 
-  ArrowRight, Clock, Camera, Download, X, Copy, 
-  CheckCircle2, Loader2, QrCode, CreditCard
+  ArrowRight, Clock, Camera, Download, X, CheckCircle2
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useAuth } from '@/contexts/AuthContext';
-import { apiService } from '@/services/api';
-import { QRCodeSVG } from 'qrcode.react';
 
 /* ═══════════════════════════════════════════════════════════════════════════
    PACOTES
@@ -24,6 +21,7 @@ const PACKAGES = [
     priceValue: 25.00,
     icon: Zap,
     badge: null,
+    link: 'https://syncpay.link/9nyBou',
     features: [
       '4 ensaios completos',
       'Acesso a todos os estilos',
@@ -40,6 +38,7 @@ const PACKAGES = [
     popular: true,
     icon: Sparkles,
     badge: '✦ Mais Escolhido',
+    link: 'https://syncpay.link/8IH7fr',
     features: [
       '8 ensaios completos',
       'Acesso a todos os estilos',
@@ -56,6 +55,7 @@ const PACKAGES = [
     priceValue: 120.00,
     icon: Gem,
     badge: 'VIP',
+    link: 'https://syncpay.link/Gyu2QM',
     features: [
       '16 ensaios completos',
       'Acesso a todos os estilos',
@@ -66,120 +66,9 @@ const PACKAGES = [
   },
 ];
 
-interface PixData {
-  order_id: string;
-  qr_code_text: string;
-  qr_code_image: string;
-  package_name: string;
-  amount: number;
-}
-
 export default function CreditsPage() {
-  const { user, token, refreshUser } = useAuth();
-  const [loading, setLoading] = useState(false);
-  const [showPixModal, setShowPixModal] = useState(false);
-  const [showCpfModal, setShowCpfModal] = useState(false);
-  const [selectedPkg, setSelectedPkg] = useState<typeof PACKAGES[0] | null>(null);
-  const [cpf, setCpf] = useState('');
-  const [pixData, setPixData] = useState<PixData | null>(null);
-  const [copied, setCopied] = useState(false);
-  const [paymentStatus, setPaymentStatus] = useState<'pending' | 'completed' | 'failed'>('pending');
+  const { user } = useAuth();
   const [notification, setNotification] = useState<{message: string, type: 'success' | 'error'} | null>(null);
-
-  // Carregar CPF do usuário se existir
-  useEffect(() => {
-    if (user?.cpf) setCpf(user.cpf);
-  }, [user]);
-
-  // Função para copiar código PIX
-  const copyPixCode = () => {
-    if (pixData?.qr_code_text) {
-      navigator.clipboard.writeText(pixData.qr_code_text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
-  };
-
-  // Iniciar fluxo de compra
-  const handlePackageSelect = (pkg: typeof PACKAGES[0]) => {
-    if (!user) {
-      setNotification({ message: 'Você precisa estar logado para comprar créditos.', type: 'error' });
-      return;
-    }
-    setSelectedPkg(pkg);
-    setShowCpfModal(true);
-  };
-
-  const handleGeneratePix = async () => {
-    if (!selectedPkg || !cpf) return;
-    
-    // Validação básica de CPF (apenas números)
-    const cleanCpf = cpf.replace(/\D/g, '');
-    if (cleanCpf.length !== 11) {
-      setNotification({ message: 'Por favor, informe um CPF válido.', type: 'error' });
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const response = await apiService.checkout.createPixPayment({
-        amount: Math.round(selectedPkg.priceValue * 100),
-        customer_name: user!.name,
-        customer_email: user!.email,
-        customer_tax_id: cleanCpf,
-        package_id: selectedPkg.id
-      }, token || undefined);
-      
-      if (response.success) {
-        setPixData({
-          order_id: response.order_id,
-          qr_code_text: response.qr_code_text,
-          qr_code_image: response.qr_code_image,
-          package_name: selectedPkg.name,
-          amount: selectedPkg.priceValue
-        });
-        setPaymentStatus('pending');
-        setShowCpfModal(false);
-        setShowPixModal(true);
-      } else {
-        setNotification({ message: response.error || 'Erro ao gerar PIX', type: 'error' });
-      }
-    } catch (error: any) {
-      setNotification({ message: error.message || 'Erro de conexão', type: 'error' });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Polling de status do pagamento
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-
-    if (showPixModal && pixData?.order_id && paymentStatus === 'pending') {
-      interval = setInterval(async () => {
-        try {
-          const response = await apiService.checkout.getOrderStatus(pixData.order_id, token || undefined);
-          if (response.status === 'PAID') {
-            setPaymentStatus('completed');
-            setNotification({ message: 'Pagamento confirmado com sucesso!', type: 'success' });
-            if (refreshUser) refreshUser();
-            
-            setTimeout(() => {
-              setShowPixModal(false);
-              setPixData(null);
-              setSelectedPkg(null);
-            }, 3000);
-          }
-        } catch (error) {
-          console.error('Erro ao verificar status:', error);
-        }
-      }, 5000);
-    }
-
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [showPixModal, pixData, paymentStatus, refreshUser, token]);
 
   // Limpar notificação
   useEffect(() => {
@@ -188,6 +77,15 @@ export default function CreditsPage() {
       return () => clearTimeout(timer);
     }
   }, [notification]);
+
+  const handlePackageSelect = (pkg: typeof PACKAGES[0]) => {
+    if (!user) {
+      setNotification({ message: 'Você precisa estar logado para comprar créditos.', type: 'error' });
+      return;
+    }
+    // Redireciona para o link de checkout do SyncPay
+    window.location.href = pkg.link;
+  };
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-[#F5F5F7] pt-24 pb-32 px-4 sm:px-6 relative overflow-x-hidden">
@@ -293,99 +191,13 @@ export default function CreditsPage() {
           ))}
         </div>
 
-        {/* Modal CPF */}
-        <AnimatePresence>
-          {showCpfModal && (
-            <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                className="bg-[#121417] border border-[#1F2329] rounded-[32px] w-full max-w-md p-8 sm:p-10 relative shadow-2xl"
-              >
-                <button onClick={() => setShowCpfModal(false)} className="absolute top-6 right-6 text-[#B8BCC4] hover:text-white"><X /></button>
-                <div className="text-center space-y-6">
-                  <div className="w-16 h-16 bg-[#748FCC]/10 rounded-full flex items-center justify-center mx-auto">
-                    <CreditCard className="w-8 h-8 text-[#748FCC]" />
-                  </div>
-                  <h2 className="text-2xl font-serif font-semibold">Dados de Faturamento</h2>
-                  <p className="text-sm text-[#B8BCC4] font-light">Para gerar o PIX com segurança, precisamos do seu CPF.</p>
-                  <div className="space-y-4">
-                    <input 
-                      type="text" 
-                      placeholder="000.000.000-00"
-                      value={cpf}
-                      onChange={(e) => setCpf(e.target.value)}
-                      className="w-full h-14 bg-white/5 border border-white/10 rounded-xl px-6 text-center text-lg focus:border-[#748FCC] focus:ring-1 focus:ring-[#748FCC] outline-none transition-all"
-                    />
-                    <Button 
-                      onClick={handleGeneratePix} 
-                      disabled={loading || cpf.length < 11}
-                      className="w-full h-14 rounded-xl"
-                    >
-                      {loading ? <Loader2 className="animate-spin mr-2" /> : null}
-                      Gerar PIX Agora
-                    </Button>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          )}
-        </AnimatePresence>
-
-        {/* Modal PIX */}
-        <AnimatePresence>
-          {showPixModal && (
-            <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                className="bg-[#121417] border border-[#1F2329] rounded-[32px] w-full max-w-lg p-10 text-center space-y-8 relative shadow-2xl"
-              >
-                <button onClick={() => setShowPixModal(false)} className="absolute top-6 right-6 text-[#B8BCC4] hover:text-white"><X /></button>
-                <div className="space-y-2">
-                  <h2 className="text-2xl font-serif font-semibold">Finalize seu Pagamento</h2>
-                  <p className="text-[#B8BCC4] font-light">Pacote {pixData?.package_name} · R$ {pixData?.amount.toFixed(2)}</p>
-                </div>
-                
-                <div className="bg-white p-4 rounded-2xl inline-block">
-                  {pixData?.qr_code_image ? (
-                    <img src={pixData.qr_code_image} alt="PIX" className="w-[220px] h-[220px]" />
-                  ) : (
-                    <QRCodeSVG value={pixData?.qr_code_text || ''} size={220} />
-                  )}
-                </div>
-
-                <div className="space-y-4">
-                  <div className="flex items-center justify-center gap-2 text-sm text-[#B8BCC4]">
-                    {paymentStatus === 'pending' ? (
-                      <><Loader2 className="animate-spin w-4 h-4" /> Aguardando pagamento...</>
-                    ) : (
-                      <span className="text-emerald-400 font-bold flex items-center gap-2"><CheckCircle2 /> Pagamento Confirmado!</span>
-                    )}
-                  </div>
-                  <div className="flex gap-2">
-                    <div className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-[#B8BCC4] truncate font-mono">
-                      {pixData?.qr_code_text}
-                    </div>
-                    <Button onClick={copyPixCode} variant="secondary" className="px-4">
-                      {copied ? <Check className="text-emerald-400" /> : <Copy className="w-4 h-4" />}
-                    </Button>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          )}
-        </AnimatePresence>
-
         {/* Garantias */}
         <div className="bg-[#121417] border border-[#1F2329] rounded-[32px] p-14 text-center">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
             <div className="space-y-4">
-              <ShieldCheck className="w-10 h-10 text-[#748FCC] mx-auto" />
+               <ShieldCheck className="w-10 h-10 text-[#748FCC] mx-auto" />
               <h4 className="font-semibold">Pagamento Seguro</h4>
-              <p className="text-sm text-[#B8BCC4] font-light">Processado via PagSeguro PIX</p>
+              <p className="text-sm text-[#B8BCC4] font-light">Processado via SyncPay</p>
             </div>
             <div className="space-y-4">
               <Clock className="w-10 h-10 text-[#748FCC] mx-auto" />
