@@ -52,6 +52,7 @@ def process_generation_pipeline(app, job_id, image_urls, tipo_ensaio, custom_pro
     Background thread that processes the AI generation.
     """
     with app.app_context():
+        job = None
         try:
             job = GenerationJob.query.get(job_id)
             if not job: return
@@ -123,7 +124,7 @@ def process_generation_pipeline(app, job_id, image_urls, tipo_ensaio, custom_pro
                     negative_prompt=negative_prompt,
                     id_weight=0.8 if best_face_local_path else 0.0,
                     guidance_scale=7.0,
-                    num_steps=30,
+                    num_steps=20,
                     job_id=job.id
                 )
 
@@ -175,14 +176,19 @@ def process_generation_pipeline(app, job_id, image_urls, tipo_ensaio, custom_pro
 
         except Exception as e:
             logger.error(f"Error in pipeline for job {job_id}: {e}")
-            job.status = "failed"
-            job.error = str(e)
-            job.message = "Ocorreu um erro técnico. Suas moedas foram reembolsadas."
-            db.session.commit()
-
-            # Automatic Refund
-            if job.cost_moedas > 0:
-                refund_credits(job.user_id, job.cost_moedas, f"Falha automática: {str(e)[:100]}")
+            db.session.rollback()
+            if job:
+                try:
+                    job.status = "failed"
+                    job.error = str(e)
+                    job.message = "Ocorreu um erro técnico. Suas moedas foram reembolsadas."
+                    db.session.commit()
+                    
+                    # Automatic Refund
+                    if job.cost_moedas > 0:
+                        refund_credits(job.user_id, job.cost_moedas, f"Falha automática: {str(e)[:100]}")
+                except Exception as inner_e:
+                    logger.error(f"Could not rollback/refund job {job_id}: {inner_e}")
 
 def queue_generation(user_id: str, image_urls: list = None, tipo_ensaio: str = None, prompt: str = None) -> str:
     """
