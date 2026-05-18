@@ -1,22 +1,65 @@
-# Python
+# ══════════════════════════════════════════════════════════════
+# Arquivos de Chaves e Ambientes (Segurança)
+# ══════════════════════════════════════════════════════════════
+.env
+.env.local
+.env.*
+!.env.example
+
+# Credenciais, Certificados e Chaves Privadas
+*.pem
+*.key
+*.p12
+*.pfx
+*.cert
+id_rsa
+id_rsa.pub
+secrets.json
+credentials.json
+
+# ══════════════════════════════════════════════════════════════
+# Python (Backend)
+# ══════════════════════════════════════════════════════════════
 __pycache__/
 *.py[cod]
 *$py.class
 venv/
 .venv/
 env/
-.env
+/env/
+/venv/
 *.db
 instance/
+backend/uploads/*
+!backend/uploads/.gitkeep
 
-# Node
+# ══════════════════════════════════════════════════════════════
+# Node / React (Frontend)
+# ══════════════════════════════════════════════════════════════
 node_modules/
+/node_modules/
 dist/
 .next/
+/.next/
 out/
 build/
 *.log
 
-# OS
+# ══════════════════════════════════════════════════════════════
+# Configurações de IDEs e Editores
+# ══════════════════════════════════════════════════════════════
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# ══════════════════════════════════════════════════════════════
+# Sistema Operacional
+# ══════════════════════════════════════════════════════════════
 .DS_Store
 Thumbs.db
+Desktop.ini
+
