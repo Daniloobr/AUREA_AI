@@ -8,7 +8,6 @@ from database import db
 from models.db_models import GenerationJob, User, Transaction
 from services.replicate_service import generate_with_retry, download_generated_image
 from services.prompt_engine import generate_prompt, generate_negative_prompt
-from services import face_service
 from config import Config
 import logging
 import json
@@ -58,79 +57,25 @@ def process_generation_pipeline(app, job_id, image_urls, tipo_ensaio, custom_pro
             if not job: return
 
             # 1. Prepare Prompts
-            prompt = generate_prompt(tipo_ensaio, subject_description=custom_prompt or "")
+            prompt = generate_prompt(tipo_ensaio, subject_description=custom_prompt or "", use_identity_text=False)
             negative_prompt = generate_negative_prompt()
 
-            # 2. Process input images and pick the best one
-            local_input_path = None
+            # 2. Call Replicate (Real AI)
             if image_urls:
                 job.status = "validating"
                 job.progress = 10
-                job.message = "Analisando ângulos e qualidade das fotos..."
+                job.message = "Verificando parâmetros de geração..."
                 db.session.commit()
 
-                local_paths = []
-                temp_files = []
-                for url in image_urls:
-                    if url.startswith('http'):
-                        # Download cloud image for local processing (face detection)
-                        try:
-                            resp = requests.get(url, timeout=30)
-                            resp.raise_for_status()
-                            filename = f"temp_{uuid.uuid4().hex[:8]}_{os.path.basename(url.split('?')[0])}"
-                            temp_path = os.path.join(Config.UPLOAD_FOLDER, filename)
-                            with open(temp_path, 'wb') as f:
-                                f.write(resp.content)
-                            local_paths.append(temp_path)
-                            temp_files.append(temp_path)
-                        except Exception as e:
-                            logger.warning(f"Could not download image from {url}: {e}")
-                    else:
-                        # Check local path (fallback/migration)
-                        filename = os.path.basename(url)
-                        p = os.path.join(Config.UPLOAD_FOLDER, filename)
-                        if os.path.exists(p):
-                            local_paths.append(p)
-                
-                if not local_paths:
-                    raise FileNotFoundError("Nenhuma das imagens de referência pôde ser acessada.")
+            job.status = "generating"
+            job.progress = 50
+            job.message = "Processando sua obra de arte via Google Imagen 4 Ultra..."
+            db.session.commit()
 
-                # Use face_service to rank images and pick the best face
-                ranked_faces = face_service.get_face_quality_rank(local_paths)
-                
-                best_face_local_path = None
-                if ranked_faces:
-                    # Pick the best one
-                    best_face = ranked_faces[0]
-                    best_face_local_path = best_face["face_crop_path"]
-                    logger.info(f"Melhor rosto selecionado para geração: {best_face_local_path}")
-                else:
-                    # Fallback to the first image if no face detected in any
-                    best_face_local_path = local_paths[0]
-                    logger.warning("Nenhum rosto claro detectado. Usando a primeira imagem como fallback.")
-
-                # 3. Call Replicate (Real AI)
-                job.status = "generating"
-                job.progress = 50
-                job.message = "Processando sua obra de arte via FLUX + PuLID..."
-                db.session.commit()
-
-                # IMPORTANT: If we have a face crop, we upload it to Supabase so Replicate can access it
-                # because Replicate needs a public URL or a file stream.
-                # We'll pass the local path to replicate_service which handles the upload/stream.
-                ai_result = generate_with_retry(
-                    image_path=best_face_local_path,
-                    prompt=prompt,
-                    negative_prompt=negative_prompt,
-                    id_weight=0.8 if best_face_local_path else 0.0,
-                    guidance_scale=7.0,
-                    num_steps=20,
-                    job_id=job.id
-                )
-
-                # Cleanup temp input files
-                for f in temp_files:
-                    if os.path.exists(f): os.remove(f)
+            ai_result = generate_with_retry(
+                prompt=prompt,
+                job_id=job.id
+            )
 
             if ai_result["success"] and ai_result["images"]:
                 # 4. Process and Save Outputs

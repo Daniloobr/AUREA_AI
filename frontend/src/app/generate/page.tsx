@@ -237,20 +237,28 @@ export default function GeneratePage() {
             </div>
           </section>
 
-          {/* Seção 2 — Toque especial (opcional) */}
+          {/* Seção 2 — Toque especial (Importante) */}
           <section className="space-y-4">
             <div className="flex items-center gap-2 mb-2">
               <div className="w-6 h-6 rounded-full bg-white/5 border border-white/8 flex items-center justify-center text-[#748FCC] shadow-sm">
                 <span className="text-xs font-bold">2</span>
               </div>
               <label className="text-[10px] font-bold text-[#B8BCC4] uppercase tracking-[0.2em]">
-                Toque Especial (Opcional)
+                Sua Descrição Física (Importante)
               </label>
             </div>
+
+            <div className="flex items-start gap-2 p-3 bg-[#748FCC]/10 rounded-[12px] border border-[#748FCC]/20">
+              <Info className="w-4 h-4 text-[#748FCC] shrink-0 mt-0.5" />
+              <p className="text-[11px] text-[#B8BCC4] leading-relaxed">
+                <strong className="text-[#F5F5F7]">Modelo Ultra Realista:</strong> Este novo motor gera resultados de altíssima qualidade, mas <strong>não preserva a identidade facial exata</strong> das fotos. Descreva suas características (cor do cabelo, pele, etnia) para um resultado mais parecido com você.
+              </p>
+            </div>
+
             <textarea
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              placeholder="Ex: Em um jardim de lavandas sob a luz suave do outono..."
+              placeholder="Ex: Mulher de pele morena, cabelos cacheados escuros, olhos castanhos..."
               className="w-full h-24 p-4 rounded-[16px] bg-[#0A0A0A] border border-[#1F2329] focus:border-[#748FCC] focus:outline-none text-sm placeholder:text-[#F5F5F7]/10 transition-all resize-none font-light"
             />
           </section>

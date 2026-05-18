@@ -136,9 +136,9 @@ export default function HistoryPage() {
               >
                 <div className="relative h-full w-full">
                   {/* Imagem concluída */}
-                  {item.status === 'completed' && item.images?.length > 0 ? (
+                  {item.status === 'completed' && (item.result?.result_url || item.result_url || (item.images && item.images.length > 0)) ? (
                     <img
-                      src={getImageUrl(item.images[0])}
+                      src={getImageUrl(item.result?.result_url || item.result_url || item.images[0])}
                       alt={item.tipo_ensaio || 'Obra de Arte'}
                       className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110 opacity-80 group-hover:opacity-100"
                     />
@@ -179,7 +179,7 @@ export default function HistoryPage() {
                           </div>
                           {/* TODO: integrar com URL assinada do backend para download */}
                           <a
-                            href={getImageUrl(item.images?.[0])}
+                            href={getImageUrl(item.result?.result_url || item.result_url || item.images?.[0])}
                             target="_blank"
                             rel="noopener noreferrer"
                             title="Baixar em alta resolução"

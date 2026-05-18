@@ -23,27 +23,23 @@ logger = logging.getLogger(__name__)
 
 
 def generate_images(
-    image_path: str,
     prompt: str,
-    negative_prompt: str = None,
-    num_outputs: int = 1,
+    aspect_ratio: str = "16:9",
     seed: int = None,
-    id_weight: float = 1.0,
-    guidance_scale: float = 3.5,
-    num_steps: int = 20,
+    output_format: str = "jpg",
+    safety_filter_level: str = "block_only_high",
     **kwargs
 ) -> dict:
     """
-    Calls Replicate API to generate images using FLUX + PuLID.
+    Calls Replicate API to generate images using google/imagen-4-ultra.
     
     Args:
-        image_path: Local path to the reference face image (main_face)
         prompt: Full generation prompt
-        num_outputs: Number of variations (always 1 for rate-limiting)
+        aspect_ratio: Aspect ratio ("1:1", "16:9", "9:16", etc)
         seed: Random seed
-        id_weight: How strongly to preserve face identity (0.0-1.0)
-        guidance_scale: Prompt adherence
-        num_steps: Inference steps (20 is ideal for FLUX Schnell/Dev)
+        output_format: Image format ("jpg", "png")
+        safety_filter_level: Safety filter level
+    
     
     Returns:
         dict with 'success', 'images' (list of URLs), 'seed', 'error'
@@ -73,44 +69,25 @@ def generate_images(
         import replicate
         replicate.api_token = token
 
-        logger.info(f"Starting FLUX-PuLID Generation...")
+        logger.info(f"Starting Imagen 4 Ultra Generation...")
         logger.info(f"  prompt: {prompt[:80]}...")
-        logger.info(f"  id_weight: {id_weight}, seed: {seed}")
+        logger.info(f"  seed: {seed}")
 
         start_time = time.time()
 
         # Build input
         replicate_input = {
             "prompt": prompt,
-            "negative_prompt": negative_prompt or "",
-            "width": 896,
-            "height": 1152,
-            "num_steps": num_steps,
-            "guidance_scale": guidance_scale,
-            "id_weight": id_weight,
-            "seed": seed,
-            "true_cfg": 1.0, 
+            "aspect_ratio": aspect_ratio,
+            "output_format": output_format,
+            "safety_filter_level": safety_filter_level
         }
 
-        if image_path:
-            if image_path.startswith('http'):
-                # Pass URL directly to Replicate
-                replicate_input["main_face_image"] = image_path
-            else:
-                if not os.path.exists(image_path):
-                    raise FileNotFoundError(f"Image not found: {image_path}")
-                image_file = open(image_path, "rb")
-                replicate_input["main_face_image"] = image_file
-
-        try:
-            client = replicate.Client()
-            output = client.run(
-                Config.REPLICATE_MODEL_SLUG,
-                input=replicate_input
-            )
-        finally:
-            if image_path and not image_path.startswith('http') and 'image_file' in locals():
-                image_file.close()
+        client = replicate.Client()
+        output = client.run(
+            Config.REPLICATE_MODEL_SLUG,
+            input=replicate_input
+        )
 
         elapsed = round(time.time() - start_time, 2)
         result["generation_time"] = elapsed
@@ -118,7 +95,7 @@ def generate_images(
         # Process output
         images = []
         if output:
-            # Replicate output for flux-pulid is usually a single URL or list of one
+            # Replicate output for imagen-4-ultra is an object or list
             if isinstance(output, list):
                 for item in output:
                     images.append(str(item.url) if hasattr(item, 'url') else str(item))
@@ -130,7 +107,7 @@ def generate_images(
         if images:
             result["success"] = True
             result["images"] = images
-            logger.info(f"FLUX-PuLID Complete: {len(images)} images in {elapsed}s")
+            logger.info(f"Imagen 4 Ultra Complete: {len(images)} images in {elapsed}s")
             
             # Atualiza o job no banco de dados se job_id foi fornecido
             job_id = kwargs.get('job_id')
@@ -155,21 +132,21 @@ def generate_images(
                     logger.error(f"[Replicate Service] Erro ao atualizar job {job_id} no banco: {db_err}")
         else:
             result["error"] = "Replicate returned empty output"
-            logger.error("No images returned from FLUX-PuLID")
+            logger.error("No images returned from Imagen 4 Ultra")
 
     except Exception as e:
         error_str = str(e)
         if '429' in error_str or 'throttled' in error_str.lower() or 'rate limit' in error_str.lower():
             result["error"] = "RATE_LIMITED"
-            logger.warning("Rate limit hit in FLUX-PuLID")
+            logger.warning("Rate limit hit in Imagen 4 Ultra")
         else:
-            result["error"] = f"FLUX error: {error_str}"
+            result["error"] = f"Imagen error: {error_str}"
             logger.error(f"Replicate error: {e}", exc_info=True)
 
     return result
 
 
-def generate_with_retry(image_path: str, prompt: str, max_retries: int = 3, **kwargs) -> dict:
+def generate_with_retry(prompt: str, max_retries: int = 3, **kwargs) -> dict:
     """
     Wraps generation with retry logic and 429 handling.
     """
@@ -182,7 +159,7 @@ def generate_with_retry(image_path: str, prompt: str, max_retries: int = 3, **kw
             time.sleep(wait_time)
             kwargs["seed"] = random.randint(1, 2147483647)
 
-        last_result = generate_images(image_path=image_path, prompt=prompt, **kwargs)
+        last_result = generate_images(prompt=prompt, **kwargs)
 
         if last_result["success"]:
             return last_result

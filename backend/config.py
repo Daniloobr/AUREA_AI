@@ -86,8 +86,8 @@ class Config:
     # ──────────────────────────────────────────────
     # Replicate AI Models
     # ──────────────────────────────────────────────
-    REPLICATE_MODEL = "bytedance/flux-pulid"
-    REPLICATE_MODEL_SLUG = "bytedance/flux-pulid:8baa7ef2255075b46f4d91cd238c21d31181b3e6a864463f967960bb0112525b"
+    REPLICATE_MODEL = "google/imagen-4-ultra"
+    REPLICATE_MODEL_SLUG = "google/imagen-4-ultra"
     REPLICATE_TIMEOUT = 300  # seconds
 
     # ──────────────────────────────────────────────
