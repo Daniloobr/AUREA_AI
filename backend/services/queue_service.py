@@ -57,7 +57,7 @@ def process_generation_pipeline(app, job_id, image_urls, tipo_ensaio, custom_pro
             if not job: return
 
             # 1. Prepare Prompts
-            prompt = custom_prompt if custom_prompt else generate_prompt(tipo_ensaio)
+            prompt = generate_prompt(tipo_ensaio, subject_description=custom_prompt or "")
             negative_prompt = generate_negative_prompt()
 
             # 2. Process input images and pick the best one
@@ -121,7 +121,10 @@ def process_generation_pipeline(app, job_id, image_urls, tipo_ensaio, custom_pro
                     image_path=best_face_local_path,
                     prompt=prompt,
                     negative_prompt=negative_prompt,
-                    id_weight=1.0 if best_face_local_path else 0.0
+                    id_weight=0.8 if best_face_local_path else 0.0,
+                    guidance_scale=7.0,
+                    num_steps=30,
+                    job_id=job.id
                 )
 
                 # Cleanup temp input files

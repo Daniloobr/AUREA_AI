@@ -144,9 +144,9 @@ export default function GalleryPage() {
               >
                 <div className="relative h-full w-full">
                   {/* Imagem concluída */}
-                  {item.status === 'completed' && item.images && item.images.length > 0 ? (
+                  {item.status === 'completed' && (item.result_url || (item.images && item.images.length > 0)) ? (
                     <img 
-                      src={getImageUrl(item.images[0])} 
+                      src={getImageUrl(item.result_url || item.images[0])} 
                       alt={item.tipo_ensaio || 'Obra de Arte'} 
                       className="w-full h-full object-cover transition-transform duration-[3s] group-hover:scale-110" 
                     />
@@ -184,7 +184,7 @@ export default function GalleryPage() {
                           {/* Botão de download — renomeado conforme briefing */}
                           {/* TODO: integração real com URL assinada do backend */}
                           <a 
-                            href={getImageUrl(item.images?.[0])}
+                            href={getImageUrl(item.result_url || item.images?.[0])}
                             download
                             target="_blank"
                             rel="noopener noreferrer"

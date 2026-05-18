@@ -36,18 +36,19 @@ NATURALNESS_BOOSTER = (
 )
 
 # ══════════════════════════════════════════════════════════════
-# LUXURY STUDIO CORE (Iluminação e Estética Fine Art)
+# MOBILE QUALITY CORE (estética de smartphone topo de linha)
 # ══════════════════════════════════════════════════════════════
 QUALITY_CORE = (
-    "Shot on Canon EOS R5 with RF 85mm f/1.2L USM lens, aperture at f/2.0 for creamy bokeh separation. "
-    "Three-point studio lighting setup: key light through a 120cm octabox at 45 degrees camera-left, "
-    "fill light via large silver reflector camera-right, hair light with strip softbox from behind. "
-    "Soft gradual shadow falloff on the belly contour, subtle rim light separating subject from background. "
-    "Color-graded with lifted shadows and warm midtones — muted champagne, ivory, and soft gold palette. "
-    "Fine art maternity photography aesthetic: intentional negative space, rule-of-thirds composition. "
-    "Medium format film emulation: organic grain structure, rich tonal range, analog color rendering. "
-    "8K resolution, tack-sharp on the eyes and hands, gentle focus falloff toward edges. "
-    "Print-ready dynamic range, museum-quality detail, indistinguishable from a real photograph. "
+    "Shot on iPhone 15 Pro Max in ProRAW mode, using the telephoto lens at 77mm equivalent (3x zoom), "
+    "f/2.8 with natural computational bokeh. Smart HDR preserves every pore, hair strand, and fabric weave. "
+    "Neutral color profile, no beauty filter, no artificial smoothing. "
+    "The image looks exactly like a high-quality photo taken from a modern smartphone – "
+    "slight natural lens distortion only at edges (not affecting face), realistic depth-of-field, "
+    "authentic highlight roll-off and subtle shadow noise. "
+    "No DSLR, no medium format, no cinematic anamorphic look. "
+    "Pure mobile photography aesthetic: slightly cooler white balance, minimal chromatic aberration, "
+    "natural grain in shadows, and that distinctive 'shot on iPhone' clarity and contrast. "
+    "8K resolution output with smartphone characteristics, indistinguishable from a real mobile photo."
 )
 
 # ══════════════════════════════════════════════════════════════
@@ -55,7 +56,7 @@ QUALITY_CORE = (
 # ══════════════════════════════════════════════════════════════
 FRAMING_VARIANTS = {
     "full_body": (
-        "Full-length composition at 4-5 meters, 85mm equivalent focal length, subject centered "
+        "Full-length composition at 4-5 meters, 77mm equivalent focal length, subject centered "
         "with breathing room above the head and below the feet. Full pregnant silhouette visible "
         "from crown to toes, slight three-quarter body angle to accentuate the belly curve. "
         "Professional studio distance — zero barrel distortion, natural body proportions preserved."
@@ -72,21 +73,21 @@ FRAMING_VARIANTS = {
         "Shallow depth of field blurs lower frame, attention drawn to face and hands on belly."
     ),
     "close_up_emotional": (
-        "Intimate chest-up portrait at 1.5 meters, shot at 105mm for flattering compression. "
+        "Intimate chest-up portrait at 1.5 meters, shot at 77mm for flattering compression. "
         "Face fills the upper frame, soft focus on the shoulder and collarbone area. "
         "Catchlights visible in the eyes, gentle downward gaze toward the belly. "
         "Emotional and tender expression, never posed or stiff. No selfie angle whatsoever."
     ),
     "detail_hands_belly": (
         "Macro-intimate detail shot focused on hands cradling the pregnant belly. "
-        "Shot at f/1.8 with extreme shallow depth of field — fingers tack-sharp, belly skin softly blurred. "
+        "Shot at f/2.8 with shallow depth of field — fingers tack-sharp, belly skin softly blurred. "
         "Visible skin texture, natural nail detail, authentic finger placement with gentle pressure dimples. "
         "Rim light catching the peach fuzz on the belly surface. Tender, quiet, reverent mood."
     ),
 }
 
 # ══════════════════════════════════════════════════════════════
-# STYLE PRESETS (NOVOS PROMPTS FORNECIDOS PELO USUÁRIO)
+# STYLE PRESETS (todos ajustados para estética mobile)
 # ══════════════════════════════════════════════════════════════
 STYLE_PRESETS = {
     "luxury_studio": {
@@ -95,7 +96,7 @@ STYLE_PRESETS = {
         "description": "Fundo neutro, iluminação de estúdio profissional e elegância atemporal.",
         "cover": "https://images.unsplash.com/photo-1544126592-807daa2b565b?auto=format&fit=crop&q=80&w=600",
         "prompt": (
-            "Award-winning luxury studio maternity portrait. "
+            "Award-winning luxury studio maternity portrait captured on smartphone. "
             "Seamless dove-gray paper backdrop with subtle gradient falloff to darker edges. "
             "Clamshell lighting setup: large 150cm octabox directly above at 45 degrees as key light, "
             "white bounce fill below chin, accent strip light from behind camera-right creating a delicate "
@@ -106,7 +107,7 @@ STYLE_PRESETS = {
             "Soft butterfly shadow under the nose, catchlights in both eyes. "
             "Warm neutral color palette: cream, taupe, champagne, and brushed gold accents. "
             "Composition with generous negative space, subject placed on the golden ratio intersection. "
-            "Fine art maternity photography in the style of Annie Leibovitz and Ana Brandt. "
+            "Mobile fine art portrait, clean and crisp smartphone aesthetic. "
             "8K resolution, tack-sharp focus, museum print quality, masterpiece."
         ),
     },
@@ -116,7 +117,7 @@ STYLE_PRESETS = {
         "description": "Campo aberto com a luz mágica do pôr do sol.",
         "cover": "https://images.unsplash.com/photo-1594434296621-507bc67a78c1?auto=format&fit=crop&q=80&w=600",
         "prompt": (
-            "Breathtaking outdoor maternity portrait shot in a vast open wildflower meadow during the final "
+            "Breathtaking outdoor maternity portrait shot on a smartphone in a vast open wildflower meadow during the final "
             "20 minutes of golden hour. Rich amber and honey-toned directional sunlight coming from behind "
             "the subject at a low angle, creating a luminous backlit halo around the hair and a warm glow "
             "through the sheer fabric of a flowing maxi dress in dusty rose or soft terracotta. "
@@ -127,7 +128,7 @@ STYLE_PRESETS = {
             "and hair, creating organic motion and life in the frame. "
             "Rolling hills or gentle tree line visible in the far background, slightly out of focus. "
             "Color-graded with warm lifted shadows, desaturated greens, and rich golden skin tones. "
-            "Cinematic depth of field, shot at 135mm f/2.0 for maximum subject isolation. "
+            "Cinematic depth of field using smartphone telephoto lens, maximum subject isolation. "
             "Professional outdoor editorial maternity photography, National Geographic portrait quality."
         ),
     },
@@ -137,7 +138,7 @@ STYLE_PRESETS = {
         "description": "Decoração rústica, flores secas e tons pastéis.",
         "cover": "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=600",
         "prompt": (
-            "Artistic bohemian maternity portrait in a carefully styled indoor set. "
+            "Artistic bohemian maternity portrait captured on smartphone in a carefully styled indoor set. "
             "Warm natural window light streaming through sheer linen curtains, creating soft diffused "
             "illumination with gentle directional shadows. "
             "Abundant dried floral arrangements: pampas grass plumes in tall ceramic vases, dried eucalyptus "
@@ -150,7 +151,7 @@ STYLE_PRESETS = {
             "a vintage rattan peacock chair. "
             "Muted earthy color palette: warm sand, terracotta, sage green, dusty pink, and antique cream. "
             "Soft painterly quality to the light, reminiscent of a Renaissance Madonna painting. "
-            "Shot at 56mm f/1.4 on medium format for smooth organic bokeh and rich tonal transitions. "
+            "Shot on smartphone telephoto lens (77mm equivalent) with natural depth-of-field, no artificial blur. "
             "High-resolution fine art maternity photography with a handcrafted artisanal aesthetic."
         ),
     },
@@ -160,7 +161,7 @@ STYLE_PRESETS = {
         "description": "Alto contraste, estilo revista de moda.",
         "cover": "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=600",
         "prompt": (
-            "High-fashion black and white editorial maternity portrait for Vogue or Harper's Bazaar cover. "
+            "High-fashion black and white editorial maternity portrait for Vogue or Harper's Bazaar cover, shot on smartphone. "
             "Dramatic Rembrandt lighting with a single hard key light through a 30-degree grid at 45 degrees "
             "camera-left, casting a sharp triangular highlight on the shadow-side cheek. "
             "Deep rich blacks and clean bright whites with a full zone-system tonal range. "
@@ -172,8 +173,8 @@ STYLE_PRESETS = {
             "creating maximum figure-ground separation. "
             "Fine silver gelatin print aesthetic with rich analog film grain, deep contrast, and luminous "
             "skin highlights. Inspired by Herb Ritts, Peter Lindbergh, and Irving Penn. "
-            "Monochromatic masterpiece, powerful maternal elegance, iconic and timeless. "
-            "8K resolution, razor-sharp detail, editorial perfection."
+            "High-resolution mobile photography, natural contrast, authentic black and white from computational processing. "
+            "Powerful maternal elegance, iconic and timeless."
         ),
     },
     "classic": {
@@ -182,7 +183,8 @@ STYLE_PRESETS = {
         "description": "Estilo clássico com iluminação suave e cenário neutro.",
         "cover": "https://picsum.photos/seed/classic/600/800",
         "prompt": (
-            "Clássico fotografia de maternidade em estúdio com iluminação suave, fundo neutro, foco nítido no rosto e barriga, cores naturais e elegantes."
+            "Clássico fotografia de maternidade em estúdio com iluminação suave, fundo neutro, foco nítido no rosto e barriga, cores naturais e elegantes. "
+            "Capturado com smartphone de alta qualidade, sem retoques artificiais."
         ),
     },
     "bw": {
@@ -191,7 +193,8 @@ STYLE_PRESETS = {
         "description": "Estilo em preto e branco com alto contraste e iluminação dramática.",
         "cover": "https://picsum.photos/seed/bw/600/800",
         "prompt": (
-            "Fotografia de maternidade em preto e branco com iluminação dramática, sombras marcadas, alto contraste, elegância atemporal."
+            "Fotografia de maternidade em preto e branco com iluminação dramática, sombras marcadas, alto contraste, elegância atemporal. "
+            "Estilo mobile editorial, sem granulação de filme médio formato."
         ),
     },
     "nature": {
@@ -200,7 +203,8 @@ STYLE_PRESETS = {
         "description": "Cenário natural ao ar livre, luz do sol dourada.",
         "cover": "https://picsum.photos/seed/nature/600/800",
         "prompt": (
-            "Fotografia de maternidade ao ar livre em cenário natural, luz dourada do fim da tarde, fundo de campo de flores silvestres."
+            "Fotografia de maternidade ao ar livre em cenário natural, luz dourada do fim da tarde, fundo de campo de flores silvestres. "
+            "Foto tirada com smartphone, profundidade de campo natural, cores realistas."
         ),
     },
     "minimalist": {
@@ -209,7 +213,8 @@ STYLE_PRESETS = {
         "description": "Estilo minimalista com fundo limpo e foco no sujeito.",
         "cover": "https://picsum.photos/seed/minimalist/600/800",
         "prompt": (
-            "Fotografia de maternidade minimalista com fundo branco liso, iluminação suave, foco no rosto e barriga, simplicidade elegante."
+            "Fotografia de maternidade minimalista com fundo branco liso, iluminação suave, foco no rosto e barriga, simplicidade elegante. "
+            "Qualidade de smartphone premium, sem exageros de nitidez."
         ),
     },
     "romantic": {
@@ -218,7 +223,8 @@ STYLE_PRESETS = {
         "description": "Atmosfera romântica com luz suave e tons pastel.",
         "cover": "https://picsum.photos/seed/romantic/600/800",
         "prompt": (
-            "Fotografia de maternidade romântica com luz suave, tons pastel, fundo delicado, atmosfera de carinho e intimidade."
+            "Fotografia de maternidade romântica com luz suave, tons pastel, fundo delicado, atmosfera de carinho e intimidade. "
+            "Captura mobile com leve desfoque natural, pele texturizada realista."
         ),
     },
     "urban": {
@@ -227,80 +233,14 @@ STYLE_PRESETS = {
         "description": "Cenário urbano contemporâneo com grafites e iluminação de rua.",
         "cover": "https://picsum.photos/seed/urban/600/800",
         "prompt": (
-            "Fotografia de maternidade urbana com fundo de cidade, grafite artístico, iluminação de rua noturna, estilo contemporâneo."
-        ),
-    },
-
-    "golden_hour_nature": {
-        "name": "Golden Hour Nature",
-        "category": "Natureza",
-        "description": "Campo aberto com a luz mágica do pôr do sol.",
-        "cover": "https://images.unsplash.com/photo-1594434296621-507bc67a78c1?auto=format&fit=crop&q=80&w=600",
-        "prompt": (
-            "Breathtaking outdoor maternity portrait shot in a vast open wildflower meadow during the final "
-            "20 minutes of golden hour. Rich amber and honey-toned directional sunlight coming from behind "
-            "the subject at a low angle, creating a luminous backlit halo around the hair and a warm glow "
-            "through the sheer fabric of a flowing maxi dress in dusty rose or soft terracotta. "
-            "Natural lens flare streaking gently across the frame, soft circular bokeh from wildflowers "
-            "and tall grass in the foreground and background. "
-            "Subject standing in a relaxed contrapposto pose, one hand beneath the belly, "
-            "the other gently touching the hair or resting at the side. Wind softly moving the dress "
-            "and hair, creating organic motion and life in the frame. "
-            "Rolling hills or gentle tree line visible in the far background, slightly out of focus. "
-            "Color-graded with warm lifted shadows, desaturated greens, and rich golden skin tones. "
-            "Cinematic depth of field, shot at 135mm f/2.0 for maximum subject isolation. "
-            "Professional outdoor editorial maternity photography, National Geographic portrait quality."
-        ),
-    },
-    "boho_chic": {
-        "name": "Boho Chic",
-        "category": "Artístico",
-        "description": "Decoração rústica, flores secas e tons pastéis.",
-        "cover": "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=600",
-        "prompt": (
-            "Artistic bohemian maternity portrait in a carefully styled indoor set. "
-            "Warm natural window light streaming through sheer linen curtains, creating soft diffused "
-            "illumination with gentle directional shadows. "
-            "Abundant dried floral arrangements: pampas grass plumes in tall ceramic vases, dried eucalyptus "
-            "garlands, preserved roses in muted blush and dusty mauve tones, scattered dried lavender. "
-            "Subject wearing a hand-crocheted or macramé crop top paired with a flowing earth-toned skirt, "
-            "bare pregnant belly prominently visible between the pieces. "
-            "Layered boho accessories: delicate gold body chain draping over the belly, stacked thin rings, "
-            "a woven flower crown with dried baby's breath and small roses. "
-            "Background elements: woven jute rug, raw wood textures, hanging macramé wall art, "
-            "a vintage rattan peacock chair. "
-            "Muted earthy color palette: warm sand, terracotta, sage green, dusty pink, and antique cream. "
-            "Soft painterly quality to the light, reminiscent of a Renaissance Madonna painting. "
-            "Shot at 56mm f/1.4 on medium format for smooth organic bokeh and rich tonal transitions. "
-            "High-resolution fine art maternity photography with a handcrafted artisanal aesthetic."
-        ),
-    },
-    "black_white_editorial": {
-        "name": "Black & White Editorial",
-        "category": "Vogue Style",
-        "description": "Alto contraste, estilo revista de moda.",
-        "cover": "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=600",
-        "prompt": (
-            "High-fashion black and white editorial maternity portrait for Vogue or Harper's Bazaar cover. "
-            "Dramatic Rembrandt lighting with a single hard key light through a 30-degree grid at 45 degrees "
-            "camera-left, casting a sharp triangular highlight on the shadow-side cheek. "
-            "Deep rich blacks and clean bright whites with a full zone-system tonal range. "
-            "Subject in a sculptural minimalist outfit: either a tailored black bodysuit that hugs the belly, "
-            "or elegant draped black silk charmeuse creating strong geometric folds. "
-            "Powerful confident pose — chin slightly raised, shoulders back, one hand on hip, "
-            "the other placed firmly on the side of the belly. Strong S-curve body line. "
-            "Stark minimalist background: pure solid seamless paper, either deep black or bright white, "
-            "creating maximum figure-ground separation. "
-            "Fine silver gelatin print aesthetic with rich analog film grain, deep contrast, and luminous "
-            "skin highlights. Inspired by Herb Ritts, Peter Lindbergh, and Irving Penn. "
-            "Monochromatic masterpiece, powerful maternal elegance, iconic and timeless. "
-            "8K resolution, razor-sharp detail, editorial perfection."
+            "Fotografia de maternidade urbana com fundo de cidade, grafite artístico, iluminação de rua noturna, estilo contemporâneo. "
+            "Foto de smartphone com alta faixa dinâmica, ruído natural em sombras."
         ),
     },
 }
 
 # ══════════════════════════════════════════════════════════════
-# NEGATIVE PROMPT (Filtro Anti-IA e Anti-Retoque)
+# NEGATIVE PROMPT (Filtro Anti-IA e Anti-Retoque + bloqueio DSLR)
 # ══════════════════════════════════════════════════════════════
 NEGATIVE_PROMPT = (
     "cartoon, anime, 3d render, cgi, illustration, painting, drawing, sketch, digital art, "
@@ -317,7 +257,9 @@ NEGATIVE_PROMPT = (
     "visible AI artifacts, seam lines, inconsistent lighting direction, "
     "multiple light sources casting contradictory shadows, "
     "stock photo aesthetic, clip art, corporate headshot style, "
-    "nudity, nsfw, inappropriate content, suggestive pose."
+    "nudity, nsfw, inappropriate content, suggestive pose, "
+    "dslr bokeh, medium format grain, cinematic anamorphic flare, studio strobe harshness, "
+    "canon colors, fujifilm simulation, leica look, pro mist filter, anamorphic lens flare."
 )
 
 # ══════════════════════════════════════════════════════════════
@@ -331,13 +273,13 @@ def generate_prompt(
     use_naturalness_booster: bool = True,
     use_identity_text: bool = True
 ) -> str:
-    """Gera um prompt completo e otimizado para ensaios fotográficos realistas."""
+    """Gera um prompt completo e otimizado para ensaios fotográficos realistas com estética mobile."""
     
     preset = STYLE_PRESETS.get(tipo_ensaio)
 
     if not preset:
         logger.warning(f"Unknown tipo_ensaio: {tipo_ensaio}, using fallback")
-        scene_prompt = "Professional but natural portrait photography. Soft natural light, real skin texture."
+        scene_prompt = "Professional but natural portrait photography. Soft natural light, real skin texture. Shot on smartphone."
     else:
         scene_prompt = preset["prompt"]
 
@@ -361,7 +303,7 @@ def generate_prompt(
     if use_naturalness_booster:
         parts.append(NATURALNESS_BOOSTER)
 
-    # 6. Qualidade de Estúdio (Core)
+    # 6. Qualidade Mobile (Core)
     parts.append(QUALITY_CORE)
 
     final_prompt = " ".join(parts)
@@ -369,7 +311,7 @@ def generate_prompt(
     return final_prompt
 
 def generate_negative_prompt() -> str:
-    """Retorna o negative prompt universal."""
+    """Retorna o negative prompt universal atualizado."""
     return NEGATIVE_PROMPT
 
 # ══════════════════════════════════════════════════════════════
@@ -400,7 +342,7 @@ def get_framing_options() -> list:
         {
             "id": key, 
             "name": key.replace("_", " ").title(), 
-            "description": val.split(".")[0] # Pega apenas a primeira frase da descrição técnica
+            "description": val.split(".")[0]  # Pega apenas a primeira frase da descrição técnica
         }
         for key, val in FRAMING_VARIANTS.items()
     ]
@@ -409,7 +351,7 @@ def get_framing_options() -> list:
 # EXEMPLO DE EXECUÇÃO
 # ══════════════════════════════════════════════════════════════
 if __name__ == "__main__":
-    # Exemplo: Gerando um ensaio do estilo Luxury Studio
+    # Exemplo: Gerando um ensaio do estilo Luxury Studio com estética mobile
     meu_prompt = generate_prompt(
         tipo_ensaio="luxury_studio",
         subject_description="",

@@ -36,7 +36,16 @@ def update_schema():
             print(f"Erro ao adicionar colunas de pagamento: {e}")
             db.session.rollback()
 
-        # 3. Criar tabela de tokens de reset se não existir
+        # 3. Adicionar coluna result_url em generation_jobs se não existir
+        try:
+            db.session.execute(text("ALTER TABLE generation_jobs ADD COLUMN IF NOT EXISTS result_url VARCHAR(500)"))
+            db.session.commit()
+            print("Coluna result_url em generation_jobs verificada/adicionada.")
+        except Exception as e:
+            print(f"Erro ao adicionar result_url: {e}")
+            db.session.rollback()
+
+        # 4. Criar tabela de tokens de reset se não existir
         try:
             db.create_all()
             print("Tabelas (incluindo PasswordResetToken) verificadas/criadas.")

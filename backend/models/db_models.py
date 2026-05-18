@@ -85,17 +85,36 @@ class GenerationJob(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
+    @property
+    def result_url(self):
+        try:
+            images_list = json.loads(self.images_json) if self.images_json else []
+            return images_list[0] if images_list else None
+        except Exception:
+            return None
+
+    @result_url.setter
+    def result_url(self, value):
+        if value:
+            self.images_json = json.dumps([value])
+
     def to_dict(self):
+        try:
+            images_list = json.loads(self.images_json) if self.images_json else []
+        except Exception:
+            images_list = []
+            
         return {
             "id": self.id,
             "status": self.status,
             "progress": self.progress,
             "message": self.message,
-            "images": json.loads(self.images_json),
+            "images": images_list,
+            "result_url": self.result_url,
             "tipo_ensaio": self.tipo_ensaio,
             "created_at": self.created_at.strftime("%d %b %Y, %H:%M"),
             "error": self.error,
-            "metadata": json.loads(self.metadata_json),
+            "metadata": json.loads(self.metadata_json) if self.metadata_json else {},
             "cost_moedas": self.cost_moedas
         }
 

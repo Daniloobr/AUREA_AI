@@ -59,12 +59,15 @@ def generate(current_user):
 
 
 @generate_bp.route('/status', methods=['GET'], strict_slashes=False)
+@generate_bp.route('/status/<job_id>', methods=['GET'], strict_slashes=False)
 @token_required
-def check_status(current_user):
+def check_status(current_user, job_id=None):
     """
-    GET /api/generate/status?id=<job_id>
+    GET /api/generate/status?id=<job_id> or GET /api/generate/status/<job_id>
     """
-    job_id = request.args.get('id')
+    if not job_id:
+        job_id = request.args.get('id')
+        
     if not job_id:
         return jsonify({"success": False, "error": "Parâmetro 'id' é obrigatório"}), 400
 
@@ -109,6 +112,7 @@ def check_result(job_id):
         "success": mapped_status == "SUCCEEDED",
         "status": mapped_status,
         "images": job_data.get("images", []),
+        "result_url": job_data.get("result_url"),
         "progress": job_data.get("progress", 0),
         "message": job_data.get("message", "")
     }), 200

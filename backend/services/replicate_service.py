@@ -60,9 +60,18 @@ def generate_images(
         seed = result["seed"]
 
     try:
-        token = Config.REPLICATE_API_TOKEN
+        import os
+        token = os.environ.get('REPLICATE_API_TOKEN', '').strip()
+        
+        # Limpa caso o usuário tenha copiado 'REPLICATE_API_TOKEN=r8_...' no valor
+        if token.startswith('REPLICATE_API_TOKEN='):
+            token = token.replace('REPLICATE_API_TOKEN=', '').strip()
+            
         if not token or 'YOUR_' in token:
             raise ValueError("Replicate API token is missing.")
+            
+        import replicate
+        replicate.api_token = token
 
         logger.info(f"Starting FLUX-PuLID Generation...")
         logger.info(f"  prompt: {prompt[:80]}...")
@@ -94,7 +103,7 @@ def generate_images(
                 replicate_input["main_face_image"] = image_file
 
         try:
-            client = replicate.Client(api_token=token)
+            client = replicate.Client()
             output = client.run(
                 Config.REPLICATE_MODEL_SLUG,
                 input=replicate_input
@@ -122,6 +131,28 @@ def generate_images(
             result["success"] = True
             result["images"] = images
             logger.info(f"FLUX-PuLID Complete: {len(images)} images in {elapsed}s")
+            
+            # Atualiza o job no banco de dados se job_id foi fornecido
+            job_id = kwargs.get('job_id')
+            if job_id:
+                try:
+                    from database import db
+                    from models.db_models import GenerationJob
+                    import json
+                    
+                    job = GenerationJob.query.get(job_id)
+                    if job:
+                        job.status = 'completed'
+                        job.result_url = images[0]
+                        job.images_json = json.dumps(images)
+                        job.progress = 100
+                        job.message = "Sucesso! Seu ensaio premium está pronto."
+                        db.session.commit()
+                        logger.info(f"[Replicate Service] Job {job_id} atualizado com status='completed' e result_url='{images[0]}'")
+                    else:
+                        logger.warning(f"[Replicate Service] Job {job_id} não encontrado no banco.")
+                except Exception as db_err:
+                    logger.error(f"[Replicate Service] Erro ao atualizar job {job_id} no banco: {db_err}")
         else:
             result["error"] = "Replicate returned empty output"
             logger.error("No images returned from FLUX-PuLID")
