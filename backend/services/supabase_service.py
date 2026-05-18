@@ -9,9 +9,10 @@ logger = logging.getLogger(__name__)
 
 class SupabaseService:
     def __init__(self):
-        self.url = os.environ.get('SUPABASE_URL')
-        # Use Service Role Key if available to bypass RLS for backend operations
-        self.key = os.environ.get('SUPABASE_SERVICE_ROLE_KEY') or os.environ.get('SUPABASE_KEY')
+        url_val = os.environ.get('SUPABASE_URL')
+        key_val = os.environ.get('SUPABASE_SERVICE_ROLE_KEY') or os.environ.get('SUPABASE_KEY')
+        self.url = url_val.strip() if url_val else None
+        self.key = key_val.strip() if key_val else None
         self.client: Optional[Client] = None
         
         # Logs de depuração (seguros e mascarados)
