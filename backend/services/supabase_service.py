@@ -14,12 +14,18 @@ class SupabaseService:
         self.key = Config.SUPABASE_SERVICE_ROLE_KEY or Config.SUPABASE_KEY
         self.client: Optional[Client] = None
         
+        # Logs de depuração (seguros e mascarados)
+        logger.info(f"[Supabase] URL carregada: {self.url}")
+        logger.info(f"[Supabase] Chave configurada: {'Sim (Tamanho: ' + str(len(self.key)) + ')' if self.key else 'Não'}")
+        
         if self.url and self.key:
             try:
                 self.client = create_client(self.url, self.key)
                 logger.info("Supabase Client initialized successfully.")
             except Exception as e:
                 logger.error(f"Failed to initialize Supabase Client: {e}")
+        else:
+            logger.error("Falha ao inicializar o Supabase: SUPABASE_URL ou chave de autenticação ausente.")
 
     def upload_image(self, file_source: Union[str, bytes, BytesIO], filename: str, bucket: str = "images") -> Optional[str]:
         """
