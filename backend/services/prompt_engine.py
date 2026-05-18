@@ -14,11 +14,25 @@ logger = logging.getLogger(__name__)
 # ══════════════════════════════════════════════════════════════
 REFERENCE_ANCHOR = (
     "The client has uploaded 3 reference photos of herself. "
-    "The generated image MUST depict the EXACT SAME PERSON shown in those 3 uploaded photos: "
-    "same face shape, same eye color and shape, same nose, same lips, same jawline, same skin tone, "
-    "same hair color, hair length, and hair texture. Same body type and same pregnant belly size. "
-    "The woman in the output must be immediately recognizable as the same individual from the reference uploads — "
-    "not a generic model, not an idealized version, but HER. "
+    "Your PRIMARY TASK is to preserve the identity of this exact person. "
+    "The generated image MUST use the SAME FACE from the reference photos — "
+    "do not modify, beautify, idealize, or change facial features in any way. "
+    "Identity preservation is more important than style, lighting, or composition. "
+    "If there is any conflict between aesthetics and identity, ALWAYS prioritize identity. "
+    "The face must match exactly: same bone structure, same eyes, same nose, same lips, "
+    "same proportions, same skin tone, same hairline and texture. "
+    "This is NOT a generic model. This is NOT a similar person. "
+    "It must look like a real photo of the SAME woman from the reference images. "
+    "Do not change ethnicity, facial structure, or age. "
+    "Do not apply beauty filters or symmetry corrections. "
+    "The body should look natural and consistent with a pregnant woman, "
+    "but facial identity must remain the same. "
+)
+
+IDENTITY_REINFORCEMENT = (
+    "Use the uploaded reference images as the sole source of truth for the face. "
+    "The face must remain consistent with the reference images under all conditions, "
+    "angles, lighting, and expressions. "
 )
 
 # ══════════════════════════════════════════════════════════════
@@ -334,26 +348,31 @@ def generate_prompt(
 
     parts = []
 
-    # 1. Referência às 3 fotos enviadas (SEMPRE inclui)
+    # 1. IDENTITY (forte e absoluta)
     if use_identity_text:
         parts.append(REFERENCE_ANCHOR)
+        # 2. REFORÇO DE IDENTIDADE
+        parts.append(IDENTITY_REINFORCEMENT)
 
-    # 2. Enquadramento
-    parts.append(FRAMING_VARIANTS.get(framing, FRAMING_VARIANTS["full_body"]))
-
-    # 3. Cena principal do estilo
+    # 3. CENA
     parts.append(scene_prompt)
 
-    # 4. Descrição física do sujeito (enviada pelo frontend)
+    # 4. ENQUADRAMENTO
+    parts.append(FRAMING_VARIANTS.get(framing, FRAMING_VARIANTS["full_body"]))
+
+    # 5. DETALHES
     if subject_description:
         parts.append(f"Additional details about the subject: {subject_description}")
 
-    # 5. Naturalidade
+    # 6. NATURALNESS
     if use_naturalness_booster:
         parts.append(NATURALNESS_BOOSTER)
 
-    # 6. Qualidade smartphone
+    # 7. QUALIDADE
     parts.append(QUALITY_CORE)
+
+    # 8. ENDING INSIGHT
+    parts.append("This is a real photo of the same person, not a generated or fictional identity.")
 
     final_prompt = " ".join(parts)
     logger.info(f"Prompt gerado com sucesso para o estilo: {tipo_ensaio} ({len(final_prompt)} chars)")
