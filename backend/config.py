@@ -15,9 +15,9 @@ class Config:
     # ──────────────────────────────────────────────
     # Supabase Configuration
     # ──────────────────────────────────────────────
-    SUPABASE_URL = os.environ.get('SUPABASE_URL', '').strip() or None
-    SUPABASE_KEY = os.environ.get('SUPABASE_KEY', '').strip() or None
-    SUPABASE_SERVICE_ROLE_KEY = os.environ.get('SUPABASE_SERVICE_ROLE_KEY', '').strip() or None
+    SUPABASE_URL = os.environ.get('SUPABASE_URL')
+    SUPABASE_KEY = os.environ.get('SUPABASE_KEY')
+    SUPABASE_SERVICE_ROLE_KEY = os.environ.get('SUPABASE_SERVICE_ROLE_KEY')
 
     # ──────────────────────────────────────────────
     # API Keys
