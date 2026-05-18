@@ -27,13 +27,13 @@ def generate(current_user):
     if not data:
         return jsonify({"success": False, "error": "Payload JSON inválido"}), 400
 
-    image_url = data.get('image_url')
-    image_urls = data.get('image_urls', [])
-    if not image_urls and image_url:
-        image_urls = [image_url]
-    
+    # Expect a list of exactly 3 image URLs
+    image_urls = data.get('image_urls')
+    if not isinstance(image_urls, list) or len(image_urls) != 3:
+        return jsonify({"success": False, "error": "É necessário enviar exatamente 3 URLs de imagens."}), 400
+
     prompt = data.get('prompt')
-    tipo_ensaio = data.get('tipo_ensaio') or data.get('style') or "gestante_outdoor"
+    tipo_ensaio = data.get('style') or "gestante_outdoor"
 
     # Validation: Need at least a prompt or an image
     if not image_urls and not prompt:
