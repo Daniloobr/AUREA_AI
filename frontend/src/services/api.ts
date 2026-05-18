@@ -81,13 +81,5 @@ export const apiService = {
       credentials: 'include',
     });
     return response.json();
-  },
-
-  checkout: {
-    createPixPayment: (data: any, token?: string) => 
-      apiService.post('/create-pix-payment', data, token),
-    
-    getOrderStatus: (orderId: string, token?: string) => 
-      apiService.get(`/pagseguro/status/${orderId}`, token),
   }
 };

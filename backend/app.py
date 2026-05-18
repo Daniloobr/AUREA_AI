@@ -83,7 +83,7 @@ def create_app():
     from routes.auth import auth_bp
     from routes.admin import admin_bp
     from routes.styles import styles_bp
-    from routes.pagseguro import pagseguro_bp
+
 
     app.register_blueprint(upload_bp, url_prefix='/api/upload')
     app.register_blueprint(generate_bp, url_prefix='/api/generate')
@@ -91,7 +91,7 @@ def create_app():
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
     app.register_blueprint(admin_bp, url_prefix='/api/admin')
     app.register_blueprint(styles_bp, url_prefix='/api/styles')
-    app.register_blueprint(pagseguro_bp, url_prefix='/api')
+
 
     # ─── Servir arquivos carregados/gerados ───
     @app.route('/uploads/<path:filename>')
