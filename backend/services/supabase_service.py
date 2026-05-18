@@ -9,9 +9,9 @@ logger = logging.getLogger(__name__)
 
 class SupabaseService:
     def __init__(self):
-        self.url = Config.SUPABASE_URL
+        self.url = os.environ.get('SUPABASE_URL')
         # Use Service Role Key if available to bypass RLS for backend operations
-        self.key = Config.SUPABASE_SERVICE_ROLE_KEY or Config.SUPABASE_KEY
+        self.key = os.environ.get('SUPABASE_SERVICE_ROLE_KEY') or os.environ.get('SUPABASE_KEY')
         self.client: Optional[Client] = None
         
         # Logs de depuração (seguros e mascarados)
@@ -20,6 +20,7 @@ class SupabaseService:
         
         if self.url and self.key:
             try:
+                # Inicialização direta sem proxy
                 self.client = create_client(self.url, self.key)
                 logger.info("Supabase Client initialized successfully.")
             except Exception as e:
