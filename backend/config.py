@@ -15,9 +15,9 @@ class Config:
     # ──────────────────────────────────────────────
     # Supabase Configuration
     # ──────────────────────────────────────────────
-    SUPABASE_URL = os.environ.get('SUPABASE_URL')
-    SUPABASE_KEY = os.environ.get('SUPABASE_KEY')
-    SUPABASE_SERVICE_ROLE_KEY = os.environ.get('SUPABASE_SERVICE_ROLE_KEY')
+    SUPABASE_URL = os.environ.get('SUPABASE_URL', 'https://xdxkqkwewywrfxwtkzdy.supabase.co')
+    SUPABASE_KEY = os.environ.get('SUPABASE_KEY', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkeGtxa3dld3l3cmZ4d3RremR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MjcwOTcsImV4cCI6MjA5NDIwMzA5N30.GcDp2FUlwHq3B5OYo7essBaOp6ohRsvn39-883FHu9o')
+    SUPABASE_SERVICE_ROLE_KEY = os.environ.get('SUPABASE_SERVICE_ROLE_KEY', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhkeGtxa3dld3l3cmZ4d3RremR5Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODYyNzA5NywiZXhwIjoyMDk0MjAzMDk3fQ.avji4N0zsAJHH62uCIeiwxjmBqrApW7UgvVaWnjIeug')
 
     # ──────────────────────────────────────────────
     # API Keys
