@@ -31,6 +31,8 @@ IDENTITY_ANCHOR = (
 # ══════════════════════════════════════════════════════════════
 QUALITY_CORE = (
     "Premium modern photography aesthetic with natural optical depth. "
+    "Shot on medium format digital camera (80mm equivalent), aperture f/2.8, shallow depth of field. "
+    "Sharp focus on eyes and belly. Natural perspective compression, no wide-angle distortion. "
     "Photorealistic, authentic skin texture, natural pores, soft tonal variation. "
     "Natural computational bokeh, realistic highlight roll-off, gentle shadow transitions. "
     "No beauty filter, no artificial smoothing, no porcelain-doll skin. "
@@ -47,6 +49,24 @@ NATURALNESS_BOOSTER = (
     "Genuine relaxed expression — soft natural smile, real warmth in the eyes. "
     "Hands with real detail, natural nail beds, relaxed fingers cradling the belly."
 )
+
+# ══════════════════════════════════════════════════════════════
+# POSE LIBRARY & EXPRESSION LIBRARY
+# ══════════════════════════════════════════════════════════════
+POSE_LIBRARY = {
+    "elegant_profile": "Three-quarter profile, body turned 30 degrees away from camera, one hand gently under the belly, other hand relaxed at side, chin slightly lowered.",
+    "front_cradle": "Facing camera, both hands gently cradling the belly, shoulders relaxed, soft confident posture.",
+    "editorial_side": "Full side profile emphasizing the belly silhouette, elongated posture, strong editorial presence.",
+}
+
+EXPRESSION_LIBRARY = {
+    "warm": "gentle natural smile, warmth in the eyes",
+    "neutral": "calm neutral expression, relaxed face",
+    "editorial": "serious, introspective, powerful expression",
+}
+
+# Estilos editoriais/dramáticos que não devem usar NATURALNESS_BOOSTER por padrão
+NO_BOOSTER_STYLES = ["black_white_editorial", "dramatic_black_gown"]
 
 # ══════════════════════════════════════════════════════════════
 # FRAMING VARIANTS
@@ -84,151 +104,123 @@ FRAMING_VARIANTS = {
 
 # ══════════════════════════════════════════════════════════════
 # STYLE PRESETS — Otimizados para google/nano-banana-pro
-# (Apenas 5 estilos mantidos)
 # ══════════════════════════════════════════════════════════════
 STYLE_PRESETS = {
     "classic": {
-        "name": "Clássico Clean",
+        "name": "Clássico",
         "category": "Clássico",
-        "description": "Cenário minimalista com iluminação suave e tons neutros, celebrando a beleza natural da gestação em uma composição elegante e atemporal.",
+        "description": "Estúdio minimalista com iluminação suave e fundo neutro, destacando a beleza natural da gestação. Elegante e atemporal.",
         "cover": "/thumbnails/classic.png",
         "prompt": (
-            "A classic maternity studio portrait of a pregnant woman — "
-            "the same woman from the 3 reference photos the client uploaded. "
-            "Soft even studio lighting, neutral warm-toned backdrop. "
-            "Elegant and timeless composition, natural colors, gentle expression. "
-            "She wears a simple flowing white or cream dress that drapes naturally over the belly. "
-            "Hands cradling the belly, relaxed shoulders, warm genuine smile. "
-            "Natural skin texture, authentic pregnancy glow. "
-            "Premium photography, photorealistic, natural optical depth."
+            "A classic maternity studio portrait of a pregnant woman. "
+            "Two large softboxes at 45 degrees camera-left and camera-right, equal intensity, creating soft even studio lighting with minimal shadows, set against a neutral warm-toned backdrop. "
+            "Elegant and timeless composition, natural colors. "
+            "She wears a simple flowing white or cream dress that drapes naturally over the belly."
         ),
     },
     "luxury_studio": {
         "name": "Estúdio Luxo",
         "category": "Clássico",
-        "description": "Fundo cinza-pomba com degradê sutil e iluminação de contorno desenhando a silhueta, trazendo um ar sofisticado de alta costura com vestido marfim.",
+        "description": "Fundo cinza-pomba com iluminação de contorno que realça a silhueta, transmitindo sofisticação e alta costura.",
         "cover": "/thumbnails/luxury_studio.png",
         "prompt": (
-            "A luxury studio maternity portrait of a pregnant woman — "
-            "the same woman from the 3 reference photos the client uploaded. "
+            "A luxury studio maternity portrait of a pregnant woman. "
             "Seamless dove-gray paper backdrop with subtle gradient falloff. "
-            "Soft clamshell lighting with gentle rim glow along the belly curve and shoulders. "
+            "Single key light at 45 degrees, large octabox with medium diffusion, fill reflector at 30 degrees, backlight at 135 degrees, low intensity, creating gentle rim glow along the belly curve and shoulders. "
             "She wears a flowing ivory silk gown with natural luster and subtle translucency over the belly. "
-            "Hands gently cradling the lower belly, fingers relaxed. "
             "Warm neutral color palette: cream, taupe, champagne. "
-            "Elegant composition with generous negative space. "
-            "Premium photography, photorealistic, natural optical depth."
+            "Elegant composition with generous negative space."
         ),
     },
     "ivory_satin": {
         "name": "Cetim Imperial",
         "category": "Vogue Style",
-        "description": "Luxuoso vestido de cetim marfim sem costas com cauda longa sobre piso polido, banhado por uma iluminação lateral cinematográfica com sombras refinadas.",
-        "cover": "/thumbnails/ivory_satin.png",
+        "description": "Vestido de cetim marfim sem costas, cauda longa sobre piso polido e iluminação lateral cinematográfica que cria sombras refinadas.",
+        "cover": "/thumbnails/image3.png",
         "prompt": (
-            "An elegant and luxurious studio maternity portrait of a pregnant woman — "
-            "the same woman from the 3 reference photos the client uploaded. "
+            "An elegant and luxurious studio maternity portrait of a pregnant woman. "
             "She wears a sophisticated ivory satin backless gown with a long flowing train pooling gracefully on a polished neutral studio floor. "
-            "Soft lateral cinematic lighting casts refined chiaroscuro shadows across her body, accentuating the natural pregnancy curve. "
-            "Warm monochromatic tones and a high-fashion Vogue-style composition. "
-            "Premium photography, photorealistic, natural optical depth."
+            "Key light at 45 degrees camera-left, 30-degree grid, no fill, dark environment, casting refined chiaroscuro shadows across her body, accentuating the natural pregnancy curve. "
+            "Warm monochromatic tones and a high-fashion Vogue-style composition."
         ),
     },
     "black_white_editorial": {
         "name": "Preto & Branco Editorial",
         "category": "Vogue Style",
-        "description": "Retrato artístico em alto contraste com sombras suaves esculpindo o corpo, criando um visual conceitual de revista de moda com textura de grão de filme.",
+        "description": "Alto contraste com sombras suaves esculpindo a silhueta, evocando o visual de uma revista de moda em preto e branco.",
         "cover": "/thumbnails/black_white_editorial.png",
         "prompt": (
-            "An elegant black and white maternity portrait of a pregnant woman — "
-            "the same woman from the 3 reference photos the client uploaded. "
-            "Soft directional lighting sculpting the face and belly curve with gentle shadows. "
+            "An elegant black and white maternity portrait of a pregnant woman. "
+            "Key light at 45 degrees camera-left, large softbox with grid, shadow fill reflector at 45 degrees camera-right at 10% intensity, sculpting the face and belly curve with gentle shadows. "
             "Rich tonal range from deep blacks to clean whites. "
             "She wears a simple elegant dark outfit that drapes beautifully over the belly. "
-            "Graceful pose — soft expression, one hand gently on the belly, serene and maternal. "
             "Clean minimalist background for figure-ground separation. "
-            "Timeless monochrome aesthetic with subtle film grain and natural contrast. "
-            "Premium photography, photorealistic, natural optical depth."
+            "Timeless monochrome aesthetic with subtle film grain and natural contrast."
         ),
     },
     "dramatic_black_gown": {
         "name": "Vestido Preto Dramático",
         "category": "Especial",
-        "description": "Uma composição marcante com iluminação lateral Chiaroscuro esculpindo o corpo em um vestido preto sem costas com cauda longa sobre piso escuro polido.",
-        "cover": "/thumbnails/dramatic_black_gown.png",
+        "description": "Iluminação lateral Chiaroscuro destaca um vestido preto sem costas, com cauda longa sobre piso escuro polido.",
+        "cover": "/thumbnails/vestidoBlack.png",
         "prompt": (
-            "A dramatic black and white fine art maternity portrait of a pregnant woman — "
-            "the same woman from the 3 reference photos the client uploaded. "
+            "A dramatic black and white fine art maternity portrait of a pregnant woman. "
             "She wears a stunning backless black gown with a long dramatic train pooling on a polished dark studio floor. "
-            "A single lateral key light sculpts her silhouette, creating strong, high-contrast chiaroscuro shadows "
-            "that elegantly highlight the curve of her belly and back. "
-            "Minimalist and powerful Vogue-style composition. "
-            "Premium photography, photorealistic, natural optical depth."
+            "Key light at 90 degrees camera-left, bare bulb with snoot, dark environment with no fill, sculpting her silhouette and creating strong, high-contrast chiaroscuro shadows that elegantly highlight the curve of her belly and back. "
+            "Minimalist and powerful Vogue-style composition."
         ),
     },
     "golden_hour_nature": {
         "name": "Pôr do Sol na Natureza",
         "category": "Natureza",
-        "description": "Campo aberto de flores silvestres banhado pela luz dourada de fim de tarde, criando uma aura mágica ao redor do cabelo e do vestido rosa antigo flutuante.",
+        "description": "Campo aberto de flores silvestres iluminadas pela luz dourada do fim de tarde, criando aura mágica ao redor da gestante.",
         "cover": "/thumbnails/golden_hour_nature.png",
         "prompt": (
-            "An outdoor maternity portrait of a pregnant woman — "
-            "the same woman from the 3 reference photos the client uploaded. "
-            "Open wildflower meadow during golden hour. "
-            "Warm amber backlight creating a luminous halo around the hair "
-            "and a gentle glow through her flowing dress in dusty rose. "
+            "An outdoor maternity portrait of a pregnant woman. "
+            "Open wildflower meadow during sunset. "
+            "Natural sunlight at low angle, backlight at 135 degrees, warm amber gel effect, intensity 30% of key light, creating a luminous halo around the hair and a gentle glow through her flowing dress in dusty rose. "
             "Soft bokeh from wildflowers in the foreground and background. "
-            "Relaxed pose, one hand beneath the belly, wind softly moving the dress and hair. "
-            "Warm golden skin tones, lifted shadows, natural greens. "
-            "Premium photography, photorealistic, natural optical depth."
+            "Wind softly moving the dress and hair, warm golden skin tones, lifted shadows, natural greens."
         ),
     },
     "boho_chic": {
         "name": "Boho Chic",
         "category": "Artístico",
-        "description": "Iluminação de janela filtrada por cortinas translúcidas sobre cenário rústico de capim dos pampas e tons terrosos, transmitindo aconchego e serenidade.",
+        "description": "Luz natural de janela filtrada sobre cenário rústico de capim dos pampas, com tons terrosos que transmitam aconchego.",
         "cover": "/thumbnails/boho_chic.png",
         "prompt": (
-            "A bohemian maternity portrait of a pregnant woman — "
-            "the same woman from the 3 reference photos the client uploaded. "
-            "Warm natural window light through sheer curtains, soft diffused illumination. "
+            "A bohemian maternity portrait of a pregnant woman. "
+            "Large window light at 90 degrees camera-left, double-diffused through sheer curtains, white bounce card at 45 degrees camera-right, creating soft diffused illumination. "
             "Dried floral accents: pampas grass and soft blush tones in the scene. "
             "She wears a flowing earth-toned outfit with the pregnant belly visible. "
             "Delicate accessories: a simple flower crown or gold accents. "
             "Muted earthy palette: warm sand, terracotta, sage green, dusty pink. "
-            "Soft painterly quality to the light, intimate and warm atmosphere. "
-            "Premium photography, photorealistic, natural optical depth."
+            "Soft painterly quality to the light, intimate and warm atmosphere."
         ),
     },
     "taupe_wings": {
         "name": "Asas de Chiffon Nude",
         "category": "Artístico",
-        "description": "Vestido de chiffon nude escuro flutuando ao vento em formato de asas, posicionado contra um fundo cinza com iluminação suave de softbox.",
-        "cover": "/thumbnails/taupe_wings.png",
+        "description": "Chiffon nude escuro forma asas ao vento, sobre fundo cinza iluminado suavemente.",
+        "cover": "/thumbnails/image2.png",
         "prompt": (
-            "An ethereal and artistic studio maternity portrait of a pregnant woman — "
-            "the same woman from the 3 reference photos the client uploaded. "
+            "An ethereal and artistic studio maternity portrait of a pregnant woman. "
             "She is dressed in a luxurious deep taupe-nude chiffon gown, with two wide fabric panels elegantly extended in mid-air on both sides in a natural wing-like shape. "
-            "One hand gently touches her hair in a relaxed gesture. "
-            "Set against a warm gray studio background with soft, elevated softbox illumination that creates gentle, gradual shadow roll-off. "
-            "Premium photography, photorealistic, natural optical depth."
+            "Key light from an elevated large softbox at 45 degrees overhead, with a silver reflector below at 30 degrees, creating gentle, gradual shadow roll-off, set against a warm gray studio background."
         ),
     },
     "red_lotus": {
         "name": "Lótus Vermelho",
         "category": "Especial",
-        "description": "Um ensaio natalino íntimo e divertido com pose de lótus em um sofá branco aconchegante, vestindo pijama de seda vermelho com balde de pipoca.",
-        "cover": "/thumbnails/red_lotus.png",
+        "description": "Ensaio natalino com pose de lótus em sofá branco, usando pijama de seda vermelho e balde de pipoca.",
+        "cover": "/thumbnails/image.png",
         "prompt": (
-            "A warm and cozy holiday maternity portrait of a pregnant woman — "
-            "the same woman from the 3 reference photos the client uploaded. "
+            "A warm and cozy holiday maternity portrait of a pregnant woman. "
             "She is sitting in a relaxed lotus position on a comfortable white sofa, wearing soft red silk pajamas with her pregnant belly exposed. "
             "She holds a classic red and white striped popcorn box in one hand, smiling gently while eating with the other. "
             "Her hair is styled in a casual, elegant bun with two soft strands framing her face. "
-            "Atmospheric dark lounge setting illuminated by a natural camera flash, "
-            "with the warm glowing edge of a decorated Christmas tree softly blurred on the side. "
-            "Intimate, authentic holiday mood. "
-            "Premium photography, photorealistic, natural optical depth."
+            "On-axis ring flash at low intensity, combined with ambient warm light from a decorated Christmas tree at 135 degrees behind the sofa, creating a warm glowing edge on an atmospheric dark lounge setting. "
+            "Intimate, authentic holiday mood."
         ),
     },
 }
@@ -249,7 +241,8 @@ NEGATIVE_PROMPT = (
     "perfectly symmetrical face, doll-like features, uncanny valley, dead eyes, "
     "visible AI artifacts, seam lines, inconsistent lighting direction, "
     "stock photo aesthetic, clip art, "
-    "nudity, nsfw, inappropriate content, suggestive pose."
+    "nudity, nsfw, inappropriate content, suggestive pose, "
+    "face mismatch, identity drift, different person, altered facial structure, swapped identity, generic face, not the same person."
 )
 
 # ══════════════════════════════════════════════════════════════
@@ -260,8 +253,10 @@ def generate_prompt(
     tipo_ensaio: str,
     subject_description: str = "",
     framing: Literal["full_body", "three_quarters", "medium", "close_up_emotional", "detail_hands_belly"] = "full_body",
-    use_naturalness_booster: bool = True,
-    use_identity_text: bool = True
+    use_naturalness_booster: Optional[bool] = None,
+    use_identity_text: bool = True,
+    pose_key: str = "front_cradle",
+    expression_key: str = "warm"
 ) -> str:
     """
     Gera um prompt completo e otimizado para google/nano-banana-pro.
@@ -270,18 +265,23 @@ def generate_prompt(
     1. IDENTITY_ANCHOR — preservação de identidade
     2. Prompt do estilo (scene_prompt)
     3. Enquadramento (framing)
-    4. Descrição física do sujeito (se fornecida)
-    5. NATURALNESS_BOOSTER
-    6. QUALITY_CORE
+    4. Pose (POSE_LIBRARY)
+    5. Expressão (EXPRESSION_LIBRARY)
+    6. Descrição física do sujeito (se fornecida)
+    7. NATURALNESS_BOOSTER (condicional)
+    8. QUALITY_CORE (com câmera)
     """
     
+    # Determina o uso do naturalness booster se não for especificado explicitamente
+    if use_naturalness_booster is None:
+        use_naturalness_booster = tipo_ensaio not in NO_BOOSTER_STYLES
+
     preset = STYLE_PRESETS.get(tipo_ensaio)
 
     if not preset:
         logger.warning(f"Unknown tipo_ensaio: {tipo_ensaio}, using fallback")
         scene_prompt = (
-            "A beautiful professional maternity portrait of a pregnant woman — "
-            "the same woman from the 3 reference photos the client uploaded. "
+            "A beautiful professional maternity portrait of a pregnant woman. "
             "Soft natural light, natural skin texture, authentic pregnancy glow. "
             "Premium photography, photorealistic, natural optical depth."
         )
@@ -294,14 +294,27 @@ def generate_prompt(
         parts.append(IDENTITY_ANCHOR)
 
     parts.append(scene_prompt)
+    
+    # Enquadramento (framing)
     parts.append(FRAMING_VARIANTS.get(framing, FRAMING_VARIANTS["full_body"]))
+    
+    # Pose (POSE_LIBRARY)
+    pose_text = POSE_LIBRARY.get(pose_key, POSE_LIBRARY["front_cradle"])
+    parts.append(pose_text)
+    
+    # Expressão (EXPRESSION_LIBRARY)
+    expression_text = EXPRESSION_LIBRARY.get(expression_key, EXPRESSION_LIBRARY["warm"])
+    parts.append(expression_text)
 
+    # Detalhes adicionais do sujeito
     if subject_description:
         parts.append(f"Additional details about the subject: {subject_description}")
 
+    # NATURALNESS_BOOSTER (condicional)
     if use_naturalness_booster:
         parts.append(NATURALNESS_BOOSTER)
 
+    # QUALITY_CORE (com controle de câmera)
     parts.append(QUALITY_CORE)
 
     final_prompt = " ".join(parts)
@@ -316,7 +329,7 @@ def generate_negative_prompt() -> str:
 # ══════════════════════════════════════════════════════════════
 
 def get_available_styles() -> list:
-    """Retorna a lista de estilos disponíveis (apenas os 5 mantidos)."""
+    """Retorna a lista de estilos disponíveis."""
     return [
         {
             "id": key, 
