@@ -315,7 +315,7 @@ export default function GeneratePage() {
                 >
                   <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-10 transition-opacity" />
                   <img
-                    src={`/thumbnails/${style.id}.png`}
+                    src={style.cover}
                     alt={style.name}
                     className={`w-full h-full object-cover transition-all duration-[2s] group-hover:scale-110 ${selectedStyle?.id === style.id ? 'opacity-100 scale-110' : 'opacity-40 scale-105 group-hover:opacity-80'
                       }`}

@@ -87,11 +87,27 @@ FRAMING_VARIANTS = {
 # (Apenas 5 estilos mantidos)
 # ══════════════════════════════════════════════════════════════
 STYLE_PRESETS = {
-    "luxury_studio": {
-        "name": "Luxury Studio",
+    "classic": {
+        "name": "Clássico Clean",
         "category": "Clássico",
-        "description": "Fundo neutro, iluminação de estúdio profissional e elegância atemporal.",
-        "cover": "https://images.unsplash.com/photo-1544126592-807daa2b565b?auto=format&fit=crop&q=80&w=600",
+        "description": "Cenário minimalista com iluminação suave e tons neutros, celebrando a beleza natural da gestação em uma composição elegante e atemporal.",
+        "cover": "/thumbnails/classic.png",
+        "prompt": (
+            "A classic maternity studio portrait of a pregnant woman — "
+            "the same woman from the 3 reference photos the client uploaded. "
+            "Soft even studio lighting, neutral warm-toned backdrop. "
+            "Elegant and timeless composition, natural colors, gentle expression. "
+            "She wears a simple flowing white or cream dress that drapes naturally over the belly. "
+            "Hands cradling the belly, relaxed shoulders, warm genuine smile. "
+            "Natural skin texture, authentic pregnancy glow. "
+            "Premium photography, photorealistic, natural optical depth."
+        ),
+    },
+    "luxury_studio": {
+        "name": "Estúdio Luxo",
+        "category": "Clássico",
+        "description": "Fundo cinza-pomba com degradê sutil e iluminação de contorno desenhando a silhueta, trazendo um ar sofisticado de alta costura com vestido marfim.",
+        "cover": "/thumbnails/luxury_studio.png",
         "prompt": (
             "A luxury studio maternity portrait of a pregnant woman — "
             "the same woman from the 3 reference photos the client uploaded. "
@@ -104,11 +120,57 @@ STYLE_PRESETS = {
             "Premium photography, photorealistic, natural optical depth."
         ),
     },
+    "ivory_satin": {
+        "name": "Cetim Imperial",
+        "category": "Vogue Style",
+        "description": "Luxuoso vestido de cetim marfim sem costas com cauda longa sobre piso polido, banhado por uma iluminação lateral cinematográfica com sombras refinadas.",
+        "cover": "/thumbnails/ivory_satin.png",
+        "prompt": (
+            "An elegant and luxurious studio maternity portrait of a pregnant woman — "
+            "the same woman from the 3 reference photos the client uploaded. "
+            "She wears a sophisticated ivory satin backless gown with a long flowing train pooling gracefully on a polished neutral studio floor. "
+            "Soft lateral cinematic lighting casts refined chiaroscuro shadows across her body, accentuating the natural pregnancy curve. "
+            "Warm monochromatic tones and a high-fashion Vogue-style composition. "
+            "Premium photography, photorealistic, natural optical depth."
+        ),
+    },
+    "black_white_editorial": {
+        "name": "Preto & Branco Editorial",
+        "category": "Vogue Style",
+        "description": "Retrato artístico em alto contraste com sombras suaves esculpindo o corpo, criando um visual conceitual de revista de moda com textura de grão de filme.",
+        "cover": "/thumbnails/black_white_editorial.png",
+        "prompt": (
+            "An elegant black and white maternity portrait of a pregnant woman — "
+            "the same woman from the 3 reference photos the client uploaded. "
+            "Soft directional lighting sculpting the face and belly curve with gentle shadows. "
+            "Rich tonal range from deep blacks to clean whites. "
+            "She wears a simple elegant dark outfit that drapes beautifully over the belly. "
+            "Graceful pose — soft expression, one hand gently on the belly, serene and maternal. "
+            "Clean minimalist background for figure-ground separation. "
+            "Timeless monochrome aesthetic with subtle film grain and natural contrast. "
+            "Premium photography, photorealistic, natural optical depth."
+        ),
+    },
+    "dramatic_black_gown": {
+        "name": "Vestido Preto Dramático",
+        "category": "Especial",
+        "description": "Uma composição marcante com iluminação lateral Chiaroscuro esculpindo o corpo em um vestido preto sem costas com cauda longa sobre piso escuro polido.",
+        "cover": "/thumbnails/dramatic_black_gown.png",
+        "prompt": (
+            "A dramatic black and white fine art maternity portrait of a pregnant woman — "
+            "the same woman from the 3 reference photos the client uploaded. "
+            "She wears a stunning backless black gown with a long dramatic train pooling on a polished dark studio floor. "
+            "A single lateral key light sculpts her silhouette, creating strong, high-contrast chiaroscuro shadows "
+            "that elegantly highlight the curve of her belly and back. "
+            "Minimalist and powerful Vogue-style composition. "
+            "Premium photography, photorealistic, natural optical depth."
+        ),
+    },
     "golden_hour_nature": {
-        "name": "Golden Hour Nature",
+        "name": "Pôr do Sol na Natureza",
         "category": "Natureza",
-        "description": "Campo aberto com a luz mágica do pôr do sol.",
-        "cover": "https://images.unsplash.com/photo-1594434296621-507bc67a78c1?auto=format&fit=crop&q=80&w=600",
+        "description": "Campo aberto de flores silvestres banhado pela luz dourada de fim de tarde, criando uma aura mágica ao redor do cabelo e do vestido rosa antigo flutuante.",
+        "cover": "/thumbnails/golden_hour_nature.png",
         "prompt": (
             "An outdoor maternity portrait of a pregnant woman — "
             "the same woman from the 3 reference photos the client uploaded. "
@@ -124,8 +186,8 @@ STYLE_PRESETS = {
     "boho_chic": {
         "name": "Boho Chic",
         "category": "Artístico",
-        "description": "Decoração rústica, flores secas e tons pastéis.",
-        "cover": "https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&q=80&w=600",
+        "description": "Iluminação de janela filtrada por cortinas translúcidas sobre cenário rústico de capim dos pampas e tons terrosos, transmitindo aconchego e serenidade.",
+        "cover": "/thumbnails/boho_chic.png",
         "prompt": (
             "A bohemian maternity portrait of a pregnant woman — "
             "the same woman from the 3 reference photos the client uploaded. "
@@ -138,76 +200,11 @@ STYLE_PRESETS = {
             "Premium photography, photorealistic, natural optical depth."
         ),
     },
-    "black_white_editorial": {
-        "name": "Black & White Editorial",
-        "category": "Vogue Style",
-        "description": "Alto contraste, estilo elegante em preto e branco.",
-        "cover": "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=600",
-        "prompt": (
-            "An elegant black and white maternity portrait of a pregnant woman — "
-            "the same woman from the 3 reference photos the client uploaded. "
-            "Soft directional lighting sculpting the face and belly curve with gentle shadows. "
-            "Rich tonal range from deep blacks to clean whites. "
-            "She wears a simple elegant dark outfit that drapes beautifully over the belly. "
-            "Graceful pose — soft expression, one hand gently on the belly, serene and maternal. "
-            "Clean minimalist background for figure-ground separation. "
-            "Timeless monochrome aesthetic with subtle film grain and natural contrast. "
-            "Premium photography, photorealistic, natural optical depth."
-        ),
-    },
-    "classic": {
-        "name": "Clássico",
-        "category": "Clássico",
-        "description": "Estilo clássico com iluminação suave e cenário neutro.",
-        "cover": "https://picsum.photos/seed/classic/600/800",
-        "prompt": (
-            "A classic maternity studio portrait of a pregnant woman — "
-            "the same woman from the 3 reference photos the client uploaded. "
-            "Soft even studio lighting, neutral warm-toned backdrop. "
-            "Elegant and timeless composition, natural colors, gentle expression. "
-            "She wears a simple flowing white or cream dress that drapes naturally over the belly. "
-            "Hands cradling the belly, relaxed shoulders, warm genuine smile. "
-            "Natural skin texture, authentic pregnancy glow. "
-            "Premium photography, photorealistic, natural optical depth."
-        ),
-    },
-    "red_lotus": {
-        "name": "Lótus Vermelho",
-        "category": "Especial",
-        "description": "Clima natalino, sofá branco, pijama vermelho e pipoca – uma pose aconchegante e divertida.",
-        "cover": "https://picsum.photos/seed/red_lotus/600/800",
-        "prompt": (
-            "A warm and cozy holiday maternity portrait of a pregnant woman — "
-            "the same woman from the 3 reference photos the client uploaded. "
-            "She is sitting in a relaxed lotus position on a comfortable white sofa, wearing soft red silk pajamas with her pregnant belly exposed. "
-            "She holds a classic red and white striped popcorn box in one hand, smiling gently while eating with the other. "
-            "Her hair is styled in a casual, elegant bun with two soft strands framing her face. "
-            "Atmospheric dark lounge setting illuminated by a natural camera flash, "
-            "with the warm glowing edge of a decorated Christmas tree softly blurred on the side. "
-            "Intimate, authentic holiday mood. "
-            "Premium photography, photorealistic, natural optical depth."
-        ),
-    },
-    "dramatic_black_gown": {
-        "name": "Vestido Preto Dramático",
-        "category": "Especial",
-        "description": "Vestido preto dramático sem costas com cauda longa em piso escuro polido, luz lateral criando sombras marcantes chiaroscuro.",
-        "cover": "/thumbnails/image2.png",
-        "prompt": (
-            "A dramatic black and white fine art maternity portrait of a pregnant woman — "
-            "the same woman from the 3 reference photos the client uploaded. "
-            "She wears a stunning backless black gown with a long dramatic train pooling on a polished dark studio floor. "
-            "A single lateral key light sculpts her silhouette, creating strong, high-contrast chiaroscuro shadows "
-            "that elegantly highlight the curve of her belly and back. "
-            "Minimalist and powerful Vogue-style composition. "
-            "Premium photography, photorealistic, natural optical depth."
-        ),
-    },
     "taupe_wings": {
         "name": "Asas de Chiffon Nude",
         "category": "Artístico",
-        "description": "Vestido de chiffon nude escuro com painéis de tecido flutuando em formato de asas, fundo cinza e luz de softbox.",
-        "cover": "/thumbnails/image3.png",
+        "description": "Vestido de chiffon nude escuro flutuando ao vento em formato de asas, posicionado contra um fundo cinza com iluminação suave de softbox.",
+        "cover": "/thumbnails/taupe_wings.png",
         "prompt": (
             "An ethereal and artistic studio maternity portrait of a pregnant woman — "
             "the same woman from the 3 reference photos the client uploaded. "
@@ -217,17 +214,20 @@ STYLE_PRESETS = {
             "Premium photography, photorealistic, natural optical depth."
         ),
     },
-    "ivory_satin": {
-        "name": "Cetim Imperial",
-        "category": "Vogue Style",
-        "description": "Fotografia ultra realista de gestante em vestido de cetim marfim luxuoso sem costas, cauda longa em piso neutro, iluminação lateral cinematográfica.",
-        "cover": "/thumbnails/image.png",
+    "red_lotus": {
+        "name": "Lótus Vermelho",
+        "category": "Especial",
+        "description": "Um ensaio natalino íntimo e divertido com pose de lótus em um sofá branco aconchegante, vestindo pijama de seda vermelho com balde de pipoca.",
+        "cover": "/thumbnails/red_lotus.png",
         "prompt": (
-            "An elegant and luxurious studio maternity portrait of a pregnant woman — "
+            "A warm and cozy holiday maternity portrait of a pregnant woman — "
             "the same woman from the 3 reference photos the client uploaded. "
-            "She wears a sophisticated ivory satin backless gown with a long flowing train pooling gracefully on a polished neutral studio floor. "
-            "Soft lateral cinematic lighting casts refined chiaroscuro shadows across her body, accentuating the natural pregnancy curve. "
-            "Warm monochromatic tones and a high-fashion Vogue-style composition. "
+            "She is sitting in a relaxed lotus position on a comfortable white sofa, wearing soft red silk pajamas with her pregnant belly exposed. "
+            "She holds a classic red and white striped popcorn box in one hand, smiling gently while eating with the other. "
+            "Her hair is styled in a casual, elegant bun with two soft strands framing her face. "
+            "Atmospheric dark lounge setting illuminated by a natural camera flash, "
+            "with the warm glowing edge of a decorated Christmas tree softly blurred on the side. "
+            "Intimate, authentic holiday mood. "
             "Premium photography, photorealistic, natural optical depth."
         ),
     },
