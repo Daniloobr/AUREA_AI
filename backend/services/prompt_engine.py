@@ -1,3 +1,10 @@
+"""
+Prompt Engine — Otimizado para google/nano-banana-pro
+=====================================================
+Este modelo recebe `image_input` com as 3 fotos de referência
+do cliente e preserva a identidade facial na imagem gerada.
+O prompt textual serve como guia de estilo, enquadramento e qualidade.
+"""
 import logging
 from typing import Optional, Literal
 
@@ -6,33 +13,24 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # ══════════════════════════════════════════════════════════════
-# REFERENCE PHOTOS ANCHOR — Imagen 4 Ultra
+# IDENTITY ANCHOR — google/nano-banana-pro
 # ══════════════════════════════════════════════════════════════
-# This block is prepended to EVERY prompt so the model knows
-# the user has uploaded 3 reference selfies and the output
-# must faithfully reproduce the same person.
+# Bloco único de preservação de identidade. Prepended a todo
+# prompt para garantir que o modelo use as 3 fotos de referência
+# como fonte de verdade absoluta para rosto e corpo.
 # ══════════════════════════════════════════════════════════════
-REFERENCE_ANCHOR = (
+IDENTITY_ANCHOR = (
     "The client has uploaded 3 reference photos of herself. "
     "Your PRIMARY TASK is to preserve the identity of this exact person. "
     "The generated image MUST use the SAME FACE from the reference photos — "
     "do not modify, beautify, idealize, or change facial features in any way. "
     "Identity preservation is more important than style, lighting, or composition. "
     "If there is any conflict between aesthetics and identity, ALWAYS prioritize identity. "
-    "The face must match exactly: same bone structure, same eyes, same nose, same lips, "
-    "same proportions, same skin tone, same hairline and texture. "
-    "This is NOT a generic model. This is NOT a similar person. "
-    "It must look like a real photo of the SAME woman from the reference images. "
-    "Do not change ethnicity, facial structure, or age. "
-    "Do not apply beauty filters or symmetry corrections. "
-    "The body should look natural and consistent with a pregnant woman, "
-    "but facial identity must remain the same. "
-)
-
-IDENTITY_REINFORCEMENT = (
-    "Use the uploaded reference images as the sole source of truth for the face. "
-    "The face must remain consistent with the reference images under all conditions, "
-    "angles, lighting, and expressions. "
+    "Same bone structure, same eyes, same nose, same lips, same skin tone, same hairline. "
+    "Do not change ethnicity, facial structure, or age. No beauty filters or symmetry corrections. "
+    "The body should look natural and consistent with a pregnant woman. "
+    "Use the reference images as the sole source of truth for the face — "
+    "the face must remain consistent under all conditions, angles, lighting, and expressions. "
 )
 
 # ══════════════════════════════════════════════════════════════
@@ -98,7 +96,7 @@ FRAMING_VARIANTS = {
 }
 
 # ══════════════════════════════════════════════════════════════
-# STYLE PRESETS — Otimizados para Google Imagen 4 Ultra
+# STYLE PRESETS — Otimizados para google/nano-banana-pro
 # Cada prompt inclui a instrução de fidelidade às 3 fotos
 # e a estética "shot on a high-end smartphone".
 # ══════════════════════════════════════════════════════════════
@@ -322,15 +320,15 @@ def generate_prompt(
     use_identity_text: bool = True
 ) -> str:
     """
-    Gera um prompt completo e otimizado para Google Imagen 4 Ultra.
+    Gera um prompt completo e otimizado para google/nano-banana-pro.
     
-    Cada prompt gerado inclui:
-    1. Instrução de fidelidade às 3 fotos de referência enviadas pelo cliente
-    2. A cena/estilo escolhido
-    3. Enquadramento
+    Ordem dos componentes:
+    1. IDENTITY_ANCHOR — preservação de identidade (prioridade máxima)
+    2. Prompt do estilo (scene_prompt)
+    3. Enquadramento (framing)
     4. Descrição física do sujeito (se fornecida)
-    5. Naturalidade e texturas realistas
-    6. Estética "shot on a high-end smartphone"
+    5. NATURALNESS_BOOSTER
+    6. QUALITY_CORE
     """
     
     preset = STYLE_PRESETS.get(tipo_ensaio)
@@ -348,31 +346,26 @@ def generate_prompt(
 
     parts = []
 
-    # 1. IDENTITY (forte e absoluta)
+    # 1. IDENTITY (prioridade máxima)
     if use_identity_text:
-        parts.append(REFERENCE_ANCHOR)
-        # 2. REFORÇO DE IDENTIDADE
-        parts.append(IDENTITY_REINFORCEMENT)
+        parts.append(IDENTITY_ANCHOR)
 
-    # 3. CENA
+    # 2. CENA (estilo)
     parts.append(scene_prompt)
 
-    # 4. ENQUADRAMENTO
+    # 3. ENQUADRAMENTO
     parts.append(FRAMING_VARIANTS.get(framing, FRAMING_VARIANTS["full_body"]))
 
-    # 5. DETALHES
+    # 4. DETALHES DO SUJEITO
     if subject_description:
         parts.append(f"Additional details about the subject: {subject_description}")
 
-    # 6. NATURALNESS
+    # 5. NATURALNESS
     if use_naturalness_booster:
         parts.append(NATURALNESS_BOOSTER)
 
-    # 7. QUALIDADE
+    # 6. QUALIDADE
     parts.append(QUALITY_CORE)
-
-    # 8. ENDING INSIGHT
-    parts.append("This is a real photo of the same person, not a generated or fictional identity.")
 
     final_prompt = " ".join(parts)
     logger.info(f"Prompt gerado com sucesso para o estilo: {tipo_ensaio} ({len(final_prompt)} chars)")
