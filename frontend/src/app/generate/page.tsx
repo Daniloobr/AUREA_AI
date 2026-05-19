@@ -63,7 +63,9 @@ export default function GeneratePage() {
         const res = await apiService.get('/styles');
         if (res.styles) {
           const finalStyles = res.styles.map((s: Style) => {
-            const coverUrl = s.cover?.startsWith('http') && !s.cover.includes('picsum') ? s.cover : `/thumbnails/${s.id}.png`;
+            const coverUrl = s.cover?.startsWith('/thumbnails/')
+              ? s.cover
+              : (s.cover?.startsWith('http') && !s.cover.includes('picsum') ? s.cover : `/thumbnails/${s.id}.png`);
             return {
               ...s,
               cover: coverUrl

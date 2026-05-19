@@ -189,10 +189,10 @@ STYLE_PRESETS = {
         ),
     },
     "dramatic_black_gown": {
-        "name": "Silhueta Noir",
+        "name": "Vestido Preto Dramático",
         "category": "Especial",
-        "description": "Vestido preto dramático com cauda longa em piso escuro polido, com iluminação lateral marcante.",
-        "cover": "https://picsum.photos/seed/dramatic_black_gown/600/800",
+        "description": "Vestido preto dramático sem costas com cauda longa em piso escuro polido, luz lateral criando sombras marcantes chiaroscuro.",
+        "cover": "/thumbnails/image2.png",
         "prompt": (
             "A dramatic black and white fine art maternity portrait of a pregnant woman — "
             "the same woman from the 3 reference photos the client uploaded. "
@@ -204,10 +204,10 @@ STYLE_PRESETS = {
         ),
     },
     "taupe_wings": {
-        "name": "Asas de Chiffon",
+        "name": "Asas de Chiffon Nude",
         "category": "Artístico",
-        "description": "Vestido nude com painéis de chiffon flutuando como asas, criando um visual etéreo e escultural.",
-        "cover": "https://picsum.photos/seed/taupe_wings/600/800",
+        "description": "Vestido de chiffon nude escuro com painéis de tecido flutuando em formato de asas, fundo cinza e luz de softbox.",
+        "cover": "/thumbnails/image3.png",
         "prompt": (
             "An ethereal and artistic studio maternity portrait of a pregnant woman — "
             "the same woman from the 3 reference photos the client uploaded. "
@@ -220,8 +220,8 @@ STYLE_PRESETS = {
     "ivory_satin": {
         "name": "Cetim Imperial",
         "category": "Vogue Style",
-        "description": "Vestido luxuoso de cetim marfim com cauda fluida, iluminação cinematográfica e tons quentes de estúdio.",
-        "cover": "https://picsum.photos/seed/ivory_satin/600/800",
+        "description": "Fotografia ultra realista de gestante em vestido de cetim marfim luxuoso sem costas, cauda longa em piso neutro, iluminação lateral cinematográfica.",
+        "cover": "/thumbnails/image.png",
         "prompt": (
             "An elegant and luxurious studio maternity portrait of a pregnant woman — "
             "the same woman from the 3 reference photos the client uploaded. "
