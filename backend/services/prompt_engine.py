@@ -27,6 +27,20 @@ IDENTITY_ANCHOR = (
 )
 
 # ══════════════════════════════════════════════════════════════
+# SKIN & MAKEUP PRESETS
+# ══════════════════════════════════════════════════════════════
+SKIN_MAKEUP_NATURAL = (
+    "Natural skin texture preserved, no visible makeup. "
+    "Soft even tone, subtle natural glow, authentic pores and fine lines visible."
+)
+
+SKIN_MAKEUP_EDITORIAL = (
+    "Professionally polished skin with a natural-looking soft matte finish. "
+    "Light natural makeup: soft contour on cheeks, matte T-zone, subtle highlight on brow bone and cupid's bow. "
+    "Natural lip color with slight satin sheen. No heavy foundation, no plastic look, no loss of skin texture."
+)
+
+# ══════════════════════════════════════════════════════════════
 # QUALITY CORE — premium photography aesthetic
 # ══════════════════════════════════════════════════════════════
 QUALITY_CORE = (
@@ -67,6 +81,9 @@ EXPRESSION_LIBRARY = {
 
 # Estilos editoriais/dramáticos que não devem usar NATURALNESS_BOOSTER por padrão
 NO_BOOSTER_STYLES = ["black_white_editorial", "dramatic_black_gown"]
+
+# Estilos que recebem acabamento de pele editorial (maquiagem leve e polimento)
+EDITORIAL_SKIN_STYLES = ["black_white_editorial", "dramatic_black_gown", "ivory_satin"]
 
 # ══════════════════════════════════════════════════════════════
 # FRAMING VARIANTS
@@ -268,8 +285,10 @@ def generate_prompt(
     4. Pose (POSE_LIBRARY)
     5. Expressão (EXPRESSION_LIBRARY)
     6. Descrição física do sujeito (se fornecida)
-    7. NATURALNESS_BOOSTER (condicional)
-    8. QUALITY_CORE (com câmera)
+    7. Bloco de pele/maquiagem (natural ou editorial)
+    8. NATURALNESS_BOOSTER (condicional)
+    9. QUALITY_CORE (com câmera)
+    10. IDENTITY_ANCHOR repetido (reforço final)
     """
     
     # Determina o uso do naturalness booster se não for especificado explicitamente
@@ -290,34 +309,42 @@ def generate_prompt(
 
     parts = []
 
+    # 1. Identidade
     if use_identity_text:
         parts.append(IDENTITY_ANCHOR)
 
+    # 2. Estilo
     parts.append(scene_prompt)
     
-    # Enquadramento (framing)
+    # 3. Enquadramento
     parts.append(FRAMING_VARIANTS.get(framing, FRAMING_VARIANTS["full_body"]))
     
-    # Pose (POSE_LIBRARY)
+    # 4. Pose
     pose_text = POSE_LIBRARY.get(pose_key, POSE_LIBRARY["front_cradle"])
     parts.append(pose_text)
     
-    # Expressão (EXPRESSION_LIBRARY)
+    # 5. Expressão
     expression_text = EXPRESSION_LIBRARY.get(expression_key, EXPRESSION_LIBRARY["warm"])
     parts.append(expression_text)
 
-    # Detalhes adicionais do sujeito
+    # 6. Detalhes adicionais do sujeito
     if subject_description:
         parts.append(f"Additional details about the subject: {subject_description}")
 
-    # NATURALNESS_BOOSTER (condicional)
+    # 7. Bloco de pele/maquiagem (escolhe entre natural e editorial)
+    if tipo_ensaio in EDITORIAL_SKIN_STYLES:
+        parts.append(SKIN_MAKEUP_EDITORIAL)
+    else:
+        parts.append(SKIN_MAKEUP_NATURAL)
+
+    # 8. NATURALNESS_BOOSTER (condicional)
     if use_naturalness_booster:
         parts.append(NATURALNESS_BOOSTER)
 
-    # QUALITY_CORE (com controle de câmera)
+    # 9. QUALITY_CORE
     parts.append(QUALITY_CORE)
 
-    # Segunda ocorrência do IDENTITY_ANCHOR no final do prompt (depois de todos os outros blocos) para reforçar preservação de identidade
+    # 10. Reforço final de identidade
     if use_identity_text:
         parts.append(IDENTITY_ANCHOR)
 
