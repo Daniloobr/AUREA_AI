@@ -62,36 +62,16 @@ export default function GeneratePage() {
         // Usando a nova rota /api/styles conforme PDR 1.0.0
         const res = await apiService.get('/styles');
         if (res.styles) {
-          const allowedIds = [
-            'luxury_studio',
-            'golden_hour_nature',
-            'boho_chic',
-            'black_white_editorial',
-            'red_lotus',
-            'dramatic_black_gown',
-            'taupe_wings',
-            'ivory_satin'
-          ];
-          const filtered = res.styles.filter((s: Style) => allowedIds.includes(s.id));
-
-          const finalStyles = filtered.map((s: Style) => {
-            const overrides: Partial<Style> = { cover: `/thumbnails/${s.id}.png` };
-            if (s.id === 'luxury_studio') overrides.name = 'Luxury Studio';
-            if (s.id === 'golden_hour_nature') overrides.name = 'Golden Hour Nature';
-            if (s.id === 'boho_chic') overrides.name = 'Boho Chic';
-            if (s.id === 'black_white_editorial') overrides.name = 'Black & White Editorial';
-            if (s.id === 'red_lotus') overrides.name = 'Lótus Vermelho';
-            if (s.id === 'dramatic_black_gown') overrides.name = 'Silhueta Noir';
-            if (s.id === 'taupe_wings') overrides.name = 'Asas de Chiffon';
-            if (s.id === 'ivory_satin') overrides.name = 'Cetim Imperial';
-            return { ...s, ...overrides };
+          const finalStyles = res.styles.map((s: Style) => {
+            const coverUrl = s.cover?.startsWith('http') && !s.cover.includes('picsum') ? s.cover : `/thumbnails/${s.id}.png`;
+            return {
+              ...s,
+              cover: coverUrl
+            };
           });
 
-          // Caso a ordem do backend seja diferente, podemos forçar a ordem da tabela
-          const orderedStyles = allowedIds.map(id => finalStyles.find((s: Style) => s.id === id)).filter(Boolean) as Style[];
-
-          setStyles(orderedStyles);
-          setSelectedStyle(orderedStyles[0] || null);
+          setStyles(finalStyles);
+          setSelectedStyle(finalStyles[0] || null);
         }
       } catch (err) {
         console.error("Erro ao carregar estilos:", err);
