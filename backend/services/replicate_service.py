@@ -1,13 +1,13 @@
 """
-Replicate API Service — FLUX + PuLID (Ultra Premium)
-======================================================
-Handles communication with Replicate using the FLUX + PuLID model.
-This is the gold standard for high-fidelity maternity photos.
+Replicate API Service — openai/gpt-image-2
+===========================================
+Handles communication with Replicate using the openai/gpt-image-2 model.
+This model supports 3 reference images and produces ultra-realistic maternity photos.
 
 Features:
-- Single image generation per call (Rate-limit safe)
-- Identity preservation via PuLID
-- Cinematic quality via FLUX
+- Single image generation per call (rate-limit safe)
+- Identity preservation via input_images (3 reference photos)
+- Medium quality preset for optimal cost/quality balance
 - Smart retry logic for 429 errors
 """
 import os
@@ -37,10 +37,10 @@ def generate_images(
     Args:
         image_urls: List of 3 reference image URLs
         prompt: Full generation prompt
-        resolution: Resolution ("2K", etc)
-        aspect_ratio: Aspect ratio ("1:1", "16:9", "9:16", etc)
+        resolution: Resolution ("2K", etc) - not directly used by this model
+        aspect_ratio: Aspect ratio ("1:1", "3:2", "2:3") - normalized to "2:3" for vertical portraits
         output_format: Image format ("webp", "jpg", "png")
-        safety_filter_level: Safety filter level
+        safety_filter_level: Not used (kept for compatibility)
     
     Returns:
         dict with 'success', 'images' (list of URLs), 'error'
@@ -53,17 +53,16 @@ def generate_images(
     }
 
     try:
-        import os
         token = os.environ.get('REPLICATE_API_TOKEN', '').strip()
         
-        # Limpa caso o usuário tenha copiado 'REPLICATE_API_TOKEN=r8_...' no valor
+        # Clean up if user accidentally pasted 'REPLICATE_API_TOKEN=r8_...'
         if token.startswith('REPLICATE_API_TOKEN='):
             token = token.replace('REPLICATE_API_TOKEN=', '').strip()
             
         if not token or 'YOUR_' in token:
             raise ValueError("Replicate API token is missing.")
 
-        # Garante que a env var também está limpa (sem \n)
+        # Ensure environment variable is clean (no newlines)
         os.environ['REPLICATE_API_TOKEN'] = token
 
         logger.info(f"Starting openai/gpt-image-2 Generation...")
@@ -72,28 +71,24 @@ def generate_images(
 
         start_time = time.time()
 
+        # Normalize aspect ratio to accepted values
+        valid_ratios = ["1:1", "3:2", "2:3"]
+        if aspect_ratio not in valid_ratios:
+            logger.warning(f"Aspect ratio '{aspect_ratio}' not supported, using '2:3' (vertical portrait)")
+            aspect_ratio = "2:3"
+
         # Build input for openai/gpt-image-2
         replicate_input = {
             "prompt": prompt,
             "input_images": image_urls,
-            "aspect_ratio": aspect_ratio if aspect_ratio in ["1:1", "3:2", "2:3"] else "2:3",
-            "quality": "auto",
+            "aspect_ratio": aspect_ratio,
+            "quality": "medium",               # ← fixed to medium for optimal cost/quality
             "background": "auto",
             "moderation": "auto",
             "output_format": output_format if output_format in ["webp", "jpg", "png"] else "webp",
             "output_compression": 90,
             "number_of_images": 1
         }
-
-        # Fallback parameters logic (saved for reference if needed)
-        # replicate_input_fallback = {
-        #     "prompt": prompt,
-        #     "resolution": resolution,
-        #     "image_input": image_urls,
-        #     "aspect_ratio": aspect_ratio,
-        #     "output_format": output_format,
-        #     "safety_filter_level": safety_filter_level
-        # }
 
         client = replicate.Client(api_token=token)
         output = client.run(
@@ -104,7 +99,7 @@ def generate_images(
         elapsed = round(time.time() - start_time, 2)
         result["generation_time"] = elapsed
 
-        # Process output
+        # Process output (list of FileOutput objects)
         images = []
         if output:
             if isinstance(output, list):
@@ -120,7 +115,7 @@ def generate_images(
             result["images"] = images
             logger.info(f"openai/gpt-image-2 Complete: {len(images)} images in {elapsed}s")
             
-            # Atualiza o job no banco de dados se job_id foi fornecido
+            # Update job in database if job_id provided
             job_id = kwargs.get('job_id')
             if job_id:
                 try:
@@ -136,11 +131,11 @@ def generate_images(
                         job.progress = 100
                         job.message = "Sucesso! Seu ensaio premium está pronto."
                         db.session.commit()
-                        logger.info(f"[Replicate Service] Job {job_id} atualizado com status='completed' e result_url='{images[0]}'")
+                        logger.info(f"[Replicate Service] Job {job_id} updated to 'completed' with result_url='{images[0]}'")
                     else:
-                        logger.warning(f"[Replicate Service] Job {job_id} não encontrado no banco.")
+                        logger.warning(f"[Replicate Service] Job {job_id} not found in database.")
                 except Exception as db_err:
-                    logger.error(f"[Replicate Service] Erro ao atualizar job {job_id} no banco: {db_err}")
+                    logger.error(f"[Replicate Service] Error updating job {job_id}: {db_err}")
         else:
             result["error"] = "Replicate returned empty output"
             logger.error("No images returned from openai/gpt-image-2")
@@ -180,7 +175,7 @@ def generate_with_retry(image_urls: list, prompt: str, max_retries: int = 3, **k
 
 def download_generated_image(url: str, save_dir: str = None) -> str:
     """
-    Downloads image and saves locally.
+    Downloads generated image and saves locally (for legacy support).
     """
     if save_dir is None:
         save_dir = Config.OUTPUTS_FOLDER
@@ -190,7 +185,7 @@ def download_generated_image(url: str, save_dir: str = None) -> str:
         response.raise_for_status()
 
         ext = 'jpg' if 'jpeg' in response.headers.get('content-type', '') else 'png'
-        filename = f"flux_{int(time.time())}_{random.randint(1000, 9999)}.{ext}"
+        filename = f"gpt_image_{int(time.time())}_{random.randint(1000, 9999)}.{ext}"
         filepath = str(Path(save_dir) / filename)
 
         with open(filepath, 'wb') as f:

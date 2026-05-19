@@ -317,6 +317,10 @@ def generate_prompt(
     # QUALITY_CORE (com controle de câmera)
     parts.append(QUALITY_CORE)
 
+    # Segunda ocorrência do IDENTITY_ANCHOR no final do prompt (depois de todos os outros blocos) para reforçar preservação de identidade
+    if use_identity_text:
+        parts.append(IDENTITY_ANCHOR)
+
     final_prompt = " ".join(parts)
     logger.info(f"Prompt gerado com sucesso para o estilo: {tipo_ensaio} ({len(final_prompt)} chars)")
     return final_prompt
