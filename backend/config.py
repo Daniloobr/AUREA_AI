@@ -86,8 +86,8 @@ class Config:
     # ──────────────────────────────────────────────
     # Replicate AI Models
     # ──────────────────────────────────────────────
-    REPLICATE_MODEL = "google/nano-banana-pro"
-    REPLICATE_MODEL_SLUG = "google/nano-banana-pro"
+    REPLICATE_MODEL = "openai/gpt-image-2"
+    REPLICATE_MODEL_SLUG = "openai/gpt-image-2"
     REPLICATE_TIMEOUT = 300  # seconds
 
     # ──────────────────────────────────────────────

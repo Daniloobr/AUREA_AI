@@ -27,19 +27,19 @@ def generate_images(
     prompt: str,
     resolution: str = "2K",
     aspect_ratio: str = "16:9",
-    output_format: str = "jpg",
+    output_format: str = "webp",
     safety_filter_level: str = "block_only_high",
     **kwargs
 ) -> dict:
     """
-    Calls Replicate API to generate images using google/nano-banana-pro.
+    Calls Replicate API to generate images using openai/gpt-image-2.
     
     Args:
         image_urls: List of 3 reference image URLs
         prompt: Full generation prompt
         resolution: Resolution ("2K", etc)
         aspect_ratio: Aspect ratio ("1:1", "16:9", "9:16", etc)
-        output_format: Image format ("jpg", "png")
+        output_format: Image format ("webp", "jpg", "png")
         safety_filter_level: Safety filter level
     
     Returns:
@@ -66,25 +66,38 @@ def generate_images(
         # Garante que a env var também está limpa (sem \n)
         os.environ['REPLICATE_API_TOKEN'] = token
 
-        logger.info(f"Starting Nano Banana Pro Generation...")
+        logger.info(f"Starting openai/gpt-image-2 Generation...")
         logger.info(f"  prompt: {prompt[:80]}...")
         logger.info(f"  image_urls: {image_urls}")
 
         start_time = time.time()
 
-        # Build input
+        # Build input for openai/gpt-image-2
         replicate_input = {
             "prompt": prompt,
-            "resolution": resolution,
-            "image_input": image_urls,
-            "aspect_ratio": aspect_ratio,
-            "output_format": output_format,
-            "safety_filter_level": safety_filter_level
+            "input_images": image_urls,
+            "aspect_ratio": aspect_ratio if aspect_ratio in ["1:1", "3:2", "2:3"] else "2:3",
+            "quality": "auto",
+            "background": "auto",
+            "moderation": "auto",
+            "output_format": output_format if output_format in ["webp", "jpg", "png"] else "webp",
+            "output_compression": 90,
+            "number_of_images": 1
         }
+
+        # Fallback parameters logic (saved for reference if needed)
+        # replicate_input_fallback = {
+        #     "prompt": prompt,
+        #     "resolution": resolution,
+        #     "image_input": image_urls,
+        #     "aspect_ratio": aspect_ratio,
+        #     "output_format": output_format,
+        #     "safety_filter_level": safety_filter_level
+        # }
 
         client = replicate.Client(api_token=token)
         output = client.run(
-            Config.REPLICATE_MODEL_SLUG,
+            "openai/gpt-image-2",
             input=replicate_input
         )
 
@@ -105,7 +118,7 @@ def generate_images(
         if images:
             result["success"] = True
             result["images"] = images
-            logger.info(f"Nano Banana Pro Complete: {len(images)} images in {elapsed}s")
+            logger.info(f"openai/gpt-image-2 Complete: {len(images)} images in {elapsed}s")
             
             # Atualiza o job no banco de dados se job_id foi fornecido
             job_id = kwargs.get('job_id')
@@ -130,15 +143,15 @@ def generate_images(
                     logger.error(f"[Replicate Service] Erro ao atualizar job {job_id} no banco: {db_err}")
         else:
             result["error"] = "Replicate returned empty output"
-            logger.error("No images returned from Nano Banana Pro")
+            logger.error("No images returned from openai/gpt-image-2")
 
     except Exception as e:
         error_str = str(e)
         if '429' in error_str or 'throttled' in error_str.lower() or 'rate limit' in error_str.lower():
             result["error"] = "RATE_LIMITED"
-            logger.warning("Rate limit hit in Nano Banana Pro")
+            logger.warning("Rate limit hit in openai/gpt-image-2")
         else:
-            result["error"] = f"Nano Banana Pro error: {error_str}"
+            result["error"] = f"openai/gpt-image-2 error: {error_str}"
             logger.error(f"Replicate error: {e}", exc_info=True)
 
     return result

@@ -259,7 +259,7 @@ def generate_prompt(
     expression_key: str = "warm"
 ) -> str:
     """
-    Gera um prompt completo e otimizado para google/nano-banana-pro.
+    Gera um prompt completo e otimizado para openai/gpt-image-2.
     
     Ordem dos componentes:
     1. IDENTITY_ANCHOR — preservação de identidade
