@@ -15,9 +15,6 @@ logger = logging.getLogger(__name__)
 # ══════════════════════════════════════════════════════════════
 # IDENTITY ANCHOR — google/nano-banana-pro
 # ══════════════════════════════════════════════════════════════
-# Bloco compacto de preservação de identidade.
-# Prioriza clareza semântica sobre volume de tokens.
-# ══════════════════════════════════════════════════════════════
 IDENTITY_ANCHOR = (
     "The client has uploaded 3 reference photos of herself. "
     "Preserve the identity of this exact person in the generated image. "
@@ -87,8 +84,7 @@ FRAMING_VARIANTS = {
 
 # ══════════════════════════════════════════════════════════════
 # STYLE PRESETS — Otimizados para google/nano-banana-pro
-# Cada prompt inclui a instrução de fidelidade às 3 fotos
-# e estética de fotografia premium.
+# (Apenas 5 estilos mantidos)
 # ══════════════════════════════════════════════════════════════
 STYLE_PRESETS = {
     "luxury_studio": {
@@ -175,83 +171,20 @@ STYLE_PRESETS = {
             "Premium photography, photorealistic, natural optical depth."
         ),
     },
-    "bw": {
-        "name": "Preto e Branco",
-        "category": "Preto e Branco",
-        "description": "Estilo em preto e branco com iluminação emocional.",
-        "cover": "https://picsum.photos/seed/bw/600/800",
+    "red_lotus": {
+        "name": "Lótus Vermelho",
+        "category": "Especial",
+        "description": "Clima natalino, sofá branco, pijama vermelho e pipoca – uma pose aconchegante e divertida.",
+        "cover": "https://picsum.photos/seed/red_lotus/600/800",
         "prompt": (
-            "A black and white maternity portrait of a pregnant woman — "
+            "A warm and cozy holiday maternity portrait of a pregnant woman — "
             "the same woman from the 3 reference photos the client uploaded. "
-            "Gentle contrast, soft shadows, natural highlights, beautiful tonal range. "
-            "Soft side lighting sculpting the belly curve and facial features. "
-            "Timeless elegance, tender maternal silhouette, emotional warmth. "
-            "Natural skin texture preserved in the monochrome conversion. "
-            "Premium photography, photorealistic, natural optical depth."
-        ),
-    },
-    "nature": {
-        "name": "Natureza",
-        "category": "Natureza",
-        "description": "Cenário natural ao ar livre, luz do sol dourada.",
-        "cover": "https://picsum.photos/seed/nature/600/800",
-        "prompt": (
-            "An outdoor maternity portrait of a pregnant woman in nature — "
-            "the same woman from the 3 reference photos the client uploaded. "
-            "Sunlit clearing in a lush green setting, or a field of wildflowers. "
-            "Golden afternoon sunlight filtering through leaves, dappled light on her skin. "
-            "She wears a flowing floral or earth-toned dress, barefoot on soft grass. "
-            "Natural depth of field, background softly blurred with green and golden tones. "
-            "Peaceful expression, hands on belly, connected to nature. "
-            "Premium photography, photorealistic, natural optical depth."
-        ),
-    },
-    "minimalist": {
-        "name": "Minimalista",
-        "category": "Minimalista",
-        "description": "Estilo minimalista com fundo limpo e foco no sujeito.",
-        "cover": "https://picsum.photos/seed/minimalist/600/800",
-        "prompt": (
-            "A minimalist maternity portrait of a pregnant woman — "
-            "the same woman from the 3 reference photos the client uploaded. "
-            "Clean solid white background, simple soft lighting, zero distractions. "
-            "She wears a minimal neutral outfit that highlights the belly silhouette. "
-            "Composition focuses on the belly curve, her face, and her hands. "
-            "Negative space dominates the frame, elegant simplicity, quiet beauty. "
-            "Natural skin texture, authentic pregnancy glow. "
-            "Premium photography, photorealistic, natural optical depth."
-        ),
-    },
-    "romantic": {
-        "name": "Romântico",
-        "category": "Romântico",
-        "description": "Atmosfera romântica com luz suave e tons pastel.",
-        "cover": "https://picsum.photos/seed/romantic/600/800",
-        "prompt": (
-            "A romantic maternity portrait of a pregnant woman — "
-            "the same woman from the 3 reference photos the client uploaded. "
-            "Soft diffused light, warm pastel tones: blush pink, lavender, soft peach. "
-            "Dreamy atmosphere with delicate fabric floating gently around her. "
-            "Fresh flowers nearby — peonies or garden roses in soft colors. "
-            "Intimate and tender expression, gentle smile, one hand on belly. "
-            "Background has a soft ethereal blur with warm pastel hues. "
-            "Natural skin, authentic emotion, warm pregnancy glow. "
-            "Premium photography, photorealistic, natural optical depth."
-        ),
-    },
-    "urban": {
-        "name": "Urbano",
-        "category": "Urbano",
-        "description": "Cenário urbano contemporâneo com iluminação de rua.",
-        "cover": "https://picsum.photos/seed/urban/600/800",
-        "prompt": (
-            "A contemporary urban maternity portrait of a pregnant woman — "
-            "the same woman from the 3 reference photos the client uploaded. "
-            "City setting: textured wall or modern architectural backdrop with clean lines. "
-            "Golden hour street light with warm natural tones. "
-            "She wears a stylish modern outfit that shows the belly with confidence. "
-            "Natural pose, warm gaze, empowered maternal energy. "
-            "Natural skin texture, authentic city atmosphere. "
+            "She is sitting in a relaxed lotus position on a comfortable white sofa, wearing soft red silk pajamas with her pregnant belly exposed. "
+            "She holds a classic red and white striped popcorn box in one hand, smiling gently while eating with the other. "
+            "Her hair is styled in a casual, elegant bun with two soft strands framing her face. "
+            "Atmospheric dark lounge setting illuminated by a natural camera flash, "
+            "with the warm glowing edge of a decorated Christmas tree softly blurred on the side. "
+            "Intimate, authentic holiday mood. "
             "Premium photography, photorealistic, natural optical depth."
         ),
     },
@@ -259,7 +192,6 @@ STYLE_PRESETS = {
 
 # ══════════════════════════════════════════════════════════════
 # NEGATIVE PROMPT — Otimizado para google/nano-banana-pro
-# (mantido para uso interno de filtragem/logging)
 # ══════════════════════════════════════════════════════════════
 NEGATIVE_PROMPT = (
     "cartoon, anime, 3d render, cgi, illustration, painting, drawing, sketch, digital art, "
@@ -315,25 +247,18 @@ def generate_prompt(
 
     parts = []
 
-    # 1. IDENTITY
     if use_identity_text:
         parts.append(IDENTITY_ANCHOR)
 
-    # 2. CENA (estilo)
     parts.append(scene_prompt)
-
-    # 3. ENQUADRAMENTO
     parts.append(FRAMING_VARIANTS.get(framing, FRAMING_VARIANTS["full_body"]))
 
-    # 4. DETALHES DO SUJEITO
     if subject_description:
         parts.append(f"Additional details about the subject: {subject_description}")
 
-    # 5. NATURALNESS
     if use_naturalness_booster:
         parts.append(NATURALNESS_BOOSTER)
 
-    # 6. QUALIDADE
     parts.append(QUALITY_CORE)
 
     final_prompt = " ".join(parts)
@@ -341,18 +266,14 @@ def generate_prompt(
     return final_prompt
 
 def generate_negative_prompt() -> str:
-    """Retorna o negative prompt universal atualizado."""
     return NEGATIVE_PROMPT
 
 # ══════════════════════════════════════════════════════════════
-# FUNÇÕES DE UTILIDADE PARA FRONTEND / INTERFACE
+# FUNÇÕES DE UTILIDADE
 # ══════════════════════════════════════════════════════════════
 
 def get_available_styles() -> list:
-    """
-    Retorna a lista de estilos disponíveis com nomes amigáveis 
-    para preencher menus de seleção no frontend.
-    """
+    """Retorna a lista de estilos disponíveis (apenas os 5 mantidos)."""
     return [
         {
             "id": key, 
@@ -365,14 +286,11 @@ def get_available_styles() -> list:
     ]
 
 def get_framing_options() -> list:
-    """
-    Retorna as opções de enquadramento disponíveis para o usuário escolher.
-    """
     return [
         {
             "id": key, 
             "name": key.replace("_", " ").title(), 
-            "description": val.split(".")[0]  # Pega apenas a primeira frase da descrição técnica
+            "description": val.split(".")[0]
         }
         for key, val in FRAMING_VARIANTS.items()
     ]
@@ -381,7 +299,6 @@ def get_framing_options() -> list:
 # EXEMPLO DE EXECUÇÃO
 # ══════════════════════════════════════════════════════════════
 if __name__ == "__main__":
-    # Exemplo: Gerando um ensaio do estilo Luxury Studio
     meu_prompt = generate_prompt(
         tipo_ensaio="luxury_studio",
         subject_description="Mulher de pele morena, cabelos cacheados escuros, olhos castanhos.",
@@ -393,9 +310,7 @@ if __name__ == "__main__":
     print("\n--- NEGATIVE PROMPT ---")
     print(generate_negative_prompt())
 
-    # Listagem de estilos disponíveis
-    print("\nESTILOS DISPONÍVEIS NO SISTEMA:")
+    print("\nESTILOS DISPONÍVEIS:")
     for style in get_available_styles():
         print(f"- {style['name']} (ID: {style['id']})")
-        
     print("\n" + "="*80)

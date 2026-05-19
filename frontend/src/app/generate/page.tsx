@@ -62,7 +62,7 @@ export default function GeneratePage() {
         // Usando a nova rota /api/styles conforme PDR 1.0.0
         const res = await apiService.get('/styles');
         if (res.styles) {
-          const allowedIds = ['luxury_studio', 'golden_hour_nature', 'boho_chic', 'black_white_editorial'];
+          const allowedIds = ['luxury_studio', 'golden_hour_nature', 'boho_chic', 'black_white_editorial', 'red_lotus'];
           const filtered = res.styles.filter((s: Style) => allowedIds.includes(s.id));
 
           const finalStyles = filtered.map((s: Style) => {
@@ -71,6 +71,7 @@ export default function GeneratePage() {
             if (s.id === 'golden_hour_nature') overrides.name = 'Golden Hour Nature';
             if (s.id === 'boho_chic') overrides.name = 'Boho Chic';
             if (s.id === 'black_white_editorial') overrides.name = 'Black & White Editorial';
+            if (s.id === 'red_lotus') overrides.name = 'Lótus Vermelho';
             return { ...s, ...overrides };
           });
 
