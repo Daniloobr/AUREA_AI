@@ -23,37 +23,34 @@ logger = logging.getLogger(__name__)
 
 
 def generate_images(
+    image_urls: list,      # lista com 3 URLs das fotos de referência
     prompt: str,
+    resolution: str = "2K",
     aspect_ratio: str = "16:9",
-    seed: int = None,
     output_format: str = "jpg",
     safety_filter_level: str = "block_only_high",
     **kwargs
 ) -> dict:
     """
-    Calls Replicate API to generate images using google/imagen-4-ultra.
+    Calls Replicate API to generate images using google/nano-banana-pro.
     
     Args:
+        image_urls: List of 3 reference image URLs
         prompt: Full generation prompt
+        resolution: Resolution ("2K", etc)
         aspect_ratio: Aspect ratio ("1:1", "16:9", "9:16", etc)
-        seed: Random seed
         output_format: Image format ("jpg", "png")
         safety_filter_level: Safety filter level
     
-    
     Returns:
-        dict with 'success', 'images' (list of URLs), 'seed', 'error'
+        dict with 'success', 'images' (list of URLs), 'error'
     """
     result = {
         "success": False,
         "images": [],
-        "seed": seed or random.randint(1, 2147483647),
         "error": None,
         "generation_time": 0,
     }
-
-    if seed is None:
-        seed = result["seed"]
 
     try:
         import os
@@ -69,15 +66,17 @@ def generate_images(
         # Garante que a env var também está limpa (sem \n)
         os.environ['REPLICATE_API_TOKEN'] = token
 
-        logger.info(f"Starting Imagen 4 Ultra Generation...")
+        logger.info(f"Starting Nano Banana Pro Generation...")
         logger.info(f"  prompt: {prompt[:80]}...")
-        logger.info(f"  seed: {seed}")
+        logger.info(f"  image_urls: {image_urls}")
 
         start_time = time.time()
 
         # Build input
         replicate_input = {
             "prompt": prompt,
+            "resolution": resolution,
+            "image_input": image_urls,
             "aspect_ratio": aspect_ratio,
             "output_format": output_format,
             "safety_filter_level": safety_filter_level
@@ -95,7 +94,6 @@ def generate_images(
         # Process output
         images = []
         if output:
-            # Replicate output for imagen-4-ultra is an object or list
             if isinstance(output, list):
                 for item in output:
                     images.append(str(item.url) if hasattr(item, 'url') else str(item))
@@ -107,7 +105,7 @@ def generate_images(
         if images:
             result["success"] = True
             result["images"] = images
-            logger.info(f"Imagen 4 Ultra Complete: {len(images)} images in {elapsed}s")
+            logger.info(f"Nano Banana Pro Complete: {len(images)} images in {elapsed}s")
             
             # Atualiza o job no banco de dados se job_id foi fornecido
             job_id = kwargs.get('job_id')
@@ -132,21 +130,21 @@ def generate_images(
                     logger.error(f"[Replicate Service] Erro ao atualizar job {job_id} no banco: {db_err}")
         else:
             result["error"] = "Replicate returned empty output"
-            logger.error("No images returned from Imagen 4 Ultra")
+            logger.error("No images returned from Nano Banana Pro")
 
     except Exception as e:
         error_str = str(e)
         if '429' in error_str or 'throttled' in error_str.lower() or 'rate limit' in error_str.lower():
             result["error"] = "RATE_LIMITED"
-            logger.warning("Rate limit hit in Imagen 4 Ultra")
+            logger.warning("Rate limit hit in Nano Banana Pro")
         else:
-            result["error"] = f"Imagen error: {error_str}"
+            result["error"] = f"Nano Banana Pro error: {error_str}"
             logger.error(f"Replicate error: {e}", exc_info=True)
 
     return result
 
 
-def generate_with_retry(prompt: str, max_retries: int = 3, **kwargs) -> dict:
+def generate_with_retry(image_urls: list, prompt: str, max_retries: int = 3, **kwargs) -> dict:
     """
     Wraps generation with retry logic and 429 handling.
     """
@@ -159,7 +157,7 @@ def generate_with_retry(prompt: str, max_retries: int = 3, **kwargs) -> dict:
             time.sleep(wait_time)
             kwargs["seed"] = random.randint(1, 2147483647)
 
-        last_result = generate_images(prompt=prompt, **kwargs)
+        last_result = generate_images(image_urls=image_urls, prompt=prompt, **kwargs)
 
         if last_result["success"]:
             return last_result

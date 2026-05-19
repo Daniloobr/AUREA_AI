@@ -86,8 +86,8 @@ class Config:
     # ──────────────────────────────────────────────
     # Replicate AI Models
     # ──────────────────────────────────────────────
-    REPLICATE_MODEL = "google/imagen-4-ultra"
-    REPLICATE_MODEL_SLUG = "google/imagen-4-ultra"
+    REPLICATE_MODEL = "google/nano-banana-pro"
+    REPLICATE_MODEL_SLUG = "google/nano-banana-pro"
     REPLICATE_TIMEOUT = 300  # seconds
 
     # ──────────────────────────────────────────────

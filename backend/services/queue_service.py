@@ -57,7 +57,7 @@ def process_generation_pipeline(app, job_id, image_urls, tipo_ensaio, custom_pro
             if not job: return
 
             # 1. Prepare Prompts
-            prompt = generate_prompt(tipo_ensaio, subject_description=custom_prompt or "", use_identity_text=False)
+            prompt = generate_prompt(tipo_ensaio, subject_description=custom_prompt or "", use_identity_text=True)
             negative_prompt = generate_negative_prompt()
 
             # 2. Call Replicate (Real AI)
@@ -69,10 +69,11 @@ def process_generation_pipeline(app, job_id, image_urls, tipo_ensaio, custom_pro
 
             job.status = "generating"
             job.progress = 50
-            job.message = "Processando sua obra de arte via Google Imagen 4 Ultra..."
+            job.message = "Processando sua obra de arte via Google Nano Banana Pro..."
             db.session.commit()
 
             ai_result = generate_with_retry(
+                image_urls=image_urls,
                 prompt=prompt,
                 job_id=job.id
             )
