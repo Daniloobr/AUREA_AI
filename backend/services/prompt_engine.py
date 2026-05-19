@@ -188,6 +188,49 @@ STYLE_PRESETS = {
             "Premium photography, photorealistic, natural optical depth."
         ),
     },
+    "dramatic_black_gown": {
+        "name": "Silhueta Noir",
+        "category": "Especial",
+        "description": "Vestido preto dramático com cauda longa em piso escuro polido, com iluminação lateral marcante.",
+        "cover": "https://picsum.photos/seed/dramatic_black_gown/600/800",
+        "prompt": (
+            "A dramatic black and white fine art maternity portrait of a pregnant woman — "
+            "the same woman from the 3 reference photos the client uploaded. "
+            "She wears a stunning backless black gown with a long dramatic train pooling on a polished dark studio floor. "
+            "A single lateral key light sculpts her silhouette, creating strong, high-contrast chiaroscuro shadows "
+            "that elegantly highlight the curve of her belly and back. "
+            "Minimalist and powerful Vogue-style composition. "
+            "Premium photography, photorealistic, natural optical depth."
+        ),
+    },
+    "taupe_wings": {
+        "name": "Asas de Chiffon",
+        "category": "Artístico",
+        "description": "Vestido nude com painéis de chiffon flutuando como asas, criando um visual etéreo e escultural.",
+        "cover": "https://picsum.photos/seed/taupe_wings/600/800",
+        "prompt": (
+            "An ethereal and artistic studio maternity portrait of a pregnant woman — "
+            "the same woman from the 3 reference photos the client uploaded. "
+            "She is dressed in a luxurious deep taupe-nude chiffon gown, with two wide fabric panels elegantly extended in mid-air on both sides in a natural wing-like shape. "
+            "One hand gently touches her hair in a relaxed gesture. "
+            "Set against a warm gray studio background with soft, elevated softbox illumination that creates gentle, gradual shadow roll-off. "
+            "Premium photography, photorealistic, natural optical depth."
+        ),
+    },
+    "ivory_satin": {
+        "name": "Cetim Imperial",
+        "category": "Vogue Style",
+        "description": "Vestido luxuoso de cetim marfim com cauda fluida, iluminação cinematográfica e tons quentes de estúdio.",
+        "cover": "https://picsum.photos/seed/ivory_satin/600/800",
+        "prompt": (
+            "An elegant and luxurious studio maternity portrait of a pregnant woman — "
+            "the same woman from the 3 reference photos the client uploaded. "
+            "She wears a sophisticated ivory satin backless gown with a long flowing train pooling gracefully on a polished neutral studio floor. "
+            "Soft lateral cinematic lighting casts refined chiaroscuro shadows across her body, accentuating the natural pregnancy curve. "
+            "Warm monochromatic tones and a high-fashion Vogue-style composition. "
+            "Premium photography, photorealistic, natural optical depth."
+        ),
+    },
 }
 
 # ══════════════════════════════════════════════════════════════
