@@ -241,18 +241,18 @@ export default function GeneratePage() {
             </div>
 
             {/* Grid de upload — layout preservado */}
-<div className="grid grid-cols-3 gap-3 sm:gap-4 justify-center max-w-full sm:max-w-[320px] mx-auto">
+<div className="grid grid-cols-3 gap-2 sm:gap-4 justify-center max-w-full sm:max-w-[260px] px-2 mx-auto">
             {[0, 1, 2].map((idx) => (
-                <label key={idx} className={`block group aspect-square ${generating ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}>
+                <label key={idx} className={`block group aspect-[3/4] ${generating ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}>
                   <input type="file" className="hidden" disabled={generating} onChange={(e) => handleFileChange(idx, e)} accept="image/*" />
-                  <div className={`w-full h-full rounded-[20px] border-2 border-dashed transition-all duration-500 flex flex-col items-center justify-center relative overflow-hidden bg-black/20 ${previewUrls[idx] ? 'border-[#748FCC]' : 'border-[#1F2329] hover:border-[#748FCC]/50'
+                  <div className={`w-full h-full rounded-[24px] border-2 border-dashed transition-all duration-500 flex flex-col items-center justify-center relative overflow-hidden bg-black/20 ${previewUrls[idx] ? 'border-[#748FCC]' : 'border-[#1F2329] hover:border-[#748FCC]/50'
                     }`}>
                     {previewUrls[idx] ? (
                       <img src={previewUrls[idx]!} className="w-full h-full object-cover" alt={`Foto ${idx + 1}`} />
                     ) : (
-                      <div className="flex flex-col items-center gap-1.5 sm:gap-2">
+                      <div className="flex flex-col items-center gap-2">
                         <Upload className="w-5 h-5 text-white/20 group-hover:text-[#748FCC] transition-colors" />
-                        <span className="text-[9px] sm:text-[10px] text-white/20 font-bold uppercase tracking-widest">Upload</span>
+                        <span className="text-[9px] text-white/20 font-bold uppercase tracking-widest">Upload</span>
                       </div>
                     )}
                   </div>
@@ -291,7 +291,7 @@ export default function GeneratePage() {
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               placeholder="Ex: Mulher de pele morena, cabelos cacheados escuros, olhos castanhos..."
-              className="w-full h-24 p-4 rounded-[16px] bg-[#0A0A0A] border border-[#1F2329] focus:border-[#748FCC] focus:outline-none text-base placeholder:text-[#F5F5F7]/20 transition-all resize-none font-light"
+              className="w-full h-24 p-4 rounded-[16px] bg-[#0A0A0A] border border-[#1F2329] focus:border-[#748FCC] focus:outline-none text-sm placeholder:text-[#F5F5F7]/10 transition-all resize-none font-light"
             />
           </section>
 
@@ -301,10 +301,10 @@ export default function GeneratePage() {
               onClick={handleGenerate}
               isLoading={generating}
               disabled={generating || imageFiles.filter(f => f !== null).length < 3}
-              className="w-full py-4 h-auto text-base sm:text-lg font-medium bg-[#748FCC] hover:bg-[#5F7DB8] hover:shadow-[0_0_40px_rgba(116,143,204,0.35)] rounded-xl"
+              className="w-full h-16 text-lg bg-[#748FCC] hover:bg-[#5F7DB8] hover:shadow-[0_0_40px_rgba(116,143,204,0.35)]"
             >
               Criar Obra-prima
-              <Sparkles className="w-5 h-5 ml-2" />
+              <Sparkles className="w-5 h-5" />
             </Button>
             <div className="flex items-center justify-center gap-3 text-[9px] font-bold text-[#B8BCC4]/20 uppercase tracking-[0.3em]">
               <div className="h-[1px] w-8 bg-white/5" />
@@ -332,7 +332,7 @@ export default function GeneratePage() {
           </header>
 
           {/* Grid de estilos — layout e comportamento preservados */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
             {loadingStyles ? (
               // Esqueleto de carregamento elegante
               Array(4).fill(0).map((_, i) => (
@@ -359,9 +359,9 @@ export default function GeneratePage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
 
-                  <div className="absolute bottom-6 sm:bottom-8 left-6 sm:left-8 right-6 sm:right-8">
-                    <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.3em] text-[#748FCC] mb-2 block">{style.category}</span>
-                    <h3 className="text-lg sm:text-xl font-medium text-[#F5F5F7] mb-2">{style.name}</h3>
+                  <div className="absolute bottom-8 left-8 right-8">
+                    <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#748FCC] mb-2 block">{style.category}</span>
+                    <h3 className="text-xl font-medium text-[#F5F5F7] mb-2">{style.name}</h3>
                     <p className={`text-[11px] text-[#B8BCC4] leading-relaxed transition-all duration-500 line-clamp-2 font-light ${selectedStyle?.id === style.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
                       }`}>
                       {style.description}
