@@ -196,7 +196,7 @@ export default function GalleryPage() {
                           {/* Botão de download — renomeado conforme briefing */}
                           {/* TODO: integração real com URL assinada do backend */}
                           <a 
-                            href={getImageUrl(item.result?.result_url || item.result_url || item.images?.[0])}
+                            href={`${process.env.NEXT_PUBLIC_API_URL || ''}/api/download-image?url=${encodeURIComponent(getImageUrl(item.result?.result_url || item.result_url || item.images?.[0]))}`
                             download
                             target="_blank"
                             rel="noopener noreferrer"

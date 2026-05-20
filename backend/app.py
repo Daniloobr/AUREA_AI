@@ -91,12 +91,8 @@ def create_app():
     from routes.styles import styles_bp
 
 
-    app.register_blueprint(upload_bp, url_prefix='/api/upload')
-    app.register_blueprint(generate_bp, url_prefix='/api/generate')
-    app.register_blueprint(gallery_bp, url_prefix='/api/gallery')
-    app.register_blueprint(auth_bp, url_prefix='/api/auth')
-    app.register_blueprint(admin_bp, url_prefix='/api/admin')
-    app.register_blueprint(styles_bp, url_prefix='/api/styles')
+from routes.download import download_bp
+app.register_blueprint(download_bp, url_prefix='/api')
 
 
     # ─── Servir arquivos carregados/gerados ───

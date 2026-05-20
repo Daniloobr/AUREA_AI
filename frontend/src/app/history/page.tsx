@@ -20,6 +20,17 @@ export default function HistoryPage() {
     return `${base}${imagePath}`;
   };
 
+  // Helper to generate download proxy URL for an image
+  const getDownloadUrl = (imagePath: string) => {
+    if (!imagePath) return '';
+    // Resolve the absolute image URL first
+    const imageUrl = getImageUrl(imagePath);
+    // Encode URL for query param
+    const encoded = encodeURIComponent(imageUrl);
+    const base = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5000/api').replace(/\/api$/, '');
+    return `${base}/download-image?url=${encoded}`;
+  };
+
   useEffect(() => {
     let interval: NodeJS.Timeout;
 
@@ -179,7 +190,7 @@ export default function HistoryPage() {
                           </div>
                           {/* TODO: integrar com URL assinada do backend para download */}
                           <a
-                            href={getImageUrl(item.result?.result_url || item.result_url || item.images?.[0])}
+                            href={getDownloadUrl(item.result?.result_url || item.result_url || item.images?.[0])}
                             target="_blank"
                             rel="noopener noreferrer"
                             title="Baixar em alta resolução"
