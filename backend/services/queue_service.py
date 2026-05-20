@@ -1,4 +1,4 @@
-import threading
+
 import uuid
 import os
 from flask import current_app
@@ -7,6 +7,7 @@ from models.db_models import GenerationJob, User, Transaction
 from services.replicate_service import generate_with_retry, download_generated_image
 from services.prompt_engine import generate_prompt, generate_negative_prompt
 import logging
+from backend.tasks.generation_tasks import generate_image_task
 import json
 
 # Setup logging
@@ -185,14 +186,8 @@ def queue_generation(user_id: str, image_urls: list = None, tipo_ensaio: str = N
         db.session.rollback()
         raise e
 
-    # Start background process
-    app = current_app._get_current_object()
-    thread = threading.Thread(
-        target=process_generation_pipeline,
-        args=(app, job_id, image_urls, tipo_ensaio, prompt),
-        daemon=True
-    )
-    thread.start()
+    # Enqueue Celery task for async processing
+    generate_image_task.delay(job_id, image_urls, tipo_ensaio, prompt, user_id)
 
     logger.info(f"Job {job_id} queued for user {user_id}. Cost: {COST_PER_CALL}")
     return job_id

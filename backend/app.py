@@ -66,7 +66,13 @@ def create_app():
     app.limiter = limiter # Disponibiliza para as rotas
     
     # Inicializa a configuração (cria diretórios, define variáveis de ambiente)
-    Config.init_app(app)
+    # Initialize Celery with Flask app context
+    from .celery_app import celery
+    # Update Celery config from environment variables if needed
+    celery.conf.update(
+        broker_url=os.getenv('CELERY_BROKER_URL'),
+        result_backend=os.getenv('CELERY_RESULT_BACKEND')
+    )
     app.config['MAX_CONTENT_LENGTH'] = Config.MAX_CONTENT_LENGTH
     
     # Configuração do Banco de Dados

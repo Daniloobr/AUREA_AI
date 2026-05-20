@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
+import Image from 'next/image';
 
 // ─── Interface para os estilos ──────────────────────────────────────────────
 interface Style {
@@ -248,7 +249,7 @@ export default function GeneratePage() {
                   <div className={`w-full h-full rounded-[24px] border-2 border-dashed transition-all duration-500 flex flex-col items-center justify-center relative overflow-hidden bg-black/20 ${previewUrls[idx] ? 'border-[#748FCC]' : 'border-[#1F2329] hover:border-[#748FCC]/50'
                     }`}>
                     {previewUrls[idx] ? (
-                      <img src={previewUrls[idx]!} className="w-full h-full object-cover" alt={`Foto ${idx + 1}`} />
+                      <Image src={previewUrls[idx]!} fill unoptimized loading="lazy" className="object-cover" alt={`Foto ${idx + 1}`} />
                     ) : (
                       <div className="flex flex-col items-center gap-2">
                         <Upload className="w-5 h-5 text-white/20 group-hover:text-[#748FCC] transition-colors" />
@@ -351,10 +352,13 @@ export default function GeneratePage() {
                     }`}
                 >
                   <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-10 transition-opacity" />
-                  <img
-                    src={style.cover}
+                  <Image
+                    src={style.cover!}
                     alt={style.name}
-                    className={`w-full h-full object-cover transition-all duration-[2s] group-hover:scale-110 ${selectedStyle?.id === style.id ? 'opacity-100 scale-110' : 'opacity-40 scale-105 group-hover:opacity-80'
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    loading="lazy"
+                    className={`object-cover transition-all duration-[2s] group-hover:scale-110 ${selectedStyle?.id === style.id ? 'opacity-100 scale-110' : 'opacity-40 scale-105 group-hover:opacity-80'
                       }`}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
@@ -391,10 +395,13 @@ export default function GeneratePage() {
                 animate={{ scale: 1, opacity: 1 }}
                 className="relative max-w-sm w-full aspect-[3/4] rounded-[24px] overflow-hidden border border-white/10 shadow-2xl mb-8"
               >
-                <img 
+                <Image 
                   src={getImageUrl(imageUrl)} 
                   alt="Sua Obra-prima" 
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 400px"
+                  loading="lazy"
+                  className="object-cover"
                 />
               </motion.div>
             ) : (

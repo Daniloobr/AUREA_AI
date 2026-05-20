@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: AUREA_AI
+    env: python
+    buildCommand: pip install -r requirements.txt
+    # ⚠️ COMANDO PRINCIPAL: Roda o Gunicorn e o Celery Worker no mesmo container
+    startCommand: cd backend && gunicorn app:app --timeout 120 & celery -A celery_app.celery worker --loglevel=info --concurrency=1
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9

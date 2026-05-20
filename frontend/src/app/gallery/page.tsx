@@ -7,6 +7,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { apiService } from '@/services/api';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function GalleryPage() {
   const { token, loading: authLoading } = useAuth();
@@ -22,23 +23,31 @@ export default function GalleryPage() {
   }, [token, authLoading, router]);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: NodeJS.Timeout | null = null;
 
     const fetchGallery = async () => {
       if (token) {
         try {
           const response = await apiService.get('/gallery', token);
           if (response.gallery) {
-            setHistoryItems(response.gallery);
-            
+            const newItems = response.gallery;
+            // Update state only if data changed
+            setHistoryItems(prev => {
+              const prevStr = JSON.stringify(prev);
+              const newStr = JSON.stringify(newItems);
+              return prevStr === newStr ? prev : newItems;
+            });
+
             const hasPending = response.gallery.some((job: any) => 
               ['queued', 'generating', 'processing'].includes(job.status)
             );
             
+            // Start polling only when there are pending jobs
             if (hasPending && !interval) {
-              interval = setInterval(fetchGallery, 5000);
+              interval = setInterval(fetchGallery, 10000); // 10 seconds
             } else if (!hasPending && interval) {
               clearInterval(interval);
+              interval = null;
             }
           }
         } catch (err) {
@@ -145,10 +154,13 @@ export default function GalleryPage() {
                 <div className="relative h-full w-full">
                   {/* Imagem concluída */}
                   {item.status === 'completed' && (item.result?.result_url || item.result_url || (item.images && item.images.length > 0)) ? (
-                    <img 
+                    <Image 
                       src={getImageUrl(item.result?.result_url || item.result_url || item.images[0])} 
                       alt={item.tipo_ensaio || 'Obra de Arte'} 
-                      className="w-full h-full object-cover transition-transform duration-[3s] group-hover:scale-110" 
+                      fill
+                      sizes="(max-width: 768px) 50vw, 33vw"
+                      loading="lazy"
+                      className="object-cover transition-transform duration-[3s] group-hover:scale-110" 
                     />
                   ) : item.status === 'failed' ? (
                     /* Falha na geração */
