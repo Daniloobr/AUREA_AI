@@ -137,7 +137,6 @@ def create_app():
 
     with app.app_context():
         try:
-            from models.db_models import User, GenerationJob, Transaction, PasswordResetToken
             db.create_all()
             logger.info("✅ Banco de dados inicializado e tabelas verificadas.")
         except Exception as e:
@@ -165,7 +164,6 @@ if __name__ == '__main__':
     with app.app_context():
         try:
             from database import db
-            from models.db_models import User, GenerationJob, Transaction, PasswordResetToken
             db.create_all()
             logger.info("✅ Banco de dados inicializado e tabelas verificadas.")
         except Exception as e:

@@ -1,6 +1,5 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify
 from models.db_models import GenerationJob
-from database import db
 
 from utils.auth_utils import token_required
 

@@ -1,7 +1,5 @@
-import os
 from flask import Flask
 from database import db
-from models.db_models import User, PasswordResetToken, GenerationJob, Transaction
 from config import Config
 from sqlalchemy import text
 

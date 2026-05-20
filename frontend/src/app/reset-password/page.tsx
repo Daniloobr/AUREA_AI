@@ -41,7 +41,8 @@ function ResetPasswordForm() {
       } else {
         setError(response.error || 'Falha ao redefinir senha.');
       }
-    } catch (err) {
+    } catch (error) {
+      console.error(error);
       setError('Erro de conexão.');
     } finally {
       setLoading(false);

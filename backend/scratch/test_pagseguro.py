@@ -4,7 +4,6 @@ import sys
 # Adicionar o diretório pai ao sys.path para importar os serviços
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from services.pagseguro_service import pagseguro_service
 
 # Configurar variáveis de ambiente manualmente para o teste
 os.environ['PAGSEGURO_EMAIL'] = 'devdanilobr@gmail.com'

@@ -1,14 +1,11 @@
 import threading
 import uuid
-import time
 import os
-import requests
 from flask import current_app
 from database import db
 from models.db_models import GenerationJob, User, Transaction
 from services.replicate_service import generate_with_retry, download_generated_image
 from services.prompt_engine import generate_prompt, generate_negative_prompt
-from config import Config
 import logging
 import json
 
@@ -58,7 +55,7 @@ def process_generation_pipeline(app, job_id, image_urls, tipo_ensaio, custom_pro
 
             # 1. Prepare Prompts
             prompt = generate_prompt(tipo_ensaio, subject_description=custom_prompt or "", use_identity_text=True)
-            negative_prompt = generate_negative_prompt()
+            generate_negative_prompt()
 
             # 2. Call Replicate (Real AI)
             if image_urls:

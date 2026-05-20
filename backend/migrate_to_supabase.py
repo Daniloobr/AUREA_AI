@@ -1,5 +1,4 @@
 import os
-import sys
 import json
 import logging
 from app import create_app

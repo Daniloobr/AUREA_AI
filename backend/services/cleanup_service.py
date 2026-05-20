@@ -7,7 +7,6 @@ from datetime import datetime, timedelta
 from database import db
 from models.db_models import GenerationJob
 from config import Config
-from services.supabase_service import supabase_service
 from services.queue_service import recover_stuck_jobs
 
 logger = logging.getLogger(__name__)

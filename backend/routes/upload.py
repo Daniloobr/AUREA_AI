@@ -2,7 +2,6 @@ import os
 import uuid
 import imghdr
 from flask import Blueprint, request, jsonify
-from werkzeug.utils import secure_filename
 from config import Config
 from services.supabase_service import supabase_service
 import logging

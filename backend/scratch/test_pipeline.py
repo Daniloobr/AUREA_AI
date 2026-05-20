@@ -8,7 +8,6 @@ from app import create_app
 from database import db
 from models.db_models import User, GenerationJob
 from services.queue_service import process_generation_pipeline
-from services.prompt_engine import generate_prompt
 from config import Config
 
 def run_test():

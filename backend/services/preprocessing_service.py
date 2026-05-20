@@ -8,7 +8,6 @@ Handles all image preprocessing before sending to AI generation:
 - Thumbnail generation
 - Format standardization
 """
-import cv2
 import numpy as np
 from PIL import Image, ImageEnhance, ImageOps
 from pathlib import Path

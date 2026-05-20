@@ -39,7 +39,8 @@ export default function LoginPage() {
             setError(response.error || 'Erro ao autenticar com Google.');
             supabase.auth.signOut();
           }
-        } catch (err) {
+        } catch (error) {
+          console.error(error);
           setError('Erro de conexão ao processar Google Login.');
           supabase.auth.signOut();
         } finally {
@@ -79,7 +80,8 @@ export default function LoginPage() {
       } else {
         setError(response.error || 'Dados inválidos.');
       }
-    } catch (err) {
+    } catch (error) {
+      console.error(error);
       setError('Erro de conexão.');
     } finally {
       setLoading(false);

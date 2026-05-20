@@ -40,7 +40,7 @@ export const apiService = {
       if (contentType && contentType.indexOf("application/json") !== -1) {
         return await response.json();
       } else {
-        const text = await response.text();
+        await response.text();
         return { success: false, error: `Indisponibilidade momentânea (${response.status}). Nossa equipe já foi notificada.` };
       }
     } catch (err: any) {
@@ -78,7 +78,7 @@ export const apiService = {
       if (contentType && contentType.indexOf("application/json") !== -1) {
         return await response.json();
       } else {
-        const text = await response.text();
+        await response.text();
         return { success: false, error: `Ocorreu um imprevisto técnico (${response.status}). Por favor, tente novamente em alguns instantes.` };
       }
     } catch (err: any) {

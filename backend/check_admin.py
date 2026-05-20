@@ -5,7 +5,6 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from app import create_app
-from database import db
 from models.db_models import User
 
 def check_admin():

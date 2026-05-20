@@ -42,7 +42,8 @@ export default function RegisterPage() {
       } else {
         setError(response.error || 'Erro no cadastro.');
       }
-    } catch (err: any) {
+    } catch (error: any) {
+      console.error(error);
       setError('Erro de conexão.');
     } finally {
       setLoading(false);
