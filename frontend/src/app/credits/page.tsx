@@ -22,6 +22,7 @@ const PACKAGES = [
     icon: Zap,
     badge: null,
     link: 'https://syncpay.link/9nyBou',
+    description: 'Ideal para experimentar nossa qualidade e criar seus primeiros ensaios.',
     features: [
       '4 ensaios completos',
       'Acesso a todos os estilos',
@@ -39,6 +40,7 @@ const PACKAGES = [
     icon: Sparkles,
     badge: '✦ Mais Escolhido',
     link: 'https://syncpay.link/8IH7fr',
+    description: 'O equilíbrio perfeito para explorar múltiplos estilos com agilidade.',
     features: [
       '8 ensaios completos',
       'Acesso a todos os estilos',
@@ -56,6 +58,7 @@ const PACKAGES = [
     icon: Gem,
     badge: 'VIP',
     link: 'https://syncpay.link/Gyu2QM',
+    description: 'Para quem deseja a experiência completa de estúdio e suporte exclusivo.',
     features: [
       '16 ensaios completos',
       'Acesso a todos os estilos',
@@ -134,14 +137,14 @@ export default function CreditsPage() {
         </motion.header>
 
         {/* Grid de Pacotes */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-sm sm:max-w-none mx-auto">
           {PACKAGES.map((pkg, idx) => (
             <motion.div
               key={pkg.id}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }}
-              className="flex"
+              className="flex w-full"
             >
               <div className={`flex-1 flex flex-col rounded-[28px] overflow-hidden transition-all duration-500 relative ${
                 pkg.popular
@@ -156,34 +159,41 @@ export default function CreditsPage() {
                   </div>
                 )}
                 <div className="p-10 flex flex-col flex-1">
-                  <div className="mb-8">
+                  <div className="mb-6 sm:mb-8">
                     <div className="w-14 h-14 rounded-2xl bg-[#748FCC]/10 border border-[#748FCC]/20 flex items-center justify-center mb-4">
                       <pkg.icon className="w-7 h-7 text-[#748FCC]" />
                     </div>
                     <h3 className="text-sm font-bold uppercase tracking-[0.25em] text-[#B8BCC4]">{pkg.name}</h3>
-                    <p className="text-xl font-serif font-semibold text-[#F5F5F7] mt-1">{pkg.credits} Créditos</p>
+                    <p className="text-xl sm:text-2xl font-serif font-semibold text-[#F5F5F7] mt-1">{pkg.credits} Créditos</p>
                   </div>
-                  <div className="mb-8">
-                    <div className="flex items-baseline gap-1">
+                  <div className="mb-6 sm:mb-8">
+                    <div className="flex items-baseline gap-1 mb-3">
                       <span className="text-2xl font-medium text-[#B8BCC4]">R$</span>
-                      <span className="text-7xl font-bold tracking-tight text-[#F5F5F7] leading-none">{pkg.price}</span>
+                      <span className="text-6xl sm:text-7xl font-bold tracking-tight text-[#F5F5F7] leading-none">{pkg.price}</span>
                     </div>
+                    <p className="text-[13px] sm:text-sm text-[#B8BCC4] font-light leading-relaxed">
+                      {pkg.description}
+                    </p>
                   </div>
-                  <div className="space-y-4 flex-1 mb-10">
+                  <div className="space-y-4 flex-1 mb-8 sm:mb-10">
                     {pkg.features.map((feature, i) => (
                       <div key={i} className="flex items-start gap-3">
                         <Check className="w-5 h-5 text-[#748FCC] shrink-0 mt-0.5" />
-                        <span className="text-sm font-light text-[#B8BCC4]">{feature}</span>
+                        <span className="text-[13px] sm:text-sm font-light text-[#B8BCC4]">{feature}</span>
                       </div>
                     ))}
                   </div>
                   <Button
                     onClick={() => handlePackageSelect(pkg)}
                     variant={pkg.popular ? 'primary' : 'secondary'}
-                    className="w-full h-16 font-bold tracking-[0.1em] rounded-2xl group"
+                    className={`w-full py-4 h-auto text-[13px] sm:text-sm font-bold tracking-[0.1em] rounded-xl sm:rounded-2xl group transition-all duration-300 ${
+                      pkg.popular 
+                        ? 'bg-[#748FCC] hover:bg-[#5F7DB8] hover:shadow-[0_0_30px_rgba(116,143,204,0.3)] text-white border-none'
+                        : 'bg-white/5 hover:bg-white/10 text-[#F5F5F7] border border-white/10'
+                    }`}
                   >
                     Adquirir Pacote
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
                   </Button>
                 </div>
               </div>
@@ -192,22 +202,22 @@ export default function CreditsPage() {
         </div>
 
         {/* Garantias */}
-        <div className="bg-[#121417] border border-[#1F2329] rounded-[32px] p-14 text-center">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
-            <div className="space-y-4">
-               <ShieldCheck className="w-10 h-10 text-[#748FCC] mx-auto" />
-              <h4 className="font-semibold">Pagamento Seguro</h4>
-              <p className="text-sm text-[#B8BCC4] font-light">Processado via SyncPay</p>
+        <div className="bg-[#121417] border border-[#1F2329] rounded-[24px] sm:rounded-[32px] p-8 sm:p-14 text-center">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-10">
+            <div className="space-y-3 sm:space-y-4">
+               <ShieldCheck className="w-8 h-8 sm:w-10 sm:h-10 text-[#748FCC] mx-auto" />
+              <h4 className="font-semibold text-sm sm:text-base">Pagamento Seguro</h4>
+              <p className="text-[13px] sm:text-sm text-[#B8BCC4] font-light">Processado via SyncPay</p>
             </div>
-            <div className="space-y-4">
-              <Clock className="w-10 h-10 text-[#748FCC] mx-auto" />
-              <h4 className="font-semibold">Entrega Instantânea</h4>
-              <p className="text-sm text-[#B8BCC4] font-light">Créditos liberados na hora</p>
+            <div className="space-y-3 sm:space-y-4">
+              <Clock className="w-8 h-8 sm:w-10 sm:h-10 text-[#748FCC] mx-auto" />
+              <h4 className="font-semibold text-sm sm:text-base">Entrega Instantânea</h4>
+              <p className="text-[13px] sm:text-sm text-[#B8BCC4] font-light">Créditos liberados na hora</p>
             </div>
-            <div className="space-y-4">
-              <Star className="w-10 h-10 text-[#748FCC] mx-auto" />
-              <h4 className="font-semibold">Sem Validade</h4>
-              <p className="text-sm text-[#B8BCC4] font-light">Seus créditos nunca expiram</p>
+            <div className="space-y-3 sm:space-y-4">
+              <Star className="w-8 h-8 sm:w-10 sm:h-10 text-[#748FCC] mx-auto" />
+              <h4 className="font-semibold text-sm sm:text-base">Sem Validade</h4>
+              <p className="text-[13px] sm:text-sm text-[#B8BCC4] font-light">Seus créditos nunca expiram</p>
             </div>
           </div>
         </div>

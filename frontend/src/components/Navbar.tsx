@@ -20,14 +20,20 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const landingLinks = [
+  interface NavItem {
+    name: string;
+    href: string;
+    icon?: React.ComponentType<any>;
+  }
+
+  const landingLinks: NavItem[] = [
     { name: 'Início', href: '#hero' },
     { name: 'Como Funciona', href: '#como-funciona' },
     { name: 'Galeria Editorial', href: '#exemplos' },
     { name: 'Planos', href: '/credits' },
   ];
 
-  const authLinks = [
+  const authLinks: NavItem[] = [
     { name: 'Criar Ensaio', href: '/generate', icon: Sparkles },
     { name: 'Galeria Privada', href: '/gallery', icon: Image },
     { name: 'Adquirir Créditos', href: '/credits', icon: CreditCard },
@@ -102,36 +108,53 @@ export function Navbar() {
 
       {/* Mobile Navigation */}
       {isMenuOpen && (
-        <div className="lg:hidden absolute top-20 left-0 right-0 bg-[#0A0A0A]/97 backdrop-blur-2xl border-b border-white/10 animate-fade-in">
-          <nav className="flex flex-col p-8 gap-6">
+        <div className="lg:hidden absolute top-20 left-0 right-0 bg-[#0A0A0A] border-b border-white/10 shadow-2xl animate-fade-in h-[calc(100vh-80px)] overflow-y-auto">
+          <nav className="flex flex-col p-6 gap-2">
             {navItems.map((item) => (
               <Link 
                 key={item.href} 
                 href={item.href} 
                 onClick={() => setIsMenuOpen(false)}
-                className={`text-sm font-medium transition-colors ${
-                  pathname === item.href ? 'text-[#748FCC]' : 'text-[#B8BCC4]'
+                className={`text-base font-medium py-4 px-2 rounded-xl transition-colors flex items-center gap-3 ${
+                  pathname === item.href ? 'text-[#F5F5F7] bg-white/5' : 'text-[#B8BCC4] hover:bg-white/5 hover:text-[#F5F5F7]'
                 }`}
               >
+                {item.icon && <item.icon className="w-5 h-5 text-[#748FCC]" />}
                 {item.name}
               </Link>
             ))}
             {user && (
-              <>
-                <div className="pt-4 border-t border-white/10 flex items-center gap-2 px-1">
-                  <span className="text-[11px] font-bold text-[#F5F5F7] tracking-[0.1em] uppercase">✦ {user.credits_balance} Moedas</span>
+              <div className="mt-4 pt-4 border-t border-white/10 flex flex-col gap-2">
+                <div className="py-4 px-2 flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-[#748FCC]/20 flex items-center justify-center">
+                    <Sparkles className="w-4 h-4 text-[#748FCC]" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-[#B8BCC4]">Saldo atual</p>
+                    <span className="text-sm font-bold text-[#F5F5F7] tracking-[0.05em] uppercase">{user.credits_balance} Moedas</span>
+                  </div>
                 </div>
                 <button 
                   onClick={() => {
                     logout();
                     setIsMenuOpen(false);
                   }}
-                  className="text-sm font-medium text-[#748FCC]/80 flex items-center gap-4"
+                  className="text-base font-medium text-red-400 py-4 px-2 rounded-xl flex items-center gap-3 hover:bg-red-500/10 transition-colors w-full text-left"
                 >
                   <LogOut className="w-5 h-5" />
                   Sair do Estúdio
                 </button>
-              </>
+              </div>
+            )}
+            {!user && isLanding && (
+              <div className="mt-4 pt-4 border-t border-white/10 px-2">
+                <Link href="/login" onClick={() => setIsMenuOpen(false)}>
+                  <Button className="w-full h-12 text-sm font-semibold rounded-xl bg-[#748FCC] hover:bg-[#5F7DB8] flex items-center justify-center gap-2">
+                    <Sparkles className="w-4 h-4" />
+                    Acessar Studio
+                  </Button>
+                </Link>
+              </div>
             )}
           </nav>
         </div>

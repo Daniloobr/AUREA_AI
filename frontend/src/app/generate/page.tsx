@@ -32,20 +32,63 @@ interface Style {
 
 // ─── Componente principal ─────────────────────────────────────────────────
 export default function GeneratePage() {
-  const { user, token, updateUser } = useAuth();
+  const { user, token, updateUser, loading: authLoading } = useAuth();
   const router = useRouter();
 
   const [styles, setStyles] = useState<Style[]>([]);
   const [selectedStyle, setSelectedStyle] = useState<Style | null>(null);
   const [loadingStyles, setLoadingStyles] = useState(true);
+  const [generating, setGenerating] = useState(false);
+  const [jobId, setJobId] = useState<string | null>(null);
   const [imageFiles, setImageFiles] = useState<(File | null)[]>([null, null, null]);
   const [previewUrls, setPreviewUrls] = useState<(string | null)[]>([null, null, null]);
   const [prompt, setPrompt] = useState('');
-  const [generating, setGenerating] = useState(false);
+
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showCreditModal, setShowCreditModal] = useState(false);
-  const { loading: authLoading } = useAuth();
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+  // Helper: URL da imagem
+  const getImageUrl = (imagePath: string) => {
+    if (!imagePath) return '';
+    if (imagePath.startsWith('http')) return imagePath;
+    const base = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5000/api').replace(/\/api$/, '');
+    return `${base}${imagePath}`;
+  };
+
+  // Polling for result
+  React.useEffect(() => {
+    if (!jobId) return;
+    const TIMEOUT_MS = 10 * 60 * 1000; // 10 minutos
+    const startTime = Date.now();
+
+    const interval = setInterval(async () => {
+      if (Date.now() - startTime > TIMEOUT_MS) {
+        clearInterval(interval);
+        setError("O processo demorou mais que o esperado. Tente novamente.");
+        setJobId(null);
+        return;
+      }
+      try {
+        const res = await apiService.get(`/generate/${jobId}/result`, token || undefined);
+        if (res.status === 'completed') {
+          const imgUrl = res.result_url || (res.images && res.images[0]);
+          setImageUrl(imgUrl);
+          setSuccess(true);
+          clearInterval(interval);
+          setTimeout(() => router.push('/gallery'), 4000);
+        } else if (res.status === 'failed') {
+          setError("Ocorreu um erro ao gerar a sua imagem. Por favor, tente novamente.");
+          setJobId(null);
+          clearInterval(interval);
+        }
+      } catch (e) {
+        console.error('Polling error', e);
+      }
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [jobId, token, router]);
 
   // ─── Proteger rota ────────────────────────────────────────────────────────
   React.useEffect(() => {
@@ -140,9 +183,8 @@ export default function GeneratePage() {
       }, token || undefined);
 
       if (genRes.success) {
-        setSuccess(true);
+        setJobId(genRes.job_id);
         if (user) updateUser({ ...user, credits_balance: user.credits_balance - 25 });
-        setTimeout(() => router.push('/gallery'), 3000);
       } else {
         // Tratar erro 402 — créditos insuficientes (resposta do backend)
         if (genRes.status === 402 || genRes.error?.includes('402') || genRes.error?.toLowerCase().includes('crédito')) {
@@ -199,18 +241,18 @@ export default function GeneratePage() {
             </div>
 
             {/* Grid de upload — layout preservado */}
-            <div className="grid grid-cols-3 gap-4">
-              {[0, 1, 2].map((idx) => (
-                <label key={idx} className={`block group aspect-[3/4] ${generating ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}>
+<div className="grid grid-cols-3 gap-3 sm:gap-4 justify-center max-w-full sm:max-w-[320px] mx-auto">
+            {[0, 1, 2].map((idx) => (
+                <label key={idx} className={`block group aspect-square ${generating ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}>
                   <input type="file" className="hidden" disabled={generating} onChange={(e) => handleFileChange(idx, e)} accept="image/*" />
-                  <div className={`w-full h-full rounded-[24px] border-2 border-dashed transition-all duration-500 flex flex-col items-center justify-center relative overflow-hidden bg-black/20 ${previewUrls[idx] ? 'border-[#748FCC]' : 'border-[#1F2329] hover:border-[#748FCC]/50'
+                  <div className={`w-full h-full rounded-[20px] border-2 border-dashed transition-all duration-500 flex flex-col items-center justify-center relative overflow-hidden bg-black/20 ${previewUrls[idx] ? 'border-[#748FCC]' : 'border-[#1F2329] hover:border-[#748FCC]/50'
                     }`}>
                     {previewUrls[idx] ? (
                       <img src={previewUrls[idx]!} className="w-full h-full object-cover" alt={`Foto ${idx + 1}`} />
                     ) : (
-                      <div className="flex flex-col items-center gap-2">
+                      <div className="flex flex-col items-center gap-1.5 sm:gap-2">
                         <Upload className="w-5 h-5 text-white/20 group-hover:text-[#748FCC] transition-colors" />
-                        <span className="text-[9px] text-white/20 font-bold uppercase tracking-widest">Upload</span>
+                        <span className="text-[9px] sm:text-[10px] text-white/20 font-bold uppercase tracking-widest">Upload</span>
                       </div>
                     )}
                   </div>
@@ -249,7 +291,7 @@ export default function GeneratePage() {
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               placeholder="Ex: Mulher de pele morena, cabelos cacheados escuros, olhos castanhos..."
-              className="w-full h-24 p-4 rounded-[16px] bg-[#0A0A0A] border border-[#1F2329] focus:border-[#748FCC] focus:outline-none text-sm placeholder:text-[#F5F5F7]/10 transition-all resize-none font-light"
+              className="w-full h-24 p-4 rounded-[16px] bg-[#0A0A0A] border border-[#1F2329] focus:border-[#748FCC] focus:outline-none text-base placeholder:text-[#F5F5F7]/20 transition-all resize-none font-light"
             />
           </section>
 
@@ -259,10 +301,10 @@ export default function GeneratePage() {
               onClick={handleGenerate}
               isLoading={generating}
               disabled={generating || imageFiles.filter(f => f !== null).length < 3}
-              className="w-full h-16 text-lg bg-[#748FCC] hover:bg-[#5F7DB8] hover:shadow-[0_0_40px_rgba(116,143,204,0.35)]"
+              className="w-full py-4 h-auto text-base sm:text-lg font-medium bg-[#748FCC] hover:bg-[#5F7DB8] hover:shadow-[0_0_40px_rgba(116,143,204,0.35)] rounded-xl"
             >
               Criar Obra-prima
-              <Sparkles className="w-5 h-5" />
+              <Sparkles className="w-5 h-5 ml-2" />
             </Button>
             <div className="flex items-center justify-center gap-3 text-[9px] font-bold text-[#B8BCC4]/20 uppercase tracking-[0.3em]">
               <div className="h-[1px] w-8 bg-white/5" />
@@ -290,7 +332,7 @@ export default function GeneratePage() {
           </header>
 
           {/* Grid de estilos — layout e comportamento preservados */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {loadingStyles ? (
               // Esqueleto de carregamento elegante
               Array(4).fill(0).map((_, i) => (
@@ -317,9 +359,9 @@ export default function GeneratePage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
 
-                  <div className="absolute bottom-8 left-8 right-8">
-                    <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#748FCC] mb-2 block">{style.category}</span>
-                    <h3 className="text-xl font-medium text-[#F5F5F7] mb-2">{style.name}</h3>
+                  <div className="absolute bottom-6 sm:bottom-8 left-6 sm:left-8 right-6 sm:right-8">
+                    <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.3em] text-[#748FCC] mb-2 block">{style.category}</span>
+                    <h3 className="text-lg sm:text-xl font-medium text-[#F5F5F7] mb-2">{style.name}</h3>
                     <p className={`text-[11px] text-[#B8BCC4] leading-relaxed transition-all duration-500 line-clamp-2 font-light ${selectedStyle?.id === style.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
                       }`}>
                       {style.description}
@@ -338,18 +380,32 @@ export default function GeneratePage() {
 
       {/* ── Overlay de geração / sucesso ──────────────────────────────── */}
       <AnimatePresence>
-        {(generating || success) && (
+        {(generating || jobId || success) && (
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="fixed inset-0 z-[200] bg-[#0A0A0A]/95 backdrop-blur-xl flex flex-col items-center justify-center p-8 text-center"
           >
-            <Loader2 className="w-12 h-12 text-[#748FCC] animate-spin mb-8" />
+            {imageUrl ? (
+              <motion.div 
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                className="relative max-w-sm w-full aspect-[3/4] rounded-[24px] overflow-hidden border border-white/10 shadow-2xl mb-8"
+              >
+                <img 
+                  src={getImageUrl(imageUrl)} 
+                  alt="Sua Obra-prima" 
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
+            ) : (
+              <Loader2 className="w-12 h-12 text-[#748FCC] animate-spin mb-8" />
+            )}
             <h2 className="text-3xl font-serif font-medium text-[#F5F5F7] mb-4">
-              {success ? 'Sua obra-prima está sendo preparada...' : 'Iniciando a Criação Artística'}
+              {success ? 'Sua obra-prima está pronta!' : 'Iniciando a Criação Artística'}
             </h2>
             <p className="text-[#B8BCC4] font-light text-lg max-w-lg leading-relaxed">
               {success
-                ? 'Em breve você poderá contemplar seu ensaio em sua Galeria Privada.'
+                ? 'Sua foto foi gerada com sucesso! Redirecionando para a Galeria...'
                 : 'Estamos combinando sua essência com as texturas e luzes de nossa coleção editorial.'}
             </p>
           </motion.div>
@@ -362,7 +418,7 @@ export default function GeneratePage() {
           <div className="fixed inset-0 z-[300] bg-black/80 backdrop-blur-sm flex items-center justify-center p-6">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
-              className="bg-[#121417] border border-[#1F2329] p-10 rounded-[24px] max-w-md w-full text-center space-y-8"
+              className="bg-[#121417] border border-[#1F2329] p-6 sm:p-10 rounded-[24px] max-w-md w-full text-center space-y-8"
             >
               <div className="w-16 h-16 rounded-full bg-[#748FCC]/20 flex items-center justify-center mx-auto">
                 <Sparkles className="w-8 h-8 text-[#748FCC]" />
@@ -376,15 +432,12 @@ export default function GeneratePage() {
                 </p>
               </div>
               <div className="flex flex-col gap-4">
-                <Button onClick={() => router.push('/credits')} className="h-12 bg-[#748FCC] hover:bg-[#5F7DB8]">
-                  Adquirir Créditos ✦
-                </Button>
-                <button
-                  onClick={() => setShowCreditModal(false)}
-                  className="text-[#B8BCC4] hover:text-[#F5F5F7] transition-colors text-sm"
-                >
-                  Voltar ao Estúdio
-                </button>
+                 <Button onClick={() => router.push('/credits')} className="h-12 bg-[#748FCC] hover:bg-[#5F7DB8]">
+                   Adquirir Créditos ✦
+                 </Button>
+                 <Button onClick={() => setShowCreditModal(false)} className="text-[#B8BCC4] hover:text-[#F5F5F7] transition-colors text-sm">
+                   Voltar ao Estúdio
+                 </Button>
               </div>
             </motion.div>
           </div>
@@ -400,8 +453,12 @@ export default function GeneratePage() {
           >
             <AlertCircle className="w-5 h-5 text-red-500 shrink-0" />
             <span className="text-sm font-medium">{error}</span>
-            <button onClick={() => setError(null)} aria-label="Fechar">
-              <X className="w-4 h-4 text-[#8E8E93]" />
+            <button 
+              className="p-1 hover:bg-black/10 rounded-full transition-colors focus:outline-none"
+              onClick={() => setError(null)}
+              aria-label="Fechar erro"
+            >
+              <X className="w-5 h-5" />
             </button>
           </motion.div>
         )}
