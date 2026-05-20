@@ -38,7 +38,7 @@ def generate_images(
         image_urls: List of 3 reference image URLs
         prompt: Full generation prompt
         resolution: Resolution ("2K", etc) - not directly used by this model
-        aspect_ratio: Aspect ratio ("1:1", "3:2", "2:3") - normalized to "2:3" for vertical portraits
+        aspect_ratio: Aspect ratio ("1:1", "3:2", "2:3", "16:9", "9:16")
         output_format: Image format ("webp", "jpg", "png")
         safety_filter_level: Not used (kept for compatibility)
     
@@ -71,8 +71,8 @@ def generate_images(
 
         start_time = time.time()
 
-        # Normalize aspect ratio to accepted values
-        valid_ratios = ["1:1", "3:2", "2:3"]
+        # Normalize aspect ratio to accepted values (FIXED: added 16:9 and 9:16)
+        valid_ratios = ["1:1", "3:2", "2:3", "16:9", "9:16"]
         if aspect_ratio not in valid_ratios:
             logger.warning(f"Aspect ratio '{aspect_ratio}' not supported, using '2:3' (vertical portrait)")
             aspect_ratio = "2:3"
