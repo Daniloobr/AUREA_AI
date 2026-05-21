@@ -28,21 +28,35 @@ export default function HistoryPage() {
       const imageUrl = getImageUrl(imagePath);
       
       // Constrói a URL para o endpoint de proxy
-      // O replace garante que não teremos /api/api/ caso a env já termine em /api
       const base = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5000/api').replace(/\/api$/, '');
       const downloadUrl = `${base}/api/download-image?url=${encodeURIComponent(imageUrl)}`;
       
       console.log('Original Image URL:', imageUrl);
       console.log('Download URL:', downloadUrl);
       
-      // Faz uma requisição HEAD para verificar se a rota está acessível e se não retorna 403/404
-      const headResponse = await fetch(downloadUrl, { method: 'HEAD' }).catch(() => null);
-      if (headResponse && !headResponse.ok) {
-        throw new Error(`Servidor retornou erro ${headResponse.status}`);
+      // ALERTA: Usar window.location.href faz navegadores mobile e Safari 
+      // ignorarem o "forçar download" e apenas mostrarem a imagem na tela.
+      // O único jeito 100% garantido de forçar o download no dispositivo
+      // é baixar para a memória via fetch e criar um link Blob.
+      
+      const response = await fetch(downloadUrl, { method: 'GET' });
+      if (!response.ok) {
+        throw new Error(`Servidor retornou erro ${response.status}`);
       }
       
-      // Redireciona o navegador para forçar o download
-      window.location.href = downloadUrl;
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = 'ensaio_aureaia.jpg'; // Força o nome do arquivo no cliente
+      
+      document.body.appendChild(link);
+      link.click();
+      
+      // Limpeza
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
       
     } catch (error) {
       console.error('Erro ao acionar download:', error);

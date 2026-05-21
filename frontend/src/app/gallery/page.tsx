@@ -84,25 +84,46 @@ export default function GalleryPage() {
       // Resolve a URL absoluta da imagem
       const imageUrl = getImageUrl(imagePath);
       
-      // Constrói a URL para o endpoint de proxy
-      // O replace garante que não teremos /api/api/ caso a env já termine em /api
-      const base = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5000/api').replace(/\/api$/, '');
-      const downloadUrl = `${base}/api/download-image?url=${encodeURIComponent(imageUrl)}`;
+      // USA CAMINHO RELATIVO para que o rewrite do Vercel (vercel.json)
+      // encaminhe automaticamente para o backend Render em produção.
+      // Isso funciona tanto em dev (next.config.ts rewrites) quanto em prod (vercel.json rewrites).
+      const downloadUrl = `/api/download-image?url=${encodeURIComponent(imageUrl)}`;
       
-      console.log('Original Image URL:', imageUrl);
-      console.log('Download URL:', downloadUrl);
+      console.log('[Download] Image URL original:', imageUrl);
+      console.log('[Download] Proxy URL:', downloadUrl);
       
-      // Faz uma requisição HEAD para verificar se a rota está acessível e se não retorna 403/404
-      const headResponse = await fetch(downloadUrl, { method: 'HEAD' }).catch(() => null);
-      if (headResponse && !headResponse.ok) {
-        throw new Error(`Servidor retornou erro ${headResponse.status}`);
+      const response = await fetch(downloadUrl);
+      
+      console.log('[Download] Response status:', response.status);
+      console.log('[Download] Response Content-Type:', response.headers.get('Content-Type'));
+      
+      if (!response.ok) {
+        const errorText = await response.text().catch(() => 'Erro desconhecido');
+        console.error('[Download] Erro do servidor:', errorText);
+        throw new Error(`Servidor retornou erro ${response.status}`);
       }
       
-      // Redireciona o navegador para forçar o download
-      window.location.href = downloadUrl;
+      const blob = await response.blob();
+      console.log('[Download] Blob size:', blob.size, 'type:', blob.type);
+      
+      const blobUrl = window.URL.createObjectURL(blob);
+      
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = 'ensaio_aureaia.jpg';
+      link.style.display = 'none';
+      
+      document.body.appendChild(link);
+      link.click();
+      
+      // Limpeza
+      setTimeout(() => {
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(blobUrl);
+      }, 1000);
       
     } catch (error) {
-      console.error('Erro ao acionar download:', error);
+      console.error('[Download] Falha completa:', error);
       alert('Não foi possível baixar a imagem. Verifique se ela ainda está disponível.');
     }
   };
