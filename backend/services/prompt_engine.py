@@ -1,192 +1,181 @@
 """
 Prompt Engine — Maternity Photography (Realistic, Identity‑First)
-Optimized for openai/gpt-image-2
-===============================================================
-Goal: Generate natural, authentic maternity portraits that preserve
-the client's identity and look like real professional photography,
-not AI renderings or heavy retouched montages.
+Optimized for openai/gpt-image-2 via Replicate
+================================================================
+Prompt structure (OpenAI recommended order):
+  Scene → Subject → Important details → Use case → Beauty styling →
+  Feminine direction → Quality brief → Identity anchor
+
+Target: 600–800 chars. Hard limit: 800 chars enforced at runtime.
+
+Aesthetic goal: Images should look like they were taken with an
+iPhone 17 Pro Max – natural smartphone photography, realistic
+skin texture, authentic colors, subtle depth of field, plus
+polished maternity styling and elegant feminine poses.
+
+References:
+  https://replicate.com/openai/gpt-image-2
+  https://developers.openai.com/cookbook/examples/multimodal/image-gen-models-prompting-guide
 """
 
 import logging
-from typing import Optional, Literal
+from typing import Literal
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # ══════════════════════════════════════════════════════════════
-# IDENTITY PRESERVATION (moved to the end – highest priority)
+# QUALITY BRIEF – iPhone 17 Pro Max aesthetic
+# ══════════════════════════════════════════════════════════════
+QUALITY_BRIEF = (
+    "Shot on iPhone 17 Pro Max – natural smartphone photography. "
+    "Realistic skin texture, authentic colors, subtle depth of field. "
+    "No heavy retouching, no CGI, no artificial smoothing."
+)
+
+# ══════════════════════════════════════════════════════════════
+# BEAUTY STYLING (professional makeup and hair)
+# ══════════════════════════════════════════════════════════════
+BEAUTY_STYLING = (
+    "Professional maternity makeup and hairstyling. "
+    "Polished but natural beauty production suitable for a luxury studio photoshoot."
+)
+
+# ══════════════════════════════════════════════════════════════
+# FEMININE DIRECTION (elegant posture and body language)
+# ══════════════════════════════════════════════════════════════
+FEMININE_DIRECTION = (
+    "Elegant feminine posture and confident body language."
+)
+
+# ══════════════════════════════════════════════════════════════
+# IDENTITY ANCHOR (shorter, stronger, placed at the very end)
 # ══════════════════════════════════════════════════════════════
 IDENTITY_ANCHOR = (
-    "CRITICAL: The client uploaded 3 reference photos. "
-    "The generated image MUST show the exact same person – same face, "
-    "same bone structure, same eyes, nose, lips, skin tone, hair. "
-    "Do NOT change identity, do NOT beautify, do NOT idealize. "
-    "Identity preservation is the most important instruction."
+    "CRITICAL: The generated image MUST show the exact same person as the 3 reference photos – "
+    "same face, bone structure, eyes, nose, lips, skin tone, hair. "
+    "Do NOT change identity, do NOT beautify, do NOT idealize."
 )
 
 # ══════════════════════════════════════════════════════════════
-# REALISM & AUTHENTICITY (no over-retouching)
-# ══════════════════════════════════════════════════════════════
-BASE_REALISM = (
-    "Real maternity photography. Natural skin texture, "
-    "authentic expression, believable body proportions. "
-    "The pregnant belly is naturally visible. Looks like a real photo "
-    "taken by a professional photographer, not an AI render."
-)
-
-# ══════════════════════════════════════════════════════════════
-# LIGHTING & POSE (soft, natural)
-# ══════════════════════════════════════════════════════════════
-LIGHTING_GUIDELINES = (
-    "Soft front or side-front lighting. Balanced exposure, "
-    "no harsh shadows, no silhouette backlight."
-)
-
-POSE_GUIDELINES = (
-    "Natural relaxed pose. Comfortable body language, "
-    "hands gently resting on the belly. No stiff mannequin poses."
-)
-
-# ══════════════════════════════════════════════════════════════
-# CAMERA AESTHETIC (professional, not overly technical)
-# ══════════════════════════════════════════════════════════════
-CAMERA_AESTHETIC = (
-    "Professional full‑frame camera aesthetic. Natural depth of field, "
-    "realistic colors, subtle contrast. Looks like a high‑end maternity session."
-)
-
-# ══════════════════════════════════════════════════════════════
-# LENS PRESETS (simple, optional)
-# ══════════════════════════════════════════════════════════════
-LENS_PRESETS = {
-    "portrait": "50mm portrait perspective, natural compression.",
-    "cinematic": "85mm cinematic look, soft background separation.",
-    "documentary": "35mm documentary style, environmental context.",
-}
-
-# ══════════════════════════════════════════════════════════════
-# SKIN & MAKEUP (minimal, professional, no over‑retouching)
-# ══════════════════════════════════════════════════════════════
-SKIN_MAKEUP_NATURAL = (
-    "Professional soft maternity makeup. Healthy natural skin. "
-    "Real skin texture preserved. No heavy foundation, no artificial smoothing."
-)
-
-SKIN_MAKEUP_EDITORIAL = (
-    "Soft polished makeup with natural texture preserved. "
-    "Minimal elegance, no heavy retouching, real skin visible."
-)
-
-# ══════════════════════════════════════════════════════════════
-# EXPRESSION & POSE LIBRARIES (short, natural)
-# ══════════════════════════════════════════════════════════════
-EXPRESSION_LIBRARY = {
-    "warm": "Gentle natural smile, warmth in the eyes, relaxed face.",
-    "neutral": "Calm neutral expression, authentic and relaxed.",
-    "editorial": "Soft introspective look, natural emotional depth.",
-}
-
-POSE_LIBRARY = {
-    "front_cradle": "Facing camera, both hands gently resting on the belly.",
-    "walking": "Slow natural walk, captured mid‑step, relaxed.",
-    "window_light": "Standing near a window, relaxed posture, one hand on belly.",
-    "looking_down": "Looking softly down toward the belly, tender expression.",
-}
-
-FRAMING_VARIANTS = {
-    "full_body": "Full body composition, natural proportions.",
-    "three_quarters": "Three‑quarter framing, belly naturally emphasized.",
-    "medium": "Medium portrait, emotional connection.",
-    "close_up_emotional": "Close emotional portrait, shallow depth of field.",
-    "detail_hands_belly": "Intimate detail of hands on the belly.",
-}
-
-# ══════════════════════════════════════════════════════════════
-# STYLE PRESETS (concise, descriptive, no over‑promising)
+# STYLE PRESETS – scene + light + wardrobe + spatial micro-details
+# All styles now have rich yet concise descriptions.
 # ══════════════════════════════════════════════════════════════
 STYLE_PRESETS = {
     "classic": {
         "name": "Clássico",
         "prompt": (
-            "Classic maternity studio portrait. Neutral background, soft front lighting. "
-            "She wears a simple flowing white or cream dress. Timeless elegance."
+            "Classic maternity studio portrait. Soft beige studio backdrop with subtle floor shadows, "
+            "soft even front lighting. She wears a flowing white cotton dress with natural folds."
         ),
     },
     "luxury_studio": {
         "name": "Estúdio Luxo",
         "prompt": (
-            "Luxury studio maternity portrait. Dove‑gray backdrop, soft directional light from front‑left. "
-            "She wears a flowing ivory silk gown. Warm neutral tones, elegant composition."
+            "Luxury studio maternity portrait. Dove-gray seamless backdrop with gentle gradient falloff, "
+            "soft directional front‑left light creating subtle rim definition. "
+            "She wears a flowing ivory silk gown with soft natural folds and delicate luster."
         ),
     },
     "ivory_satin": {
         "name": "Cetim Imperial",
         "prompt": (
-            "Elegant studio portrait. Ivory satin backless gown, polished floor. "
-            "Soft cinematic front lighting, refined shadows. High‑fashion elegance."
+            "Elegant studio portrait. Ivory satin backless gown with a long flowing train, "
+            "polished studio floor reflecting soft light. Soft cinematic front lighting, refined shadows. "
+            "The satin fabric catches light with a natural sheen."
         ),
     },
     "black_white_editorial": {
         "name": "Preto & Branco Editorial",
         "prompt": (
-            "Elegant black and white maternity portrait. Soft directional front light, "
-            "clean minimalist background. Rich tonal range, timeless monochrome aesthetic."
+            "Black and white maternity portrait. Soft directional front light, clean minimalist background "
+            "with subtle tonal graduation. Rich tonal range, timeless monochrome aesthetic. "
+            "She wears a simple elegant dark outfit that drapes beautifully."
         ),
     },
     "dramatic_black_gown": {
         "name": "Vestido Preto Dramático",
         "prompt": (
-            "Dramatic fine art maternity portrait in black and white. "
-            "She wears a stunning black gown, soft side‑front lighting (no harsh backlight). "
-            "Minimalist composition, elegant shadows."
+            "Fine art maternity portrait. She wears a stunning black gown with soft matte texture, "
+            "soft side-front lighting, minimalist composition, elegant shadows that sculpt the silhouette. "
+            "Polished studio floor with subtle reflections."
         ),
     },
     "golden_hour_nature": {
         "name": "Pôr do Sol na Natureza",
         "prompt": (
             "Outdoor maternity portrait in a wildflower meadow during golden hour. "
-            "Warm natural front‑side light, soft bokeh, gentle wind movement. "
-            "She wears a flowing dusty rose dress. Natural sun‑kissed glow."
+            "Warm natural side light, soft bokeh from wildflowers, gentle wind movement through the grass. "
+            "She wears a flowing dusty rose dress with delicate fabric movement."
         ),
     },
     "boho_chic": {
         "name": "Boho Chic",
         "prompt": (
-            "Bohemian maternity portrait. Large window natural light, earth tones, "
-            "dried floral accents. She wears a flowing earth‑toned outfit. "
-            "Soft painterly light, intimate cozy atmosphere."
+            "Bohemian maternity portrait. Large window natural light, warm earth tones, dried floral accents "
+            "(pampas grass and preserved roses). She wears a flowing earth-toned outfit with soft texture, "
+            "cozy textured fabrics in the background (woven rug, raw wood)."
         ),
     },
     "taupe_wings": {
         "name": "Asas de Chiffon Nude",
         "prompt": (
-            "Ethereal studio portrait. She wears a deep taupe‑nude chiffon gown "
-            "with wide fabric panels. Soft overhead light, gentle shadow roll‑off."
+            "Ethereal studio portrait. She wears a deep taupe-nude chiffon gown with wide fabric panels "
+            "extended mid-air in a wing-like shape. Soft overhead light creating gentle shadow roll‑off, "
+            "warm gray studio background with subtle gradient."
         ),
     },
     "red_lotus": {
         "name": "Lótus Vermelho",
         "prompt": (
-            "Cozy holiday maternity portrait. Lotus position on white sofa, "
-            "red silk pajamas, popcorn box. Soft on‑axis ring flash plus "
-            "warm Christmas tree lights from the side. Candid, intimate mood."
+            "Cozy holiday maternity portrait. Lotus position on a plush white sofa, "
+            "red silk pajamas with soft sheen. Warm ring flash combined with ambient Christmas tree lights, "
+            "dark lounge setting with soft glowing edges and subtle depth."
         ),
     },
 }
 
 # ══════════════════════════════════════════════════════════════
-# NEGATIVE PROMPT (strongly avoids AI artifacts)
+# EXPRESSION LIBRARY
+# ══════════════════════════════════════════════════════════════
+EXPRESSION_LIBRARY = {
+    "warm":      "gentle natural smile, warmth in the eyes, relaxed facial muscles",
+    "neutral":   "calm neutral expression, serene and composed",
+    "editorial": "soft introspective look, natural emotional depth",
+}
+
+# ══════════════════════════════════════════════════════════════
+# POSE LIBRARY (elegant and feminine)
+# ══════════════════════════════════════════════════════════════
+POSE_LIBRARY = {
+    "front_cradle": "facing camera, both hands gently resting on the belly, elegant posture",
+    "walking":      "slow natural walk, captured mid-step, graceful movement",
+    "window_light": "standing near a window, one hand softly touching the belly, relaxed elegance",
+    "looking_down": "looking softly down toward the belly, tender and maternal",
+}
+
+# ══════════════════════════════════════════════════════════════
+# FRAMING VARIANTS
+# ══════════════════════════════════════════════════════════════
+FRAMING_VARIANTS = {
+    "full_body":           "full body composition, natural proportions",
+    "three_quarters":      "three-quarter framing, belly naturally emphasized",
+    "medium":              "medium portrait framing, emotional connection",
+    "close_up_emotional":  "close emotional portrait, shallow depth of field",
+    "detail_hands_belly":  "intimate detail of hands resting gently on the belly",
+}
+
+# ══════════════════════════════════════════════════════════════
+# NEGATIVE PROMPT (reference only — gpt-image-2 has no negative_prompt parameter)
 # ══════════════════════════════════════════════════════════════
 NEGATIVE_PROMPT = (
-    "cartoon, anime, 3d render, cgi, illustration, painting, sketch, "
-    "plastic skin, wax face, over‑smoothed, porcelain doll, "
-    "bad anatomy, extra fingers, distorted body, floating hands, "
-    "harsh shadows, neon colors, oversaturated, watermark, text, "
-    "selfie angle, fisheye, cheap studio look, "
-    "stiff mannequin pose, excessive retouching, uncanny valley, "
-    "identity drift, different person, swapped face, "
-    "fantasy atmosphere, unrealistic lighting, fake fabric."
+    "plastic skin, wax face, over-smoothed, stiff mannequin pose, "
+    "identity drift, swapped face, CGI, 3d render, cartoon, anime, "
+    "bad anatomy, extra fingers, watermark, text, uncanny valley."
 )
+
+_HARD_LIMIT = 800
+
 
 # ══════════════════════════════════════════════════════════════
 # MAIN PROMPT GENERATOR
@@ -194,77 +183,177 @@ NEGATIVE_PROMPT = (
 def generate_prompt(
     tipo_ensaio: str,
     subject_description: str = "",
-    framing: Literal["full_body", "three_quarters", "medium", "close_up_emotional", "detail_hands_belly"] = "full_body",
-    use_naturalness_booster: bool = True,   # kept for compatibility, but not used
+    framing: Literal[
+        "full_body",
+        "three_quarters",
+        "medium",
+        "close_up_emotional",
+        "detail_hands_belly",
+    ] = "full_body",
+    use_naturalness_booster: bool = True,   # kept for backward compat, unused
     use_identity_text: bool = True,
     pose_key: str = "front_cradle",
     expression_key: str = "warm",
-    lens_type: str = "portrait",
+    lens_type: str = "portrait",            # kept for backward compat, unused
 ) -> str:
+    """
+    Build a concise, conflict-free prompt (target 600-800 chars).
+
+    Structure: Scene → Subject → Important details → Use case → Beauty styling →
+               Feminine direction → Quality brief → Identity anchor
+    """
+    # ── 1. Scene ──────────────────────────────────────────
     preset = STYLE_PRESETS.get(tipo_ensaio)
     if not preset:
-        logger.warning(f"Unknown style: {tipo_ensaio}")
-        style_prompt = "Professional maternity photography in a studio setting."
+        logger.warning("Unknown style '%s'. Using fallback.", tipo_ensaio)
+        scene = "Professional maternity portrait in a studio setting with soft lighting."
     else:
-        style_prompt = preset["prompt"]
+        scene = preset["prompt"]
 
-    parts = []
+    # ── 2. Subject (pose + expression) ────────────────────
+    pose = POSE_LIBRARY.get(pose_key, POSE_LIBRARY["front_cradle"])
+    expression = EXPRESSION_LIBRARY.get(expression_key, EXPRESSION_LIBRARY["warm"])
+    subject = f"Pregnant woman, {pose}, {expression}."
 
-    # 1. Style and scene
-    parts.append(style_prompt)
-
-    # 2. Framing
-    parts.append(FRAMING_VARIANTS.get(framing, FRAMING_VARIANTS["full_body"]))
-
-    # 3. Pose
-    parts.append(POSE_LIBRARY.get(pose_key, POSE_LIBRARY["front_cradle"]))
-
-    # 4. Expression
-    parts.append(EXPRESSION_LIBRARY.get(expression_key, EXPRESSION_LIBRARY["warm"]))
-
-    # 5. Subject details (if provided)
+    # ── 3. Important details (framing + subject description) ──
+    frame = FRAMING_VARIANTS.get(framing, FRAMING_VARIANTS["full_body"])
+    details_parts = [frame.capitalize()]
     if subject_description:
-        parts.append(f"Subject details: {subject_description}")
+        details_parts.append(subject_description.strip().rstrip("."))
+    details = ". ".join(details_parts) + "."
 
-    # 6. Camera and lens aesthetic
-    parts.append(CAMERA_AESTHETIC)
-    parts.append(LENS_PRESETS.get(lens_type, LENS_PRESETS["portrait"]))
+    # ── 4. Use case ───────────────────────────────────────
+    use_case = "Premium maternity editorial photography."
 
-    # 7. Skin and makeup (simple, natural)
-    editorial_styles = ["black_white_editorial", "dramatic_black_gown", "ivory_satin"]
-    if tipo_ensaio in editorial_styles:
-        parts.append(SKIN_MAKEUP_EDITORIAL)
-    else:
-        parts.append(SKIN_MAKEUP_NATURAL)
+    # ── 5. Beauty styling ─────────────────────────────────
+    beauty = BEAUTY_STYLING
 
-    # 8. Lighting and pose guidelines (soft, natural)
-    parts.append(LIGHTING_GUIDELINES)
-    parts.append(POSE_GUIDELINES)
+    # ── 6. Feminine direction ─────────────────────────────
+    feminine = FEMININE_DIRECTION
 
-    # 9. Base realism
-    parts.append(BASE_REALISM)
+    # ── 7. Quality brief ──────────────────────────────────
+    quality = QUALITY_BRIEF
 
-    # 10. IDENTITY ANCHOR (placed at the end – highest priority)
-    if use_identity_text:
-        parts.append(IDENTITY_ANCHOR)
+    # ── 8. Identity anchor (only at the end) ──────────────
+    identity = IDENTITY_ANCHOR if use_identity_text else ""
 
-    final_prompt = " ".join(parts)
-    logger.info(f"Prompt generated: {tipo_ensaio} ({len(final_prompt)} chars)")
-    return final_prompt
+    # ── Assemble & normalise whitespace ───────────────────
+    prompt = " ".join(
+        f"{scene} {subject} {details} {use_case} {beauty} {feminine} {quality} {identity}".split()
+    )
 
+    # ── Hard-limit guard (graceful truncation) ────────────
+    if len(prompt) > _HARD_LIMIT and subject_description:
+        # Try to trim subject_description first
+        prompt_without_desc = " ".join(
+            f"{scene} {subject} {frame.capitalize()}. {use_case} {beauty} {feminine} {quality} {identity}".split()
+        )
+        overhead = len(prompt_without_desc)
+        budget = _HARD_LIMIT - overhead - 5
+        if budget > 10:
+            trimmed_desc = subject_description.strip().rstrip(".")[:budget]
+            details = f"{frame.capitalize()}. {trimmed_desc}."
+            prompt = " ".join(
+                f"{scene} {subject} {details} {use_case} {beauty} {feminine} {quality} {identity}".split()
+            )
+            logger.warning("subject_description trimmed to fit 800-char limit (%d chars).", len(prompt))
+        else:
+            # Drop subject_description entirely
+            details = f"{frame.capitalize()}."
+            prompt = " ".join(
+                f"{scene} {subject} {details} {use_case} {beauty} {feminine} {quality} {identity}".split()
+            )
+            logger.warning("subject_description dropped entirely to stay within 800-char limit.")
+
+    # Final safety check
+    if len(prompt) > _HARD_LIMIT:
+        logger.error("Prompt still exceeds 800 chars after trimming (%d).", len(prompt))
+        # Fallback: remove subject_description and identity anchor (last resort)
+        prompt = " ".join(
+            f"{scene} {subject} {frame.capitalize()}. {use_case} {beauty} {feminine} {quality}".split()
+        )
+        if len(prompt) > _HARD_LIMIT:
+            prompt = prompt[:_HARD_LIMIT]
+
+    logger.info("Prompt generated: %s (%d chars)", tipo_ensaio, len(prompt))
+    return prompt
+
+
+# ══════════════════════════════════════════════════════════════
+# HELPER FUNCTIONS
+# ══════════════════════════════════════════════════════════════
 def generate_negative_prompt() -> str:
     return NEGATIVE_PROMPT
+
 
 def get_available_styles() -> list:
     return [{"id": k, "name": v["name"]} for k, v in STYLE_PRESETS.items()]
 
+
 def get_framing_options() -> list:
     return [{"id": k, "name": k.replace("_", " ").title()} for k in FRAMING_VARIANTS]
 
+
+# ══════════════════════════════════════════════════════════════
+# SELF-TEST
+# ══════════════════════════════════════════════════════════════
 if __name__ == "__main__":
-    prompt = generate_prompt("luxury_studio", "Woman with dark curly hair, warm brown skin.", lens_type="portrait")
-    print("\n--- POSITIVE PROMPT ---\n", prompt)
-    print("\n--- NEGATIVE PROMPT ---\n", generate_negative_prompt())
-    print("\n--- AVAILABLE STYLES ---")
-    for s in get_available_styles():
-        print(f"  - {s['name']} ({s['id']})")
+    RESET = "\033[0m"
+    GREEN = "\033[92m"
+    RED   = "\033[91m"
+    CYAN  = "\033[96m"
+
+    def ok(cond): return f"{GREEN}✅{RESET}" if cond else f"{RED}❌{RESET}"
+
+    print(f"\n{CYAN}{'=' * 68}{RESET}")
+    print(f"{CYAN}  AUREA AI — Prompt Engine v4 (iPhone 17 Pro Max + Luxury Styling){RESET}")
+    print(f"{CYAN}{'=' * 68}{RESET}\n")
+
+    # 1. Char count audit
+    print("── Char Count Audit (no subject_description) ──────────────────")
+    for sid in STYLE_PRESETS:
+        p = generate_prompt(sid)
+        flag = ok(len(p) <= _HARD_LIMIT)
+        print(f"  {flag}  {sid:<30}  {len(p)} chars")
+
+    # 2. Example: luxury_studio
+    print(f"\n── Example: luxury_studio ──────────────────────────────────────")
+    ex = generate_prompt("luxury_studio", subject_description="Woman with dark curly hair, warm brown skin")
+    print(f"  Length : {len(ex)} chars  {ok(len(ex) <= _HARD_LIMIT)}")
+    print(f"\n  {ex}\n")
+
+    # 3. Example: golden_hour_nature
+    print("── Example: golden_hour_nature (all params) ────────────────────")
+    ex2 = generate_prompt(
+        "golden_hour_nature",
+        subject_description="Woman with dark curly hair, warm brown skin",
+        framing="three_quarters",
+        pose_key="looking_down",
+        expression_key="editorial",
+    )
+    print(f"  Length : {len(ex2)} chars  {ok(len(ex2) <= _HARD_LIMIT)}")
+    print(f"\n  {ex2}\n")
+
+    # 4. Integrity checks
+    print("── Integrity Checks ────────────────────────────────────────────")
+    FORBIDDEN = [
+        "stunning", "gorgeous", "masterpiece", "8K", "ultra high resolution",
+        "chiaroscuro", "rim glow", "octabox", "softbox",
+        "soft even tone", "subtle natural glow", "real pores visible",
+        "matte T-zone", "highlighter", "backlight at", "degrees",
+    ]
+    found = [w for w in FORBIDDEN if w.lower() in ex.lower()]
+    print(f"  {ok(not found)}  No forbidden terms" + (f": {found}" if found else ""))
+
+    anchor_n = ex.count("CRITICAL: The generated image MUST show the exact same person")
+    print(f"  {ok(anchor_n == 1)}  IDENTITY_ANCHOR appears exactly once ({anchor_n}×)")
+
+    conflict = "no visible makeup" in ex and any(w in ex for w in ["soft even tone", "highlighter"])
+    print(f"  {ok(not conflict)}  No skin/makeup instruction conflict")
+
+    # 5. Truncation test
+    long_desc = "Very long description that should be truncated. " * 30
+    ex_long = generate_prompt("luxury_studio", subject_description=long_desc)
+    print(f"  {ok(len(ex_long) <= _HARD_LIMIT)}  Long subject_description truncated ({len(ex_long)} chars)")
+
+    print(f"\n{CYAN}{'=' * 68}{RESET}\n")
