@@ -77,12 +77,40 @@ export default function GalleryPage() {
     return `${base}${imagePath}`;
   };
 
-  const downloadImage = (imagePath: string) => {
+  const downloadImage = async (imagePath: string) => {
     if (!imagePath) return;
-    const imageUrl = getImageUrl(imagePath);
-    const base = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5000/api').replace(/\/api$/, '');
-    const downloadUrl = `${base}/api/download-image?url=${encodeURIComponent(imageUrl)}`;
-    window.location.href = downloadUrl;
+    try {
+      // 1. Resolve a URL do proxy
+      const imageUrl = getImageUrl(imagePath);
+      const base = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5000/api').replace(/\/api$/, '');
+      const downloadUrl = `${base}/api/download-image?url=${encodeURIComponent(imageUrl)}`;
+      
+      // 2. Faz o fetch da imagem via proxy
+      const response = await fetch(downloadUrl);
+      if (!response.ok) {
+        throw new Error('Erro ao baixar a imagem');
+      }
+      
+      // 3. Converte a resposta para um Blob
+      const blob = await response.blob();
+      
+      // 4. Cria uma URL temporária para o Blob
+      const blobUrl = window.URL.createObjectURL(blob);
+      
+      // 5. Cria um elemento <a> programaticamente para forçar o download
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = 'ensaio_aureaia.jpg';
+      document.body.appendChild(link);
+      link.click();
+      
+      // 6. Limpeza
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error('Falha no download:', error);
+      alert('Não foi possível baixar a imagem no momento. Tente novamente em instantes.');
+    }
   };
 
   return (
@@ -203,7 +231,11 @@ export default function GalleryPage() {
                           </div>
                           {/* Botão de download */}
                           <button 
-                            onClick={() => downloadImage(item.result?.result_url || item.result_url || item.images?.[0])}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              downloadImage(item.result?.result_url || item.result_url || item.images?.[0]);
+                            }}
                             title="Baixar em alta resolução"
                             className="flex items-center gap-2 bg-[#F5F5F7] text-black rounded-full px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.1em] shadow-2xl hover:bg-[#748FCC] hover:text-[#F5F5F7] transition-all transform hover:scale-105 active:scale-95"
                           >

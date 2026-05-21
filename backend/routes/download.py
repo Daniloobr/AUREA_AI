@@ -34,6 +34,7 @@ def download_image():
         # Restringir domínios permitidos (Prevenção de SSRF)
         allowed_domains = [
             'replicate.delivery',
+            'replicate.com',
             'supabase.co',
             '127.0.0.1',
             'localhost',
