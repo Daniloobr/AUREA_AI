@@ -6,7 +6,7 @@ Prompt structure (OpenAI recommended order):
   Scene → Subject → Important details → Use case → Beauty styling →
   Feminine direction → Visual simplicity → Quality brief → Face priority → Identity anchor
 
-Target: 600–800 chars. Hard limit: 800 chars enforced at runtime.
+Target: 550–650 chars. Hard limit: 800 chars enforced at runtime.
 
 Aesthetic goal: Premium maternity photography with natural smartphone quality,
 professional styling, elegant poses, clean composition, and strong identity preservation.
@@ -19,13 +19,13 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # ══════════════════════════════════════════════════════════════
-# BEAUTY STYLING (premium, natural makeup and hair)
+# BEAUTY STYLING (natural, professional, no glam drift)
 # ══════════════════════════════════════════════════════════════
 BEAUTY_STYLING = (
-    "Professional luxury maternity makeup and hairstyling. "
-    "Soft glam makeup with elegant skin finish, softly defined eyes, natural lashes, "
-    "subtle blush, refined neutral lip color, professionally styled hair with soft volume and movement. "
-    "Looks professionally produced for a premium maternity photoshoot."
+    "Professional maternity makeup and hairstyling. "
+    "Natural polished makeup, softly defined eyes, subtle blush, neutral lip color, "
+    "professionally styled hair with soft volume. "
+    "Looks professionally prepared for a maternity photoshoot."
 )
 
 # ══════════════════════════════════════════════════════════════
@@ -56,7 +56,8 @@ QUALITY_BRIEF = (
 # FACE PRIORITY (ensures facial visibility and likeness)
 # ══════════════════════════════════════════════════════════════
 FACE_PRIORITY = (
-    "Natural facial rendering with clear facial visibility and authentic resemblance."
+    "Face clearly visible, realistic facial proportions, "
+    "authentic resemblance to the reference photos."
 )
 
 # ══════════════════════════════════════════════════════════════
@@ -70,8 +71,7 @@ IDENTITY_ANCHOR = (
 
 # ══════════════════════════════════════════════════════════════
 # STYLE PRESETS – scene + light + wardrobe + spatial micro-details
-# All styles now have rich yet concise descriptions, avoiding over‑technical lighting.
-# Removed "stunning", "breathtaking" etc. Simplified lighting phrases.
+# All styles have rich yet concise descriptions, avoiding over‑technical lighting.
 # ══════════════════════════════════════════════════════════════
 STYLE_PRESETS = {
     "classic": {
@@ -178,7 +178,7 @@ FRAMING_VARIANTS = {
 }
 
 # ══════════════════════════════════════════════════════════════
-# NEGATIVE PROMPT (reference only)
+# NEGATIVE PROMPT (reference only – not used by gpt-image-2)
 # ══════════════════════════════════════════════════════════════
 NEGATIVE_PROMPT = (
     "plastic skin, wax face, over-smoothed, stiff mannequin pose, "
@@ -209,7 +209,7 @@ def generate_prompt(
     lens_type: str = "portrait",            # kept for backward compat, unused
 ) -> str:
     """
-    Build a concise, conflict-free prompt (target 600-800 chars).
+    Build a concise, conflict-free prompt (target 550-650 chars).
 
     Structure: Scene → Subject → Important details → Use case → Beauty styling →
                Feminine direction → Visual simplicity → Quality brief → Face priority → Identity anchor
@@ -324,7 +324,7 @@ if __name__ == "__main__":
     def ok(cond): return f"{GREEN}✅{RESET}" if cond else f"{RED}❌{RESET}"
 
     print(f"\n{CYAN}{'=' * 68}{RESET}")
-    print(f"{CYAN}  AUREA AI — Prompt Engine v5 (Premium Styling + Face Priority){RESET}")
+    print(f"{CYAN}  AUREA AI — Prompt Engine v6 (Final){RESET}")
     print(f"{CYAN}{'=' * 68}{RESET}\n")
 
     # 1. Char count audit
@@ -359,6 +359,7 @@ if __name__ == "__main__":
         "chiaroscuro", "rim glow", "octabox", "softbox",
         "soft even tone", "subtle natural glow", "real pores visible",
         "matte T-zone", "highlighter", "backlight at", "degrees",
+        "soft glam", "elegant skin finish",
     ]
     found = [w for w in FORBIDDEN if w.lower() in ex.lower()]
     print(f"  {ok(not found)}  No forbidden terms" + (f": {found}" if found else ""))
@@ -366,9 +367,8 @@ if __name__ == "__main__":
     anchor_n = ex.count("CRITICAL: The generated image MUST show the exact same person")
     print(f"  {ok(anchor_n == 1)}  IDENTITY_ANCHOR appears exactly once ({anchor_n}×)")
 
-    # Check for presence of new blocks
-    print(f"  {ok('Professional luxury maternity makeup' in ex)}  BEAUTY_STYLING present")
-    print(f"  {ok('Clean composition with realistic visual balance' in ex)}  VISUAL_SIMPLICITY present")
-    print(f"  {ok('Natural facial rendering' in ex)}  FACE_PRIORITY present")
+    print(f"  {ok('Professional maternity makeup' in ex)}  BEAUTY_STYLING present (safe version)")
+    print(f"  {ok('Clean composition' in ex)}  VISUAL_SIMPLICITY present")
+    print(f"  {ok('Face clearly visible' in ex)}  FACE_PRIORITY present")
 
     print(f"\n{CYAN}{'=' * 68}{RESET}\n")
