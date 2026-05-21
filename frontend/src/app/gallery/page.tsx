@@ -77,6 +77,14 @@ export default function GalleryPage() {
     return `${base}${imagePath}`;
   };
 
+  const downloadImage = (imagePath: string) => {
+    if (!imagePath) return;
+    const imageUrl = getImageUrl(imagePath);
+    const base = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5000/api').replace(/\/api$/, '');
+    const downloadUrl = `${base}/api/download-image?url=${encodeURIComponent(imageUrl)}`;
+    window.location.href = downloadUrl;
+  };
+
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-[#F5F5F7] font-sans relative overflow-hidden">
       
@@ -193,19 +201,15 @@ export default function GalleryPage() {
                             <Calendar className="w-3.5 h-3.5 text-[#B8BCC4]" />
                             {item.created_at}
                           </div>
-                          {/* Botão de download — renomeado conforme briefing */}
-                          {/* TODO: integração real com URL assinada do backend */}
-                          <a 
-                            href={`${process.env.NEXT_PUBLIC_API_URL || ''}/api/download-image?url=${encodeURIComponent(getImageUrl(item.result?.result_url || item.result_url || item.images?.[0]))}`
-                            download
-                            target="_blank"
-                            rel="noopener noreferrer"
+                          {/* Botão de download */}
+                          <button 
+                            onClick={() => downloadImage(item.result?.result_url || item.result_url || item.images?.[0])}
                             title="Baixar em alta resolução"
                             className="flex items-center gap-2 bg-[#F5F5F7] text-black rounded-full px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.1em] shadow-2xl hover:bg-[#748FCC] hover:text-[#F5F5F7] transition-all transform hover:scale-105 active:scale-95"
                           >
                             <Download className="w-4 h-4" />
                             Alta Resolução
-                          </a>
+                          </button>
                         </div>
                       </div>
                     </div>

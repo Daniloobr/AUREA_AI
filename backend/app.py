@@ -67,7 +67,7 @@ def create_app():
     
     # Inicializa a configuração (cria diretórios, define variáveis de ambiente)
     # Initialize Celery with Flask app context
-    from .celery_app import celery
+    from celery_app import celery
     # Update Celery config from environment variables if needed
     celery.conf.update(
         broker_url=os.getenv('CELERY_BROKER_URL'),
@@ -89,10 +89,15 @@ def create_app():
     from routes.auth import auth_bp
     from routes.admin import admin_bp
     from routes.styles import styles_bp
+    from routes.download import download_bp
 
-
-from routes.download import download_bp
-app.register_blueprint(download_bp, url_prefix='/api')
+    app.register_blueprint(upload_bp,   url_prefix='/api')
+    app.register_blueprint(generate_bp, url_prefix='/api')
+    app.register_blueprint(gallery_bp,  url_prefix='/api')
+    app.register_blueprint(auth_bp,     url_prefix='/api')
+    app.register_blueprint(admin_bp,    url_prefix='/api')
+    app.register_blueprint(styles_bp,   url_prefix='/api')
+    app.register_blueprint(download_bp, url_prefix='/api')
 
 
     # ─── Servir arquivos carregados/gerados ───

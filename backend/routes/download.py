@@ -31,19 +31,36 @@ def download_image():
         if parsed.scheme not in ('http', 'https'):
             raise ValueError('Invalid URL scheme')
 
+        # Restringir domínios permitidos (Prevenção de SSRF)
+        allowed_domains = [
+            'replicate.delivery',
+            'supabase.co',
+            '127.0.0.1',
+            'localhost',
+            request.host  # Permite o próprio domínio da API
+        ]
+        
+        domain = parsed.netloc
+        # Considera portas no netloc separando pelo :
+        domain_without_port = domain.split(':')[0]
+        
+        if not any(domain_without_port.endswith(d.split(':')[0]) for d in allowed_domains):
+            logger.warning(f"Tentativa de download proxy recusada para o domínio: {domain}")
+            return jsonify({'success': False, 'error': 'URL de origem não autorizada'}), 403
+
         # Stream the remote image
         resp = requests.get(image_url, stream=True, timeout=30)
         resp.raise_for_status()
 
-        # Determine filename
-        filename = os.path.basename(parsed.path)
-        filename = unquote(filename) or 'downloaded_image'
-        # Fallback to generic extension if missing
-        if '.' not in filename:
-            # Try to guess from content-type
-            ct = resp.headers.get('Content-Type', '')
-            ext = ct.split('/')[-1] if '/' in ct else 'bin'
-            filename = f"{filename}.{ext}"
+        # Determinar a extensão baseada no content-type
+        ct = resp.headers.get('Content-Type', '')
+        ext = 'jpg'
+        if 'png' in ct:
+            ext = 'png'
+        elif 'webp' in ct:
+            ext = 'webp'
+            
+        filename = f"ensaio_aureaia.{ext}"
 
         # Content-Type header
         content_type = resp.headers.get('Content-Type', 'application/octet-stream')

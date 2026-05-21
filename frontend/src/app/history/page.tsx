@@ -20,15 +20,12 @@ export default function HistoryPage() {
     return `${base}${imagePath}`;
   };
 
-  // Helper to generate download proxy URL for an image
-  const getDownloadUrl = (imagePath: string) => {
-    if (!imagePath) return '';
-    // Resolve the absolute image URL first
+  const downloadImage = (imagePath: string) => {
+    if (!imagePath) return;
     const imageUrl = getImageUrl(imagePath);
-    // Encode URL for query param
-    const encoded = encodeURIComponent(imageUrl);
     const base = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5000/api').replace(/\/api$/, '');
-    return `${base}/download-image?url=${encoded}`;
+    const downloadUrl = `${base}/api/download-image?url=${encodeURIComponent(imageUrl)}`;
+    window.location.href = downloadUrl;
   };
 
   useEffect(() => {
@@ -188,16 +185,14 @@ export default function HistoryPage() {
                             <Calendar className="w-3.5 h-3.5" />
                             {item.created_at}
                           </div>
-                          {/* TODO: integrar com URL assinada do backend para download */}
-                          <a
-                            href={getDownloadUrl(item.result?.result_url || item.result_url || item.images?.[0])}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                          {/* Download com window.location.href via endpoint proxy */}
+                          <button
+                            onClick={() => downloadImage(item.result?.result_url || item.result_url || item.images?.[0])}
                             title="Baixar em alta resolução"
                             className="p-3 bg-[#F5F5F7] text-black rounded-full opacity-90 hover:bg-[#748FCC] hover:text-[#F5F5F7] transition-all shadow-xl hover:scale-110 active:scale-95"
                           >
                             <Download className="w-4 h-4" />
-                          </a>
+                          </button>
                         </div>
                       </div>
                     </div>
