@@ -87,7 +87,8 @@ export default function GalleryPage() {
       // USA CAMINHO RELATIVO para que o rewrite do Vercel (vercel.json)
       // encaminhe automaticamente para o backend Render em produção.
       // Isso funciona tanto em dev (next.config.ts rewrites) quanto em prod (vercel.json rewrites).
-      const downloadUrl = `/api/download-image?url=${encodeURIComponent(imageUrl)}`;
+      const base = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5000/api').replace(/\/api$/, '');
+      const downloadUrl = `${base}/api/download-image?url=${encodeURIComponent(imageUrl)}`;
       
       console.log('[Download] Image URL original:', imageUrl);
       console.log('[Download] Proxy URL:', downloadUrl);
