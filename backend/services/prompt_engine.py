@@ -1,18 +1,4 @@
-"""
-Prompt Engine — Maternity Photography (Realistic, Identity‑First)
-Optimized for openai/gpt-image-2 via Replicate
-================================================================
-Prompt structure (OpenAI recommended order):
-  Scene → Subject → Important details → Use case → Beauty styling →
-  Feminine direction → Visual simplicity → Quality brief → Face priority → Identity anchor
 
-Target: 550–650 chars. Hard limit: 800 chars enforced at runtime.
-
-Aesthetic goal: Premium maternity photography with natural smartphone quality,
-professional styling, elegant poses, clean composition, and strong identity preservation.
-"""
-
-import logging
 from typing import Literal
 
 logging.basicConfig(level=logging.INFO)
