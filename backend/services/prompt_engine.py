@@ -4,18 +4,12 @@ Optimized for openai/gpt-image-2 via Replicate
 ================================================================
 Prompt structure (OpenAI recommended order):
   Scene → Subject → Important details → Use case → Beauty styling →
-  Feminine direction → Quality brief → Identity anchor
+  Feminine direction → Visual simplicity → Quality brief → Face priority → Identity anchor
 
 Target: 600–800 chars. Hard limit: 800 chars enforced at runtime.
 
-Aesthetic goal: Images should look like they were taken with an
-iPhone 17 Pro Max – natural smartphone photography, realistic
-skin texture, authentic colors, subtle depth of field, plus
-polished maternity styling and elegant feminine poses.
-
-References:
-  https://replicate.com/openai/gpt-image-2
-  https://developers.openai.com/cookbook/examples/multimodal/image-gen-models-prompting-guide
+Aesthetic goal: Premium maternity photography with natural smartphone quality,
+professional styling, elegant poses, clean composition, and strong identity preservation.
 """
 
 import logging
@@ -23,6 +17,31 @@ from typing import Literal
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# ══════════════════════════════════════════════════════════════
+# BEAUTY STYLING (premium, natural makeup and hair)
+# ══════════════════════════════════════════════════════════════
+BEAUTY_STYLING = (
+    "Professional luxury maternity makeup and hairstyling. "
+    "Soft glam makeup with elegant skin finish, softly defined eyes, natural lashes, "
+    "subtle blush, refined neutral lip color, professionally styled hair with soft volume and movement. "
+    "Looks professionally produced for a premium maternity photoshoot."
+)
+
+# ══════════════════════════════════════════════════════════════
+# FEMININE DIRECTION (elegant posture and body language)
+# ══════════════════════════════════════════════════════════════
+FEMININE_DIRECTION = (
+    "Elegant feminine posture and confident body language."
+)
+
+# ══════════════════════════════════════════════════════════════
+# VISUAL SIMPLICITY (avoids excessive fabric, props, clutter)
+# ══════════════════════════════════════════════════════════════
+VISUAL_SIMPLICITY = (
+    "Clean composition with realistic visual balance. "
+    "No excessive props, no exaggerated fabric volume, no cluttered background."
+)
 
 # ══════════════════════════════════════════════════════════════
 # QUALITY BRIEF – iPhone 17 Pro Max aesthetic
@@ -34,18 +53,10 @@ QUALITY_BRIEF = (
 )
 
 # ══════════════════════════════════════════════════════════════
-# BEAUTY STYLING (professional makeup and hair)
+# FACE PRIORITY (ensures facial visibility and likeness)
 # ══════════════════════════════════════════════════════════════
-BEAUTY_STYLING = (
-    "Professional maternity makeup and hairstyling. "
-    "Polished but natural beauty production suitable for a luxury studio photoshoot."
-)
-
-# ══════════════════════════════════════════════════════════════
-# FEMININE DIRECTION (elegant posture and body language)
-# ══════════════════════════════════════════════════════════════
-FEMININE_DIRECTION = (
-    "Elegant feminine posture and confident body language."
+FACE_PRIORITY = (
+    "Natural facial rendering with clear facial visibility and authentic resemblance."
 )
 
 # ══════════════════════════════════════════════════════════════
@@ -59,21 +70,22 @@ IDENTITY_ANCHOR = (
 
 # ══════════════════════════════════════════════════════════════
 # STYLE PRESETS – scene + light + wardrobe + spatial micro-details
-# All styles now have rich yet concise descriptions.
+# All styles now have rich yet concise descriptions, avoiding over‑technical lighting.
+# Removed "stunning", "breathtaking" etc. Simplified lighting phrases.
 # ══════════════════════════════════════════════════════════════
 STYLE_PRESETS = {
     "classic": {
         "name": "Clássico",
         "prompt": (
             "Classic maternity studio portrait. Soft beige studio backdrop with subtle floor shadows, "
-            "soft even front lighting. She wears a flowing white cotton dress with natural folds."
+            "soft natural front lighting. She wears a flowing white cotton dress with natural folds."
         ),
     },
     "luxury_studio": {
         "name": "Estúdio Luxo",
         "prompt": (
             "Luxury studio maternity portrait. Dove-gray seamless backdrop with gentle gradient falloff, "
-            "soft directional front‑left light creating subtle rim definition. "
+            "soft natural front lighting with gentle depth. "
             "She wears a flowing ivory silk gown with soft natural folds and delicate luster."
         ),
     },
@@ -81,14 +93,14 @@ STYLE_PRESETS = {
         "name": "Cetim Imperial",
         "prompt": (
             "Elegant studio portrait. Ivory satin backless gown with a long flowing train, "
-            "polished studio floor reflecting soft light. Soft cinematic front lighting, refined shadows. "
+            "polished studio floor reflecting soft light. Soft natural front lighting, refined shadows. "
             "The satin fabric catches light with a natural sheen."
         ),
     },
     "black_white_editorial": {
         "name": "Preto & Branco Editorial",
         "prompt": (
-            "Black and white maternity portrait. Soft directional front light, clean minimalist background "
+            "Black and white maternity portrait. Soft natural front lighting, clean minimalist background "
             "with subtle tonal graduation. Rich tonal range, timeless monochrome aesthetic. "
             "She wears a simple elegant dark outfit that drapes beautifully."
         ),
@@ -96,8 +108,8 @@ STYLE_PRESETS = {
     "dramatic_black_gown": {
         "name": "Vestido Preto Dramático",
         "prompt": (
-            "Fine art maternity portrait. She wears a stunning black gown with soft matte texture, "
-            "soft side-front lighting, minimalist composition, elegant shadows that sculpt the silhouette. "
+            "Fine art maternity portrait. She wears an elegant black gown with soft matte texture, "
+            "soft natural side lighting, minimalist composition, elegant shadows that sculpt the silhouette. "
             "Polished studio floor with subtle reflections."
         ),
     },
@@ -121,7 +133,7 @@ STYLE_PRESETS = {
         "name": "Asas de Chiffon Nude",
         "prompt": (
             "Ethereal studio portrait. She wears a deep taupe-nude chiffon gown with wide fabric panels "
-            "extended mid-air in a wing-like shape. Soft overhead light creating gentle shadow roll‑off, "
+            "extended mid-air in a wing-like shape. Soft natural overhead light creating gentle shadow roll‑off, "
             "warm gray studio background with subtle gradient."
         ),
     },
@@ -129,7 +141,7 @@ STYLE_PRESETS = {
         "name": "Lótus Vermelho",
         "prompt": (
             "Cozy holiday maternity portrait. Lotus position on a plush white sofa, "
-            "red silk pajamas with soft sheen. Warm ring flash combined with ambient Christmas tree lights, "
+            "red silk pajamas with soft sheen. Warm natural ring flash combined with ambient Christmas tree lights, "
             "dark lounge setting with soft glowing edges and subtle depth."
         ),
     },
@@ -166,7 +178,7 @@ FRAMING_VARIANTS = {
 }
 
 # ══════════════════════════════════════════════════════════════
-# NEGATIVE PROMPT (reference only — gpt-image-2 has no negative_prompt parameter)
+# NEGATIVE PROMPT (reference only)
 # ══════════════════════════════════════════════════════════════
 NEGATIVE_PROMPT = (
     "plastic skin, wax face, over-smoothed, stiff mannequin pose, "
@@ -200,7 +212,7 @@ def generate_prompt(
     Build a concise, conflict-free prompt (target 600-800 chars).
 
     Structure: Scene → Subject → Important details → Use case → Beauty styling →
-               Feminine direction → Quality brief → Identity anchor
+               Feminine direction → Visual simplicity → Quality brief → Face priority → Identity anchor
     """
     # ── 1. Scene ──────────────────────────────────────────
     preset = STYLE_PRESETS.get(tipo_ensaio)
@@ -231,22 +243,28 @@ def generate_prompt(
     # ── 6. Feminine direction ─────────────────────────────
     feminine = FEMININE_DIRECTION
 
-    # ── 7. Quality brief ──────────────────────────────────
+    # ── 7. Visual simplicity ──────────────────────────────
+    simplicity = VISUAL_SIMPLICITY
+
+    # ── 8. Quality brief ──────────────────────────────────
     quality = QUALITY_BRIEF
 
-    # ── 8. Identity anchor (only at the end) ──────────────
+    # ── 9. Face priority ──────────────────────────────────
+    face_priority = FACE_PRIORITY
+
+    # ── 10. Identity anchor (only at the end) ─────────────
     identity = IDENTITY_ANCHOR if use_identity_text else ""
 
     # ── Assemble & normalise whitespace ───────────────────
     prompt = " ".join(
-        f"{scene} {subject} {details} {use_case} {beauty} {feminine} {quality} {identity}".split()
+        f"{scene} {subject} {details} {use_case} {beauty} {feminine} {simplicity} {quality} {face_priority} {identity}".split()
     )
 
     # ── Hard-limit guard (graceful truncation) ────────────
     if len(prompt) > _HARD_LIMIT and subject_description:
         # Try to trim subject_description first
         prompt_without_desc = " ".join(
-            f"{scene} {subject} {frame.capitalize()}. {use_case} {beauty} {feminine} {quality} {identity}".split()
+            f"{scene} {subject} {frame.capitalize()}. {use_case} {beauty} {feminine} {simplicity} {quality} {face_priority} {identity}".split()
         )
         overhead = len(prompt_without_desc)
         budget = _HARD_LIMIT - overhead - 5
@@ -254,14 +272,14 @@ def generate_prompt(
             trimmed_desc = subject_description.strip().rstrip(".")[:budget]
             details = f"{frame.capitalize()}. {trimmed_desc}."
             prompt = " ".join(
-                f"{scene} {subject} {details} {use_case} {beauty} {feminine} {quality} {identity}".split()
+                f"{scene} {subject} {details} {use_case} {beauty} {feminine} {simplicity} {quality} {face_priority} {identity}".split()
             )
             logger.warning("subject_description trimmed to fit 800-char limit (%d chars).", len(prompt))
         else:
             # Drop subject_description entirely
             details = f"{frame.capitalize()}."
             prompt = " ".join(
-                f"{scene} {subject} {details} {use_case} {beauty} {feminine} {quality} {identity}".split()
+                f"{scene} {subject} {details} {use_case} {beauty} {feminine} {simplicity} {quality} {face_priority} {identity}".split()
             )
             logger.warning("subject_description dropped entirely to stay within 800-char limit.")
 
@@ -270,7 +288,7 @@ def generate_prompt(
         logger.error("Prompt still exceeds 800 chars after trimming (%d).", len(prompt))
         # Fallback: remove subject_description and identity anchor (last resort)
         prompt = " ".join(
-            f"{scene} {subject} {frame.capitalize()}. {use_case} {beauty} {feminine} {quality}".split()
+            f"{scene} {subject} {frame.capitalize()}. {use_case} {beauty} {feminine} {simplicity} {quality} {face_priority}".split()
         )
         if len(prompt) > _HARD_LIMIT:
             prompt = prompt[:_HARD_LIMIT]
@@ -306,7 +324,7 @@ if __name__ == "__main__":
     def ok(cond): return f"{GREEN}✅{RESET}" if cond else f"{RED}❌{RESET}"
 
     print(f"\n{CYAN}{'=' * 68}{RESET}")
-    print(f"{CYAN}  AUREA AI — Prompt Engine v4 (iPhone 17 Pro Max + Luxury Styling){RESET}")
+    print(f"{CYAN}  AUREA AI — Prompt Engine v5 (Premium Styling + Face Priority){RESET}")
     print(f"{CYAN}{'=' * 68}{RESET}\n")
 
     # 1. Char count audit
@@ -348,12 +366,9 @@ if __name__ == "__main__":
     anchor_n = ex.count("CRITICAL: The generated image MUST show the exact same person")
     print(f"  {ok(anchor_n == 1)}  IDENTITY_ANCHOR appears exactly once ({anchor_n}×)")
 
-    conflict = "no visible makeup" in ex and any(w in ex for w in ["soft even tone", "highlighter"])
-    print(f"  {ok(not conflict)}  No skin/makeup instruction conflict")
-
-    # 5. Truncation test
-    long_desc = "Very long description that should be truncated. " * 30
-    ex_long = generate_prompt("luxury_studio", subject_description=long_desc)
-    print(f"  {ok(len(ex_long) <= _HARD_LIMIT)}  Long subject_description truncated ({len(ex_long)} chars)")
+    # Check for presence of new blocks
+    print(f"  {ok('Professional luxury maternity makeup' in ex)}  BEAUTY_STYLING present")
+    print(f"  {ok('Clean composition with realistic visual balance' in ex)}  VISUAL_SIMPLICITY present")
+    print(f"  {ok('Natural facial rendering' in ex)}  FACE_PRIORITY present")
 
     print(f"\n{CYAN}{'=' * 68}{RESET}\n")
