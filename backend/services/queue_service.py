@@ -7,8 +7,9 @@ from models.db_models import GenerationJob, User, Transaction
 from services.replicate_service import generate_with_retry, download_generated_image
 from services.prompt_engine import generate_prompt, generate_negative_prompt
 import logging
-from backend.tasks.generation_tasks import generate_image_task
 import json
+from tasks.generation_tasks import generate_image_task
+
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
