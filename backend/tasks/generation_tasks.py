@@ -1,10 +1,8 @@
-import logging
-from celery import shared_task
-from backend.celery_app import celery
-from backend.services.replicate_service import generate_with_retry, download_generated_image
-from backend.services.supabase_service import supabase_service
-from backend.models.db_models import GenerationJob, User, Transaction, db
-
+# ✅ CERTO (baseado no seu runtime atual)
+from celery_app import celery
+from services.replicate_service import generate_with_retry, download_generated_image
+from services.supabase_service import supabase_service
+from models.db_models import GenerationJob, User, Transaction, db
 logger = logging.getLogger(__name__)
 
 def _refund_user(user_id: str, amount: int, reason: str) -> None:
