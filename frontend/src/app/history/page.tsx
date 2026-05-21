@@ -22,37 +22,31 @@ export default function HistoryPage() {
 
   const downloadImage = async (imagePath: string) => {
     if (!imagePath) return;
+    
     try {
-      // 1. Resolve a URL do proxy
+      // Resolve a URL absoluta da imagem
       const imageUrl = getImageUrl(imagePath);
+      
+      // Constrói a URL para o endpoint de proxy
+      // O replace garante que não teremos /api/api/ caso a env já termine em /api
       const base = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5000/api').replace(/\/api$/, '');
       const downloadUrl = `${base}/api/download-image?url=${encodeURIComponent(imageUrl)}`;
       
-      // 2. Faz o fetch da imagem via proxy
-      const response = await fetch(downloadUrl);
-      if (!response.ok) {
-        throw new Error('Erro ao baixar a imagem');
+      console.log('Original Image URL:', imageUrl);
+      console.log('Download URL:', downloadUrl);
+      
+      // Faz uma requisição HEAD para verificar se a rota está acessível e se não retorna 403/404
+      const headResponse = await fetch(downloadUrl, { method: 'HEAD' }).catch(() => null);
+      if (headResponse && !headResponse.ok) {
+        throw new Error(`Servidor retornou erro ${headResponse.status}`);
       }
       
-      // 3. Converte a resposta para um Blob
-      const blob = await response.blob();
+      // Redireciona o navegador para forçar o download
+      window.location.href = downloadUrl;
       
-      // 4. Cria uma URL temporária para o Blob
-      const blobUrl = window.URL.createObjectURL(blob);
-      
-      // 5. Cria um elemento <a> programaticamente para forçar o download
-      const link = document.createElement('a');
-      link.href = blobUrl;
-      link.download = 'ensaio_aureaia.jpg';
-      document.body.appendChild(link);
-      link.click();
-      
-      // 6. Limpeza
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(blobUrl);
     } catch (error) {
-      console.error('Falha no download:', error);
-      alert('Não foi possível baixar a imagem no momento. Tente novamente em instantes.');
+      console.error('Erro ao acionar download:', error);
+      alert('Não foi possível baixar a imagem. Verifique se ela ainda está disponível.');
     }
   };
 
@@ -213,7 +207,6 @@ export default function HistoryPage() {
                             <Calendar className="w-3.5 h-3.5" />
                             {item.created_at}
                           </div>
-                          {/* Download via Fetch API para Blobs */}
                           <button
                             onClick={(e) => {
                               e.preventDefault();
