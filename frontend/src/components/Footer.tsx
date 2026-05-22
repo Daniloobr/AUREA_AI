@@ -50,7 +50,7 @@ export function Footer() {
                 <Link href="#exemplos" className="text-[13px] text-[#B8BCC4] hover:text-[#748FCC] transition-colors">Exemplos</Link>
                 <Link href="/credits" className="text-[13px] text-[#B8BCC4] hover:text-[#748FCC] transition-colors">Planos</Link>
                 <Link href="#sobre" className="text-[13px] text-[#B8BCC4] hover:text-[#748FCC] transition-colors">Sobre</Link>
-                <Link href="mailto:ola@aureaia.com" className="text-[13px] text-[#B8BCC4] hover:text-[#748FCC] transition-colors">Contato</Link>
+                <Link href="/help" className="text-[13px] text-[#B8BCC4] hover:text-[#748FCC] transition-colors">Contato</Link>
               </nav>
             </div>
 
