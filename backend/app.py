@@ -94,7 +94,7 @@ def create_app():
     app.register_blueprint(upload_bp,   url_prefix='/api')
     app.register_blueprint(generate_bp, url_prefix='/api')
     app.register_blueprint(gallery_bp,  url_prefix='/api')
-    app.register_blueprint(auth_bp,     url_prefix='/api')
+    app.register_blueprint(auth_bp,     url_prefix='/api/auth')
     app.register_blueprint(admin_bp,    url_prefix='/api')
     app.register_blueprint(styles_bp,   url_prefix='/api')
     app.register_blueprint(download_bp, url_prefix='/api')

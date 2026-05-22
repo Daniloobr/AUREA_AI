@@ -31,8 +31,8 @@ export default function LoginPage() {
       if (event === 'SIGNED_IN' && session) {
         setLoading(true);
         try {
-          const response = await apiService.post('/auth/google-login', { 
-            access_token: session.access_token 
+          const response = await apiService.post('/auth/google-login', {
+            access_token: session.access_token
           });
           if (response.success) {
             login(response.token, response.user);
@@ -63,7 +63,7 @@ export default function LoginPage() {
         redirectTo: `${window.location.origin}/dashboard`
       }
     });
-    
+
     if (error) {
       setError('Não foi possível iniciar o login com Google.');
     }
@@ -91,12 +91,12 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-[#F5F5F7] flex items-center justify-center font-sans relative overflow-hidden">
-      
+
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
-        <img 
-          src="/images/login-bg.png" 
-          alt="AureaIA Experience" 
+        <img
+          src="/images/login-bg.png"
+          alt="AureaIA Experience"
           className="w-full h-full object-cover opacity-50"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A]/80 via-[#0A0A0A]/40 to-[#0A0A0A]" />
@@ -104,23 +104,23 @@ export default function LoginPage() {
       </div>
 
       <div className="container relative z-10 flex items-center justify-center p-6">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="w-full max-w-[480px] bg-[#0D0D10]/80 backdrop-blur-2xl p-8 md:p-12 rounded-[32px] border border-white/10 shadow-2xl shadow-black/50"
         >
           <div className="space-y-4 mb-10 text-center">
-            <motion.div 
+            <motion.div
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.2, type: "spring" }}
               className="w-16 h-16 rounded-[20px] flex items-center justify-center mx-auto transition-all"
             >
               {!logoError ? (
-                <img 
-                  src="/images/LOGO aurea.png" 
-                  alt="AureaIA Logo" 
+                <img
+                  src="/images/logo-aurea.png"
+                  alt="AureaIA Logo"
                   className="w-full h-full object-contain"
                   onError={() => setLogoError(true)}
                 />
@@ -139,17 +139,17 @@ export default function LoginPage() {
               <label className="text-[11px] font-bold text-[#B8BCC4] uppercase tracking-widest ml-1 transition-colors group-focus-within:text-[#748FCC]">E-mail</label>
               <div className="relative">
                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#B8BCC4]/40" />
-                <input 
-                  type="email" 
+                <input
+                  type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full h-13 pl-11 pr-4 rounded-[16px] bg-[#121417]/50 border border-[#1F2329] focus:border-[#748FCC] focus:bg-[#121417] focus:outline-none transition-all text-[#F5F5F7] placeholder:text-[#8A9099]/30"
                   placeholder="seu@email.com"
-                  required 
+                  required
                 />
               </div>
             </div>
-            
+
             <div className="space-y-2 group">
               <div className="flex justify-between items-center ml-1">
                 <label className="text-[11px] font-bold text-[#B8BCC4] uppercase tracking-widest transition-colors group-focus-within:text-[#748FCC]">Senha</label>
@@ -157,20 +157,20 @@ export default function LoginPage() {
               </div>
               <div className="relative">
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#B8BCC4]/40" />
-                <input 
-                  type="password" 
+                <input
+                  type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full h-13 pl-11 pr-4 rounded-[16px] bg-[#121417]/50 border border-[#1F2329] focus:border-[#748FCC] focus:bg-[#121417] focus:outline-none transition-all text-[#F5F5F7] placeholder:text-[#8A9099]/30"
                   placeholder="••••••••"
-                  required 
+                  required
                 />
               </div>
             </div>
 
             <AnimatePresence>
               {error && (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   exit={{ opacity: 0, height: 0 }}
@@ -181,9 +181,9 @@ export default function LoginPage() {
                 </motion.div>
               )}
             </AnimatePresence>
-            
-            <Button 
-              type="submit" 
+
+            <Button
+              type="submit"
               isLoading={loading}
               className="w-full h-14 rounded-[16px] bg-[#748FCC] hover:bg-[#5F7DB8] shadow-xl shadow-[#748FCC]/20 text-[15px] font-bold tracking-wide"
             >
@@ -200,7 +200,7 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <button 
+          <button
             type="button"
             onClick={handleGoogleLogin}
             disabled={loading}
