@@ -36,7 +36,7 @@ export default function HelpPage() {
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-[#F5F5F7] pt-24 pb-32 px-6">
       <div className="max-w-[900px] mx-auto space-y-24">
-        
+
         {/* ── Cabeçalho ──────────────────────────────────────────────── */}
         <motion.header
           initial={{ opacity: 0, y: 20 }}
@@ -50,7 +50,7 @@ export default function HelpPage() {
             Estamos aqui<br /><span className="italic text-[#748FCC]/60">por você.</span>
           </h1>
           <p className="text-[#B8BCC4] font-light text-xl max-w-xl mx-auto leading-relaxed">
-            Seu momento único merece uma experiência impecável — do início ao fim. 
+            Seu momento único merece uma experiência impecável — do início ao fim.
             Se tiver qualquer dúvida, nossa equipe está a uma mensagem de distância.
           </p>
         </motion.header>
@@ -71,11 +71,11 @@ export default function HelpPage() {
               <h3 className="text-base font-bold uppercase tracking-[0.2em] text-[#F5F5F7]">E-mail</h3>
               <p className="text-[#B8BCC4] font-light text-sm">Resposta em até 24 horas</p>
             </div>
-            <a 
-              href="mailto:ola@aureaia.com" 
+            <a
+              href="mailto:ola@aureaia.com"
               className="text-base font-medium text-[#F5F5F7] hover:text-[#748FCC] transition-colors"
             >
-              ola@aureaia.com
+              aureaia.contato@outlook.com
             </a>
           </Card>
 
@@ -148,7 +148,7 @@ export default function HelpPage() {
             <MessageCircle className="w-5 h-5" />
             Falar com o Suporte
           </a>
-          
+
           {/* Assinatura */}
           <div className="pt-12 opacity-20">
             <Sparkles className="w-6 h-6 mx-auto text-[#748FCC]" />

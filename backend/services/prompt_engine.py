@@ -116,7 +116,7 @@ STYLE_PRESETS = {
     "classic": {
         "name": "Clássico",
         "category": "Clássicos Atemporais",
-        "description": "Cenário minimalista com iluminação suave e tons neutros, celebrando a beleza natural da gestação em uma composição elegante e atemporal.",
+        "description": "Um retrato clássico em estúdio refletindo a serenidade da gestação, com iluminação suave, fundo neutro e a gestante em vestido fluido, capturando a beleza atemporal do momento.",
         "cover": "/thumbnails/classic.png",
         "prompt": (
             "Classic maternity studio portrait. Neutral backdrop, soft diffused light. "
@@ -126,7 +126,7 @@ STYLE_PRESETS = {
     "luxury_studio": {
         "name": "Estúdio Luxo",
         "category": "Clássicos Atemporais",
-        "description": "Fundo cinza-pomba com degradê sutil e iluminação de contorno desenhando a silhueta, trazendo um ar sofisticado de alta costura com vestido marfim.",
+        "description": "Um ensaio luxuoso em estúdio com fundo cinza-pomba degradê, iluminação de contorno que realça a silhueta, apresentando um vestido marfim elegante, transmitindo sofisticação de alta costura.",
         "cover": "/thumbnails/luxury_studio.png",
         "prompt": (
             "Luxury studio portrait. Warm neutral tones, soft front lighting. "
@@ -136,7 +136,7 @@ STYLE_PRESETS = {
     "ivory_satin": {
         "name": "Cetim Imperial",
         "category": "Clássicos Atemporais",
-        "description": "Luxuoso vestido de cetim marfim sem costas com cauda longa sobre piso polido, banhado por uma iluminação lateral cinematográfica com sombras refinadas.",
+        "description": "Um vestido imperial de cetim marfim, sem costas, cauda longa sobre piso polido, iluminado lateralmente para realçar a textura sedosa, criando um efeito cinematográfico elegante.",
         "cover": "/thumbnails/ivory_satin.png",
         "prompt": (
             "Elegant studio portrait. Ivory satin backless gown, soft natural folds. "
@@ -146,7 +146,7 @@ STYLE_PRESETS = {
     "black_white_editorial": {
         "name": "Preto & Branco Editorial",
         "category": "Editoriais Vogue",
-        "description": "Retrato artístico em alto contraste com sombras suaves esculpindo o corpo, criando um visual conceitual de revista de moda com textura de grão de filme.",
+        "description": "Um editorial em preto e branco com alto contraste, sombras suaves que esculpem o corpo, evocando a estética de revistas de moda com granulação de filme.",
         "cover": "/thumbnails/black_white_editorial.png",
         "prompt": (
             "Black and white maternity portrait. Soft directional light, clean background. "
@@ -156,7 +156,7 @@ STYLE_PRESETS = {
     "dramatic_black_gown": {
         "name": "Vestido Preto Dramático",
         "category": "Editoriais Vogue",
-        "description": "Uma composição marcante com iluminação lateral Chiaroscuro esculpindo o corpo em um vestido preto sem costas com cauda longa sobre piso escuro polido.",
+        "description": "Um vestido preto dramático sem costas, cauda longa, iluminado com luz lateral Chiaroscuro sobre piso escuro polido, criando uma composição marcante e elegante.",
         "cover": "/thumbnails/vestidoBlack.png",
         "prompt": (
             "Fine art black and white portrait. Elegant black gown, soft side light. "
@@ -166,7 +166,7 @@ STYLE_PRESETS = {
     "golden_hour_nature": {
         "name": "Pôr do Sol na Natureza",
         "category": "Orgânicos & Sonhadores",
-        "description": "Campo aberto de flores silvestres banhado pela luz dourada de fim de tarde, criando uma aura mágica ao redor do cabelo e do vestido rosa antigo flutuante.",
+        "description": "Um ensaio ao ar livre ao pôr do sol, em um campo de flores silvestres, luz dourada banhando a gestante de vestido rosa antigo, criando uma aura mágica.",
         "cover": "/thumbnails/golden_hour_nature.png",
         "prompt": (
             "Outdoor portrait in a wildflower meadow during golden hour. "
@@ -176,7 +176,7 @@ STYLE_PRESETS = {
     "boho_chic": {
         "name": "Boho Chic",
         "category": "Orgânicos & Sonhadores",
-        "description": "Iluminação de janela filtrada por cortinas translúcidas sobre cenário rústico de capim dos pampas e tons terrosos, transmitindo aconchego e serenidade.",
+        "description": "Um estilo boho chic com iluminação natural filtrada por cortinas translúcidas, cenário rústico de capim dos pampas, tons terrosos e detalhes de flores secas, transmitindo aconchego.",
         "cover": "/thumbnails/boho_chic.png",
         "prompt": (
             "Bohemian portrait. Large window natural light, earth tones, dried florals. "
@@ -186,7 +186,7 @@ STYLE_PRESETS = {
     "taupe_wings": {
         "name": "Asas de Chiffon Nude",
         "category": "Orgânicos & Sonhadores",
-        "description": "Vestido de chiffon nude escuro flutuando ao vento em formato de asas, posicionado contra um fundo cinza com iluminação suave de softbox.",
+        "description": "Um vestido de chiffon nude escuro, fluindo como asas, posicionado contra fundo cinza suave, iluminado por softbox para realçar a leveza do tecido.",
         "cover": "/thumbnails/taupe_wings.png",
         "prompt": (
             "Ethereal studio portrait. Deep taupe-nude chiffon gown, soft overhead light. "
@@ -196,7 +196,7 @@ STYLE_PRESETS = {
     "red_lotus": {
         "name": "Lótus Vermelho",
         "category": "Temáticos Divertidos",
-        "description": "Um ensaio natalino íntimo e divertido com pose de lótus em um sofá branco aconchegante, vestindo pijama de seda vermelho com balde de pipoca.",
+        "description": "Um ensaio natalino encantador, com a gestante em pose de lótus sobre um sofá branco, usando pijama de seda vermelho vibrante, acompanhada de um balde de pipoca e iluminada por luz suave de árvore de Natal, trazendo um clima caloroso e festivo.",
         "cover": "/thumbnails/red_lotus.png",
         "prompt": (
             "Cozy holiday portrait. Lotus position on white sofa, red silk pajamas. "
