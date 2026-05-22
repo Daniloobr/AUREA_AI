@@ -1,6 +1,7 @@
 from flask import Blueprint, request, Response, jsonify, current_app
 import requests
 import os
+import time
 import logging
 from urllib.parse import urlparse, unquote
 
@@ -50,7 +51,11 @@ def download_image():
             return jsonify({'success': False, 'error': 'URL de origem não autorizada'}), 403
 
         # Stream the remote image
-        resp = requests.get(image_url, stream=True, timeout=30)
+        start_time = time.time()
+        logger.info(f"Iniciando download da imagem: {image_url}")
+        resp = requests.get(image_url, stream=True, timeout=(30, 120))
+        elapsed_time = time.time() - start_time
+        logger.info(f"Download (headers) recebido em {elapsed_time:.2f}s")
         resp.raise_for_status()
 
         # Determinar a extensão baseada no content-type
@@ -79,11 +84,17 @@ def download_image():
                 'Cache-Control': 'no-store'
             }
         )
+    except requests.exceptions.Timeout as e:
+        logger.error(f'Timeout fetching image for download: {e}')
+        return jsonify({
+            'success': False,
+            'error': 'O servidor demorou muito para responder ao baixar a imagem. Tente novamente.'
+        }), 504
     except requests.exceptions.RequestException as e:
         logger.error(f'Error fetching image for download: {e}')
         return jsonify({
             'success': False,
-            'error': f'Failed to fetch image: {str(e)}'
+            'error': 'Falha ao baixar a imagem da URL fornecida. Verifique se a imagem ainda existe ou tente novamente.'
         }), 502
     except Exception as e:
         logger.exception('Unexpected error in download_image')
