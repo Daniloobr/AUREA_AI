@@ -52,7 +52,7 @@ export function Navbar() {
           <div className="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-500 group-hover:scale-105">
             {!logoError ? (
               <img
-                src="/logo-aurea.png"
+                src="/images/logo-aurea.png"
                 alt="AureaIA Logo"
                 className="w-full h-full object-contain"
                 onError={() => setLogoError(true)}
