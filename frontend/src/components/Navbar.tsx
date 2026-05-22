@@ -46,14 +46,14 @@ export function Navbar() {
   return (
     <header className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 h-20 border-b ${scrolled ? 'bg-[#0A0A0A]/95 backdrop-blur-xl border-white/8' : 'bg-transparent border-transparent'}`}>
       <div className="max-w-[1400px] mx-auto px-6 md:px-10 h-full flex items-center justify-between">
-        
+
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
           <div className="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-500 group-hover:scale-105">
             {!logoError ? (
-              <img 
-                src="/images/LOGO aurea.png" 
-                alt="AureaIA Logo" 
+              <img
+                src="/images/logoo-aurea.png"
+                alt="AureaIA Logo"
                 className="w-full h-full object-contain"
                 onError={() => setLogoError(true)}
               />
@@ -67,22 +67,21 @@ export function Navbar() {
             AureaIA
           </span>
         </Link>
-        
+
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-8">
           {navItems.map((item) => (
-            <Link 
-              key={item.href} 
-              href={item.href} 
-              className={`text-[13px] font-medium transition-all duration-300 hover:text-[#F5F5F7] ${
-                pathname === item.href ? 'text-[#F5F5F7]' : 'text-[#B8BCC4]'
-              }`}
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`text-[13px] font-medium transition-all duration-300 hover:text-[#F5F5F7] ${pathname === item.href ? 'text-[#F5F5F7]' : 'text-[#B8BCC4]'
+                }`}
             >
               {item.name}
             </Link>
           ))}
         </nav>
-        
+
         {/* User / Auth */}
         <div className="flex items-center gap-5">
           {user ? (
@@ -90,7 +89,7 @@ export function Navbar() {
               <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#121417] border border-white/10">
                 <span className="text-[11px] font-bold text-[#F5F5F7] tracking-[0.1em]">✦ {user.credits_balance} MOEDAS</span>
               </div>
-              <button 
+              <button
                 onClick={logout}
                 className="text-[#B8BCC4] hover:text-[#748FCC] transition-all duration-300"
                 title="Sair do Estúdio"
@@ -108,7 +107,7 @@ export function Navbar() {
           )}
 
           {/* Mobile Menu Toggle */}
-          <button 
+          <button
             className="lg:hidden text-white p-2 hover:bg-white/5 rounded-full transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Menu de navegação"
@@ -123,13 +122,12 @@ export function Navbar() {
         <div className="lg:hidden absolute top-20 left-0 right-0 bg-[#0A0A0A] border-b border-white/10 shadow-2xl animate-fade-in h-[calc(100vh-80px)] overflow-y-auto">
           <nav className="flex flex-col p-6 gap-2">
             {navItems.map((item) => (
-              <Link 
-                key={item.href} 
-                href={item.href} 
+              <Link
+                key={item.href}
+                href={item.href}
                 onClick={() => setIsMenuOpen(false)}
-                className={`text-base font-medium py-4 px-2 rounded-xl transition-colors flex items-center gap-3 ${
-                  pathname === item.href ? 'text-[#F5F5F7] bg-white/5' : 'text-[#B8BCC4] hover:bg-white/5 hover:text-[#F5F5F7]'
-                }`}
+                className={`text-base font-medium py-4 px-2 rounded-xl transition-colors flex items-center gap-3 ${pathname === item.href ? 'text-[#F5F5F7] bg-white/5' : 'text-[#B8BCC4] hover:bg-white/5 hover:text-[#F5F5F7]'
+                  }`}
               >
                 {item.icon && <item.icon className="w-5 h-5 text-[#748FCC]" />}
                 {item.name}
@@ -146,7 +144,7 @@ export function Navbar() {
                     <span className="text-sm font-bold text-[#F5F5F7] tracking-[0.05em] uppercase">{user.credits_balance} Moedas</span>
                   </div>
                 </div>
-                <button 
+                <button
                   onClick={() => {
                     logout();
                     setIsMenuOpen(false);
