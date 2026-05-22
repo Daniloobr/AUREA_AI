@@ -137,7 +137,7 @@ STYLE_PRESETS = {
         "name": "Cetim Imperial",
         "category": "Clássicos Atemporais",
         "description": "Um vestido imperial de cetim marfim, sem costas, cauda longa sobre piso polido, iluminado lateralmente para realçar a textura sedosa, criando um efeito cinematográfico elegante.",
-        "cover": "/thumbnails/ivory_satin.png",
+        "cover": "/thumbnails/images3.png",
         "prompt": (
             "Elegant studio portrait. Ivory satin backless gown, soft natural folds. "
             "Polished floor, refined shadows."
@@ -187,7 +187,7 @@ STYLE_PRESETS = {
         "name": "Asas de Chiffon Nude",
         "category": "Orgânicos & Sonhadores",
         "description": "Um vestido de chiffon nude escuro, fluindo como asas, posicionado contra fundo cinza suave, iluminado por softbox para realçar a leveza do tecido.",
-        "cover": "/thumbnails/taupe_wings.png",
+        "cover": "/thumbnails/images2.png",
         "prompt": (
             "Ethereal studio portrait. Deep taupe-nude chiffon gown, soft overhead light. "
             "Light fabric flowing naturally."

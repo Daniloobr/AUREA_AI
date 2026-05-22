@@ -45,7 +45,7 @@ class EmailService:
             <h2 style="color: #9857CB;">Sua jornada artística começou!</h2>
             <p>Olá, <strong>{name}</strong>,</p>
             <p>Seja bem-vinda ao <strong>AureaIA</strong>. Seu acesso ao estúdio de fotografia por IA mais avançado do mundo está liberado.</p>
-            <p>Você acaba de ganhar <strong>25 créditos</strong> para começar a criar seu primeiro ensaio.</p>
+            <p>Bem‑vindo(a) ao <strong>AureaIA</strong>. Seu acesso ao estúdio de fotografia por IA mais avançado do mundo está liberado.</p>
             <div style="margin: 30px 0;">
                 <a href="{Config.FRONTEND_URL}/generate" style="background: #9857CB; color: white; padding: 15px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">Começar meu Ensaio</a>
             </div>

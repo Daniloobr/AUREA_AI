@@ -34,7 +34,7 @@ def register():
         return jsonify({"success": False, "error": "Email já cadastrado"}), 409
 
     try:
-        INITIAL_BONUS = 25
+        INITIAL_BONUS = 0
         new_user = User(name=name, email=email, credits_balance=INITIAL_BONUS)
         new_user.set_password(password)
         
@@ -221,7 +221,7 @@ def google_login():
     if not user:
         # Create new user for Google login
         is_new_user = True
-        INITIAL_BONUS = 25
+        INITIAL_BONUS = 0
         user = User(
             name=name, 
             email=email, 
