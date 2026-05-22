@@ -12,6 +12,7 @@ export function Navbar() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [logoError, setLogoError] = useState(false);
   const isLanding = pathname === '/';
 
   useEffect(() => {
@@ -48,8 +49,19 @@ export function Navbar() {
         
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-9 h-9 rounded-xl bg-[#748FCC] flex items-center justify-center text-[#F5F5F7] transition-all duration-500 shadow-lg shadow-[#748FCC]/10 group-hover:scale-105">
-            <Sparkles className="w-4 h-4" />
+          <div className="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-500 group-hover:scale-105">
+            {!logoError ? (
+              <img 
+                src="/images/LOGO aurea.png" 
+                alt="AureaIA Logo" 
+                className="w-full h-full object-contain"
+                onError={() => setLogoError(true)}
+              />
+            ) : (
+              <div className="w-full h-full rounded-xl bg-[#748FCC] flex items-center justify-center text-[#F5F5F7] shadow-lg shadow-[#748FCC]/10">
+                <Sparkles className="w-4 h-4" />
+              </div>
+            )}
           </div>
           <span className="font-serif font-bold text-xl tracking-widest text-[#F5F5F7] uppercase opacity-90 group-hover:opacity-100 transition-opacity">
             AureaIA

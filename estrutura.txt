@@ -1,0 +1,4817 @@
+Listagem de caminhos de pasta
+O número de série do volume é 0000000B D8C6:FB55
+C:.
++---.agent
+¦   +---skills
++---backend
+¦   +---instance
+¦   +---models
+¦   ¦   +---__pycache__
+¦   +---routes
+¦   ¦   +---__pycache__
+¦   +---scratch
+¦   ¦   +---__pycache__
+¦   +---services
+¦   ¦   +---__pycache__
+¦   +---tasks
+¦   ¦   +---__pycache__
+¦   +---uploads
+¦   ¦   +---face_crops
+¦   ¦   +---outputs
+¦   ¦   +---thumbnails
+¦   +---utils
+¦   ¦   +---__pycache__
+¦   +---venv
+¦   ¦   +---Include
+¦   ¦   ¦   +---site
+¦   ¦   ¦       +---python3.12
+¦   ¦   ¦           +---greenlet
+¦   ¦   +---Lib
+¦   ¦   ¦   +---site-packages
+¦   ¦   ¦       +---absl
+¦   ¦   ¦       ¦   +---flags
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---logging
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---testing
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---absl_py-2.4.0.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---annotated_types
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---annotated_types-0.7.0.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---anyio
+¦   ¦   ¦       ¦   +---abc
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---streams
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---_backends
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---_core
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---anyio-4.13.0.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---bcrypt
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---bcrypt-4.1.2.dist-info
+¦   ¦   ¦       +---blinker
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---blinker-1.9.0.dist-info
+¦   ¦   ¦       +---cachetools
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---cachetools-6.2.6.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---certifi
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---certifi-2026.4.22.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---cffi
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---cffi-2.0.0.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---charset_normalizer
+¦   ¦   ¦       ¦   +---cli
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---charset_normalizer-3.4.7.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---click
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---click-8.3.3.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---colorama
+¦   ¦   ¦       ¦   +---tests
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---colorama-0.4.6.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---contourpy
+¦   ¦   ¦       ¦   +---util
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---contourpy-1.3.3.dist-info
+¦   ¦   ¦       +---cryptography
+¦   ¦   ¦       ¦   +---hazmat
+¦   ¦   ¦       ¦   ¦   +---asn1
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---backends
+¦   ¦   ¦       ¦   ¦   ¦   +---openssl
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---bindings
+¦   ¦   ¦       ¦   ¦   ¦   +---openssl
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---_rust
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---openssl
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---decrepit
+¦   ¦   ¦       ¦   ¦   ¦   +---ciphers
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---primitives
+¦   ¦   ¦       ¦   ¦   ¦   +---asymmetric
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---ciphers
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---kdf
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---serialization
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---twofactor
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---x509
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---cryptography-48.0.0.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       ¦   +---sboms
+¦   ¦   ¦       +---cv2
+¦   ¦   ¦       ¦   +---aruco
+¦   ¦   ¦       ¦   +---barcode
+¦   ¦   ¦       ¦   +---bgsegm
+¦   ¦   ¦       ¦   +---bioinspired
+¦   ¦   ¦       ¦   +---ccm
+¦   ¦   ¦       ¦   +---colored_kinfu
+¦   ¦   ¦       ¦   +---cuda
+¦   ¦   ¦       ¦   +---data
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---datasets
+¦   ¦   ¦       ¦   +---detail
+¦   ¦   ¦       ¦   +---dnn
+¦   ¦   ¦       ¦   +---dnn_superres
+¦   ¦   ¦       ¦   +---dpm
+¦   ¦   ¦       ¦   +---dynafu
+¦   ¦   ¦       ¦   +---Error
+¦   ¦   ¦       ¦   +---face
+¦   ¦   ¦       ¦   +---fisheye
+¦   ¦   ¦       ¦   +---flann
+¦   ¦   ¦       ¦   +---ft
+¦   ¦   ¦       ¦   +---gapi
+¦   ¦   ¦       ¦   ¦   +---core
+¦   ¦   ¦       ¦   ¦   ¦   +---cpu
+¦   ¦   ¦       ¦   ¦   ¦   +---fluid
+¦   ¦   ¦       ¦   ¦   ¦   +---ocl
+¦   ¦   ¦       ¦   ¦   +---ie
+¦   ¦   ¦       ¦   ¦   ¦   +---detail
+¦   ¦   ¦       ¦   ¦   +---imgproc
+¦   ¦   ¦       ¦   ¦   ¦   +---fluid
+¦   ¦   ¦       ¦   ¦   +---oak
+¦   ¦   ¦       ¦   ¦   +---onnx
+¦   ¦   ¦       ¦   ¦   ¦   +---ep
+¦   ¦   ¦       ¦   ¦   +---ot
+¦   ¦   ¦       ¦   ¦   ¦   +---cpu
+¦   ¦   ¦       ¦   ¦   +---ov
+¦   ¦   ¦       ¦   ¦   +---own
+¦   ¦   ¦       ¦   ¦   ¦   +---detail
+¦   ¦   ¦       ¦   ¦   +---render
+¦   ¦   ¦       ¦   ¦   ¦   +---ocv
+¦   ¦   ¦       ¦   ¦   +---streaming
+¦   ¦   ¦       ¦   ¦   +---video
+¦   ¦   ¦       ¦   ¦   +---wip
+¦   ¦   ¦       ¦   ¦   ¦   +---draw
+¦   ¦   ¦       ¦   ¦   ¦   +---gst
+¦   ¦   ¦       ¦   ¦   ¦   +---onevpl
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---hfs
+¦   ¦   ¦       ¦   +---img_hash
+¦   ¦   ¦       ¦   +---intensity_transform
+¦   ¦   ¦       ¦   +---ipp
+¦   ¦   ¦       ¦   +---kinfu
+¦   ¦   ¦       ¦   ¦   +---detail
+¦   ¦   ¦       ¦   +---large_kinfu
+¦   ¦   ¦       ¦   +---legacy
+¦   ¦   ¦       ¦   +---linemod
+¦   ¦   ¦       ¦   +---line_descriptor
+¦   ¦   ¦       ¦   +---mat_wrapper
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---mcc
+¦   ¦   ¦       ¦   +---misc
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---ml
+¦   ¦   ¦       ¦   +---motempl
+¦   ¦   ¦       ¦   +---multicalib
+¦   ¦   ¦       ¦   +---ocl
+¦   ¦   ¦       ¦   +---ogl
+¦   ¦   ¦       ¦   +---omnidir
+¦   ¦   ¦       ¦   +---optflow
+¦   ¦   ¦       ¦   +---parallel
+¦   ¦   ¦       ¦   +---phase_unwrapping
+¦   ¦   ¦       ¦   +---plot
+¦   ¦   ¦       ¦   +---ppf_match_3d
+¦   ¦   ¦       ¦   +---quality
+¦   ¦   ¦       ¦   +---rapid
+¦   ¦   ¦       ¦   +---reg
+¦   ¦   ¦       ¦   +---rgbd
+¦   ¦   ¦       ¦   +---saliency
+¦   ¦   ¦       ¦   +---samples
+¦   ¦   ¦       ¦   +---segmentation
+¦   ¦   ¦       ¦   +---signal
+¦   ¦   ¦       ¦   +---stereo
+¦   ¦   ¦       ¦   +---structured_light
+¦   ¦   ¦       ¦   +---text
+¦   ¦   ¦       ¦   +---typing
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---utils
+¦   ¦   ¦       ¦   ¦   +---fs
+¦   ¦   ¦       ¦   ¦   +---nested
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---videoio_registry
+¦   ¦   ¦       ¦   +---videostab
+¦   ¦   ¦       ¦   +---wechat_qrcode
+¦   ¦   ¦       ¦   +---xfeatures2d
+¦   ¦   ¦       ¦   +---ximgproc
+¦   ¦   ¦       ¦   ¦   +---segmentation
+¦   ¦   ¦       ¦   +---xphoto
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---cycler
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---cycler-0.12.1.dist-info
+¦   ¦   ¦       +---dateutil
+¦   ¦   ¦       ¦   +---parser
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---tz
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---zoneinfo
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---deprecated
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---deprecated-1.3.1.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---deprecation-2.1.0.dist-info
+¦   ¦   ¦       +---dotenv
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---fb303
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---flask
+¦   ¦   ¦       ¦   +---json
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---sansio
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---flask-3.0.2.dist-info
+¦   ¦   ¦       +---flask_cors
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---Flask_Cors-4.0.0.dist-info
+¦   ¦   ¦       +---flask_limiter
+¦   ¦   ¦       ¦   +---contrib
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---Flask_Limiter-3.7.0.dist-info
+¦   ¦   ¦       +---flask_sqlalchemy
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---flask_sqlalchemy-3.1.1.dist-info
+¦   ¦   ¦       +---flask_talisman
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---flask_talisman-1.1.0.dist-info
+¦   ¦   ¦       +---flatbuffers
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---flatbuffers-25.12.19.dist-info
+¦   ¦   ¦       +---fontTools
+¦   ¦   ¦       ¦   +---cffLib
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---colorLib
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---config
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---cu2qu
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---designspaceLib
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---diff
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---encodings
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---feaLib
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---merge
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---misc
+¦   ¦   ¦       ¦   ¦   +---filesystem
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---plistlib
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---mtiLib
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---otlLib
+¦   ¦   ¦       ¦   ¦   +---optimize
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---pens
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---qu2cu
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---subset
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---svgLib
+¦   ¦   ¦       ¦   ¦   +---path
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---t1Lib
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---ttLib
+¦   ¦   ¦       ¦   ¦   +---tables
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---ufoLib
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---unicodedata
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---varLib
+¦   ¦   ¦       ¦   ¦   +---avar
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---instancer
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---voltLib
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---fonttools-4.62.1.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---fsspec
+¦   ¦   ¦       ¦   +---implementations
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---tests
+¦   ¦   ¦       ¦   ¦   +---abstract
+¦   ¦   ¦       ¦   ¦       +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---fsspec-2026.4.0.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---gotrue
+¦   ¦   ¦       ¦   +---_async
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---_sync
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---gotrue-2.9.1.dist-info
+¦   ¦   ¦       +---greenlet
+¦   ¦   ¦       ¦   +---platform
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---tests
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---greenlet-3.5.0.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---gunicorn
+¦   ¦   ¦       ¦   +---app
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---http
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---instrument
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---workers
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---gunicorn-21.2.0.dist-info
+¦   ¦   ¦       +---h11
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---h11-0.16.0.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---h2
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---h2-4.3.0.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---hive_metastore
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---hpack
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---hpack-4.1.0.dist-info
+¦   ¦   ¦       +---httpcore
+¦   ¦   ¦       ¦   +---_async
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---_backends
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---_sync
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---httpcore-1.0.9.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---httpx
+¦   ¦   ¦       ¦   +---_transports
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---httpx-0.28.1.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---hyperframe
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---hyperframe-6.1.0.dist-info
+¦   ¦   ¦       +---idna
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---idna-3.15.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---itsdangerous
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---itsdangerous-2.2.0.dist-info
+¦   ¦   ¦       +---jinja2
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---jinja2-3.1.6.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---jwt
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---kiwisolver
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---kiwisolver-1.5.0.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---limits
+¦   ¦   ¦       ¦   +---aio
+¦   ¦   ¦       ¦   ¦   +---storage
+¦   ¦   ¦       ¦   ¦   ¦   +---memcached
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---redis
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---resources
+¦   ¦   ¦       ¦   ¦   +---redis
+¦   ¦   ¦       ¦   ¦       +---lua_scripts
+¦   ¦   ¦       ¦   +---storage
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---limits-5.8.0.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---markdown_it
+¦   ¦   ¦       ¦   +---cli
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---common
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---helpers
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---presets
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---rules_block
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---rules_core
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---rules_inline
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---markdown_it_py-4.2.0.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---markupsafe
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---markupsafe-3.0.3.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---matplotlib
+¦   ¦   ¦       ¦   +---axes
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---backends
+¦   ¦   ¦       ¦   ¦   +---qt_editor
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---web_backend
+¦   ¦   ¦       ¦   ¦   ¦   +---css
+¦   ¦   ¦       ¦   ¦   ¦   +---js
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---mpl-data
+¦   ¦   ¦       ¦   ¦   +---fonts
+¦   ¦   ¦       ¦   ¦   ¦   +---afm
+¦   ¦   ¦       ¦   ¦   ¦   +---pdfcorefonts
+¦   ¦   ¦       ¦   ¦   ¦   +---ttf
+¦   ¦   ¦       ¦   ¦   +---images
+¦   ¦   ¦       ¦   ¦   +---plot_directive
+¦   ¦   ¦       ¦   ¦   +---sample_data
+¦   ¦   ¦       ¦   ¦   ¦   +---axes_grid
+¦   ¦   ¦       ¦   ¦   +---stylelib
+¦   ¦   ¦       ¦   +---projections
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---sphinxext
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---style
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---testing
+¦   ¦   ¦       ¦   ¦   +---jpl_units
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---tests
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---tri
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---_api
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---matplotlib-3.10.9.dist-info
+¦   ¦   ¦       +---mdurl
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---mdurl-0.1.2.dist-info
+¦   ¦   ¦       +---mediapipe
+¦   ¦   ¦       ¦   +---modules
+¦   ¦   ¦       ¦   ¦   +---hand_landmark
+¦   ¦   ¦       ¦   ¦   +---objectron
+¦   ¦   ¦       ¦   +---tasks
+¦   ¦   ¦       ¦   ¦   +---c
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---metadata
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---python
+¦   ¦   ¦       ¦   ¦   ¦   +---audio
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---core
+¦   ¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---benchmark
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---vision
+¦   ¦   ¦       ¦   ¦   ¦   ¦   ¦   +---core
+¦   ¦   ¦       ¦   ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---components
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---containers
+¦   ¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---processors
+¦   ¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---utils
+¦   ¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---core
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---genai
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---bundler
+¦   ¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---converter
+¦   ¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---metadata
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---metadata_writers
+¦   ¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---test
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---audio
+¦   ¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---text
+¦   ¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---vision
+¦   ¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---text
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---vision
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---core
+¦   ¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---mediapipe-0.10.35.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---mmh3
+¦   ¦   ¦       +---mmh3-5.2.1.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---mpl_toolkits
+¦   ¦   ¦       ¦   +---axes_grid1
+¦   ¦   ¦       ¦   ¦   +---tests
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---axisartist
+¦   ¦   ¦       ¦   ¦   +---tests
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---mplot3d
+¦   ¦   ¦       ¦       +---tests
+¦   ¦   ¦       ¦       ¦   +---__pycache__
+¦   ¦   ¦       ¦       +---__pycache__
+¦   ¦   ¦       +---multidict
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---multidict-6.7.1.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---numpy
+¦   ¦   ¦       ¦   +---array_api
+¦   ¦   ¦       ¦   ¦   +---tests
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---compat
+¦   ¦   ¦       ¦   ¦   +---tests
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---core
+¦   ¦   ¦       ¦   ¦   +---include
+¦   ¦   ¦       ¦   ¦   ¦   +---numpy
+¦   ¦   ¦       ¦   ¦   ¦       +---random
+¦   ¦   ¦       ¦   ¦   +---lib
+¦   ¦   ¦       ¦   ¦   ¦   +---npy-pkg-config
+¦   ¦   ¦       ¦   ¦   +---tests
+¦   ¦   ¦       ¦   ¦   ¦   +---data
+¦   ¦   ¦       ¦   ¦   ¦   +---examples
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---cython
+¦   ¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---limited_api
+¦   ¦   ¦       ¦   ¦   ¦   ¦       +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---doc
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---f2py
+¦   ¦   ¦       ¦   ¦   +---src
+¦   ¦   ¦       ¦   ¦   +---tests
+¦   ¦   ¦       ¦   ¦   ¦   +---src
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---abstract_interface
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---array_from_pyobj
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---assumed_shape
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---block_docstring
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---callback
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---cli
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---common
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---crackfortran
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---f2cmap
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---isocintrin
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---kind
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---mixed
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---module_data
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---negative_bounds
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---parameter
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---quoted_character
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---regression
+¦   ¦   ¦       ¦   ¦   ¦   ¦   ¦   +---gh25337
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---return_character
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---return_complex
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---return_integer
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---return_logical
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---return_real
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---size
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---string
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---value_attrspec
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---_backends
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---fft
+¦   ¦   ¦       ¦   ¦   +---tests
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---lib
+¦   ¦   ¦       ¦   ¦   +---tests
+¦   ¦   ¦       ¦   ¦   ¦   +---data
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---linalg
+¦   ¦   ¦       ¦   ¦   +---tests
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---ma
+¦   ¦   ¦       ¦   ¦   +---tests
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---matrixlib
+¦   ¦   ¦       ¦   ¦   +---tests
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---polynomial
+¦   ¦   ¦       ¦   ¦   +---tests
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---random
+¦   ¦   ¦       ¦   ¦   +---lib
+¦   ¦   ¦       ¦   ¦   +---tests
+¦   ¦   ¦       ¦   ¦   ¦   +---data
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---_examples
+¦   ¦   ¦       ¦   ¦   ¦   +---cffi
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---cython
+¦   ¦   ¦       ¦   ¦   ¦   +---numba
+¦   ¦   ¦       ¦   ¦   ¦       +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---testing
+¦   ¦   ¦       ¦   ¦   +---tests
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---_private
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---tests
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---typing
+¦   ¦   ¦       ¦   ¦   +---tests
+¦   ¦   ¦       ¦   ¦   ¦   +---data
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---fail
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---misc
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---pass
+¦   ¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---reveal
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---_core
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---_pyinstaller
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---_typing
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---_utils
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---numpy-1.26.4.dist-info
+¦   ¦   ¦       +---numpy.libs
+¦   ¦   ¦       +---opencv_contrib_python-4.11.0.86.dist-info
+¦   ¦   ¦       +---opencv_python_headless-4.9.0.80.dist-info
+¦   ¦   ¦       +---ordered_set
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---ordered_set-4.1.0.dist-info
+¦   ¦   ¦       +---packaging
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---packaging-26.2.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---PIL
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---pillow-12.2.0.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---pip
+¦   ¦   ¦       ¦   +---_internal
+¦   ¦   ¦       ¦   ¦   +---cli
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---commands
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---distributions
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---index
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---locations
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---metadata
+¦   ¦   ¦       ¦   ¦   ¦   +---importlib
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---models
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---network
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---operations
+¦   ¦   ¦       ¦   ¦   ¦   +---build
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---install
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---req
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---resolution
+¦   ¦   ¦       ¦   ¦   ¦   +---legacy
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---resolvelib
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---utils
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---vcs
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---_vendor
+¦   ¦   ¦       ¦   ¦   +---cachecontrol
+¦   ¦   ¦       ¦   ¦   ¦   +---caches
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---certifi
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---chardet
+¦   ¦   ¦       ¦   ¦   ¦   +---cli
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---metadata
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---colorama
+¦   ¦   ¦       ¦   ¦   ¦   +---tests
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---distlib
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---distro
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---idna
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---msgpack
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---packaging
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---pkg_resources
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---platformdirs
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---pygments
+¦   ¦   ¦       ¦   ¦   ¦   +---filters
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---formatters
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---lexers
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---styles
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---pyparsing
+¦   ¦   ¦       ¦   ¦   ¦   +---diagram
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---pyproject_hooks
+¦   ¦   ¦       ¦   ¦   ¦   +---_in_process
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---requests
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---resolvelib
+¦   ¦   ¦       ¦   ¦   ¦   +---compat
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---rich
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---tenacity
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---tomli
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---urllib3
+¦   ¦   ¦       ¦   ¦   ¦   +---contrib
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---_securetransport
+¦   ¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---packages
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---backports
+¦   ¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---util
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---webencodings
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---pip-23.2.1.dist-info
+¦   ¦   ¦       +---postgrest
+¦   ¦   ¦       ¦   +---_async
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---_sync
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---postgrest-2.30.0.dist-info
+¦   ¦   ¦       +---propcache
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---propcache-0.5.2.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---psycopg2
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---psycopg2_binary-2.9.9.dist-info
+¦   ¦   ¦       +---pycparser
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---pycparser-3.0.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---pydantic
+¦   ¦   ¦       ¦   +---deprecated
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---experimental
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---plugin
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---v1
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---_internal
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---pydantic-2.13.4.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---pydantic_core
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---pydantic_core-2.46.4.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       ¦   +---sboms
+¦   ¦   ¦       +---pygments
+¦   ¦   ¦       ¦   +---filters
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---formatters
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---lexers
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---styles
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---pygments-2.20.0.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---pyiceberg
+¦   ¦   ¦       ¦   +---avro
+¦   ¦   ¦       ¦   ¦   +---codecs
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---catalog
+¦   ¦   ¦       ¦   ¦   +---rest
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---cli
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---expressions
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---io
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---table
+¦   ¦   ¦       ¦   ¦   +---update
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---utils
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---pyiceberg-0.11.1.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---pyjwt-2.12.1.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---pyparsing
+¦   ¦   ¦       ¦   +---ai
+¦   ¦   ¦       ¦   ¦   +---show_best_practices
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---diagram
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---tools
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---pyparsing-3.3.2.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---pyroaring
+¦   ¦   ¦       +---pyroaring-1.1.0.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---python_dateutil-2.9.0.post0.dist-info
+¦   ¦   ¦       +---python_dotenv-1.0.1.dist-info
+¦   ¦   ¦       +---realtime
+¦   ¦   ¦       ¦   +---_async
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---_sync
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---realtime-2.30.0.dist-info
+¦   ¦   ¦       +---replicate
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---replicate-0.25.1.dist-info
+¦   ¦   ¦       +---requests
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---requests-2.31.0.dist-info
+¦   ¦   ¦       +---rich
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---rich-13.9.4.dist-info
+¦   ¦   ¦       +---six-1.17.0.dist-info
+¦   ¦   ¦       +---sniffio
+¦   ¦   ¦       ¦   +---_tests
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---sniffio-1.3.1.dist-info
+¦   ¦   ¦       +---sounddevice-0.5.5.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---sqlalchemy
+¦   ¦   ¦       ¦   +---connectors
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---cyextension
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---dialects
+¦   ¦   ¦       ¦   ¦   +---mssql
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---mysql
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---oracle
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---postgresql
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---sqlite
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---engine
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---event
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---ext
+¦   ¦   ¦       ¦   ¦   +---asyncio
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---declarative
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---mypy
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---future
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---orm
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---pool
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---sql
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---testing
+¦   ¦   ¦       ¦   ¦   +---fixtures
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---plugin
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---suite
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---util
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---sqlalchemy-2.0.49.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---storage3
+¦   ¦   ¦       ¦   +---_async
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---_sync
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---storage3-2.30.0.dist-info
+¦   ¦   ¦       +---strenum
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---StrEnum-0.4.15.dist-info
+¦   ¦   ¦       +---strictyaml
+¦   ¦   ¦       ¦   +---ruamel
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---strictyaml-1.7.3.dist-info
+¦   ¦   ¦       +---stripe
+¦   ¦   ¦       ¦   +---apps
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---billing
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---billing_portal
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---checkout
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---climate
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---data
+¦   ¦   ¦       ¦   +---entitlements
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---events
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---financial_connections
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---forwarding
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---identity
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---issuing
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---params
+¦   ¦   ¦       ¦   ¦   +---apps
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---billing
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---billing_portal
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---checkout
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---climate
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---entitlements
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---financial_connections
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---forwarding
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---identity
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---issuing
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---radar
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---reporting
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---sigma
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---tax
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---terminal
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---test_helpers
+¦   ¦   ¦       ¦   ¦   ¦   +---issuing
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---terminal
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---treasury
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---treasury
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---v2
+¦   ¦   ¦       ¦   ¦   ¦   +---billing
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---core
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---accounts
+¦   ¦   ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---radar
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---reporting
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---reserve
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---sigma
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---tax
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---terminal
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---test_helpers
+¦   ¦   ¦       ¦   ¦   +---issuing
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---terminal
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---treasury
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---treasury
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---v2
+¦   ¦   ¦       ¦   ¦   +---billing
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---core
+¦   ¦   ¦       ¦   ¦   ¦   +---accounts
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---stripe-15.1.0.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---supabase
+¦   ¦   ¦       ¦   +---lib
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---_async
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---_sync
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---supabase-2.30.0.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---supabase_auth
+¦   ¦   ¦       ¦   +---_async
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---_sync
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---supabase_auth-2.30.0.dist-info
+¦   ¦   ¦       +---supabase_functions
+¦   ¦   ¦       ¦   +---_async
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---_sync
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---supabase_functions-2.30.0.dist-info
+¦   ¦   ¦       +---supafunc
+¦   ¦   ¦       ¦   +---_async
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---_sync
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---supafunc-0.3.3.dist-info
+¦   ¦   ¦       +---tenacity
+¦   ¦   ¦       ¦   +---asyncio
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---tenacity-9.1.4.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---typing_extensions-4.15.0.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---typing_inspection
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---typing_inspection-0.4.2.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---urllib3
+¦   ¦   ¦       ¦   +---contrib
+¦   ¦   ¦       ¦   ¦   +---emscripten
+¦   ¦   ¦       ¦   ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---http2
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---util
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---urllib3-2.7.0.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---websockets
+¦   ¦   ¦       ¦   +---asyncio
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---extensions
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---legacy
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---sync
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---websockets-14.0.dist-info
+¦   ¦   ¦       +---werkzeug
+¦   ¦   ¦       ¦   +---datastructures
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---debug
+¦   ¦   ¦       ¦   ¦   +---shared
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---middleware
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---routing
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---sansio
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---wrappers
+¦   ¦   ¦       ¦   ¦   +---__pycache__
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---werkzeug-3.0.1.dist-info
+¦   ¦   ¦       +---wrapt
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---wrapt-2.1.2.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---yarl
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---yarl-1.23.0.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---zstandard
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---zstandard-0.25.0.dist-info
+¦   ¦   ¦       ¦   +---licenses
+¦   ¦   ¦       +---_sounddevice_data
+¦   ¦   ¦       ¦   +---portaudio-binaries
+¦   ¦   ¦       ¦   +---__pycache__
+¦   ¦   ¦       +---__pycache__
+¦   ¦   +---Scripts
+¦   ¦   +---share
+¦   ¦       +---man
+¦   ¦           +---man1
+¦   +---__pycache__
++---frontend
+¦   +---.next
+¦   ¦   +---build
+¦   ¦   ¦   +---chunks
+¦   ¦   +---cache
+¦   ¦   +---dev
+¦   ¦   ¦   +---build
+¦   ¦   ¦   ¦   +---chunks
+¦   ¦   ¦   +---cache
+¦   ¦   ¦   ¦   +---turbopack
+¦   ¦   ¦   ¦       +---ee6e79b1
+¦   ¦   ¦   +---logs
+¦   ¦   ¦   +---server
+¦   ¦   ¦   ¦   +---app
+¦   ¦   ¦   ¦   ¦   +---credits
+¦   ¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   ¦   +---dashboard
+¦   ¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   ¦   +---forgot-password
+¦   ¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   ¦   +---gallery
+¦   ¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   ¦   +---generate
+¦   ¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   ¦   +---help
+¦   ¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   ¦   +---history
+¦   ¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   ¦   +---login
+¦   ¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   ¦   +---pricing
+¦   ¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   ¦   +---privacy
+¦   ¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   ¦   +---register
+¦   ¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   ¦   +---_not-found
+¦   ¦   ¦   ¦   ¦       +---page
+¦   ¦   ¦   ¦   +---chunks
+¦   ¦   ¦   ¦   ¦   +---ssr
+¦   ¦   ¦   ¦   +---edge
+¦   ¦   ¦   ¦   ¦   +---chunks
+¦   ¦   ¦   ¦   +---middleware
+¦   ¦   ¦   ¦   +---pages
+¦   ¦   ¦   ¦       +---_app
+¦   ¦   ¦   ¦       +---_document
+¦   ¦   ¦   ¦       +---_error
+¦   ¦   ¦   +---static
+¦   ¦   ¦   ¦   +---chunks
+¦   ¦   ¦   ¦   ¦   +---pages
+¦   ¦   ¦   ¦   +---development
+¦   ¦   ¦   ¦   +---media
+¦   ¦   ¦   +---types
+¦   ¦   +---diagnostics
+¦   ¦   +---server
+¦   ¦   ¦   +---app
+¦   ¦   ¦   ¦   +---admin
+¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   +---admin.segments
+¦   ¦   ¦   ¦   ¦   +---admin
+¦   ¦   ¦   ¦   +---auth
+¦   ¦   ¦   ¦   ¦   +---callback
+¦   ¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   ¦   +---callback.segments
+¦   ¦   ¦   ¦   ¦       +---auth
+¦   ¦   ¦   ¦   ¦           +---callback
+¦   ¦   ¦   ¦   +---credits
+¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   +---credits.segments
+¦   ¦   ¦   ¦   ¦   +---credits
+¦   ¦   ¦   ¦   +---dashboard
+¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   +---dashboard.segments
+¦   ¦   ¦   ¦   ¦   +---dashboard
+¦   ¦   ¦   ¦   +---favicon.ico
+¦   ¦   ¦   ¦   ¦   +---route
+¦   ¦   ¦   ¦   +---forgot-password
+¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   +---forgot-password.segments
+¦   ¦   ¦   ¦   ¦   +---forgot-password
+¦   ¦   ¦   ¦   +---gallery
+¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   +---gallery.segments
+¦   ¦   ¦   ¦   ¦   +---gallery
+¦   ¦   ¦   ¦   +---generate
+¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   +---generate.segments
+¦   ¦   ¦   ¦   ¦   +---generate
+¦   ¦   ¦   ¦   +---help
+¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   +---help.segments
+¦   ¦   ¦   ¦   ¦   +---help
+¦   ¦   ¦   ¦   +---history
+¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   +---history.segments
+¦   ¦   ¦   ¦   ¦   +---history
+¦   ¦   ¦   ¦   +---index.segments
+¦   ¦   ¦   ¦   +---login
+¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   +---login.segments
+¦   ¦   ¦   ¦   ¦   +---login
+¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   +---pricing
+¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   +---pricing.segments
+¦   ¦   ¦   ¦   ¦   +---pricing
+¦   ¦   ¦   ¦   +---privacy
+¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   +---privacy.segments
+¦   ¦   ¦   ¦   ¦   +---privacy
+¦   ¦   ¦   ¦   +---register
+¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   +---register.segments
+¦   ¦   ¦   ¦   ¦   +---register
+¦   ¦   ¦   ¦   +---reset-password
+¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   +---reset-password.segments
+¦   ¦   ¦   ¦   ¦   +---reset-password
+¦   ¦   ¦   ¦   +---terms
+¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   +---terms.segments
+¦   ¦   ¦   ¦   ¦   +---terms
+¦   ¦   ¦   ¦   +---_global-error
+¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   +---_global-error.segments
+¦   ¦   ¦   ¦   +---_not-found
+¦   ¦   ¦   ¦   ¦   +---page
+¦   ¦   ¦   ¦   +---_not-found.segments
+¦   ¦   ¦   ¦       +---_not-found
+¦   ¦   ¦   +---chunks
+¦   ¦   ¦   ¦   +---ssr
+¦   ¦   ¦   +---pages
+¦   ¦   +---static
+¦   ¦   ¦   +---chunks
+¦   ¦   ¦   +---media
+¦   ¦   ¦   +---uHnJOon5EzIJRGdX6CR6h
+¦   ¦   +---types
+¦   +---.vercel
+¦   +---node_modules
+¦   ¦   +---.bin
+¦   ¦   +---.cache
+¦   ¦   ¦   +---jiti
+¦   ¦   ¦   +---prisma
+¦   ¦   ¦       +---master
+¦   ¦   ¦           +---3c6e192761c0362d496ed980de936e2f3cebcd3a
+¦   ¦   ¦               +---windows
+¦   ¦   +---@alloc
+¦   ¦   ¦   +---quick-lru
+¦   ¦   +---@babel
+¦   ¦   ¦   +---code-frame
+¦   ¦   ¦   ¦   +---lib
+¦   ¦   ¦   +---compat-data
+¦   ¦   ¦   ¦   +---data
+¦   ¦   ¦   +---core
+¦   ¦   ¦   ¦   +---lib
+¦   ¦   ¦   ¦   ¦   +---config
+¦   ¦   ¦   ¦   ¦   ¦   +---files
+¦   ¦   ¦   ¦   ¦   ¦   +---helpers
+¦   ¦   ¦   ¦   ¦   ¦   +---validation
+¦   ¦   ¦   ¦   ¦   +---errors
+¦   ¦   ¦   ¦   ¦   +---gensync-utils
+¦   ¦   ¦   ¦   ¦   +---parser
+¦   ¦   ¦   ¦   ¦   ¦   +---util
+¦   ¦   ¦   ¦   ¦   +---tools
+¦   ¦   ¦   ¦   ¦   +---transformation
+¦   ¦   ¦   ¦   ¦   ¦   +---file
+¦   ¦   ¦   ¦   ¦   ¦   +---util
+¦   ¦   ¦   ¦   ¦   +---vendor
+¦   ¦   ¦   ¦   +---src
+¦   ¦   ¦   ¦       +---config
+¦   ¦   ¦   ¦           +---files
+¦   ¦   ¦   +---generator
+¦   ¦   ¦   ¦   +---lib
+¦   ¦   ¦   ¦       +---generators
+¦   ¦   ¦   ¦       +---node
+¦   ¦   ¦   +---helper-compilation-targets
+¦   ¦   ¦   ¦   +---lib
+¦   ¦   ¦   +---helper-globals
+¦   ¦   ¦   ¦   +---data
+¦   ¦   ¦   +---helper-module-imports
+¦   ¦   ¦   ¦   +---lib
+¦   ¦   ¦   +---helper-module-transforms
+¦   ¦   ¦   ¦   +---lib
+¦   ¦   ¦   +---helper-string-parser
+¦   ¦   ¦   ¦   +---lib
+¦   ¦   ¦   +---helper-validator-identifier
+¦   ¦   ¦   ¦   +---lib
+¦   ¦   ¦   +---helper-validator-option
+¦   ¦   ¦   ¦   +---lib
+¦   ¦   ¦   +---helpers
+¦   ¦   ¦   ¦   +---lib
+¦   ¦   ¦   ¦       +---helpers
+¦   ¦   ¦   +---parser
+¦   ¦   ¦   ¦   +---bin
+¦   ¦   ¦   ¦   +---lib
+¦   ¦   ¦   ¦   +---typings
+¦   ¦   ¦   +---template
+¦   ¦   ¦   ¦   +---lib
+¦   ¦   ¦   +---traverse
+¦   ¦   ¦   ¦   +---lib
+¦   ¦   ¦   ¦       +---path
+¦   ¦   ¦   ¦       ¦   +---inference
+¦   ¦   ¦   ¦       ¦   +---lib
+¦   ¦   ¦   ¦       +---scope
+¦   ¦   ¦   ¦           +---lib
+¦   ¦   ¦   +---types
+¦   ¦   ¦       +---lib
+¦   ¦   ¦           +---asserts
+¦   ¦   ¦           ¦   +---generated
+¦   ¦   ¦           +---ast-types
+¦   ¦   ¦           ¦   +---generated
+¦   ¦   ¦           +---builders
+¦   ¦   ¦           ¦   +---flow
+¦   ¦   ¦           ¦   +---generated
+¦   ¦   ¦           ¦   +---react
+¦   ¦   ¦           ¦   +---typescript
+¦   ¦   ¦           +---clone
+¦   ¦   ¦           +---comments
+¦   ¦   ¦           +---constants
+¦   ¦   ¦           ¦   +---generated
+¦   ¦   ¦           +---converters
+¦   ¦   ¦           +---definitions
+¦   ¦   ¦           +---modifications
+¦   ¦   ¦           ¦   +---flow
+¦   ¦   ¦           ¦   +---typescript
+¦   ¦   ¦           +---retrievers
+¦   ¦   ¦           +---traverse
+¦   ¦   ¦           +---utils
+¦   ¦   ¦           ¦   +---react
+¦   ¦   ¦           +---validators
+¦   ¦   ¦               +---generated
+¦   ¦   ¦               +---react
+¦   ¦   +---@clerk
+¦   ¦   ¦   +---backend
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   ¦   +---api
+¦   ¦   ¦   ¦   ¦   ¦   +---endpoints
+¦   ¦   ¦   ¦   ¦   ¦   +---resources
+¦   ¦   ¦   ¦   ¦   +---fixtures
+¦   ¦   ¦   ¦   ¦   +---jwt
+¦   ¦   ¦   ¦   ¦   +---runtime
+¦   ¦   ¦   ¦   ¦   ¦   +---browser
+¦   ¦   ¦   ¦   ¦   ¦   +---node
+¦   ¦   ¦   ¦   ¦   +---tokens
+¦   ¦   ¦   ¦   ¦   ¦   +---__tests__
+¦   ¦   ¦   ¦   ¦   +---util
+¦   ¦   ¦   ¦   +---errors
+¦   ¦   ¦   ¦   +---internal
+¦   ¦   ¦   ¦   +---jwt
+¦   ¦   ¦   ¦   +---proxy
+¦   ¦   ¦   ¦   +---webhooks
+¦   ¦   ¦   +---nextjs
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   ¦   +---cjs
+¦   ¦   ¦   ¦   ¦   ¦   +---app-router
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---client
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---server
+¦   ¦   ¦   ¦   ¦   ¦   ¦       +---__tests__
+¦   ¦   ¦   ¦   ¦   ¦   +---client-boundary
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---hooks
+¦   ¦   ¦   ¦   ¦   ¦   +---pages
+¦   ¦   ¦   ¦   ¦   ¦   +---runtime
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---browser
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---node
+¦   ¦   ¦   ¦   ¦   ¦   +---server
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---data
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---fs
+¦   ¦   ¦   ¦   ¦   ¦   +---types
+¦   ¦   ¦   ¦   ¦   ¦   +---utils
+¦   ¦   ¦   ¦   ¦   ¦   +---vendor
+¦   ¦   ¦   ¦   ¦   +---esm
+¦   ¦   ¦   ¦   ¦   ¦   +---app-router
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---client
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---server
+¦   ¦   ¦   ¦   ¦   ¦   ¦       +---__tests__
+¦   ¦   ¦   ¦   ¦   ¦   +---client-boundary
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---hooks
+¦   ¦   ¦   ¦   ¦   ¦   +---pages
+¦   ¦   ¦   ¦   ¦   ¦   +---runtime
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---browser
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---node
+¦   ¦   ¦   ¦   ¦   ¦   +---server
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---data
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---fs
+¦   ¦   ¦   ¦   ¦   ¦   +---types
+¦   ¦   ¦   ¦   ¦   ¦   +---utils
+¦   ¦   ¦   ¦   ¦   ¦   +---vendor
+¦   ¦   ¦   ¦   ¦   +---types
+¦   ¦   ¦   ¦   ¦       +---app-router
+¦   ¦   ¦   ¦   ¦       ¦   +---client
+¦   ¦   ¦   ¦   ¦       ¦   +---server
+¦   ¦   ¦   ¦   ¦       +---client-boundary
+¦   ¦   ¦   ¦   ¦       ¦   +---hooks
+¦   ¦   ¦   ¦   ¦       +---pages
+¦   ¦   ¦   ¦   ¦       +---runtime
+¦   ¦   ¦   ¦   ¦       ¦   +---browser
+¦   ¦   ¦   ¦   ¦       ¦   +---node
+¦   ¦   ¦   ¦   ¦       +---server
+¦   ¦   ¦   ¦   ¦       ¦   +---data
+¦   ¦   ¦   ¦   ¦       ¦   +---fs
+¦   ¦   ¦   ¦   ¦       +---types
+¦   ¦   ¦   ¦   ¦       +---utils
+¦   ¦   ¦   ¦   ¦       +---vendor
+¦   ¦   ¦   ¦   +---errors
+¦   ¦   ¦   ¦   +---server
+¦   ¦   ¦   ¦   +---webhooks
+¦   ¦   ¦   +---react
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---shared
+¦   ¦   ¦       +---dist
+¦   ¦   ¦       ¦   +---runtime
+¦   ¦   ¦       ¦   ¦   +---dom
+¦   ¦   ¦       ¦   ¦   +---internal
+¦   ¦   ¦       ¦   ¦   ¦   +---clerk-js
+¦   ¦   ¦       ¦   ¦   ¦       +---passwords
+¦   ¦   ¦       ¦   ¦   +---keyless
+¦   ¦   ¦       ¦   ¦   +---react
+¦   ¦   ¦       ¦   ¦   +---types
+¦   ¦   ¦       ¦   ¦   +---ui
+¦   ¦   ¦       ¦   ¦   +---utils
+¦   ¦   ¦       ¦   ¦   +---workerTimers
+¦   ¦   ¦       ¦   +---types
+¦   ¦   ¦       +---scripts
+¦   ¦   +---@electric-sql
+¦   ¦   ¦   +---pglite
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦       +---age
+¦   ¦   ¦   ¦       +---contrib
+¦   ¦   ¦   ¦       +---fs
+¦   ¦   ¦   ¦       +---live
+¦   ¦   ¦   ¦       +---pgtap
+¦   ¦   ¦   ¦       +---pg_hashids
+¦   ¦   ¦   ¦       +---pg_ivm
+¦   ¦   ¦   ¦       +---pg_textsearch
+¦   ¦   ¦   ¦       +---pg_uuidv7
+¦   ¦   ¦   ¦       +---vector
+¦   ¦   ¦   ¦       +---worker
+¦   ¦   ¦   +---pglite-socket
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   ¦   +---scripts
+¦   ¦   ¦   ¦   +---examples
+¦   ¦   ¦   ¦   +---src
+¦   ¦   ¦   ¦   ¦   +---scripts
+¦   ¦   ¦   ¦   +---tests
+¦   ¦   ¦   +---pglite-tools
+¦   ¦   ¦       +---dist
+¦   ¦   ¦       +---src
+¦   ¦   ¦       +---tests
+¦   ¦   +---@emnapi
+¦   ¦   ¦   +---core
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---runtime
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---wasi-threads
+¦   ¦   ¦       +---dist
+¦   ¦   +---@eslint
+¦   ¦   ¦   +---config-array
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦       +---cjs
+¦   ¦   ¦   ¦       ¦   +---std__path
+¦   ¦   ¦   ¦       +---esm
+¦   ¦   ¦   ¦           +---std__path
+¦   ¦   ¦   +---config-helpers
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦       +---cjs
+¦   ¦   ¦   ¦       +---esm
+¦   ¦   ¦   +---core
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦       +---cjs
+¦   ¦   ¦   ¦       +---esm
+¦   ¦   ¦   +---eslintrc
+¦   ¦   ¦   ¦   +---conf
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   +---lib
+¦   ¦   ¦   ¦       +---config-array
+¦   ¦   ¦   ¦       +---shared
+¦   ¦   ¦   ¦       +---types
+¦   ¦   ¦   +---js
+¦   ¦   ¦   ¦   +---src
+¦   ¦   ¦   ¦   ¦   +---configs
+¦   ¦   ¦   ¦   +---types
+¦   ¦   ¦   +---object-schema
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦       +---cjs
+¦   ¦   ¦   ¦       +---esm
+¦   ¦   ¦   +---plugin-kit
+¦   ¦   ¦       +---dist
+¦   ¦   ¦           +---cjs
+¦   ¦   ¦           +---esm
+¦   ¦   +---@eslint-community
+¦   ¦   ¦   +---eslint-utils
+¦   ¦   ¦   ¦   +---node_modules
+¦   ¦   ¦   ¦       +---eslint-visitor-keys
+¦   ¦   ¦   ¦           +---dist
+¦   ¦   ¦   ¦           +---lib
+¦   ¦   ¦   +---regexpp
+¦   ¦   +---@hono
+¦   ¦   ¦   +---node-server
+¦   ¦   ¦       +---dist
+¦   ¦   ¦           +---utils
+¦   ¦   ¦               +---response
+¦   ¦   +---@humanfs
+¦   ¦   ¦   +---core
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   +---src
+¦   ¦   ¦   +---node
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   +---src
+¦   ¦   ¦   +---types
+¦   ¦   ¦       +---src
+¦   ¦   +---@humanwhocodes
+¦   ¦   ¦   +---module-importer
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   +---src
+¦   ¦   ¦   +---retry
+¦   ¦   ¦       +---dist
+¦   ¦   +---@img
+¦   ¦   ¦   +---colour
+¦   ¦   ¦   +---sharp-win32-x64
+¦   ¦   ¦       +---lib
+¦   ¦   +---@jridgewell
+¦   ¦   ¦   +---gen-mapping
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   ¦   +---types
+¦   ¦   ¦   ¦   +---src
+¦   ¦   ¦   ¦   +---types
+¦   ¦   ¦   +---remapping
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   +---src
+¦   ¦   ¦   ¦   +---types
+¦   ¦   ¦   +---resolve-uri
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦       +---types
+¦   ¦   ¦   +---sourcemap-codec
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   +---src
+¦   ¦   ¦   ¦   +---types
+¦   ¦   ¦   +---trace-mapping
+¦   ¦   ¦       +---dist
+¦   ¦   ¦       +---src
+¦   ¦   ¦       +---types
+¦   ¦   +---@kurkle
+¦   ¦   ¦   +---color
+¦   ¦   ¦       +---dist
+¦   ¦   +---@napi-rs
+¦   ¦   ¦   +---wasm-runtime
+¦   ¦   ¦       +---dist
+¦   ¦   +---@next
+¦   ¦   ¦   +---env
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---eslint-plugin-next
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦       +---rules
+¦   ¦   ¦   ¦       +---utils
+¦   ¦   ¦   +---swc-win32-x64-msvc
+¦   ¦   +---@nodelib
+¦   ¦   ¦   +---fs.scandir
+¦   ¦   ¦   ¦   +---out
+¦   ¦   ¦   ¦       +---adapters
+¦   ¦   ¦   ¦       +---providers
+¦   ¦   ¦   ¦       +---types
+¦   ¦   ¦   ¦       +---utils
+¦   ¦   ¦   +---fs.stat
+¦   ¦   ¦   ¦   +---out
+¦   ¦   ¦   ¦       +---adapters
+¦   ¦   ¦   ¦       +---providers
+¦   ¦   ¦   ¦       +---types
+¦   ¦   ¦   +---fs.walk
+¦   ¦   ¦       +---out
+¦   ¦   ¦           +---providers
+¦   ¦   ¦           +---readers
+¦   ¦   ¦           +---types
+¦   ¦   +---@nolyfill
+¦   ¦   ¦   +---is-core-module
+¦   ¦   +---@prisma
+¦   ¦   ¦   +---client
+¦   ¦   ¦   ¦   +---generator-build
+¦   ¦   ¦   ¦   +---runtime
+¦   ¦   ¦   ¦   +---scripts
+¦   ¦   ¦   +---client-runtime-utils
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦       +---errors
+¦   ¦   ¦   +---config
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---debug
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---dev
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦       +---runtime-assets
+¦   ¦   ¦   +---engines
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   ¦   +---scripts
+¦   ¦   ¦   ¦   +---node_modules
+¦   ¦   ¦   ¦   ¦   +---.cache
+¦   ¦   ¦   ¦   ¦   ¦   +---prisma
+¦   ¦   ¦   ¦   ¦   ¦       +---master
+¦   ¦   ¦   ¦   ¦   ¦           +---3c6e192761c0362d496ed980de936e2f3cebcd3a
+¦   ¦   ¦   ¦   ¦   ¦               +---windows
+¦   ¦   ¦   ¦   ¦   +---@prisma
+¦   ¦   ¦   ¦   ¦       +---get-platform
+¦   ¦   ¦   ¦   ¦           +---dist
+¦   ¦   ¦   ¦   ¦               +---test-utils
+¦   ¦   ¦   ¦   +---scripts
+¦   ¦   ¦   +---engines-version
+¦   ¦   ¦   +---fetch-engine
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   +---node_modules
+¦   ¦   ¦   ¦       +---@prisma
+¦   ¦   ¦   ¦           +---get-platform
+¦   ¦   ¦   ¦               +---dist
+¦   ¦   ¦   ¦                   +---test-utils
+¦   ¦   ¦   +---get-platform
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   ¦   +---test-utils
+¦   ¦   ¦   ¦   +---node_modules
+¦   ¦   ¦   ¦       +---@prisma
+¦   ¦   ¦   ¦           +---debug
+¦   ¦   ¦   ¦               +---dist
+¦   ¦   ¦   +---query-plan-executor
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---streams-local
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   ¦   +---local
+¦   ¦   ¦   ¦   ¦   ¦   +---hash_vendor
+¦   ¦   ¦   ¦   ¦   +---touch
+¦   ¦   ¦   ¦   ¦   ¦   +---hash_vendor
+¦   ¦   ¦   ¦   ¦   +---types
+¦   ¦   ¦   ¦   ¦       +---local
+¦   ¦   ¦   ¦   +---node_modules
+¦   ¦   ¦   ¦       +---ajv
+¦   ¦   ¦   ¦       ¦   +---dist
+¦   ¦   ¦   ¦       ¦   ¦   +---compile
+¦   ¦   ¦   ¦       ¦   ¦   ¦   +---codegen
+¦   ¦   ¦   ¦       ¦   ¦   ¦   +---jtd
+¦   ¦   ¦   ¦       ¦   ¦   ¦   +---validate
+¦   ¦   ¦   ¦       ¦   ¦   +---refs
+¦   ¦   ¦   ¦       ¦   ¦   ¦   +---json-schema-2019-09
+¦   ¦   ¦   ¦       ¦   ¦   ¦   ¦   +---meta
+¦   ¦   ¦   ¦       ¦   ¦   ¦   +---json-schema-2020-12
+¦   ¦   ¦   ¦       ¦   ¦   ¦       +---meta
+¦   ¦   ¦   ¦       ¦   ¦   +---runtime
+¦   ¦   ¦   ¦       ¦   ¦   +---standalone
+¦   ¦   ¦   ¦       ¦   ¦   +---types
+¦   ¦   ¦   ¦       ¦   ¦   +---vocabularies
+¦   ¦   ¦   ¦       ¦   ¦       +---applicator
+¦   ¦   ¦   ¦       ¦   ¦       +---core
+¦   ¦   ¦   ¦       ¦   ¦       +---discriminator
+¦   ¦   ¦   ¦       ¦   ¦       +---dynamic
+¦   ¦   ¦   ¦       ¦   ¦       +---format
+¦   ¦   ¦   ¦       ¦   ¦       +---jtd
+¦   ¦   ¦   ¦       ¦   ¦       +---unevaluated
+¦   ¦   ¦   ¦       ¦   ¦       +---validation
+¦   ¦   ¦   ¦       ¦   +---lib
+¦   ¦   ¦   ¦       ¦       +---compile
+¦   ¦   ¦   ¦       ¦       ¦   +---codegen
+¦   ¦   ¦   ¦       ¦       ¦   +---jtd
+¦   ¦   ¦   ¦       ¦       ¦   +---validate
+¦   ¦   ¦   ¦       ¦       +---refs
+¦   ¦   ¦   ¦       ¦       ¦   +---json-schema-2019-09
+¦   ¦   ¦   ¦       ¦       ¦   ¦   +---meta
+¦   ¦   ¦   ¦       ¦       ¦   +---json-schema-2020-12
+¦   ¦   ¦   ¦       ¦       ¦       +---meta
+¦   ¦   ¦   ¦       ¦       +---runtime
+¦   ¦   ¦   ¦       ¦       +---standalone
+¦   ¦   ¦   ¦       ¦       +---types
+¦   ¦   ¦   ¦       ¦       +---vocabularies
+¦   ¦   ¦   ¦       ¦           +---applicator
+¦   ¦   ¦   ¦       ¦           +---core
+¦   ¦   ¦   ¦       ¦           +---discriminator
+¦   ¦   ¦   ¦       ¦           +---dynamic
+¦   ¦   ¦   ¦       ¦           +---format
+¦   ¦   ¦   ¦       ¦           +---jtd
+¦   ¦   ¦   ¦       ¦           +---unevaluated
+¦   ¦   ¦   ¦       ¦           +---validation
+¦   ¦   ¦   ¦       +---json-schema-traverse
+¦   ¦   ¦   ¦           +---.github
+¦   ¦   ¦   ¦           ¦   +---workflows
+¦   ¦   ¦   ¦           +---spec
+¦   ¦   ¦   ¦               +---fixtures
+¦   ¦   ¦   +---studio-core
+¦   ¦   ¦       +---dist
+¦   ¦   ¦           +---data
+¦   ¦   ¦           ¦   +---bff
+¦   ¦   ¦           ¦   +---mysql-core
+¦   ¦   ¦           ¦   +---mysql2
+¦   ¦   ¦           ¦   +---node-sqlite
+¦   ¦   ¦           ¦   +---pglite
+¦   ¦   ¦           ¦   +---postgres-core
+¦   ¦   ¦           ¦   +---postgresjs
+¦   ¦   ¦           ¦   +---sqlite-core
+¦   ¦   ¦           ¦   +---sqljs
+¦   ¦   ¦           +---ui
+¦   ¦   +---@radix-ui
+¦   ¦   ¦   +---primitive
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---react-compose-refs
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---react-primitive
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---react-slot
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---react-toggle
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---react-use-controllable-state
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---react-use-effect-event
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   +---src
+¦   ¦   ¦   +---react-use-layout-effect
+¦   ¦   ¦       +---dist
+¦   ¦   +---@rtsao
+¦   ¦   ¦   +---scc
+¦   ¦   +---@stablelib
+¦   ¦   ¦   +---base64
+¦   ¦   ¦       +---lib
+¦   ¦   +---@standard-schema
+¦   ¦   ¦   +---spec
+¦   ¦   ¦       +---dist
+¦   ¦   +---@supabase
+¦   ¦   ¦   +---auth-js
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   ¦   +---main
+¦   ¦   ¦   ¦   ¦   ¦   +---lib
+¦   ¦   ¦   ¦   ¦   ¦       +---web3
+¦   ¦   ¦   ¦   ¦   +---module
+¦   ¦   ¦   ¦   ¦       +---lib
+¦   ¦   ¦   ¦   ¦           +---web3
+¦   ¦   ¦   ¦   +---src
+¦   ¦   ¦   ¦       +---lib
+¦   ¦   ¦   ¦           +---web3
+¦   ¦   ¦   +---functions-js
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   ¦   +---main
+¦   ¦   ¦   ¦   ¦   +---module
+¦   ¦   ¦   ¦   +---src
+¦   ¦   ¦   +---phoenix
+¦   ¦   ¦   ¦   +---assets
+¦   ¦   ¦   ¦   ¦   +---js
+¦   ¦   ¦   ¦   ¦       +---phoenix
+¦   ¦   ¦   ¦   +---priv
+¦   ¦   ¦   ¦       +---static
+¦   ¦   ¦   ¦           +---types
+¦   ¦   ¦   +---postgrest-js
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   +---src
+¦   ¦   ¦   ¦       +---select-query-parser
+¦   ¦   ¦   ¦       +---types
+¦   ¦   ¦   ¦           +---common
+¦   ¦   ¦   +---realtime-js
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   ¦   +---main
+¦   ¦   ¦   ¦   ¦   ¦   +---lib
+¦   ¦   ¦   ¦   ¦   ¦   +---phoenix
+¦   ¦   ¦   ¦   ¦   +---module
+¦   ¦   ¦   ¦   ¦       +---lib
+¦   ¦   ¦   ¦   ¦       +---phoenix
+¦   ¦   ¦   ¦   +---src
+¦   ¦   ¦   ¦       +---lib
+¦   ¦   ¦   ¦       +---phoenix
+¦   ¦   ¦   +---storage-js
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   ¦   +---umd
+¦   ¦   ¦   ¦   +---src
+¦   ¦   ¦   ¦       +---lib
+¦   ¦   ¦   ¦       ¦   +---common
+¦   ¦   ¦   ¦       +---packages
+¦   ¦   ¦   +---supabase-js
+¦   ¦   ¦       +---dist
+¦   ¦   ¦       ¦   +---umd
+¦   ¦   ¦       +---src
+¦   ¦   ¦           +---lib
+¦   ¦   ¦               +---rest
+¦   ¦   ¦                   +---types
+¦   ¦   ¦                       +---common
+¦   ¦   +---@swc
+¦   ¦   ¦   +---helpers
+¦   ¦   ¦       +---cjs
+¦   ¦   ¦       +---esm
+¦   ¦   ¦       +---scripts
+¦   ¦   ¦       +---src
+¦   ¦   ¦       +---_
+¦   ¦   ¦           +---index
+¦   ¦   ¦           +---_apply_decorated_descriptor
+¦   ¦   ¦           +---_apply_decs_2203_r
+¦   ¦   ¦           +---_array_like_to_array
+¦   ¦   ¦           +---_array_without_holes
+¦   ¦   ¦           +---_array_with_holes
+¦   ¦   ¦           +---_assert_this_initialized
+¦   ¦   ¦           +---_async_generator
+¦   ¦   ¦           +---_async_generator_delegate
+¦   ¦   ¦           +---_async_iterator
+¦   ¦   ¦           +---_async_to_generator
+¦   ¦   ¦           +---_await_async_generator
+¦   ¦   ¦           +---_await_value
+¦   ¦   ¦           +---_call_super
+¦   ¦   ¦           +---_check_private_redeclaration
+¦   ¦   ¦           +---_class_apply_descriptor_destructure
+¦   ¦   ¦           +---_class_apply_descriptor_get
+¦   ¦   ¦           +---_class_apply_descriptor_set
+¦   ¦   ¦           +---_class_apply_descriptor_update
+¦   ¦   ¦           +---_class_call_check
+¦   ¦   ¦           +---_class_check_private_static_access
+¦   ¦   ¦           +---_class_check_private_static_field_descriptor
+¦   ¦   ¦           +---_class_extract_field_descriptor
+¦   ¦   ¦           +---_class_name_tdz_error
+¦   ¦   ¦           +---_class_private_field_destructure
+¦   ¦   ¦           +---_class_private_field_get
+¦   ¦   ¦           +---_class_private_field_init
+¦   ¦   ¦           +---_class_private_field_loose_base
+¦   ¦   ¦           +---_class_private_field_loose_key
+¦   ¦   ¦           +---_class_private_field_set
+¦   ¦   ¦           +---_class_private_field_update
+¦   ¦   ¦           +---_class_private_method_get
+¦   ¦   ¦           +---_class_private_method_init
+¦   ¦   ¦           +---_class_private_method_set
+¦   ¦   ¦           +---_class_static_private_field_destructure
+¦   ¦   ¦           +---_class_static_private_field_spec_get
+¦   ¦   ¦           +---_class_static_private_field_spec_set
+¦   ¦   ¦           +---_class_static_private_field_update
+¦   ¦   ¦           +---_class_static_private_method_get
+¦   ¦   ¦           +---_construct
+¦   ¦   ¦           +---_create_class
+¦   ¦   ¦           +---_create_for_of_iterator_helper_loose
+¦   ¦   ¦           +---_create_super
+¦   ¦   ¦           +---_decorate
+¦   ¦   ¦           +---_defaults
+¦   ¦   ¦           +---_define_enumerable_properties
+¦   ¦   ¦           +---_define_property
+¦   ¦   ¦           +---_dispose
+¦   ¦   ¦           +---_export_star
+¦   ¦   ¦           +---_extends
+¦   ¦   ¦           +---_get
+¦   ¦   ¦           +---_get_prototype_of
+¦   ¦   ¦           +---_identity
+¦   ¦   ¦           +---_inherits
+¦   ¦   ¦           +---_inherits_loose
+¦   ¦   ¦           +---_initializer_define_property
+¦   ¦   ¦           +---_initializer_warning_helper
+¦   ¦   ¦           +---_instanceof
+¦   ¦   ¦           +---_interop_require_default
+¦   ¦   ¦           +---_interop_require_wildcard
+¦   ¦   ¦           +---_is_native_function
+¦   ¦   ¦           +---_is_native_reflect_construct
+¦   ¦   ¦           +---_iterable_to_array
+¦   ¦   ¦           +---_iterable_to_array_limit
+¦   ¦   ¦           +---_iterable_to_array_limit_loose
+¦   ¦   ¦           +---_jsx
+¦   ¦   ¦           +---_new_arrow_check
+¦   ¦   ¦           +---_non_iterable_rest
+¦   ¦   ¦           +---_non_iterable_spread
+¦   ¦   ¦           +---_object_destructuring_empty
+¦   ¦   ¦           +---_object_spread
+¦   ¦   ¦           +---_object_spread_props
+¦   ¦   ¦           +---_object_without_properties
+¦   ¦   ¦           +---_object_without_properties_loose
+¦   ¦   ¦           +---_possible_constructor_return
+¦   ¦   ¦           +---_read_only_error
+¦   ¦   ¦           +---_set
+¦   ¦   ¦           +---_set_prototype_of
+¦   ¦   ¦           +---_skip_first_generator_next
+¦   ¦   ¦           +---_sliced_to_array
+¦   ¦   ¦           +---_sliced_to_array_loose
+¦   ¦   ¦           +---_super_prop_base
+¦   ¦   ¦           +---_tagged_template_literal
+¦   ¦   ¦           +---_tagged_template_literal_loose
+¦   ¦   ¦           +---_throw
+¦   ¦   ¦           +---_to_array
+¦   ¦   ¦           +---_to_consumable_array
+¦   ¦   ¦           +---_to_primitive
+¦   ¦   ¦           +---_to_property_key
+¦   ¦   ¦           +---_ts_add_disposable_resource
+¦   ¦   ¦           +---_ts_decorate
+¦   ¦   ¦           +---_ts_dispose_resources
+¦   ¦   ¦           +---_ts_generator
+¦   ¦   ¦           +---_ts_metadata
+¦   ¦   ¦           +---_ts_param
+¦   ¦   ¦           +---_ts_values
+¦   ¦   ¦           +---_type_of
+¦   ¦   ¦           +---_unsupported_iterable_to_array
+¦   ¦   ¦           +---_update
+¦   ¦   ¦           +---_using
+¦   ¦   ¦           +---_using_ctx
+¦   ¦   ¦           +---_wrap_async_generator
+¦   ¦   ¦           +---_wrap_native_super
+¦   ¦   ¦           +---_write_only_error
+¦   ¦   +---@tailwindcss
+¦   ¦   ¦   +---node
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---oxide
+¦   ¦   ¦   +---oxide-win32-x64-msvc
+¦   ¦   ¦   +---postcss
+¦   ¦   ¦       +---dist
+¦   ¦   +---@tanstack
+¦   ¦   ¦   +---query-core
+¦   ¦   ¦       +---build
+¦   ¦   ¦       ¦   +---legacy
+¦   ¦   ¦       ¦   +---modern
+¦   ¦   ¦       +---src
+¦   ¦   +---@tybys
+¦   ¦   ¦   +---wasm-util
+¦   ¦   ¦       +---dist
+¦   ¦   ¦       +---lib
+¦   ¦   ¦           +---cjs
+¦   ¦   ¦           ¦   +---wasi
+¦   ¦   ¦           +---mjs
+¦   ¦   ¦               +---wasi
+¦   ¦   +---@types
+¦   ¦   ¦   +---estree
+¦   ¦   ¦   +---json-schema
+¦   ¦   ¦   +---json5
+¦   ¦   ¦   +---node
+¦   ¦   ¦   ¦   +---assert
+¦   ¦   ¦   ¦   +---compatibility
+¦   ¦   ¦   ¦   +---dns
+¦   ¦   ¦   ¦   +---fs
+¦   ¦   ¦   ¦   +---readline
+¦   ¦   ¦   ¦   +---stream
+¦   ¦   ¦   ¦   +---timers
+¦   ¦   ¦   ¦   +---ts5.6
+¦   ¦   ¦   ¦   +---web-globals
+¦   ¦   ¦   +---react
+¦   ¦   ¦   ¦   +---ts5.0
+¦   ¦   ¦   +---react-dom
+¦   ¦   ¦       +---test-utils
+¦   ¦   +---@typescript-eslint
+¦   ¦   ¦   +---eslint-plugin
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   ¦   +---configs
+¦   ¦   ¦   ¦   ¦   ¦   +---eslintrc
+¦   ¦   ¦   ¦   ¦   ¦   +---flat
+¦   ¦   ¦   ¦   ¦   +---rules
+¦   ¦   ¦   ¦   ¦   ¦   +---enum-utils
+¦   ¦   ¦   ¦   ¦   ¦   +---naming-convention-utils
+¦   ¦   ¦   ¦   ¦   ¦   +---prefer-optional-chain-utils
+¦   ¦   ¦   ¦   ¦   +---util
+¦   ¦   ¦   ¦   ¦       +---class-scope-analyzer
+¦   ¦   ¦   ¦   +---node_modules
+¦   ¦   ¦   ¦       +---ignore
+¦   ¦   ¦   +---parser
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---project-service
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---scope-manager
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦       +---definition
+¦   ¦   ¦   ¦       +---lib
+¦   ¦   ¦   ¦       +---referencer
+¦   ¦   ¦   ¦       +---scope
+¦   ¦   ¦   ¦       +---variable
+¦   ¦   ¦   +---tsconfig-utils
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---type-utils
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦       +---typeOrValueSpecifiers
+¦   ¦   ¦   +---types
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦       +---generated
+¦   ¦   ¦   +---typescript-estree
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   ¦   +---create-program
+¦   ¦   ¦   ¦   ¦   +---jsx
+¦   ¦   ¦   ¦   ¦   +---parseSettings
+¦   ¦   ¦   ¦   ¦   +---ts-estree
+¦   ¦   ¦   ¦   +---node_modules
+¦   ¦   ¦   ¦       +---.bin
+¦   ¦   ¦   ¦       +---balanced-match
+¦   ¦   ¦   ¦       ¦   +---dist
+¦   ¦   ¦   ¦       ¦       +---commonjs
+¦   ¦   ¦   ¦       ¦       +---esm
+¦   ¦   ¦   ¦       +---brace-expansion
+¦   ¦   ¦   ¦       ¦   +---dist
+¦   ¦   ¦   ¦       ¦       +---commonjs
+¦   ¦   ¦   ¦       ¦       +---esm
+¦   ¦   ¦   ¦       +---minimatch
+¦   ¦   ¦   ¦       ¦   +---dist
+¦   ¦   ¦   ¦       ¦       +---commonjs
+¦   ¦   ¦   ¦       ¦       +---esm
+¦   ¦   ¦   ¦       +---semver
+¦   ¦   ¦   ¦           +---bin
+¦   ¦   ¦   ¦           +---classes
+¦   ¦   ¦   ¦           +---functions
+¦   ¦   ¦   ¦           +---internal
+¦   ¦   ¦   ¦           +---ranges
+¦   ¦   ¦   +---utils
+¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦       +---ast-utils
+¦   ¦   ¦   ¦       ¦   +---eslint-utils
+¦   ¦   ¦   ¦       +---eslint-utils
+¦   ¦   ¦   ¦       +---ts-eslint
+¦   ¦   ¦   ¦       ¦   +---eslint
+¦   ¦   ¦   ¦       +---ts-utils
+¦   ¦   ¦   +---visitor-keys
+¦   ¦   ¦       +---dist
+¦   ¦   ¦       +---node_modules
+¦   ¦   ¦           +---eslint-visitor-keys
+¦   ¦   ¦               +---dist
+¦   ¦   ¦               +---lib
+¦   ¦   +---@unrs
+¦   ¦   ¦   +---resolver-binding-win32-x64-msvc
+¦   ¦   +---acorn
+¦   ¦   ¦   +---bin
+¦   ¦   ¦   +---dist
+¦   ¦   +---acorn-jsx
+¦   ¦   +---ajv
+¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---lib
+¦   ¦   ¦   ¦   +---compile
+¦   ¦   ¦   ¦   +---dot
+¦   ¦   ¦   ¦   +---dotjs
+¦   ¦   ¦   ¦   +---refs
+¦   ¦   ¦   +---scripts
+¦   ¦   +---ansi-styles
+¦   ¦   +---argparse
+¦   ¦   ¦   +---lib
+¦   ¦   +---aria-query
+¦   ¦   ¦   +---lib
+¦   ¦   ¦       +---etc
+¦   ¦   ¦       ¦   +---roles
+¦   ¦   ¦       ¦       +---abstract
+¦   ¦   ¦       ¦       +---dpub
+¦   ¦   ¦       ¦       +---graphics
+¦   ¦   ¦       ¦       +---literal
+¦   ¦   ¦       +---util
+¦   ¦   +---array-buffer-byte-length
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---array-includes
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---array.prototype.findlast
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---array.prototype.findlastindex
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---array.prototype.flat
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---array.prototype.flatmap
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---array.prototype.tosorted
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---arraybuffer.prototype.slice
+¦   ¦   ¦   +---test
+¦   ¦   +---ast-types-flow
+¦   ¦   ¦   +---lib
+¦   ¦   +---async-function
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---available-typed-arrays
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---aws-ssl-profiles
+¦   ¦   ¦   +---lib
+¦   ¦   ¦       +---@types
+¦   ¦   ¦       +---profiles
+¦   ¦   ¦           +---ca
+¦   ¦   +---axe-core
+¦   ¦   ¦   +---locales
+¦   ¦   +---axobject-query
+¦   ¦   ¦   +---lib
+¦   ¦   ¦       +---etc
+¦   ¦   ¦       ¦   +---objects
+¦   ¦   ¦       +---util
+¦   ¦   +---balanced-match
+¦   ¦   ¦   +---.github
+¦   ¦   +---baseline-browser-mapping
+¦   ¦   ¦   +---dist
+¦   ¦   +---better-result
+¦   ¦   ¦   +---dist
+¦   ¦   +---brace-expansion
+¦   ¦   +---braces
+¦   ¦   ¦   +---lib
+¦   ¦   +---browserslist
+¦   ¦   +---c12
+¦   ¦   ¦   +---dist
+¦   ¦   +---call-bind
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---call-bind-apply-helpers
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---call-bound
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---callsites
+¦   ¦   +---caniuse-lite
+¦   ¦   ¦   +---data
+¦   ¦   ¦   ¦   +---features
+¦   ¦   ¦   ¦   +---regions
+¦   ¦   ¦   +---dist
+¦   ¦   ¦       +---lib
+¦   ¦   ¦       +---unpacker
+¦   ¦   +---chalk
+¦   ¦   ¦   +---source
+¦   ¦   +---chart.js
+¦   ¦   ¦   +---auto
+¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   +---chunks
+¦   ¦   ¦   ¦   +---controllers
+¦   ¦   ¦   ¦   +---core
+¦   ¦   ¦   ¦   +---elements
+¦   ¦   ¦   ¦   +---helpers
+¦   ¦   ¦   ¦   +---platform
+¦   ¦   ¦   ¦   +---plugins
+¦   ¦   ¦   ¦   ¦   +---plugin.filler
+¦   ¦   ¦   ¦   +---scales
+¦   ¦   ¦   ¦   +---types
+¦   ¦   ¦   +---helpers
+¦   ¦   +---chokidar
+¦   ¦   +---client-only
+¦   ¦   +---clsx
+¦   ¦   ¦   +---dist
+¦   ¦   +---color-convert
+¦   ¦   +---color-name
+¦   ¦   +---concat-map
+¦   ¦   ¦   +---example
+¦   ¦   ¦   +---test
+¦   ¦   +---confbox
+¦   ¦   ¦   +---dist
+¦   ¦   ¦       +---_chunks
+¦   ¦   ¦           +---libs
+¦   ¦   +---convert-source-map
+¦   ¦   +---cross-spawn
+¦   ¦   ¦   +---lib
+¦   ¦   ¦       +---util
+¦   ¦   +---csstype
+¦   ¦   +---damerau-levenshtein
+¦   ¦   ¦   +---scripts
+¦   ¦   ¦   +---test
+¦   ¦   +---data-view-buffer
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---data-view-byte-length
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---data-view-byte-offset
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---debug
+¦   ¦   ¦   +---src
+¦   ¦   +---deep-is
+¦   ¦   ¦   +---example
+¦   ¦   ¦   +---test
+¦   ¦   +---deepmerge-ts
+¦   ¦   ¦   +---dist
+¦   ¦   +---define-data-property
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---define-properties
+¦   ¦   ¦   +---.github
+¦   ¦   +---defu
+¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---lib
+¦   ¦   +---denque
+¦   ¦   +---dequal
+¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---lite
+¦   ¦   +---destr
+¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---lib
+¦   ¦   +---detect-libc
+¦   ¦   ¦   +---lib
+¦   ¦   +---doctrine
+¦   ¦   ¦   +---lib
+¦   ¦   +---dotenv
+¦   ¦   ¦   +---lib
+¦   ¦   ¦   +---skills
+¦   ¦   ¦       +---dotenv
+¦   ¦   ¦       +---dotenvx
+¦   ¦   +---dunder-proto
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---effect
+¦   ¦   ¦   +---.index
+¦   ¦   ¦   +---Arbitrary
+¦   ¦   ¦   +---Array
+¦   ¦   ¦   +---BigDecimal
+¦   ¦   ¦   +---BigInt
+¦   ¦   ¦   +---Boolean
+¦   ¦   ¦   +---Brand
+¦   ¦   ¦   +---Cache
+¦   ¦   ¦   +---Cause
+¦   ¦   ¦   +---Channel
+¦   ¦   ¦   +---ChildExecutorDecision
+¦   ¦   ¦   +---Chunk
+¦   ¦   ¦   +---Clock
+¦   ¦   ¦   +---Config
+¦   ¦   ¦   +---ConfigError
+¦   ¦   ¦   +---ConfigProvider
+¦   ¦   ¦   +---ConfigProviderPathPatch
+¦   ¦   ¦   +---Console
+¦   ¦   ¦   +---Context
+¦   ¦   ¦   +---Cron
+¦   ¦   ¦   +---Data
+¦   ¦   ¦   +---DateTime
+¦   ¦   ¦   +---DefaultServices
+¦   ¦   ¦   +---Deferred
+¦   ¦   ¦   +---Differ
+¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   +---cjs
+¦   ¦   ¦   ¦   ¦   +---internal
+¦   ¦   ¦   ¦   ¦       +---channel
+¦   ¦   ¦   ¦   ¦       +---configProvider
+¦   ¦   ¦   ¦   ¦       +---defaultServices
+¦   ¦   ¦   ¦   ¦       +---differ
+¦   ¦   ¦   ¦   ¦       +---effect
+¦   ¦   ¦   ¦   ¦       +---encoding
+¦   ¦   ¦   ¦   ¦       +---fiberRefs
+¦   ¦   ¦   ¦   ¦       +---hashMap
+¦   ¦   ¦   ¦   ¦       +---layer
+¦   ¦   ¦   ¦   ¦       +---managedRuntime
+¦   ¦   ¦   ¦   ¦       +---metric
+¦   ¦   ¦   ¦   ¦       +---opCodes
+¦   ¦   ¦   ¦   ¦       +---redBlackTree
+¦   ¦   ¦   ¦   ¦       +---schedule
+¦   ¦   ¦   ¦   ¦       +---schema
+¦   ¦   ¦   ¦   ¦       +---stm
+¦   ¦   ¦   ¦   ¦       ¦   +---opCodes
+¦   ¦   ¦   ¦   ¦       +---stream
+¦   ¦   ¦   ¦   ¦       +---supervisor
+¦   ¦   ¦   ¦   ¦       +---testing
+¦   ¦   ¦   ¦   +---dts
+¦   ¦   ¦   ¦   ¦   +---internal
+¦   ¦   ¦   ¦   ¦       +---channel
+¦   ¦   ¦   ¦   ¦       +---configProvider
+¦   ¦   ¦   ¦   ¦       +---defaultServices
+¦   ¦   ¦   ¦   ¦       +---differ
+¦   ¦   ¦   ¦   ¦       +---effect
+¦   ¦   ¦   ¦   ¦       +---encoding
+¦   ¦   ¦   ¦   ¦       +---fiberRefs
+¦   ¦   ¦   ¦   ¦       +---hashMap
+¦   ¦   ¦   ¦   ¦       +---layer
+¦   ¦   ¦   ¦   ¦       +---managedRuntime
+¦   ¦   ¦   ¦   ¦       +---metric
+¦   ¦   ¦   ¦   ¦       +---opCodes
+¦   ¦   ¦   ¦   ¦       +---redBlackTree
+¦   ¦   ¦   ¦   ¦       +---schedule
+¦   ¦   ¦   ¦   ¦       +---schema
+¦   ¦   ¦   ¦   ¦       +---stm
+¦   ¦   ¦   ¦   ¦       ¦   +---opCodes
+¦   ¦   ¦   ¦   ¦       +---stream
+¦   ¦   ¦   ¦   ¦       +---supervisor
+¦   ¦   ¦   ¦   ¦       +---testing
+¦   ¦   ¦   ¦   +---esm
+¦   ¦   ¦   ¦       +---internal
+¦   ¦   ¦   ¦           +---channel
+¦   ¦   ¦   ¦           +---configProvider
+¦   ¦   ¦   ¦           +---defaultServices
+¦   ¦   ¦   ¦           +---differ
+¦   ¦   ¦   ¦           +---effect
+¦   ¦   ¦   ¦           +---encoding
+¦   ¦   ¦   ¦           +---fiberRefs
+¦   ¦   ¦   ¦           +---hashMap
+¦   ¦   ¦   ¦           +---layer
+¦   ¦   ¦   ¦           +---managedRuntime
+¦   ¦   ¦   ¦           +---metric
+¦   ¦   ¦   ¦           +---opCodes
+¦   ¦   ¦   ¦           +---redBlackTree
+¦   ¦   ¦   ¦           +---schedule
+¦   ¦   ¦   ¦           +---schema
+¦   ¦   ¦   ¦           +---stm
+¦   ¦   ¦   ¦           ¦   +---opCodes
+¦   ¦   ¦   ¦           +---stream
+¦   ¦   ¦   ¦           +---supervisor
+¦   ¦   ¦   ¦           +---testing
+¦   ¦   ¦   +---Duration
+¦   ¦   ¦   +---Effect
+¦   ¦   ¦   +---Effectable
+¦   ¦   ¦   +---Either
+¦   ¦   ¦   +---Encoding
+¦   ¦   ¦   +---Equal
+¦   ¦   ¦   +---Equivalence
+¦   ¦   ¦   +---ExecutionPlan
+¦   ¦   ¦   +---ExecutionStrategy
+¦   ¦   ¦   +---Exit
+¦   ¦   ¦   +---FastCheck
+¦   ¦   ¦   +---Fiber
+¦   ¦   ¦   +---FiberHandle
+¦   ¦   ¦   +---FiberId
+¦   ¦   ¦   +---FiberMap
+¦   ¦   ¦   +---FiberRef
+¦   ¦   ¦   +---FiberRefs
+¦   ¦   ¦   +---FiberRefsPatch
+¦   ¦   ¦   +---FiberSet
+¦   ¦   ¦   +---FiberStatus
+¦   ¦   ¦   +---Function
+¦   ¦   ¦   +---GlobalValue
+¦   ¦   ¦   +---Graph
+¦   ¦   ¦   +---GroupBy
+¦   ¦   ¦   +---Hash
+¦   ¦   ¦   +---HashMap
+¦   ¦   ¦   +---HashRing
+¦   ¦   ¦   +---HashSet
+¦   ¦   ¦   +---HKT
+¦   ¦   ¦   +---index
+¦   ¦   ¦   +---Inspectable
+¦   ¦   ¦   +---Iterable
+¦   ¦   ¦   +---JSONSchema
+¦   ¦   ¦   +---KeyedPool
+¦   ¦   ¦   +---Layer
+¦   ¦   ¦   +---LayerMap
+¦   ¦   ¦   +---List
+¦   ¦   ¦   +---Logger
+¦   ¦   ¦   +---LogLevel
+¦   ¦   ¦   +---LogSpan
+¦   ¦   ¦   +---Mailbox
+¦   ¦   ¦   +---ManagedRuntime
+¦   ¦   ¦   +---Match
+¦   ¦   ¦   +---MergeDecision
+¦   ¦   ¦   +---MergeState
+¦   ¦   ¦   +---MergeStrategy
+¦   ¦   ¦   +---Metric
+¦   ¦   ¦   +---MetricBoundaries
+¦   ¦   ¦   +---MetricHook
+¦   ¦   ¦   +---MetricKey
+¦   ¦   ¦   +---MetricKeyType
+¦   ¦   ¦   +---MetricLabel
+¦   ¦   ¦   +---MetricPair
+¦   ¦   ¦   +---MetricPolling
+¦   ¦   ¦   +---MetricRegistry
+¦   ¦   ¦   +---MetricState
+¦   ¦   ¦   +---Micro
+¦   ¦   ¦   +---ModuleVersion
+¦   ¦   ¦   +---MutableHashMap
+¦   ¦   ¦   +---MutableHashSet
+¦   ¦   ¦   +---MutableList
+¦   ¦   ¦   +---MutableQueue
+¦   ¦   ¦   +---MutableRef
+¦   ¦   ¦   +---NonEmptyIterable
+¦   ¦   ¦   +---Number
+¦   ¦   ¦   +---Option
+¦   ¦   ¦   +---Order
+¦   ¦   ¦   +---Ordering
+¦   ¦   ¦   +---ParseResult
+¦   ¦   ¦   +---PartitionedSemaphore
+¦   ¦   ¦   +---Pipeable
+¦   ¦   ¦   +---Pool
+¦   ¦   ¦   +---Predicate
+¦   ¦   ¦   +---Pretty
+¦   ¦   ¦   +---PrimaryKey
+¦   ¦   ¦   +---PubSub
+¦   ¦   ¦   +---Queue
+¦   ¦   ¦   +---Random
+¦   ¦   ¦   +---RateLimiter
+¦   ¦   ¦   +---RcMap
+¦   ¦   ¦   +---RcRef
+¦   ¦   ¦   +---Readable
+¦   ¦   ¦   +---Record
+¦   ¦   ¦   +---Redacted
+¦   ¦   ¦   +---RedBlackTree
+¦   ¦   ¦   +---Ref
+¦   ¦   ¦   +---RegExp
+¦   ¦   ¦   +---Reloadable
+¦   ¦   ¦   +---Request
+¦   ¦   ¦   +---RequestBlock
+¦   ¦   ¦   +---RequestResolver
+¦   ¦   ¦   +---Resource
+¦   ¦   ¦   +---Runtime
+¦   ¦   ¦   +---RuntimeFlags
+¦   ¦   ¦   +---RuntimeFlagsPatch
+¦   ¦   ¦   +---Schedule
+¦   ¦   ¦   +---ScheduleDecision
+¦   ¦   ¦   +---ScheduleInterval
+¦   ¦   ¦   +---ScheduleIntervals
+¦   ¦   ¦   +---Scheduler
+¦   ¦   ¦   +---Schema
+¦   ¦   ¦   +---SchemaAST
+¦   ¦   ¦   +---Scope
+¦   ¦   ¦   +---ScopedCache
+¦   ¦   ¦   +---ScopedRef
+¦   ¦   ¦   +---Secret
+¦   ¦   ¦   +---SingleProducerAsyncInput
+¦   ¦   ¦   +---Sink
+¦   ¦   ¦   +---SortedMap
+¦   ¦   ¦   +---SortedSet
+¦   ¦   ¦   +---src
+¦   ¦   ¦   ¦   +---internal
+¦   ¦   ¦   ¦       +---channel
+¦   ¦   ¦   ¦       +---configProvider
+¦   ¦   ¦   ¦       +---defaultServices
+¦   ¦   ¦   ¦       +---differ
+¦   ¦   ¦   ¦       +---effect
+¦   ¦   ¦   ¦       +---encoding
+¦   ¦   ¦   ¦       +---fiberRefs
+¦   ¦   ¦   ¦       +---hashMap
+¦   ¦   ¦   ¦       +---layer
+¦   ¦   ¦   ¦       +---managedRuntime
+¦   ¦   ¦   ¦       +---metric
+¦   ¦   ¦   ¦       +---opCodes
+¦   ¦   ¦   ¦       +---redBlackTree
+¦   ¦   ¦   ¦       +---schedule
+¦   ¦   ¦   ¦       +---schema
+¦   ¦   ¦   ¦       +---stm
+¦   ¦   ¦   ¦       ¦   +---opCodes
+¦   ¦   ¦   ¦       +---stream
+¦   ¦   ¦   ¦       +---supervisor
+¦   ¦   ¦   ¦       +---testing
+¦   ¦   ¦   +---STM
+¦   ¦   ¦   +---Stream
+¦   ¦   ¦   +---Streamable
+¦   ¦   ¦   +---StreamEmit
+¦   ¦   ¦   +---StreamHaltStrategy
+¦   ¦   ¦   +---String
+¦   ¦   ¦   +---Struct
+¦   ¦   ¦   +---Subscribable
+¦   ¦   ¦   +---SubscriptionRef
+¦   ¦   ¦   +---Supervisor
+¦   ¦   ¦   +---Symbol
+¦   ¦   ¦   +---SynchronizedRef
+¦   ¦   ¦   +---Take
+¦   ¦   ¦   +---TArray
+¦   ¦   ¦   +---TDeferred
+¦   ¦   ¦   +---TestAnnotation
+¦   ¦   ¦   +---TestAnnotationMap
+¦   ¦   ¦   +---TestAnnotations
+¦   ¦   ¦   +---TestClock
+¦   ¦   ¦   +---TestConfig
+¦   ¦   ¦   +---TestContext
+¦   ¦   ¦   +---TestLive
+¦   ¦   ¦   +---TestServices
+¦   ¦   ¦   +---TestSized
+¦   ¦   ¦   +---TMap
+¦   ¦   ¦   +---TPriorityQueue
+¦   ¦   ¦   +---TPubSub
+¦   ¦   ¦   +---TQueue
+¦   ¦   ¦   +---Tracer
+¦   ¦   ¦   +---TRandom
+¦   ¦   ¦   +---TReentrantLock
+¦   ¦   ¦   +---TRef
+¦   ¦   ¦   +---Trie
+¦   ¦   ¦   +---TSemaphore
+¦   ¦   ¦   +---TSet
+¦   ¦   ¦   +---TSubscriptionRef
+¦   ¦   ¦   +---Tuple
+¦   ¦   ¦   +---Types
+¦   ¦   ¦   +---Unify
+¦   ¦   ¦   +---UpstreamPullRequest
+¦   ¦   ¦   +---UpstreamPullStrategy
+¦   ¦   ¦   +---Utils
+¦   ¦   +---electron-to-chromium
+¦   ¦   +---emoji-regex
+¦   ¦   ¦   +---es2015
+¦   ¦   +---empathic
+¦   ¦   +---enhanced-resolve
+¦   ¦   ¦   +---lib
+¦   ¦   ¦       +---util
+¦   ¦   +---env-paths
+¦   ¦   +---es-abstract
+¦   ¦   ¦   +---2015
+¦   ¦   ¦   ¦   +---tables
+¦   ¦   ¦   +---2016
+¦   ¦   ¦   ¦   +---tables
+¦   ¦   ¦   +---2017
+¦   ¦   ¦   ¦   +---tables
+¦   ¦   ¦   +---2018
+¦   ¦   ¦   ¦   +---tables
+¦   ¦   ¦   +---2019
+¦   ¦   ¦   ¦   +---tables
+¦   ¦   ¦   +---2020
+¦   ¦   ¦   ¦   +---BigInt
+¦   ¦   ¦   ¦   +---Number
+¦   ¦   ¦   ¦   +---tables
+¦   ¦   ¦   +---2021
+¦   ¦   ¦   ¦   +---BigInt
+¦   ¦   ¦   ¦   +---Number
+¦   ¦   ¦   ¦   +---tables
+¦   ¦   ¦   +---2022
+¦   ¦   ¦   ¦   +---BigInt
+¦   ¦   ¦   ¦   +---Number
+¦   ¦   ¦   ¦   +---tables
+¦   ¦   ¦   +---2023
+¦   ¦   ¦   ¦   +---BigInt
+¦   ¦   ¦   ¦   +---Number
+¦   ¦   ¦   ¦   +---tables
+¦   ¦   ¦   +---2024
+¦   ¦   ¦   ¦   +---BigInt
+¦   ¦   ¦   ¦   +---Number
+¦   ¦   ¦   ¦   +---tables
+¦   ¦   ¦   +---2025
+¦   ¦   ¦   ¦   +---BigInt
+¦   ¦   ¦   ¦   +---Number
+¦   ¦   ¦   ¦   +---tables
+¦   ¦   ¦   +---5
+¦   ¦   ¦   +---helpers
+¦   ¦   ¦   ¦   +---records
+¦   ¦   ¦   +---operations
+¦   ¦   +---es-define-property
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---es-errors
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---es-iterator-helpers
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---aos
+¦   ¦   ¦   +---Iterator
+¦   ¦   ¦   +---Iterator.concat
+¦   ¦   ¦   +---Iterator.from
+¦   ¦   ¦   +---Iterator.prototype
+¦   ¦   ¦   +---Iterator.prototype.constructor
+¦   ¦   ¦   +---Iterator.prototype.drop
+¦   ¦   ¦   +---Iterator.prototype.every
+¦   ¦   ¦   +---Iterator.prototype.filter
+¦   ¦   ¦   +---Iterator.prototype.find
+¦   ¦   ¦   +---Iterator.prototype.flatMap
+¦   ¦   ¦   +---Iterator.prototype.forEach
+¦   ¦   ¦   +---Iterator.prototype.includes
+¦   ¦   ¦   +---Iterator.prototype.map
+¦   ¦   ¦   +---Iterator.prototype.reduce
+¦   ¦   ¦   +---Iterator.prototype.some
+¦   ¦   ¦   +---Iterator.prototype.take
+¦   ¦   ¦   +---Iterator.prototype.toArray
+¦   ¦   ¦   +---Iterator.zip
+¦   ¦   ¦   +---Iterator.zipKeyed
+¦   ¦   ¦   +---IteratorHelperPrototype
+¦   ¦   ¦   +---test
+¦   ¦   ¦   ¦   +---helpers
+¦   ¦   ¦   +---WrapForValidIteratorPrototype
+¦   ¦   +---es-object-atoms
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---es-set-tostringtag
+¦   ¦   ¦   +---test
+¦   ¦   +---es-shim-unscopables
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---es-to-primitive
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---helpers
+¦   ¦   ¦   +---test
+¦   ¦   +---escalade
+¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---sync
+¦   ¦   +---escape-string-regexp
+¦   ¦   +---eslint
+¦   ¦   ¦   +---bin
+¦   ¦   ¦   +---conf
+¦   ¦   ¦   +---lib
+¦   ¦   ¦   ¦   +---cli-engine
+¦   ¦   ¦   ¦   ¦   +---formatters
+¦   ¦   ¦   ¦   +---config
+¦   ¦   ¦   ¦   +---eslint
+¦   ¦   ¦   ¦   +---languages
+¦   ¦   ¦   ¦   ¦   +---js
+¦   ¦   ¦   ¦   ¦       +---source-code
+¦   ¦   ¦   ¦   ¦           +---token-store
+¦   ¦   ¦   ¦   +---linter
+¦   ¦   ¦   ¦   ¦   +---code-path-analysis
+¦   ¦   ¦   ¦   +---rule-tester
+¦   ¦   ¦   ¦   +---rules
+¦   ¦   ¦   ¦   ¦   +---utils
+¦   ¦   ¦   ¦   ¦       +---unicode
+¦   ¦   ¦   ¦   +---services
+¦   ¦   ¦   ¦   +---shared
+¦   ¦   ¦   ¦   +---types
+¦   ¦   ¦   +---messages
+¦   ¦   +---eslint-config-next
+¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---node_modules
+¦   ¦   ¦       +---globals
+¦   ¦   +---eslint-import-resolver-node
+¦   ¦   ¦   +---node_modules
+¦   ¦   ¦       +---debug
+¦   ¦   ¦           +---src
+¦   ¦   +---eslint-import-resolver-typescript
+¦   ¦   ¦   +---lib
+¦   ¦   +---eslint-module-utils
+¦   ¦   ¦   +---node_modules
+¦   ¦   ¦       +---debug
+¦   ¦   ¦           +---src
+¦   ¦   +---eslint-plugin-import
+¦   ¦   ¦   +---config
+¦   ¦   ¦   ¦   +---flat
+¦   ¦   ¦   +---docs
+¦   ¦   ¦   ¦   +---rules
+¦   ¦   ¦   +---lib
+¦   ¦   ¦   ¦   +---core
+¦   ¦   ¦   ¦   +---exportMap
+¦   ¦   ¦   ¦   +---rules
+¦   ¦   ¦   +---memo-parser
+¦   ¦   ¦   +---node_modules
+¦   ¦   ¦       +---debug
+¦   ¦   ¦           +---src
+¦   ¦   +---eslint-plugin-jsx-a11y
+¦   ¦   ¦   +---docs
+¦   ¦   ¦   ¦   +---rules
+¦   ¦   ¦   +---lib
+¦   ¦   ¦   ¦   +---configs
+¦   ¦   ¦   ¦   +---rules
+¦   ¦   ¦   ¦   +---util
+¦   ¦   ¦   ¦       +---implicitRoles
+¦   ¦   ¦   +---__mocks__
+¦   ¦   ¦   +---__tests__
+¦   ¦   ¦       +---src
+¦   ¦   ¦       ¦   +---rules
+¦   ¦   ¦       ¦   +---util
+¦   ¦   ¦       ¦       +---implicitRoles
+¦   ¦   ¦       +---__util__
+¦   ¦   ¦           +---helpers
+¦   ¦   +---eslint-plugin-react
+¦   ¦   ¦   +---configs
+¦   ¦   ¦   +---lib
+¦   ¦   ¦       +---rules
+¦   ¦   ¦       +---util
+¦   ¦   +---eslint-plugin-react-hooks
+¦   ¦   ¦   +---cjs
+¦   ¦   +---eslint-scope
+¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---lib
+¦   ¦   +---eslint-visitor-keys
+¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---lib
+¦   ¦   +---espree
+¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---lib
+¦   ¦   +---esquery
+¦   ¦   ¦   +---dist
+¦   ¦   +---esrecurse
+¦   ¦   +---estraverse
+¦   ¦   +---esutils
+¦   ¦   ¦   +---lib
+¦   ¦   +---exsolve
+¦   ¦   ¦   +---dist
+¦   ¦   +---fast-check
+¦   ¦   ¦   +---lib
+¦   ¦   ¦       +---arbitrary
+¦   ¦   ¦       ¦   +---_internals
+¦   ¦   ¦       ¦   ¦   +---builders
+¦   ¦   ¦       ¦   ¦   +---data
+¦   ¦   ¦       ¦   ¦   +---helpers
+¦   ¦   ¦       ¦   ¦   +---implementations
+¦   ¦   ¦       ¦   ¦   +---interfaces
+¦   ¦   ¦       ¦   ¦   +---mappers
+¦   ¦   ¦       ¦   +---_shared
+¦   ¦   ¦       +---check
+¦   ¦   ¦       ¦   +---arbitrary
+¦   ¦   ¦       ¦   ¦   +---definition
+¦   ¦   ¦       ¦   +---model
+¦   ¦   ¦       ¦   ¦   +---command
+¦   ¦   ¦       ¦   ¦   +---commands
+¦   ¦   ¦       ¦   +---precondition
+¦   ¦   ¦       ¦   +---property
+¦   ¦   ¦       ¦   +---runner
+¦   ¦   ¦       ¦       +---configuration
+¦   ¦   ¦       ¦       +---reporter
+¦   ¦   ¦       ¦       +---utils
+¦   ¦   ¦       +---esm
+¦   ¦   ¦       ¦   +---arbitrary
+¦   ¦   ¦       ¦   ¦   +---_internals
+¦   ¦   ¦       ¦   ¦   ¦   +---builders
+¦   ¦   ¦       ¦   ¦   ¦   +---data
+¦   ¦   ¦       ¦   ¦   ¦   +---helpers
+¦   ¦   ¦       ¦   ¦   ¦   +---implementations
+¦   ¦   ¦       ¦   ¦   ¦   +---interfaces
+¦   ¦   ¦       ¦   ¦   ¦   +---mappers
+¦   ¦   ¦       ¦   ¦   +---_shared
+¦   ¦   ¦       ¦   +---check
+¦   ¦   ¦       ¦   ¦   +---arbitrary
+¦   ¦   ¦       ¦   ¦   ¦   +---definition
+¦   ¦   ¦       ¦   ¦   +---model
+¦   ¦   ¦       ¦   ¦   ¦   +---command
+¦   ¦   ¦       ¦   ¦   ¦   +---commands
+¦   ¦   ¦       ¦   ¦   +---precondition
+¦   ¦   ¦       ¦   ¦   +---property
+¦   ¦   ¦       ¦   ¦   +---runner
+¦   ¦   ¦       ¦   ¦       +---configuration
+¦   ¦   ¦       ¦   ¦       +---reporter
+¦   ¦   ¦       ¦   ¦       +---utils
+¦   ¦   ¦       ¦   +---random
+¦   ¦   ¦       ¦   ¦   +---generator
+¦   ¦   ¦       ¦   +---stream
+¦   ¦   ¦       ¦   +---types
+¦   ¦   ¦       ¦   ¦   +---arbitrary
+¦   ¦   ¦       ¦   ¦   ¦   +---_internals
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---builders
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---data
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---helpers
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---implementations
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---interfaces
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---mappers
+¦   ¦   ¦       ¦   ¦   ¦   +---_shared
+¦   ¦   ¦       ¦   ¦   +---check
+¦   ¦   ¦       ¦   ¦   ¦   +---arbitrary
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---definition
+¦   ¦   ¦       ¦   ¦   ¦   +---model
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---command
+¦   ¦   ¦       ¦   ¦   ¦   ¦   +---commands
+¦   ¦   ¦       ¦   ¦   ¦   +---precondition
+¦   ¦   ¦       ¦   ¦   ¦   +---property
+¦   ¦   ¦       ¦   ¦   ¦   +---runner
+¦   ¦   ¦       ¦   ¦   ¦       +---configuration
+¦   ¦   ¦       ¦   ¦   ¦       +---reporter
+¦   ¦   ¦       ¦   ¦   ¦       +---utils
+¦   ¦   ¦       ¦   ¦   +---random
+¦   ¦   ¦       ¦   ¦   ¦   +---generator
+¦   ¦   ¦       ¦   ¦   +---stream
+¦   ¦   ¦       ¦   ¦   +---utils
+¦   ¦   ¦       ¦   +---utils
+¦   ¦   ¦       +---random
+¦   ¦   ¦       ¦   +---generator
+¦   ¦   ¦       +---stream
+¦   ¦   ¦       +---types
+¦   ¦   ¦       ¦   +---arbitrary
+¦   ¦   ¦       ¦   ¦   +---_internals
+¦   ¦   ¦       ¦   ¦   ¦   +---builders
+¦   ¦   ¦       ¦   ¦   ¦   +---data
+¦   ¦   ¦       ¦   ¦   ¦   +---helpers
+¦   ¦   ¦       ¦   ¦   ¦   +---implementations
+¦   ¦   ¦       ¦   ¦   ¦   +---interfaces
+¦   ¦   ¦       ¦   ¦   ¦   +---mappers
+¦   ¦   ¦       ¦   ¦   +---_shared
+¦   ¦   ¦       ¦   +---check
+¦   ¦   ¦       ¦   ¦   +---arbitrary
+¦   ¦   ¦       ¦   ¦   ¦   +---definition
+¦   ¦   ¦       ¦   ¦   +---model
+¦   ¦   ¦       ¦   ¦   ¦   +---command
+¦   ¦   ¦       ¦   ¦   ¦   +---commands
+¦   ¦   ¦       ¦   ¦   +---precondition
+¦   ¦   ¦       ¦   ¦   +---property
+¦   ¦   ¦       ¦   ¦   +---runner
+¦   ¦   ¦       ¦   ¦       +---configuration
+¦   ¦   ¦       ¦   ¦       +---reporter
+¦   ¦   ¦       ¦   ¦       +---utils
+¦   ¦   ¦       ¦   +---random
+¦   ¦   ¦       ¦   ¦   +---generator
+¦   ¦   ¦       ¦   +---stream
+¦   ¦   ¦       ¦   +---utils
+¦   ¦   ¦       +---utils
+¦   ¦   +---fast-deep-equal
+¦   ¦   ¦   +---es6
+¦   ¦   +---fast-glob
+¦   ¦   ¦   +---node_modules
+¦   ¦   ¦   ¦   +---glob-parent
+¦   ¦   ¦   +---out
+¦   ¦   ¦       +---managers
+¦   ¦   ¦       +---providers
+¦   ¦   ¦       ¦   +---filters
+¦   ¦   ¦       ¦   +---matchers
+¦   ¦   ¦       ¦   +---transformers
+¦   ¦   ¦       +---readers
+¦   ¦   ¦       +---types
+¦   ¦   ¦       +---utils
+¦   ¦   +---fast-json-stable-stringify
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---benchmark
+¦   ¦   ¦   +---example
+¦   ¦   ¦   +---test
+¦   ¦   +---fast-levenshtein
+¦   ¦   +---fast-sha256
+¦   ¦   +---fast-uri
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   ¦   +---workflows
+¦   ¦   ¦   +---benchmark
+¦   ¦   ¦   +---lib
+¦   ¦   ¦   +---test
+¦   ¦   ¦   ¦   +---fixtures
+¦   ¦   ¦   +---types
+¦   ¦   +---fastq
+¦   ¦   ¦   +---test
+¦   ¦   +---file-entry-cache
+¦   ¦   +---fill-range
+¦   ¦   +---find-up
+¦   ¦   +---flat-cache
+¦   ¦   ¦   +---src
+¦   ¦   +---flatted
+¦   ¦   ¦   +---cjs
+¦   ¦   ¦   +---esm
+¦   ¦   ¦   +---golang
+¦   ¦   ¦   ¦   +---pkg
+¦   ¦   ¦   ¦       +---flatted
+¦   ¦   ¦   +---php
+¦   ¦   ¦   +---python
+¦   ¦   ¦   +---types
+¦   ¦   +---for-each
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---foreground-child
+¦   ¦   ¦   +---dist
+¦   ¦   ¦       +---commonjs
+¦   ¦   ¦       +---esm
+¦   ¦   +---framer-motion
+¦   ¦   ¦   +---client
+¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   +---cjs
+¦   ¦   ¦   ¦   +---es
+¦   ¦   ¦   ¦   ¦   +---animation
+¦   ¦   ¦   ¦   ¦   ¦   +---animate
+¦   ¦   ¦   ¦   ¦   ¦   +---animators
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---waapi
+¦   ¦   ¦   ¦   ¦   ¦   +---hooks
+¦   ¦   ¦   ¦   ¦   ¦   +---optimized-appear
+¦   ¦   ¦   ¦   ¦   ¦   +---sequence
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---utils
+¦   ¦   ¦   ¦   ¦   ¦   +---utils
+¦   ¦   ¦   ¦   ¦   +---components
+¦   ¦   ¦   ¦   ¦   ¦   +---AnimatePresence
+¦   ¦   ¦   ¦   ¦   ¦   +---LayoutGroup
+¦   ¦   ¦   ¦   ¦   ¦   +---LazyMotion
+¦   ¦   ¦   ¦   ¦   ¦   +---MotionConfig
+¦   ¦   ¦   ¦   ¦   ¦   +---Reorder
+¦   ¦   ¦   ¦   ¦   ¦       +---utils
+¦   ¦   ¦   ¦   ¦   +---context
+¦   ¦   ¦   ¦   ¦   ¦   +---MotionContext
+¦   ¦   ¦   ¦   ¦   +---events
+¦   ¦   ¦   ¦   ¦   +---gestures
+¦   ¦   ¦   ¦   ¦   ¦   +---drag
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---utils
+¦   ¦   ¦   ¦   ¦   ¦   +---pan
+¦   ¦   ¦   ¦   ¦   +---motion
+¦   ¦   ¦   ¦   ¦   ¦   +---features
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---animation
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---layout
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---viewport
+¦   ¦   ¦   ¦   ¦   ¦   +---utils
+¦   ¦   ¦   ¦   ¦   +---projection
+¦   ¦   ¦   ¦   ¦   +---render
+¦   ¦   ¦   ¦   ¦   ¦   +---components
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---m
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---motion
+¦   ¦   ¦   ¦   ¦   ¦   +---dom
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---scroll
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---offsets
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---utils
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---utils
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---viewport
+¦   ¦   ¦   ¦   ¦   ¦   +---html
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---utils
+¦   ¦   ¦   ¦   ¦   ¦   +---svg
+¦   ¦   ¦   ¦   ¦   ¦       +---utils
+¦   ¦   ¦   ¦   ¦   +---utils
+¦   ¦   ¦   ¦   ¦   ¦   +---reduced-motion
+¦   ¦   ¦   ¦   ¦   +---value
+¦   ¦   ¦   ¦   ¦       +---scroll
+¦   ¦   ¦   ¦   ¦       +---use-will-change
+¦   ¦   ¦   ¦   +---types
+¦   ¦   ¦   +---dom
+¦   ¦   ¦   ¦   +---mini
+¦   ¦   ¦   +---m
+¦   ¦   ¦   +---mini
+¦   ¦   +---function-bind
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---function.prototype.name
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---helpers
+¦   ¦   ¦   +---test
+¦   ¦   +---functions-have-names
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---generate-function
+¦   ¦   +---generator-function
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---gensync
+¦   ¦   ¦   +---test
+¦   ¦   +---get-intrinsic
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---get-port-please
+¦   ¦   ¦   +---dist
+¦   ¦   +---get-proto
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---get-symbol-description
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---get-tsconfig
+¦   ¦   ¦   +---dist
+¦   ¦   +---giget
+¦   ¦   ¦   +---dist
+¦   ¦   ¦       +---_chunks
+¦   ¦   ¦           +---libs
+¦   ¦   +---glob-parent
+¦   ¦   +---glob-to-regexp
+¦   ¦   +---globals
+¦   ¦   +---globalthis
+¦   ¦   ¦   +---test
+¦   ¦   +---gopd
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---graceful-fs
+¦   ¦   +---grammex
+¦   ¦   ¦   +---dist
+¦   ¦   +---graphmatch
+¦   ¦   ¦   +---dist
+¦   ¦   +---has-bigints
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---has-flag
+¦   ¦   +---has-property-descriptors
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---has-proto
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---has-symbols
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   ¦       +---shams
+¦   ¦   +---has-tostringtag
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   ¦       +---shams
+¦   ¦   +---hasown
+¦   ¦   ¦   +---.github
+¦   ¦   +---hermes-estree
+¦   ¦   ¦   +---dist
+¦   ¦   ¦       +---generated
+¦   ¦   +---hermes-parser
+¦   ¦   ¦   +---dist
+¦   ¦   ¦       +---babel
+¦   ¦   ¦       +---estree
+¦   ¦   ¦       +---generated
+¦   ¦   ¦       +---transform
+¦   ¦   ¦       +---traverse
+¦   ¦   ¦       +---utils
+¦   ¦   +---hono
+¦   ¦   ¦   +---dist
+¦   ¦   ¦       +---adapter
+¦   ¦   ¦       ¦   +---aws-lambda
+¦   ¦   ¦       ¦   +---bun
+¦   ¦   ¦       ¦   +---cloudflare-pages
+¦   ¦   ¦       ¦   +---cloudflare-workers
+¦   ¦   ¦       ¦   +---deno
+¦   ¦   ¦       ¦   +---lambda-edge
+¦   ¦   ¦       ¦   +---netlify
+¦   ¦   ¦       ¦   +---service-worker
+¦   ¦   ¦       ¦   +---vercel
+¦   ¦   ¦       +---cjs
+¦   ¦   ¦       ¦   +---adapter
+¦   ¦   ¦       ¦   ¦   +---aws-lambda
+¦   ¦   ¦       ¦   ¦   +---bun
+¦   ¦   ¦       ¦   ¦   +---cloudflare-pages
+¦   ¦   ¦       ¦   ¦   +---cloudflare-workers
+¦   ¦   ¦       ¦   ¦   +---deno
+¦   ¦   ¦       ¦   ¦   +---lambda-edge
+¦   ¦   ¦       ¦   ¦   +---netlify
+¦   ¦   ¦       ¦   ¦   +---service-worker
+¦   ¦   ¦       ¦   ¦   +---vercel
+¦   ¦   ¦       ¦   +---client
+¦   ¦   ¦       ¦   +---helper
+¦   ¦   ¦       ¦   ¦   +---accepts
+¦   ¦   ¦       ¦   ¦   +---adapter
+¦   ¦   ¦       ¦   ¦   +---conninfo
+¦   ¦   ¦       ¦   ¦   +---cookie
+¦   ¦   ¦       ¦   ¦   +---css
+¦   ¦   ¦       ¦   ¦   +---dev
+¦   ¦   ¦       ¦   ¦   +---factory
+¦   ¦   ¦       ¦   ¦   +---html
+¦   ¦   ¦       ¦   ¦   +---proxy
+¦   ¦   ¦       ¦   ¦   +---route
+¦   ¦   ¦       ¦   ¦   +---ssg
+¦   ¦   ¦       ¦   ¦   +---streaming
+¦   ¦   ¦       ¦   ¦   +---testing
+¦   ¦   ¦       ¦   ¦   +---websocket
+¦   ¦   ¦       ¦   +---jsx
+¦   ¦   ¦       ¦   ¦   +---dom
+¦   ¦   ¦       ¦   ¦   ¦   +---hooks
+¦   ¦   ¦       ¦   ¦   ¦   +---intrinsic-element
+¦   ¦   ¦       ¦   ¦   +---hooks
+¦   ¦   ¦       ¦   ¦   +---intrinsic-element
+¦   ¦   ¦       ¦   +---middleware
+¦   ¦   ¦       ¦   ¦   +---basic-auth
+¦   ¦   ¦       ¦   ¦   +---bearer-auth
+¦   ¦   ¦       ¦   ¦   +---body-limit
+¦   ¦   ¦       ¦   ¦   +---cache
+¦   ¦   ¦       ¦   ¦   +---combine
+¦   ¦   ¦       ¦   ¦   +---compress
+¦   ¦   ¦       ¦   ¦   +---context-storage
+¦   ¦   ¦       ¦   ¦   +---cors
+¦   ¦   ¦       ¦   ¦   +---csrf
+¦   ¦   ¦       ¦   ¦   +---etag
+¦   ¦   ¦       ¦   ¦   +---ip-restriction
+¦   ¦   ¦       ¦   ¦   +---jsx-renderer
+¦   ¦   ¦       ¦   ¦   +---jwk
+¦   ¦   ¦       ¦   ¦   +---jwt
+¦   ¦   ¦       ¦   ¦   +---language
+¦   ¦   ¦       ¦   ¦   +---logger
+¦   ¦   ¦       ¦   ¦   +---method-override
+¦   ¦   ¦       ¦   ¦   +---powered-by
+¦   ¦   ¦       ¦   ¦   +---pretty-json
+¦   ¦   ¦       ¦   ¦   +---request-id
+¦   ¦   ¦       ¦   ¦   +---secure-headers
+¦   ¦   ¦       ¦   ¦   +---serve-static
+¦   ¦   ¦       ¦   ¦   +---timeout
+¦   ¦   ¦       ¦   ¦   +---timing
+¦   ¦   ¦       ¦   ¦   +---trailing-slash
+¦   ¦   ¦       ¦   +---preset
+¦   ¦   ¦       ¦   +---request
+¦   ¦   ¦       ¦   +---router
+¦   ¦   ¦       ¦   ¦   +---linear-router
+¦   ¦   ¦       ¦   ¦   +---pattern-router
+¦   ¦   ¦       ¦   ¦   +---reg-exp-router
+¦   ¦   ¦       ¦   ¦   +---smart-router
+¦   ¦   ¦       ¦   ¦   +---trie-router
+¦   ¦   ¦       ¦   +---utils
+¦   ¦   ¦       ¦   ¦   +---jwt
+¦   ¦   ¦       ¦   +---validator
+¦   ¦   ¦       +---client
+¦   ¦   ¦       +---helper
+¦   ¦   ¦       ¦   +---accepts
+¦   ¦   ¦       ¦   +---adapter
+¦   ¦   ¦       ¦   +---conninfo
+¦   ¦   ¦       ¦   +---cookie
+¦   ¦   ¦       ¦   +---css
+¦   ¦   ¦       ¦   +---dev
+¦   ¦   ¦       ¦   +---factory
+¦   ¦   ¦       ¦   +---html
+¦   ¦   ¦       ¦   +---proxy
+¦   ¦   ¦       ¦   +---route
+¦   ¦   ¦       ¦   +---ssg
+¦   ¦   ¦       ¦   +---streaming
+¦   ¦   ¦       ¦   +---testing
+¦   ¦   ¦       ¦   +---websocket
+¦   ¦   ¦       +---jsx
+¦   ¦   ¦       ¦   +---dom
+¦   ¦   ¦       ¦   ¦   +---hooks
+¦   ¦   ¦       ¦   ¦   +---intrinsic-element
+¦   ¦   ¦       ¦   +---hooks
+¦   ¦   ¦       ¦   +---intrinsic-element
+¦   ¦   ¦       +---middleware
+¦   ¦   ¦       ¦   +---basic-auth
+¦   ¦   ¦       ¦   +---bearer-auth
+¦   ¦   ¦       ¦   +---body-limit
+¦   ¦   ¦       ¦   +---cache
+¦   ¦   ¦       ¦   +---combine
+¦   ¦   ¦       ¦   +---compress
+¦   ¦   ¦       ¦   +---context-storage
+¦   ¦   ¦       ¦   +---cors
+¦   ¦   ¦       ¦   +---csrf
+¦   ¦   ¦       ¦   +---etag
+¦   ¦   ¦       ¦   +---ip-restriction
+¦   ¦   ¦       ¦   +---jsx-renderer
+¦   ¦   ¦       ¦   +---jwk
+¦   ¦   ¦       ¦   +---jwt
+¦   ¦   ¦       ¦   +---language
+¦   ¦   ¦       ¦   +---logger
+¦   ¦   ¦       ¦   +---method-override
+¦   ¦   ¦       ¦   +---powered-by
+¦   ¦   ¦       ¦   +---pretty-json
+¦   ¦   ¦       ¦   +---request-id
+¦   ¦   ¦       ¦   +---secure-headers
+¦   ¦   ¦       ¦   +---serve-static
+¦   ¦   ¦       ¦   +---timeout
+¦   ¦   ¦       ¦   +---timing
+¦   ¦   ¦       ¦   +---trailing-slash
+¦   ¦   ¦       +---preset
+¦   ¦   ¦       +---request
+¦   ¦   ¦       +---router
+¦   ¦   ¦       ¦   +---linear-router
+¦   ¦   ¦       ¦   +---pattern-router
+¦   ¦   ¦       ¦   +---reg-exp-router
+¦   ¦   ¦       ¦   +---smart-router
+¦   ¦   ¦       ¦   +---trie-router
+¦   ¦   ¦       +---types
+¦   ¦   ¦       ¦   +---adapter
+¦   ¦   ¦       ¦   ¦   +---aws-lambda
+¦   ¦   ¦       ¦   ¦   +---bun
+¦   ¦   ¦       ¦   ¦   +---cloudflare-pages
+¦   ¦   ¦       ¦   ¦   +---cloudflare-workers
+¦   ¦   ¦       ¦   ¦   +---deno
+¦   ¦   ¦       ¦   ¦   +---lambda-edge
+¦   ¦   ¦       ¦   ¦   +---netlify
+¦   ¦   ¦       ¦   ¦   +---service-worker
+¦   ¦   ¦       ¦   ¦   +---vercel
+¦   ¦   ¦       ¦   +---client
+¦   ¦   ¦       ¦   +---helper
+¦   ¦   ¦       ¦   ¦   +---accepts
+¦   ¦   ¦       ¦   ¦   +---adapter
+¦   ¦   ¦       ¦   ¦   +---conninfo
+¦   ¦   ¦       ¦   ¦   +---cookie
+¦   ¦   ¦       ¦   ¦   +---css
+¦   ¦   ¦       ¦   ¦   +---dev
+¦   ¦   ¦       ¦   ¦   +---factory
+¦   ¦   ¦       ¦   ¦   +---html
+¦   ¦   ¦       ¦   ¦   +---proxy
+¦   ¦   ¦       ¦   ¦   +---route
+¦   ¦   ¦       ¦   ¦   +---ssg
+¦   ¦   ¦       ¦   ¦   +---streaming
+¦   ¦   ¦       ¦   ¦   +---testing
+¦   ¦   ¦       ¦   ¦   +---websocket
+¦   ¦   ¦       ¦   +---jsx
+¦   ¦   ¦       ¦   ¦   +---dom
+¦   ¦   ¦       ¦   ¦   ¦   +---hooks
+¦   ¦   ¦       ¦   ¦   ¦   +---intrinsic-element
+¦   ¦   ¦       ¦   ¦   +---hooks
+¦   ¦   ¦       ¦   ¦   +---intrinsic-element
+¦   ¦   ¦       ¦   +---middleware
+¦   ¦   ¦       ¦   ¦   +---basic-auth
+¦   ¦   ¦       ¦   ¦   +---bearer-auth
+¦   ¦   ¦       ¦   ¦   +---body-limit
+¦   ¦   ¦       ¦   ¦   +---cache
+¦   ¦   ¦       ¦   ¦   +---combine
+¦   ¦   ¦       ¦   ¦   +---compress
+¦   ¦   ¦       ¦   ¦   +---context-storage
+¦   ¦   ¦       ¦   ¦   +---cors
+¦   ¦   ¦       ¦   ¦   +---csrf
+¦   ¦   ¦       ¦   ¦   +---etag
+¦   ¦   ¦       ¦   ¦   +---ip-restriction
+¦   ¦   ¦       ¦   ¦   +---jsx-renderer
+¦   ¦   ¦       ¦   ¦   +---jwk
+¦   ¦   ¦       ¦   ¦   +---jwt
+¦   ¦   ¦       ¦   ¦   +---language
+¦   ¦   ¦       ¦   ¦   +---logger
+¦   ¦   ¦       ¦   ¦   +---method-override
+¦   ¦   ¦       ¦   ¦   +---powered-by
+¦   ¦   ¦       ¦   ¦   +---pretty-json
+¦   ¦   ¦       ¦   ¦   +---request-id
+¦   ¦   ¦       ¦   ¦   +---secure-headers
+¦   ¦   ¦       ¦   ¦   +---serve-static
+¦   ¦   ¦       ¦   ¦   +---timeout
+¦   ¦   ¦       ¦   ¦   +---timing
+¦   ¦   ¦       ¦   ¦   +---trailing-slash
+¦   ¦   ¦       ¦   +---preset
+¦   ¦   ¦       ¦   +---request
+¦   ¦   ¦       ¦   +---router
+¦   ¦   ¦       ¦   ¦   +---linear-router
+¦   ¦   ¦       ¦   ¦   +---pattern-router
+¦   ¦   ¦       ¦   ¦   +---reg-exp-router
+¦   ¦   ¦       ¦   ¦   +---smart-router
+¦   ¦   ¦       ¦   ¦   +---trie-router
+¦   ¦   ¦       ¦   +---utils
+¦   ¦   ¦       ¦   ¦   +---jwt
+¦   ¦   ¦       ¦   +---validator
+¦   ¦   ¦       +---utils
+¦   ¦   ¦       ¦   +---jwt
+¦   ¦   ¦       +---validator
+¦   ¦   +---http-status-codes
+¦   ¦   ¦   +---build
+¦   ¦   ¦       +---cjs
+¦   ¦   ¦       +---es
+¦   ¦   +---iceberg-js
+¦   ¦   ¦   +---dist
+¦   ¦   +---iconv-lite
+¦   ¦   ¦   +---encodings
+¦   ¦   ¦   ¦   +---tables
+¦   ¦   ¦   +---lib
+¦   ¦   ¦   ¦   +---helpers
+¦   ¦   ¦   +---types
+¦   ¦   +---ignore
+¦   ¦   +---import-fresh
+¦   ¦   +---imurmurhash
+¦   ¦   +---internal-slot
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---is-array-buffer
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---is-async-function
+¦   ¦   ¦   +---test
+¦   ¦   +---is-bigint
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---is-boolean-object
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---is-bun-module
+¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---node_modules
+¦   ¦   ¦       +---.bin
+¦   ¦   ¦       +---semver
+¦   ¦   ¦           +---bin
+¦   ¦   ¦           +---classes
+¦   ¦   ¦           +---functions
+¦   ¦   ¦           +---internal
+¦   ¦   ¦           +---ranges
+¦   ¦   +---is-callable
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---is-core-module
+¦   ¦   ¦   +---test
+¦   ¦   +---is-data-view
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---is-date-object
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---is-extglob
+¦   ¦   +---is-finalizationregistry
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---is-generator-function
+¦   ¦   ¦   +---test
+¦   ¦   +---is-glob
+¦   ¦   +---is-map
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---is-negative-zero
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---is-number
+¦   ¦   +---is-number-object
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---is-property
+¦   ¦   +---is-regex
+¦   ¦   ¦   +---test
+¦   ¦   +---is-set
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---is-shared-array-buffer
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---is-string
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---is-symbol
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---is-typed-array
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---is-weakmap
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---is-weakref
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---is-weakset
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---isarray
+¦   ¦   +---isexe
+¦   ¦   ¦   +---test
+¦   ¦   +---iterator.prototype
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---jiti
+¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---lib
+¦   ¦   +---js-cookie
+¦   ¦   ¦   +---dist
+¦   ¦   +---js-tokens
+¦   ¦   +---js-yaml
+¦   ¦   ¦   +---bin
+¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---lib
+¦   ¦   ¦       +---schema
+¦   ¦   ¦       +---type
+¦   ¦   +---jsesc
+¦   ¦   ¦   +---bin
+¦   ¦   ¦   +---man
+¦   ¦   +---json-buffer
+¦   ¦   ¦   +---test
+¦   ¦   +---json-schema-traverse
+¦   ¦   ¦   +---spec
+¦   ¦   ¦       +---fixtures
+¦   ¦   +---json-stable-stringify-without-jsonify
+¦   ¦   ¦   +---example
+¦   ¦   ¦   +---test
+¦   ¦   +---json5
+¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---lib
+¦   ¦   +---jsx-ast-utils
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---lib
+¦   ¦   ¦   ¦   +---values
+¦   ¦   ¦   ¦       +---expressions
+¦   ¦   ¦   +---src
+¦   ¦   ¦   ¦   +---values
+¦   ¦   ¦   ¦       +---expressions
+¦   ¦   ¦   +---__tests__
+¦   ¦   ¦       +---src
+¦   ¦   +---keyv
+¦   ¦   ¦   +---src
+¦   ¦   +---language-subtag-registry
+¦   ¦   ¦   +---data
+¦   ¦   ¦       +---json
+¦   ¦   +---language-tags
+¦   ¦   ¦   +---lib
+¦   ¦   +---levn
+¦   ¦   ¦   +---lib
+¦   ¦   +---lightningcss
+¦   ¦   ¦   +---node
+¦   ¦   +---lightningcss-win32-x64-msvc
+¦   ¦   +---locate-path
+¦   ¦   +---lodash.merge
+¦   ¦   +---long
+¦   ¦   ¦   +---umd
+¦   ¦   +---loose-envify
+¦   ¦   +---lru-cache
+¦   ¦   +---lru.min
+¦   ¦   ¦   +---browser
+¦   ¦   ¦   +---lib
+¦   ¦   +---lucide-react
+¦   ¦   ¦   +---dist
+¦   ¦   ¦       +---cjs
+¦   ¦   ¦       +---esm
+¦   ¦   ¦           +---icons
+¦   ¦   ¦           +---shared
+¦   ¦   ¦               +---src
+¦   ¦   ¦                   +---utils
+¦   ¦   +---magic-string
+¦   ¦   ¦   +---dist
+¦   ¦   +---math-intrinsics
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---constants
+¦   ¦   ¦   +---test
+¦   ¦   +---merge2
+¦   ¦   +---micromatch
+¦   ¦   +---minimatch
+¦   ¦   +---minimist
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---example
+¦   ¦   ¦   +---test
+¦   ¦   +---motion-dom
+¦   ¦   ¦   +---dist
+¦   ¦   ¦       +---cjs
+¦   ¦   ¦       +---es
+¦   ¦   ¦           +---animation
+¦   ¦   ¦           ¦   +---animate
+¦   ¦   ¦           ¦   +---drivers
+¦   ¦   ¦           ¦   +---generators
+¦   ¦   ¦           ¦   ¦   +---utils
+¦   ¦   ¦           ¦   +---interfaces
+¦   ¦   ¦           ¦   +---keyframes
+¦   ¦   ¦           ¦   ¦   +---offsets
+¦   ¦   ¦           ¦   ¦   +---utils
+¦   ¦   ¦           ¦   +---optimized-appear
+¦   ¦   ¦           ¦   +---utils
+¦   ¦   ¦           ¦   +---waapi
+¦   ¦   ¦           ¦       +---easing
+¦   ¦   ¦           ¦       +---supports
+¦   ¦   ¦           ¦       +---utils
+¦   ¦   ¦           +---effects
+¦   ¦   ¦           ¦   +---attr
+¦   ¦   ¦           ¦   +---prop
+¦   ¦   ¦           ¦   +---style
+¦   ¦   ¦           ¦   +---svg
+¦   ¦   ¦           ¦   +---utils
+¦   ¦   ¦           +---events
+¦   ¦   ¦           +---frameloop
+¦   ¦   ¦           +---gestures
+¦   ¦   ¦           ¦   +---drag
+¦   ¦   ¦           ¦   ¦   +---state
+¦   ¦   ¦           ¦   +---press
+¦   ¦   ¦           ¦   ¦   +---utils
+¦   ¦   ¦           ¦   +---utils
+¦   ¦   ¦           +---layout
+¦   ¦   ¦           +---projection
+¦   ¦   ¦           ¦   +---animation
+¦   ¦   ¦           ¦   +---geometry
+¦   ¦   ¦           ¦   +---node
+¦   ¦   ¦           ¦   +---shared
+¦   ¦   ¦           ¦   +---styles
+¦   ¦   ¦           ¦   +---utils
+¦   ¦   ¦           +---render
+¦   ¦   ¦           ¦   +---dom
+¦   ¦   ¦           ¦   ¦   +---utils
+¦   ¦   ¦           ¦   +---html
+¦   ¦   ¦           ¦   ¦   +---utils
+¦   ¦   ¦           ¦   +---object
+¦   ¦   ¦           ¦   +---svg
+¦   ¦   ¦           ¦   ¦   +---utils
+¦   ¦   ¦           ¦   +---utils
+¦   ¦   ¦           ¦       +---reduced-motion
+¦   ¦   ¦           +---resize
+¦   ¦   ¦           +---scroll
+¦   ¦   ¦           +---stats
+¦   ¦   ¦           +---utils
+¦   ¦   ¦           ¦   +---mix
+¦   ¦   ¦           ¦   +---supports
+¦   ¦   ¦           +---value
+¦   ¦   ¦           ¦   +---types
+¦   ¦   ¦           ¦   ¦   +---color
+¦   ¦   ¦           ¦   ¦   +---complex
+¦   ¦   ¦           ¦   ¦   +---maps
+¦   ¦   ¦           ¦   ¦   +---numbers
+¦   ¦   ¦           ¦   ¦   +---utils
+¦   ¦   ¦           ¦   +---utils
+¦   ¦   ¦           ¦   +---will-change
+¦   ¦   ¦           +---view
+¦   ¦   ¦               +---utils
+¦   ¦   +---motion-utils
+¦   ¦   ¦   +---dist
+¦   ¦   ¦       +---cjs
+¦   ¦   ¦       +---es
+¦   ¦   ¦           +---easing
+¦   ¦   ¦               +---modifiers
+¦   ¦   ¦               +---utils
+¦   ¦   +---ms
+¦   ¦   +---mysql2
+¦   ¦   ¦   +---lib
+¦   ¦   ¦   ¦   +---auth_plugins
+¦   ¦   ¦   ¦   +---base
+¦   ¦   ¦   ¦   +---commands
+¦   ¦   ¦   ¦   +---constants
+¦   ¦   ¦   ¦   +---packets
+¦   ¦   ¦   ¦   +---parsers
+¦   ¦   ¦   ¦   +---promise
+¦   ¦   ¦   +---typings
+¦   ¦   ¦       +---mysql
+¦   ¦   ¦           +---lib
+¦   ¦   ¦               +---constants
+¦   ¦   ¦               +---parsers
+¦   ¦   ¦               +---protocol
+¦   ¦   ¦                   +---packets
+¦   ¦   ¦                   ¦   +---params
+¦   ¦   ¦                   +---sequences
+¦   ¦   ¦                       +---promise
+¦   ¦   +---named-placeholders
+¦   ¦   +---nanoid
+¦   ¦   ¦   +---.claude
+¦   ¦   ¦   +---async
+¦   ¦   ¦   +---bin
+¦   ¦   ¦   +---non-secure
+¦   ¦   ¦   +---url-alphabet
+¦   ¦   +---napi-postinstall
+¦   ¦   ¦   +---lib
+¦   ¦   +---natural-compare
+¦   ¦   +---next
+¦   ¦   ¦   +---compat
+¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   +---api
+¦   ¦   ¦   ¦   +---bin
+¦   ¦   ¦   ¦   +---build
+¦   ¦   ¦   ¦   ¦   +---adapter
+¦   ¦   ¦   ¦   ¦   +---analysis
+¦   ¦   ¦   ¦   ¦   +---analyze
+¦   ¦   ¦   ¦   ¦   +---babel
+¦   ¦   ¦   ¦   ¦   ¦   +---loader
+¦   ¦   ¦   ¦   ¦   ¦   +---plugins
+¦   ¦   ¦   ¦   ¦   +---jest
+¦   ¦   ¦   ¦   ¦   ¦   +---__mocks__
+¦   ¦   ¦   ¦   ¦   +---manifests
+¦   ¦   ¦   ¦   ¦   ¦   +---formatter
+¦   ¦   ¦   ¦   ¦   +---next-config-ts
+¦   ¦   ¦   ¦   ¦   +---output
+¦   ¦   ¦   ¦   ¦   +---polyfills
+¦   ¦   ¦   ¦   ¦   ¦   +---fetch
+¦   ¦   ¦   ¦   ¦   ¦   +---object.assign
+¦   ¦   ¦   ¦   ¦   +---segment-config
+¦   ¦   ¦   ¦   ¦   ¦   +---app
+¦   ¦   ¦   ¦   ¦   ¦   +---middleware
+¦   ¦   ¦   ¦   ¦   ¦   +---pages
+¦   ¦   ¦   ¦   ¦   +---static-paths
+¦   ¦   ¦   ¦   ¦   ¦   +---app
+¦   ¦   ¦   ¦   ¦   +---swc
+¦   ¦   ¦   ¦   ¦   +---templates
+¦   ¦   ¦   ¦   ¦   +---turbopack-analyze
+¦   ¦   ¦   ¦   ¦   +---turbopack-build
+¦   ¦   ¦   ¦   ¦   +---turborepo-access-trace
+¦   ¦   ¦   ¦   ¦   +---webpack
+¦   ¦   ¦   ¦   ¦   ¦   +---alias
+¦   ¦   ¦   ¦   ¦   ¦   +---config
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---blocks
+¦   ¦   ¦   ¦   ¦   ¦   ¦       +---css
+¦   ¦   ¦   ¦   ¦   ¦   ¦       ¦   +---loaders
+¦   ¦   ¦   ¦   ¦   ¦   ¦       +---images
+¦   ¦   ¦   ¦   ¦   ¦   +---loaders
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---css-loader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---src
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦       +---plugins
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦       +---runtime
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---devtool
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---lightningcss-loader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---src
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---metadata
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---next-app-loader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---next-edge-app-route-loader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---next-edge-ssr-loader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---next-flight-loader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---next-font-loader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---next-image-loader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---next-route-loader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---next-style-loader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---runtime
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---postcss-loader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---src
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---resolve-url-loader
+¦   ¦   ¦   ¦   ¦   ¦   ¦       +---lib
+¦   ¦   ¦   ¦   ¦   ¦   +---plugins
+¦   ¦   ¦   ¦   ¦   ¦       +---minify-webpack-plugin
+¦   ¦   ¦   ¦   ¦   ¦       ¦   +---src
+¦   ¦   ¦   ¦   ¦   ¦       +---next-types-plugin
+¦   ¦   ¦   ¦   ¦   ¦       +---telemetry-plugin
+¦   ¦   ¦   ¦   ¦   ¦       +---wellknown-errors-plugin
+¦   ¦   ¦   ¦   ¦   +---webpack-build
+¦   ¦   ¦   ¦   ¦   +---webpack-config-rules
+¦   ¦   ¦   ¦   +---bundle-analyzer
+¦   ¦   ¦   ¦   ¦   +---_next
+¦   ¦   ¦   ¦   ¦   ¦   +---static
+¦   ¦   ¦   ¦   ¦   ¦       +---chunks
+¦   ¦   ¦   ¦   ¦   ¦       +---OHi0HkkfZ0778YgHLCilu
+¦   ¦   ¦   ¦   ¦   +---_not-found
+¦   ¦   ¦   ¦   +---cli
+¦   ¦   ¦   ¦   ¦   +---internal
+¦   ¦   ¦   ¦   +---client
+¦   ¦   ¦   ¦   ¦   +---app-dir
+¦   ¦   ¦   ¦   ¦   +---compat
+¦   ¦   ¦   ¦   ¦   +---components
+¦   ¦   ¦   ¦   ¦   ¦   +---builtin
+¦   ¦   ¦   ¦   ¦   ¦   +---errors
+¦   ¦   ¦   ¦   ¦   ¦   +---http-access-fallback
+¦   ¦   ¦   ¦   ¦   ¦   +---instant-validation
+¦   ¦   ¦   ¦   ¦   ¦   +---router-reducer
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---reducers
+¦   ¦   ¦   ¦   ¦   ¦   +---segment-cache
+¦   ¦   ¦   ¦   ¦   ¦   +---styles
+¦   ¦   ¦   ¦   ¦   +---dev
+¦   ¦   ¦   ¦   ¦   ¦   +---error-overlay
+¦   ¦   ¦   ¦   ¦   ¦   +---hot-reloader
+¦   ¦   ¦   ¦   ¦   ¦       +---app
+¦   ¦   ¦   ¦   ¦   ¦       +---pages
+¦   ¦   ¦   ¦   ¦   +---legacy
+¦   ¦   ¦   ¦   ¦   +---lib
+¦   ¦   ¦   ¦   ¦   +---portal
+¦   ¦   ¦   ¦   ¦   +---react-client-callbacks
+¦   ¦   ¦   ¦   ¦   +---request
+¦   ¦   ¦   ¦   ¦   +---tracing
+¦   ¦   ¦   ¦   +---compiled
+¦   ¦   ¦   ¦   ¦   +---@babel
+¦   ¦   ¦   ¦   ¦   ¦   +---runtime
+¦   ¦   ¦   ¦   ¦   ¦       +---helpers
+¦   ¦   ¦   ¦   ¦   ¦       ¦   +---esm
+¦   ¦   ¦   ¦   ¦   ¦       +---regenerator
+¦   ¦   ¦   ¦   ¦   +---@edge-runtime
+¦   ¦   ¦   ¦   ¦   ¦   +---cookies
+¦   ¦   ¦   ¦   ¦   ¦   +---ponyfill
+¦   ¦   ¦   ¦   ¦   ¦   +---primitives
+¦   ¦   ¦   ¦   ¦   +---@hapi
+¦   ¦   ¦   ¦   ¦   ¦   +---accept
+¦   ¦   ¦   ¦   ¦   +---@modelcontextprotocol
+¦   ¦   ¦   ¦   ¦   ¦   +---sdk
+¦   ¦   ¦   ¦   ¦   ¦       +---server
+¦   ¦   ¦   ¦   ¦   +---@mswjs
+¦   ¦   ¦   ¦   ¦   ¦   +---interceptors
+¦   ¦   ¦   ¦   ¦   ¦       +---ClientRequest
+¦   ¦   ¦   ¦   ¦   +---@napi-rs
+¦   ¦   ¦   ¦   ¦   ¦   +---triples
+¦   ¦   ¦   ¦   ¦   +---@next
+¦   ¦   ¦   ¦   ¦   ¦   +---font
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---fontkit
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---google
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---local
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---google
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---local
+¦   ¦   ¦   ¦   ¦   ¦   +---react-refresh-utils
+¦   ¦   ¦   ¦   ¦   ¦       +---dist
+¦   ¦   ¦   ¦   ¦   ¦           +---internal
+¦   ¦   ¦   ¦   ¦   +---@opentelemetry
+¦   ¦   ¦   ¦   ¦   ¦   +---api
+¦   ¦   ¦   ¦   ¦   +---@vercel
+¦   ¦   ¦   ¦   ¦   ¦   +---nft
+¦   ¦   ¦   ¦   ¦   ¦   +---og
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---satori
+¦   ¦   ¦   ¦   ¦   ¦   +---routing-utils
+¦   ¦   ¦   ¦   ¦   +---acorn
+¦   ¦   ¦   ¦   ¦   +---anser
+¦   ¦   ¦   ¦   ¦   +---assert
+¦   ¦   ¦   ¦   ¦   +---async-retry
+¦   ¦   ¦   ¦   ¦   +---async-sema
+¦   ¦   ¦   ¦   ¦   +---babel
+¦   ¦   ¦   ¦   ¦   +---babel-packages
+¦   ¦   ¦   ¦   ¦   +---browserify-zlib
+¦   ¦   ¦   ¦   ¦   +---browserslist
+¦   ¦   ¦   ¦   ¦   +---buffer
+¦   ¦   ¦   ¦   ¦   +---busboy
+¦   ¦   ¦   ¦   ¦   +---bytes
+¦   ¦   ¦   ¦   ¦   +---ci-info
+¦   ¦   ¦   ¦   ¦   +---cli-select
+¦   ¦   ¦   ¦   ¦   +---client-only
+¦   ¦   ¦   ¦   ¦   +---commander
+¦   ¦   ¦   ¦   ¦   +---comment-json
+¦   ¦   ¦   ¦   ¦   +---compression
+¦   ¦   ¦   ¦   ¦   +---conf
+¦   ¦   ¦   ¦   ¦   +---constants-browserify
+¦   ¦   ¦   ¦   ¦   +---content-disposition
+¦   ¦   ¦   ¦   ¦   +---content-type
+¦   ¦   ¦   ¦   ¦   +---cookie
+¦   ¦   ¦   ¦   ¦   +---cross-spawn
+¦   ¦   ¦   ¦   ¦   +---crypto-browserify
+¦   ¦   ¦   ¦   ¦   +---css.escape
+¦   ¦   ¦   ¦   ¦   +---cssnano-simple
+¦   ¦   ¦   ¦   ¦   +---data-uri-to-buffer
+¦   ¦   ¦   ¦   ¦   +---debug
+¦   ¦   ¦   ¦   ¦   +---devalue
+¦   ¦   ¦   ¦   ¦   +---domain-browser
+¦   ¦   ¦   ¦   ¦   +---edge-runtime
+¦   ¦   ¦   ¦   ¦   +---events
+¦   ¦   ¦   ¦   ¦   +---find-up
+¦   ¦   ¦   ¦   ¦   +---fresh
+¦   ¦   ¦   ¦   ¦   +---glob
+¦   ¦   ¦   ¦   ¦   +---gzip-size
+¦   ¦   ¦   ¦   ¦   +---http-proxy
+¦   ¦   ¦   ¦   ¦   +---http-proxy-agent
+¦   ¦   ¦   ¦   ¦   +---https-browserify
+¦   ¦   ¦   ¦   ¦   +---https-proxy-agent
+¦   ¦   ¦   ¦   ¦   +---icss-utils
+¦   ¦   ¦   ¦   ¦   +---ignore-loader
+¦   ¦   ¦   ¦   ¦   +---image-detector
+¦   ¦   ¦   ¦   ¦   +---image-size
+¦   ¦   ¦   ¦   ¦   +---ipaddr.js
+¦   ¦   ¦   ¦   ¦   +---is-animated
+¦   ¦   ¦   ¦   ¦   +---is-docker
+¦   ¦   ¦   ¦   ¦   +---is-wsl
+¦   ¦   ¦   ¦   ¦   +---jest-worker
+¦   ¦   ¦   ¦   ¦   +---json5
+¦   ¦   ¦   ¦   ¦   +---jsonwebtoken
+¦   ¦   ¦   ¦   ¦   +---loader-runner
+¦   ¦   ¦   ¦   ¦   +---loader-utils2
+¦   ¦   ¦   ¦   ¦   +---loader-utils3
+¦   ¦   ¦   ¦   ¦   +---lodash.curry
+¦   ¦   ¦   ¦   ¦   +---lru-cache
+¦   ¦   ¦   ¦   ¦   +---mini-css-extract-plugin
+¦   ¦   ¦   ¦   ¦   ¦   +---hmr
+¦   ¦   ¦   ¦   ¦   +---nanoid
+¦   ¦   ¦   ¦   ¦   +---native-url
+¦   ¦   ¦   ¦   ¦   +---neo-async
+¦   ¦   ¦   ¦   ¦   +---next-devtools
+¦   ¦   ¦   ¦   ¦   +---next-server
+¦   ¦   ¦   ¦   ¦   +---node-html-parser
+¦   ¦   ¦   ¦   ¦   +---ora
+¦   ¦   ¦   ¦   ¦   +---os-browserify
+¦   ¦   ¦   ¦   ¦   +---p-limit
+¦   ¦   ¦   ¦   ¦   +---p-queue
+¦   ¦   ¦   ¦   ¦   +---path-browserify
+¦   ¦   ¦   ¦   ¦   +---path-to-regexp
+¦   ¦   ¦   ¦   ¦   +---picomatch
+¦   ¦   ¦   ¦   ¦   +---postcss-flexbugs-fixes
+¦   ¦   ¦   ¦   ¦   +---postcss-modules-extract-imports
+¦   ¦   ¦   ¦   ¦   +---postcss-modules-local-by-default
+¦   ¦   ¦   ¦   ¦   +---postcss-modules-scope
+¦   ¦   ¦   ¦   ¦   +---postcss-modules-values
+¦   ¦   ¦   ¦   ¦   +---postcss-plugin-stub-for-cssnano-simple
+¦   ¦   ¦   ¦   ¦   +---postcss-preset-env
+¦   ¦   ¦   ¦   ¦   +---postcss-safe-parser
+¦   ¦   ¦   ¦   ¦   +---postcss-scss
+¦   ¦   ¦   ¦   ¦   +---postcss-value-parser
+¦   ¦   ¦   ¦   ¦   +---process
+¦   ¦   ¦   ¦   ¦   +---punycode
+¦   ¦   ¦   ¦   ¦   +---querystring-es3
+¦   ¦   ¦   ¦   ¦   +---raw-body
+¦   ¦   ¦   ¦   ¦   +---react
+¦   ¦   ¦   ¦   ¦   ¦   +---cjs
+¦   ¦   ¦   ¦   ¦   +---react-dom
+¦   ¦   ¦   ¦   ¦   ¦   +---cjs
+¦   ¦   ¦   ¦   ¦   +---react-dom-experimental
+¦   ¦   ¦   ¦   ¦   ¦   +---cjs
+¦   ¦   ¦   ¦   ¦   +---react-experimental
+¦   ¦   ¦   ¦   ¦   ¦   +---cjs
+¦   ¦   ¦   ¦   ¦   +---react-is
+¦   ¦   ¦   ¦   ¦   ¦   +---cjs
+¦   ¦   ¦   ¦   ¦   +---react-refresh
+¦   ¦   ¦   ¦   ¦   ¦   +---cjs
+¦   ¦   ¦   ¦   ¦   +---react-server-dom-turbopack
+¦   ¦   ¦   ¦   ¦   ¦   +---cjs
+¦   ¦   ¦   ¦   ¦   +---react-server-dom-turbopack-experimental
+¦   ¦   ¦   ¦   ¦   ¦   +---cjs
+¦   ¦   ¦   ¦   ¦   +---react-server-dom-webpack
+¦   ¦   ¦   ¦   ¦   ¦   +---cjs
+¦   ¦   ¦   ¦   ¦   +---react-server-dom-webpack-experimental
+¦   ¦   ¦   ¦   ¦   ¦   +---cjs
+¦   ¦   ¦   ¦   ¦   +---regenerator-runtime
+¦   ¦   ¦   ¦   ¦   +---safe-stable-stringify
+¦   ¦   ¦   ¦   ¦   +---sass-loader
+¦   ¦   ¦   ¦   ¦   +---scheduler
+¦   ¦   ¦   ¦   ¦   ¦   +---cjs
+¦   ¦   ¦   ¦   ¦   +---scheduler-experimental
+¦   ¦   ¦   ¦   ¦   ¦   +---cjs
+¦   ¦   ¦   ¦   ¦   +---schema-utils2
+¦   ¦   ¦   ¦   ¦   +---schema-utils3
+¦   ¦   ¦   ¦   ¦   +---semver
+¦   ¦   ¦   ¦   ¦   +---send
+¦   ¦   ¦   ¦   ¦   +---serve-handler
+¦   ¦   ¦   ¦   ¦   +---server-only
+¦   ¦   ¦   ¦   ¦   +---setimmediate
+¦   ¦   ¦   ¦   ¦   +---shell-quote
+¦   ¦   ¦   ¦   ¦   +---source-map
+¦   ¦   ¦   ¦   ¦   +---source-map08
+¦   ¦   ¦   ¦   ¦   +---stacktrace-parser
+¦   ¦   ¦   ¦   ¦   +---stream-browserify
+¦   ¦   ¦   ¦   ¦   +---stream-http
+¦   ¦   ¦   ¦   ¦   +---string-hash
+¦   ¦   ¦   ¦   ¦   +---string_decoder
+¦   ¦   ¦   ¦   ¦   +---strip-ansi
+¦   ¦   ¦   ¦   ¦   +---superstruct
+¦   ¦   ¦   ¦   ¦   +---tar
+¦   ¦   ¦   ¦   ¦   +---terser
+¦   ¦   ¦   ¦   ¦   +---text-table
+¦   ¦   ¦   ¦   ¦   +---timers-browserify
+¦   ¦   ¦   ¦   ¦   +---tty-browserify
+¦   ¦   ¦   ¦   ¦   +---ua-parser-js
+¦   ¦   ¦   ¦   ¦   +---unistore
+¦   ¦   ¦   ¦   ¦   +---util
+¦   ¦   ¦   ¦   ¦   +---vm-browserify
+¦   ¦   ¦   ¦   ¦   +---watchpack
+¦   ¦   ¦   ¦   ¦   +---web-vitals
+¦   ¦   ¦   ¦   ¦   +---web-vitals-attribution
+¦   ¦   ¦   ¦   ¦   +---webpack
+¦   ¦   ¦   ¦   ¦   +---webpack-sources1
+¦   ¦   ¦   ¦   ¦   +---webpack-sources3
+¦   ¦   ¦   ¦   ¦   +---ws
+¦   ¦   ¦   ¦   ¦   +---zod
+¦   ¦   ¦   ¦   ¦   +---zod-validation-error
+¦   ¦   ¦   ¦   +---diagnostics
+¦   ¦   ¦   ¦   +---docs
+¦   ¦   ¦   ¦   ¦   +---01-app
+¦   ¦   ¦   ¦   ¦   ¦   +---01-getting-started
+¦   ¦   ¦   ¦   ¦   ¦   +---02-guides
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---migrating
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---testing
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---upgrading
+¦   ¦   ¦   ¦   ¦   ¦   +---03-api-reference
+¦   ¦   ¦   ¦   ¦   ¦       +---01-directives
+¦   ¦   ¦   ¦   ¦   ¦       +---02-components
+¦   ¦   ¦   ¦   ¦   ¦       +---03-file-conventions
+¦   ¦   ¦   ¦   ¦   ¦       ¦   +---01-metadata
+¦   ¦   ¦   ¦   ¦   ¦       ¦   +---02-route-segment-config
+¦   ¦   ¦   ¦   ¦   ¦       +---04-functions
+¦   ¦   ¦   ¦   ¦   ¦       +---05-config
+¦   ¦   ¦   ¦   ¦   ¦       ¦   +---01-next-config-js
+¦   ¦   ¦   ¦   ¦   ¦       +---06-cli
+¦   ¦   ¦   ¦   ¦   ¦       +---07-adapters
+¦   ¦   ¦   ¦   ¦   +---02-pages
+¦   ¦   ¦   ¦   ¦   ¦   +---01-getting-started
+¦   ¦   ¦   ¦   ¦   ¦   +---02-guides
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---migrating
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---testing
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---upgrading
+¦   ¦   ¦   ¦   ¦   ¦   +---03-building-your-application
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---01-routing
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---02-rendering
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---03-data-fetching
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---06-configuring
+¦   ¦   ¦   ¦   ¦   ¦   +---04-api-reference
+¦   ¦   ¦   ¦   ¦   ¦       +---01-components
+¦   ¦   ¦   ¦   ¦   ¦       +---02-file-conventions
+¦   ¦   ¦   ¦   ¦   ¦       +---03-functions
+¦   ¦   ¦   ¦   ¦   ¦       +---04-config
+¦   ¦   ¦   ¦   ¦   ¦       ¦   +---01-next-config-js
+¦   ¦   ¦   ¦   ¦   ¦       +---05-cli
+¦   ¦   ¦   ¦   ¦   ¦       +---06-adapters
+¦   ¦   ¦   ¦   ¦   +---03-architecture
+¦   ¦   ¦   ¦   ¦   +---04-community
+¦   ¦   ¦   ¦   +---esm
+¦   ¦   ¦   ¦   ¦   +---api
+¦   ¦   ¦   ¦   ¦   +---build
+¦   ¦   ¦   ¦   ¦   ¦   +---adapter
+¦   ¦   ¦   ¦   ¦   ¦   +---analysis
+¦   ¦   ¦   ¦   ¦   ¦   +---analyze
+¦   ¦   ¦   ¦   ¦   ¦   +---babel
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---loader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---plugins
+¦   ¦   ¦   ¦   ¦   ¦   +---manifests
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---formatter
+¦   ¦   ¦   ¦   ¦   ¦   +---next-config-ts
+¦   ¦   ¦   ¦   ¦   ¦   +---output
+¦   ¦   ¦   ¦   ¦   ¦   +---polyfills
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---fetch
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---object.assign
+¦   ¦   ¦   ¦   ¦   ¦   +---segment-config
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---app
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---middleware
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---pages
+¦   ¦   ¦   ¦   ¦   ¦   +---static-paths
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---app
+¦   ¦   ¦   ¦   ¦   ¦   +---swc
+¦   ¦   ¦   ¦   ¦   ¦   +---templates
+¦   ¦   ¦   ¦   ¦   ¦   +---turbopack-analyze
+¦   ¦   ¦   ¦   ¦   ¦   +---turbopack-build
+¦   ¦   ¦   ¦   ¦   ¦   +---turborepo-access-trace
+¦   ¦   ¦   ¦   ¦   ¦   +---webpack
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---alias
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---config
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---blocks
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦       +---css
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦       ¦   +---loaders
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦       +---images
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---loaders
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---css-loader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---src
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦       +---plugins
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦       +---runtime
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---devtool
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---lightningcss-loader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---src
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---metadata
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---next-app-loader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---next-edge-app-route-loader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---next-edge-ssr-loader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---next-flight-loader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---next-font-loader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---next-image-loader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---next-route-loader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---next-style-loader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---runtime
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---postcss-loader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---src
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---resolve-url-loader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦       +---lib
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---plugins
+¦   ¦   ¦   ¦   ¦   ¦   ¦       +---minify-webpack-plugin
+¦   ¦   ¦   ¦   ¦   ¦   ¦       ¦   +---src
+¦   ¦   ¦   ¦   ¦   ¦   ¦       +---next-types-plugin
+¦   ¦   ¦   ¦   ¦   ¦   ¦       +---telemetry-plugin
+¦   ¦   ¦   ¦   ¦   ¦   ¦       +---wellknown-errors-plugin
+¦   ¦   ¦   ¦   ¦   ¦   +---webpack-build
+¦   ¦   ¦   ¦   ¦   ¦   +---webpack-config-rules
+¦   ¦   ¦   ¦   ¦   +---client
+¦   ¦   ¦   ¦   ¦   ¦   +---app-dir
+¦   ¦   ¦   ¦   ¦   ¦   +---compat
+¦   ¦   ¦   ¦   ¦   ¦   +---components
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---builtin
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---errors
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---http-access-fallback
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---instant-validation
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---router-reducer
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---reducers
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---segment-cache
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---styles
+¦   ¦   ¦   ¦   ¦   ¦   +---dev
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---error-overlay
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---hot-reloader
+¦   ¦   ¦   ¦   ¦   ¦   ¦       +---app
+¦   ¦   ¦   ¦   ¦   ¦   ¦       +---pages
+¦   ¦   ¦   ¦   ¦   ¦   +---legacy
+¦   ¦   ¦   ¦   ¦   ¦   +---lib
+¦   ¦   ¦   ¦   ¦   ¦   +---portal
+¦   ¦   ¦   ¦   ¦   ¦   +---react-client-callbacks
+¦   ¦   ¦   ¦   ¦   ¦   +---request
+¦   ¦   ¦   ¦   ¦   ¦   +---tracing
+¦   ¦   ¦   ¦   ¦   +---export
+¦   ¦   ¦   ¦   ¦   ¦   +---helpers
+¦   ¦   ¦   ¦   ¦   ¦   +---routes
+¦   ¦   ¦   ¦   ¦   +---lib
+¦   ¦   ¦   ¦   ¦   ¦   +---framework
+¦   ¦   ¦   ¦   ¦   ¦   +---fs
+¦   ¦   ¦   ¦   ¦   ¦   +---helpers
+¦   ¦   ¦   ¦   ¦   ¦   +---memory
+¦   ¦   ¦   ¦   ¦   ¦   +---metadata
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---generate
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---resolvers
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---types
+¦   ¦   ¦   ¦   ¦   ¦   +---typescript
+¦   ¦   ¦   ¦   ¦   +---next-devtools
+¦   ¦   ¦   ¦   ¦   ¦   +---server
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---font
+¦   ¦   ¦   ¦   ¦   ¦   +---shared
+¦   ¦   ¦   ¦   ¦   ¦   +---userspace
+¦   ¦   ¦   ¦   ¦   ¦       +---app
+¦   ¦   ¦   ¦   ¦   ¦       ¦   +---errors
+¦   ¦   ¦   ¦   ¦   ¦       +---pages
+¦   ¦   ¦   ¦   ¦   +---pages
+¦   ¦   ¦   ¦   ¦   +---server
+¦   ¦   ¦   ¦   ¦   ¦   +---after
+¦   ¦   ¦   ¦   ¦   ¦   +---api-utils
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---node
+¦   ¦   ¦   ¦   ¦   ¦   +---app-render
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---instant-validation
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---metadata-insertion
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---module-loading
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---rsc
+¦   ¦   ¦   ¦   ¦   ¦   +---async-storage
+¦   ¦   ¦   ¦   ¦   ¦   +---base-http
+¦   ¦   ¦   ¦   ¦   ¦   +---dev
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---browser-logs
+¦   ¦   ¦   ¦   ¦   ¦   +---instrumentation
+¦   ¦   ¦   ¦   ¦   ¦   +---lib
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---cache-handlers
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---experimental
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---incremental-cache
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---module-loader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---router-utils
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---server-ipc
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---trace
+¦   ¦   ¦   ¦   ¦   ¦   +---mcp
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---tools
+¦   ¦   ¦   ¦   ¦   ¦   ¦       +---utils
+¦   ¦   ¦   ¦   ¦   ¦   +---node-environment-extensions
+¦   ¦   ¦   ¦   ¦   ¦   +---normalizers
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---built
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---app
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---pages
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---request
+¦   ¦   ¦   ¦   ¦   ¦   +---og
+¦   ¦   ¦   ¦   ¦   ¦   +---request
+¦   ¦   ¦   ¦   ¦   ¦   +---response-cache
+¦   ¦   ¦   ¦   ¦   ¦   +---resume-data-cache
+¦   ¦   ¦   ¦   ¦   ¦   +---route-definitions
+¦   ¦   ¦   ¦   ¦   ¦   +---route-matcher-managers
+¦   ¦   ¦   ¦   ¦   ¦   +---route-matcher-providers
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---dev
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---helpers
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦       +---file-reader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---helpers
+¦   ¦   ¦   ¦   ¦   ¦   ¦       +---manifest-loaders
+¦   ¦   ¦   ¦   ¦   ¦   +---route-matchers
+¦   ¦   ¦   ¦   ¦   ¦   +---route-matches
+¦   ¦   ¦   ¦   ¦   ¦   +---route-modules
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---app-page
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---helpers
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---vendored
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦       +---contexts
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦       +---rsc
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦       +---ssr
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---app-route
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---helpers
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---pages
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---builtin
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---vendored
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦       +---contexts
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---pages-api
+¦   ¦   ¦   ¦   ¦   ¦   +---stream-utils
+¦   ¦   ¦   ¦   ¦   ¦   +---typescript
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---rules
+¦   ¦   ¦   ¦   ¦   ¦   +---use-cache
+¦   ¦   ¦   ¦   ¦   ¦   +---web
+¦   ¦   ¦   ¦   ¦   ¦       +---exports
+¦   ¦   ¦   ¦   ¦   ¦       +---sandbox
+¦   ¦   ¦   ¦   ¦   ¦       +---spec-extension
+¦   ¦   ¦   ¦   ¦   ¦           +---adapters
+¦   ¦   ¦   ¦   ¦   +---shared
+¦   ¦   ¦   ¦   ¦       +---lib
+¦   ¦   ¦   ¦   ¦           +---errors
+¦   ¦   ¦   ¦   ¦           +---i18n
+¦   ¦   ¦   ¦   ¦           +---isomorphic
+¦   ¦   ¦   ¦   ¦           +---lazy-dynamic
+¦   ¦   ¦   ¦   ¦           +---page-path
+¦   ¦   ¦   ¦   ¦           +---router
+¦   ¦   ¦   ¦   ¦           ¦   +---routes
+¦   ¦   ¦   ¦   ¦           ¦   +---utils
+¦   ¦   ¦   ¦   ¦           +---segment-cache
+¦   ¦   ¦   ¦   ¦           +---turbopack
+¦   ¦   ¦   ¦   ¦           +---utils
+¦   ¦   ¦   ¦   +---experimental
+¦   ¦   ¦   ¦   ¦   +---testing
+¦   ¦   ¦   ¦   ¦   ¦   +---server
+¦   ¦   ¦   ¦   ¦   +---testmode
+¦   ¦   ¦   ¦   ¦       +---playwright
+¦   ¦   ¦   ¦   ¦       +---proxy
+¦   ¦   ¦   ¦   +---export
+¦   ¦   ¦   ¦   ¦   +---helpers
+¦   ¦   ¦   ¦   ¦   +---routes
+¦   ¦   ¦   ¦   +---lib
+¦   ¦   ¦   ¦   ¦   +---framework
+¦   ¦   ¦   ¦   ¦   +---fs
+¦   ¦   ¦   ¦   ¦   +---helpers
+¦   ¦   ¦   ¦   ¦   +---memory
+¦   ¦   ¦   ¦   ¦   +---metadata
+¦   ¦   ¦   ¦   ¦   ¦   +---generate
+¦   ¦   ¦   ¦   ¦   ¦   +---resolvers
+¦   ¦   ¦   ¦   ¦   ¦   +---types
+¦   ¦   ¦   ¦   ¦   +---typescript
+¦   ¦   ¦   ¦   +---next-devtools
+¦   ¦   ¦   ¦   ¦   +---dev-overlay
+¦   ¦   ¦   ¦   ¦   ¦   +---components
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---call-stack
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---call-stack-frame
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---code-frame
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---copy-button
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---devtools-indicator
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---hooks
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---devtools-panel
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---resize
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---dialog
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---errors
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---dev-tools-indicator
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---dev-tools-info
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---dialog
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---environment-name-label
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---error-message
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---error-overlay
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---error-overlay-bottom-stack
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---error-overlay-call-stack
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---error-overlay-footer
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---error-feedback
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---error-overlay-layout
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---error-overlay-nav
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---error-overlay-pagination
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---error-overlay-toolbar
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---error-type-label
+¦   ¦   ¦   ¦   ¦   ¦   ¦   ¦   +---overlay
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---fader
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---hot-linked-text
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---hydration-diff
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---instant-navs
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---overlay
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---overview
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---resizer
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---terminal
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---toast
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---tooltip
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---version-staleness-info
+¦   ¦   ¦   ¦   ¦   ¦   +---container
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---runtime-error
+¦   ¦   ¦   ¦   ¦   ¦   +---font
+¦   ¦   ¦   ¦   ¦   ¦   +---hooks
+¦   ¦   ¦   ¦   ¦   ¦   +---icons
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---thumbs
+¦   ¦   ¦   ¦   ¦   ¦   +---menu
+¦   ¦   ¦   ¦   ¦   ¦   +---panel
+¦   ¦   ¦   ¦   ¦   ¦   +---styles
+¦   ¦   ¦   ¦   ¦   ¦   +---utils
+¦   ¦   ¦   ¦   ¦   +---server
+¦   ¦   ¦   ¦   ¦   ¦   +---font
+¦   ¦   ¦   ¦   ¦   +---shared
+¦   ¦   ¦   ¦   ¦   +---userspace
+¦   ¦   ¦   ¦   ¦       +---app
+¦   ¦   ¦   ¦   ¦       ¦   +---errors
+¦   ¦   ¦   ¦   ¦       +---pages
+¦   ¦   ¦   ¦   +---pages
+¦   ¦   ¦   ¦   +---server
+¦   ¦   ¦   ¦   ¦   +---after
+¦   ¦   ¦   ¦   ¦   +---api-utils
+¦   ¦   ¦   ¦   ¦   ¦   +---node
+¦   ¦   ¦   ¦   ¦   +---app-render
+¦   ¦   ¦   ¦   ¦   ¦   +---instant-validation
+¦   ¦   ¦   ¦   ¦   ¦   +---metadata-insertion
+¦   ¦   ¦   ¦   ¦   ¦   +---module-loading
+¦   ¦   ¦   ¦   ¦   ¦   +---rsc
+¦   ¦   ¦   ¦   ¦   +---async-storage
+¦   ¦   ¦   ¦   ¦   +---base-http
+¦   ¦   ¦   ¦   ¦   +---dev
+¦   ¦   ¦   ¦   ¦   ¦   +---browser-logs
+¦   ¦   ¦   ¦   ¦   +---instrumentation
+¦   ¦   ¦   ¦   ¦   +---lib
+¦   ¦   ¦   ¦   ¦   ¦   +---cache-handlers
+¦   ¦   ¦   ¦   ¦   ¦   +---experimental
+¦   ¦   ¦   ¦   ¦   ¦   +---incremental-cache
+¦   ¦   ¦   ¦   ¦   ¦   +---module-loader
+¦   ¦   ¦   ¦   ¦   ¦   +---router-utils
+¦   ¦   ¦   ¦   ¦   ¦   +---server-ipc
+¦   ¦   ¦   ¦   ¦   ¦   +---trace
+¦   ¦   ¦   ¦   ¦   +---mcp
+¦   ¦   ¦   ¦   ¦   ¦   +---tools
+¦   ¦   ¦   ¦   ¦   ¦       +---utils
+¦   ¦   ¦   ¦   ¦   +---node-environment-extensions
+¦   ¦   ¦   ¦   ¦   +---normalizers
+¦   ¦   ¦   ¦   ¦   ¦   +---built
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---app
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---pages
+¦   ¦   ¦   ¦   ¦   ¦   +---request
+¦   ¦   ¦   ¦   ¦   +---og
+¦   ¦   ¦   ¦   ¦   +---request
+¦   ¦   ¦   ¦   ¦   +---response-cache
+¦   ¦   ¦   ¦   ¦   +---resume-data-cache
+¦   ¦   ¦   ¦   ¦   +---route-definitions
+¦   ¦   ¦   ¦   ¦   +---route-matcher-managers
+¦   ¦   ¦   ¦   ¦   +---route-matcher-providers
+¦   ¦   ¦   ¦   ¦   ¦   +---dev
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---helpers
+¦   ¦   ¦   ¦   ¦   ¦   ¦       +---file-reader
+¦   ¦   ¦   ¦   ¦   ¦   +---helpers
+¦   ¦   ¦   ¦   ¦   ¦       +---manifest-loaders
+¦   ¦   ¦   ¦   ¦   +---route-matchers
+¦   ¦   ¦   ¦   ¦   +---route-matches
+¦   ¦   ¦   ¦   ¦   +---route-modules
+¦   ¦   ¦   ¦   ¦   ¦   +---app-page
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---helpers
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---vendored
+¦   ¦   ¦   ¦   ¦   ¦   ¦       +---contexts
+¦   ¦   ¦   ¦   ¦   ¦   ¦       +---rsc
+¦   ¦   ¦   ¦   ¦   ¦   ¦       +---ssr
+¦   ¦   ¦   ¦   ¦   ¦   +---app-route
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---helpers
+¦   ¦   ¦   ¦   ¦   ¦   +---pages
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---builtin
+¦   ¦   ¦   ¦   ¦   ¦   ¦   +---vendored
+¦   ¦   ¦   ¦   ¦   ¦   ¦       +---contexts
+¦   ¦   ¦   ¦   ¦   ¦   +---pages-api
+¦   ¦   ¦   ¦   ¦   +---stream-utils
+¦   ¦   ¦   ¦   ¦   +---typescript
+¦   ¦   ¦   ¦   ¦   ¦   +---rules
+¦   ¦   ¦   ¦   ¦   +---use-cache
+¦   ¦   ¦   ¦   ¦   +---web
+¦   ¦   ¦   ¦   ¦       +---exports
+¦   ¦   ¦   ¦   ¦       +---sandbox
+¦   ¦   ¦   ¦   ¦       +---spec-extension
+¦   ¦   ¦   ¦   ¦           +---adapters
+¦   ¦   ¦   ¦   +---shared
+¦   ¦   ¦   ¦   ¦   +---lib
+¦   ¦   ¦   ¦   ¦       +---errors
+¦   ¦   ¦   ¦   ¦       +---i18n
+¦   ¦   ¦   ¦   ¦       +---isomorphic
+¦   ¦   ¦   ¦   ¦       +---lazy-dynamic
+¦   ¦   ¦   ¦   ¦       +---page-path
+¦   ¦   ¦   ¦   ¦       +---router
+¦   ¦   ¦   ¦   ¦       ¦   +---routes
+¦   ¦   ¦   ¦   ¦       ¦   +---utils
+¦   ¦   ¦   ¦   ¦       +---segment-cache
+¦   ¦   ¦   ¦   ¦       +---turbopack
+¦   ¦   ¦   ¦   ¦       +---utils
+¦   ¦   ¦   ¦   +---styled-jsx
+¦   ¦   ¦   ¦   ¦   +---types
+¦   ¦   ¦   ¦   +---telemetry
+¦   ¦   ¦   ¦   ¦   +---events
+¦   ¦   ¦   ¦   +---trace
+¦   ¦   ¦   ¦       +---report
+¦   ¦   ¦   +---experimental
+¦   ¦   ¦   ¦   +---testing
+¦   ¦   ¦   ¦   +---testmode
+¦   ¦   ¦   ¦       +---playwright
+¦   ¦   ¦   +---font
+¦   ¦   ¦   ¦   +---google
+¦   ¦   ¦   ¦   +---local
+¦   ¦   ¦   +---image-types
+¦   ¦   ¦   +---legacy
+¦   ¦   ¦   +---navigation-types
+¦   ¦   ¦   ¦   +---compat
+¦   ¦   ¦   +---node_modules
+¦   ¦   ¦   ¦   +---postcss
+¦   ¦   ¦   ¦       +---lib
+¦   ¦   ¦   +---types
+¦   ¦   +---node-exports-info
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---node-releases
+¦   ¦   ¦   +---data
+¦   ¦   ¦       +---processed
+¦   ¦   ¦       +---release-schedule
+¦   ¦   +---object-assign
+¦   ¦   +---object-inspect
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---example
+¦   ¦   ¦   +---test
+¦   ¦   ¦       +---browser
+¦   ¦   +---object-keys
+¦   ¦   ¦   +---test
+¦   ¦   +---object.assign
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---test
+¦   ¦   +---object.entries
+¦   ¦   ¦   +---test
+¦   ¦   +---object.fromentries
+¦   ¦   ¦   +---test
+¦   ¦   +---object.groupby
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---object.values
+¦   ¦   ¦   +---test
+¦   ¦   +---ohash
+¦   ¦   ¦   +---dist
+¦   ¦   ¦       +---crypto
+¦   ¦   ¦       ¦   +---js
+¦   ¦   ¦       ¦   +---node
+¦   ¦   ¦       +---shared
+¦   ¦   ¦       +---utils
+¦   ¦   +---optionator
+¦   ¦   ¦   +---lib
+¦   ¦   +---own-keys
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---p-limit
+¦   ¦   +---p-locate
+¦   ¦   +---parent-module
+¦   ¦   +---path-exists
+¦   ¦   +---path-key
+¦   ¦   +---path-parse
+¦   ¦   +---pathe
+¦   ¦   ¦   +---dist
+¦   ¦   ¦       +---shared
+¦   ¦   +---perfect-debounce
+¦   ¦   ¦   +---dist
+¦   ¦   +---picocolors
+¦   ¦   +---picomatch
+¦   ¦   ¦   +---lib
+¦   ¦   +---pkg-types
+¦   ¦   ¦   +---dist
+¦   ¦   +---possible-typed-array-names
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---postcss
+¦   ¦   ¦   +---lib
+¦   ¦   +---postgres
+¦   ¦   ¦   +---cf
+¦   ¦   ¦   ¦   +---src
+¦   ¦   ¦   +---cjs
+¦   ¦   ¦   ¦   +---src
+¦   ¦   ¦   +---src
+¦   ¦   ¦   +---types
+¦   ¦   +---prelude-ls
+¦   ¦   ¦   +---lib
+¦   ¦   +---prisma
+¦   ¦   ¦   +---build
+¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   +---cli
+¦   ¦   ¦   ¦       +---src
+¦   ¦   ¦   +---preinstall
+¦   ¦   ¦   +---scripts
+¦   ¦   +---prop-types
+¦   ¦   ¦   +---lib
+¦   ¦   +---proper-lockfile
+¦   ¦   ¦   +---lib
+¦   ¦   ¦   +---node_modules
+¦   ¦   ¦       +---signal-exit
+¦   ¦   +---punycode
+¦   ¦   +---pure-rand
+¦   ¦   ¦   +---lib
+¦   ¦   ¦       +---distribution
+¦   ¦   ¦       ¦   +---internals
+¦   ¦   ¦       +---esm
+¦   ¦   ¦       ¦   +---distribution
+¦   ¦   ¦       ¦   ¦   +---internals
+¦   ¦   ¦       ¦   +---generator
+¦   ¦   ¦       ¦   +---types
+¦   ¦   ¦       ¦       +---distribution
+¦   ¦   ¦       ¦       ¦   +---internals
+¦   ¦   ¦       ¦       +---generator
+¦   ¦   ¦       +---generator
+¦   ¦   ¦       +---types
+¦   ¦   ¦           +---distribution
+¦   ¦   ¦           ¦   +---internals
+¦   ¦   ¦           +---generator
+¦   ¦   +---qrcode.react
+¦   ¦   ¦   +---lib
+¦   ¦   ¦       +---esm
+¦   ¦   +---queue-microtask
+¦   ¦   +---rc9
+¦   ¦   ¦   +---dist
+¦   ¦   ¦       +---_chunks
+¦   ¦   ¦           +---libs
+¦   ¦   +---react
+¦   ¦   ¦   +---cjs
+¦   ¦   +---react-dom
+¦   ¦   ¦   +---cjs
+¦   ¦   +---react-is
+¦   ¦   ¦   +---cjs
+¦   ¦   ¦   +---umd
+¦   ¦   +---readdirp
+¦   ¦   +---reflect.getprototypeof
+¦   ¦   ¦   +---test
+¦   ¦   +---regexp.prototype.flags
+¦   ¦   ¦   +---test
+¦   ¦   +---remeda
+¦   ¦   ¦   +---dist
+¦   ¦   +---require-from-string
+¦   ¦   +---resolve
+¦   ¦   ¦   +---.claude
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---bin
+¦   ¦   ¦   +---example
+¦   ¦   ¦   +---lib
+¦   ¦   ¦   +---test
+¦   ¦   ¦       +---dotdot
+¦   ¦   ¦       ¦   +---abc
+¦   ¦   ¦       +---module_dir
+¦   ¦   ¦       ¦   +---xmodules
+¦   ¦   ¦       ¦   ¦   +---aaa
+¦   ¦   ¦       ¦   +---ymodules
+¦   ¦   ¦       ¦   ¦   +---aaa
+¦   ¦   ¦       ¦   +---zmodules
+¦   ¦   ¦       ¦       +---bbb
+¦   ¦   ¦       +---node_path
+¦   ¦   ¦       ¦   +---x
+¦   ¦   ¦       ¦   ¦   +---aaa
+¦   ¦   ¦       ¦   ¦   +---ccc
+¦   ¦   ¦       ¦   +---y
+¦   ¦   ¦       ¦       +---bbb
+¦   ¦   ¦       ¦       +---ccc
+¦   ¦   ¦       +---pathfilter
+¦   ¦   ¦       ¦   +---deep_ref
+¦   ¦   ¦       +---precedence
+¦   ¦   ¦       ¦   +---aaa
+¦   ¦   ¦       ¦   +---bbb
+¦   ¦   ¦       +---resolver
+¦   ¦   ¦       ¦   +---baz
+¦   ¦   ¦       ¦   +---browser_field
+¦   ¦   ¦       ¦   +---dot_main
+¦   ¦   ¦       ¦   +---dot_slash_main
+¦   ¦   ¦       ¦   +---empty_main
+¦   ¦   ¦       ¦   +---false_main
+¦   ¦   ¦       ¦   +---incorrect_main
+¦   ¦   ¦       ¦   +---invalid_main
+¦   ¦   ¦       ¦   +---missing_index
+¦   ¦   ¦       ¦   +---missing_main
+¦   ¦   ¦       ¦   +---multirepo
+¦   ¦   ¦       ¦   ¦   +---packages
+¦   ¦   ¦       ¦   ¦       +---package-a
+¦   ¦   ¦       ¦   ¦       +---package-b
+¦   ¦   ¦       ¦   +---nested_symlinks
+¦   ¦   ¦       ¦   ¦   +---mylib
+¦   ¦   ¦       ¦   +---null_main
+¦   ¦   ¦       ¦   +---other_path
+¦   ¦   ¦       ¦   ¦   +---lib
+¦   ¦   ¦       ¦   +---quux
+¦   ¦   ¦       ¦   ¦   +---foo
+¦   ¦   ¦       ¦   +---same_names
+¦   ¦   ¦       ¦   ¦   +---foo
+¦   ¦   ¦       ¦   +---symlinked
+¦   ¦   ¦       ¦   ¦   +---package
+¦   ¦   ¦       ¦   ¦   +---_
+¦   ¦   ¦       ¦   ¦       +---node_modules
+¦   ¦   ¦       ¦   ¦       +---symlink_target
+¦   ¦   ¦       ¦   +---without_basedir
+¦   ¦   ¦       +---shadowed_core
+¦   ¦   ¦           +---node_modules
+¦   ¦   ¦               +---util
+¦   ¦   +---resolve-from
+¦   ¦   +---resolve-pkg-maps
+¦   ¦   ¦   +---dist
+¦   ¦   +---retry
+¦   ¦   ¦   +---example
+¦   ¦   ¦   +---lib
+¦   ¦   ¦   +---test
+¦   ¦   ¦       +---integration
+¦   ¦   +---reusify
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   ¦   +---workflows
+¦   ¦   ¦   +---benchmarks
+¦   ¦   +---run-parallel
+¦   ¦   +---safe-array-concat
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---safe-push-apply
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---safe-regex-test
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---safer-buffer
+¦   ¦   +---scheduler
+¦   ¦   ¦   +---cjs
+¦   ¦   +---semver
+¦   ¦   ¦   +---bin
+¦   ¦   +---seq-queue
+¦   ¦   ¦   +---lib
+¦   ¦   ¦   +---test
+¦   ¦   +---server-only
+¦   ¦   +---set-function-length
+¦   ¦   ¦   +---.github
+¦   ¦   +---set-function-name
+¦   ¦   ¦   +---.github
+¦   ¦   +---set-proto
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---sharp
+¦   ¦   ¦   +---install
+¦   ¦   ¦   +---lib
+¦   ¦   ¦   +---node_modules
+¦   ¦   ¦   ¦   +---.bin
+¦   ¦   ¦   ¦   +---semver
+¦   ¦   ¦   ¦       +---bin
+¦   ¦   ¦   ¦       +---classes
+¦   ¦   ¦   ¦       +---functions
+¦   ¦   ¦   ¦       +---internal
+¦   ¦   ¦   ¦       +---ranges
+¦   ¦   ¦   +---src
+¦   ¦   +---shebang-command
+¦   ¦   +---shebang-regex
+¦   ¦   +---side-channel
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---side-channel-list
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---side-channel-map
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---side-channel-weakmap
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---signal-exit
+¦   ¦   ¦   +---dist
+¦   ¦   ¦       +---cjs
+¦   ¦   ¦       +---mjs
+¦   ¦   +---source-map-js
+¦   ¦   ¦   +---lib
+¦   ¦   +---sqlstring
+¦   ¦   ¦   +---lib
+¦   ¦   +---stable-hash
+¦   ¦   ¦   +---dist
+¦   ¦   +---standardwebhooks
+¦   ¦   ¦   +---dist
+¦   ¦   +---std-env
+¦   ¦   ¦   +---dist
+¦   ¦   +---stop-iteration-iterator
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---string.prototype.includes
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   ¦   +---workflows
+¦   ¦   ¦   +---tests
+¦   ¦   +---string.prototype.matchall
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---string.prototype.repeat
+¦   ¦   ¦   +---tests
+¦   ¦   +---string.prototype.trim
+¦   ¦   ¦   +---test
+¦   ¦   +---string.prototype.trimend
+¦   ¦   ¦   +---test
+¦   ¦   +---string.prototype.trimstart
+¦   ¦   ¦   +---test
+¦   ¦   +---strip-bom
+¦   ¦   +---strip-json-comments
+¦   ¦   +---styled-jsx
+¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   +---babel
+¦   ¦   ¦   ¦   +---index
+¦   ¦   ¦   ¦   +---webpack
+¦   ¦   ¦   +---lib
+¦   ¦   +---supports-color
+¦   ¦   +---supports-preserve-symlinks-flag
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---tailwind-merge
+¦   ¦   ¦   +---dist
+¦   ¦   ¦   ¦   +---es5
+¦   ¦   ¦   +---src
+¦   ¦   ¦       +---lib
+¦   ¦   +---tailwindcss
+¦   ¦   ¦   +---dist
+¦   ¦   +---tapable
+¦   ¦   ¦   +---lib
+¦   ¦   +---tinyglobby
+¦   ¦   ¦   +---dist
+¦   ¦   ¦   +---node_modules
+¦   ¦   ¦       +---fdir
+¦   ¦   ¦       ¦   +---dist
+¦   ¦   ¦       +---picomatch
+¦   ¦   ¦           +---lib
+¦   ¦   +---to-regex-range
+¦   ¦   +---ts-api-utils
+¦   ¦   ¦   +---lib
+¦   ¦   +---tsconfig-paths
+¦   ¦   ¦   +---lib
+¦   ¦   ¦   ¦   +---__tests__
+¦   ¦   ¦   ¦       +---data
+¦   ¦   ¦   +---node_modules
+¦   ¦   ¦   ¦   +---.bin
+¦   ¦   ¦   ¦   +---json5
+¦   ¦   ¦   ¦       +---dist
+¦   ¦   ¦   ¦       +---lib
+¦   ¦   ¦   +---src
+¦   ¦   ¦       +---__tests__
+¦   ¦   ¦           +---data
+¦   ¦   +---tslib
+¦   ¦   ¦   +---modules
+¦   ¦   +---type-check
+¦   ¦   ¦   +---lib
+¦   ¦   +---typed-array-buffer
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---typed-array-byte-length
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---typed-array-byte-offset
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---typed-array-length
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---typescript
+¦   ¦   ¦   +---bin
+¦   ¦   ¦   +---lib
+¦   ¦   ¦       +---cs
+¦   ¦   ¦       +---de
+¦   ¦   ¦       +---es
+¦   ¦   ¦       +---fr
+¦   ¦   ¦       +---it
+¦   ¦   ¦       +---ja
+¦   ¦   ¦       +---ko
+¦   ¦   ¦       +---pl
+¦   ¦   ¦       +---pt-br
+¦   ¦   ¦       +---ru
+¦   ¦   ¦       +---tr
+¦   ¦   ¦       +---zh-cn
+¦   ¦   ¦       +---zh-tw
+¦   ¦   +---typescript-eslint
+¦   ¦   ¦   +---dist
+¦   ¦   +---unbox-primitive
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---undici-types
+¦   ¦   +---unrs-resolver
+¦   ¦   +---update-browserslist-db
+¦   ¦   +---uri-js
+¦   ¦   ¦   +---dist
+¦   ¦   ¦       +---es5
+¦   ¦   ¦       +---esnext
+¦   ¦   ¦           +---schemes
+¦   ¦   +---valibot
+¦   ¦   ¦   +---dist
+¦   ¦   +---which
+¦   ¦   ¦   +---bin
+¦   ¦   +---which-boxed-primitive
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---which-builtin-type
+¦   ¦   ¦   +---test
+¦   ¦   +---which-collection
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---which-typed-array
+¦   ¦   ¦   +---.github
+¦   ¦   ¦   +---test
+¦   ¦   +---word-wrap
+¦   ¦   +---yallist
+¦   ¦   +---yocto-queue
+¦   ¦   +---zeptomatch
+¦   ¦   ¦   +---dist
+¦   ¦   ¦       +---compile
+¦   ¦   ¦       +---merge
+¦   ¦   ¦       +---normalize
+¦   ¦   ¦       +---parse
+¦   ¦   +---zod
+¦   ¦   ¦   +---locales
+¦   ¦   ¦   +---mini
+¦   ¦   ¦   +---src
+¦   ¦   ¦   ¦   +---locales
+¦   ¦   ¦   ¦   +---mini
+¦   ¦   ¦   ¦   +---v3
+¦   ¦   ¦   ¦   ¦   +---benchmarks
+¦   ¦   ¦   ¦   ¦   +---helpers
+¦   ¦   ¦   ¦   ¦   +---locales
+¦   ¦   ¦   ¦   ¦   +---tests
+¦   ¦   ¦   ¦   +---v4
+¦   ¦   ¦   ¦   ¦   +---classic
+¦   ¦   ¦   ¦   ¦   ¦   +---tests
+¦   ¦   ¦   ¦   ¦   +---core
+¦   ¦   ¦   ¦   ¦   ¦   +---tests
+¦   ¦   ¦   ¦   ¦   ¦       +---locales
+¦   ¦   ¦   ¦   ¦   +---locales
+¦   ¦   ¦   ¦   ¦   +---mini
+¦   ¦   ¦   ¦   ¦       +---tests
+¦   ¦   ¦   ¦   +---v4-mini
+¦   ¦   ¦   +---v3
+¦   ¦   ¦   ¦   +---helpers
+¦   ¦   ¦   ¦   +---locales
+¦   ¦   ¦   +---v4
+¦   ¦   ¦   ¦   +---classic
+¦   ¦   ¦   ¦   +---core
+¦   ¦   ¦   ¦   +---locales
+¦   ¦   ¦   ¦   +---mini
+¦   ¦   ¦   +---v4-mini
+¦   ¦   +---zod-validation-error
+¦   ¦       +---v3
+¦   ¦       +---v4
+¦   +---prisma
+¦   +---public
+¦   ¦   +---ensaios
+¦   ¦   +---images
+¦   ¦   +---landing
+¦   ¦   +---previews
+¦   ¦   +---thumbnails
+¦   +---src
+¦   ¦   +---app
+¦   ¦   ¦   +---admin
+¦   ¦   ¦   +---auth
+¦   ¦   ¦   ¦   +---callback
+¦   ¦   ¦   +---credits
+¦   ¦   ¦   +---dashboard
+¦   ¦   ¦   +---forgot-password
+¦   ¦   ¦   +---gallery
+¦   ¦   ¦   +---generate
+¦   ¦   ¦   +---help
+¦   ¦   ¦   +---history
+¦   ¦   ¦   +---login
+¦   ¦   ¦   +---pricing
+¦   ¦   ¦   +---privacy
+¦   ¦   ¦   +---register
+¦   ¦   ¦   +---reset-password
+¦   ¦   ¦   +---terms
+¦   ¦   +---components
+¦   ¦   ¦   +---ui
+¦   ¦   +---contexts
+¦   ¦   +---lib
+¦   ¦   +---services
+¦   +---venv
+¦       +---Include
+¦       +---Lib
+¦       ¦   +---site-packages
+¦       ¦       +---pip
+¦       ¦       ¦   +---_internal
+¦       ¦       ¦   ¦   +---cli
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---commands
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---distributions
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---index
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---locations
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---metadata
+¦       ¦       ¦   ¦   ¦   +---importlib
+¦       ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---models
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---network
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---operations
+¦       ¦       ¦   ¦   ¦   +---build
+¦       ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   ¦   +---install
+¦       ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---req
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---resolution
+¦       ¦       ¦   ¦   ¦   +---legacy
+¦       ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   ¦   +---resolvelib
+¦       ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---utils
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---vcs
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---__pycache__
+¦       ¦       ¦   +---_vendor
+¦       ¦       ¦   ¦   +---cachecontrol
+¦       ¦       ¦   ¦   ¦   +---caches
+¦       ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---certifi
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---chardet
+¦       ¦       ¦   ¦   ¦   +---cli
+¦       ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   ¦   +---metadata
+¦       ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---colorama
+¦       ¦       ¦   ¦   ¦   +---tests
+¦       ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---distlib
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---distro
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---idna
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---msgpack
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---packaging
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---pkg_resources
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---platformdirs
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---pygments
+¦       ¦       ¦   ¦   ¦   +---filters
+¦       ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   ¦   +---formatters
+¦       ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   ¦   +---lexers
+¦       ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   ¦   +---styles
+¦       ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---pyparsing
+¦       ¦       ¦   ¦   ¦   +---diagram
+¦       ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---pyproject_hooks
+¦       ¦       ¦   ¦   ¦   +---_in_process
+¦       ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---requests
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---resolvelib
+¦       ¦       ¦   ¦   ¦   +---compat
+¦       ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---rich
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---tenacity
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---tomli
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---urllib3
+¦       ¦       ¦   ¦   ¦   +---contrib
+¦       ¦       ¦   ¦   ¦   ¦   +---_securetransport
+¦       ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   ¦   +---packages
+¦       ¦       ¦   ¦   ¦   ¦   +---backports
+¦       ¦       ¦   ¦   ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   ¦   +---util
+¦       ¦       ¦   ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---webencodings
+¦       ¦       ¦   ¦   ¦   +---__pycache__
+¦       ¦       ¦   ¦   +---__pycache__
+¦       ¦       ¦   +---__pycache__
+¦       ¦       +---pip-23.2.1.dist-info
+¦       +---Scripts
++---instance

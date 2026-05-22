@@ -106,10 +106,22 @@ export default function GeneratePage() {
         // Usando a nova rota /api/styles conforme PDR 1.0.0
         const res = await apiService.get('/styles');
         if (res.styles) {
-          const finalStyles = res.styles.map((s: Style) => ({
-  ...s,
-  cover: s.cover ?? `/thumbnails/${s.id}.png`
-}));
+          const finalStyles = res.styles.map((s: Style) => {
+            let cover = s.cover;
+            if (!cover) {
+              if (s.id === 'dramatic_black_gown') {
+                cover = '/thumbnails/vestidoBlack.png';
+              } else {
+                cover = `/thumbnails/${s.id}.png`;
+              }
+            } else if (cover === '/thumbnails/dramatic_black_gown.png' || cover.endsWith('/dramatic_black_gown.png')) {
+              cover = '/thumbnails/vestidoBlack.png';
+            }
+            return {
+              ...s,
+              cover
+            };
+          });
 
           setStyles(finalStyles);
           setSelectedStyle(finalStyles[0] || null);
@@ -364,11 +376,11 @@ export default function GeneratePage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
 
                   <div className="absolute bottom-8 left-8 right-8">
-                    <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#748FCC] mb-2 block">{style.category}</span>
+                    <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#748FCC] mb-2 block">{style.category || 'Coleção Editorial'}</span>
                     <h3 className="text-xl font-medium text-[#F5F5F7] mb-2">{style.name}</h3>
                     <p className={`text-[11px] text-[#B8BCC4] leading-relaxed transition-all duration-500 line-clamp-2 font-light ${selectedStyle?.id === style.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
                       }`}>
-                      {style.description}
+                      {style.description || style.descricao || style.name}
                     </p>
                   </div>
 

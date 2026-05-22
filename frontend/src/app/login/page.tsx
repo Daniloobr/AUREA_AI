@@ -14,6 +14,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [logoError, setLogoError] = useState(false);
   const { login } = useAuth();
 
   React.useEffect(() => {
@@ -114,9 +115,20 @@ export default function LoginPage() {
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.2, type: "spring" }}
-              className="w-16 h-16 rounded-[20px] bg-[#748FCC] flex items-center justify-center mx-auto shadow-lg shadow-[#748FCC]/20"
+              className="w-16 h-16 rounded-[20px] flex items-center justify-center mx-auto transition-all"
             >
-              <Sparkles className="w-8 h-8 text-[#F5F5F7]" />
+              {!logoError ? (
+                <img 
+                  src="/images/LOGO aurea.png" 
+                  alt="AureaIA Logo" 
+                  className="w-full h-full object-contain"
+                  onError={() => setLogoError(true)}
+                />
+              ) : (
+                <div className="w-full h-full rounded-[20px] bg-[#748FCC] flex items-center justify-center text-[#F5F5F7] shadow-lg shadow-[#748FCC]/20">
+                  <Sparkles className="w-8 h-8" />
+                </div>
+              )}
             </motion.div>
             <h1 className="text-4xl font-serif font-medium tracking-tight text-[#F5F5F7]">Bem-vinda de volta</h1>
             <p className="text-[#B8BCC4] font-light italic">Acesse seu estúdio e eternize sua história.</p>

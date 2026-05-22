@@ -1,9 +1,12 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { Sparkles } from 'lucide-react';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const [logoError, setLogoError] = useState(false);
 
   return (
     <footer className="w-full py-16 px-6 border-t border-white/8 bg-[#0A0A0A]">
@@ -15,8 +18,19 @@ export function Footer() {
           {/* Brand */}
           <div className="flex flex-col gap-4 max-w-xs">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-[#748FCC] flex items-center justify-center">
-                <Sparkles className="w-4 h-4 text-[#F5F5F7]" />
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center">
+                {!logoError ? (
+                  <img 
+                    src="/images/LOGO aurea.png" 
+                    alt="AureaIA Logo" 
+                    className="w-full h-full object-contain"
+                    onError={() => setLogoError(true)}
+                  />
+                ) : (
+                  <div className="w-full h-full rounded-lg bg-[#748FCC] flex items-center justify-center">
+                    <Sparkles className="w-4 h-4 text-[#F5F5F7]" />
+                  </div>
+                )}
               </div>
               <span className="font-serif font-bold text-lg tracking-widest text-[#F5F5F7] uppercase">AureaIA</span>
             </div>
