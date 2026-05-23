@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 # Permitted Stripe Price IDs mapping to credits
 ALLOWED_PRICES = {
-    'price_1TXBt5AXb2fn2YJDXDIF0iKk',  # 100 credits
+    'price_1TaOnsAXb2fn2YJDy6ecZJQq',  # 100 credits
     'price_1TXBtWAXb2fn2YJDZxm1s4Xz',  # 200 credits
     'price_1TXBtrAXb2fn2YJDNsCz53jj'   # 400 credits
 }
