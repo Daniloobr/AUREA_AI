@@ -85,19 +85,31 @@ def download_image():
             }
         )
     except requests.exceptions.Timeout as e:
-        logger.error(f'Timeout fetching image for download: {e}')
+        logger.error(f'Timeout fetching image for download (504): {e}')
         return jsonify({
             'success': False,
             'error': 'O servidor demorou muito para responder ao baixar a imagem. Tente novamente.'
         }), 504
+    except requests.exceptions.HTTPError as e:
+        status_code = e.response.status_code if e.response is not None else 500
+        logger.error(f'HTTP error fetching image for download (Status {status_code}): {e}')
+        if status_code == 404:
+            return jsonify({
+                'success': False,
+                'error': 'Imagem não encontrada no servidor de origem'
+            }), 404
+        return jsonify({
+            'success': False,
+            'error': 'Falha ao baixar a imagem da URL fornecida devido a um erro no servidor de origem.'
+        }), 502
     except requests.exceptions.RequestException as e:
-        logger.error(f'Error fetching image for download: {e}')
+        logger.error(f'Error fetching image for download (502): {e}')
         return jsonify({
             'success': False,
             'error': 'Falha ao baixar a imagem da URL fornecida. Verifique se a imagem ainda existe ou tente novamente.'
         }), 502
     except Exception as e:
-        logger.exception('Unexpected error in download_image')
+        logger.exception('Unexpected error in download_image (500)')
         return jsonify({
             'success': False,
             'error': str(e)
