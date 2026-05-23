@@ -43,3 +43,6 @@ supabase>=2.0.0
 # Async task queue
 celery==5.4.0
 redis==5.0.3
+
+# Payments
+stripe==15.1.0

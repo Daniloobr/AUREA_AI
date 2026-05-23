@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useAuth } from '@/contexts/AuthContext';
+import { createCheckoutSession } from '@/lib/stripe';
 
 /* ═══════════════════════════════════════════════════════════════════════════
    PACOTES
@@ -21,7 +22,6 @@ const PACKAGES = [
     priceValue: 25.00,
     icon: Zap,
     badge: null,
-    link: 'https://syncpay.link/9nyBou',
     description: 'Ideal para experimentar nossa qualidade e criar seus primeiros ensaios.',
     features: [
       '4 ensaios completos',
@@ -39,7 +39,6 @@ const PACKAGES = [
     popular: true,
     icon: Sparkles,
     badge: '✦ Mais Escolhido',
-    link: 'https://syncpay.link/8IH7fr',
     description: 'O equilíbrio perfeito para explorar múltiplos estilos com agilidade.',
     features: [
       '8 ensaios completos',
@@ -57,7 +56,6 @@ const PACKAGES = [
     priceValue: 120.00,
     icon: Gem,
     badge: 'VIP',
-    link: 'https://syncpay.link/Gyu2QM',
     description: 'Para quem deseja a experiência completa de estúdio e suporte exclusivo.',
     features: [
       '16 ensaios completos',
@@ -70,7 +68,7 @@ const PACKAGES = [
 ];
 
 export default function CreditsPage() {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const [notification, setNotification] = useState<{message: string, type: 'success' | 'error'} | null>(null);
 
   // Limpar notificação
@@ -81,13 +79,45 @@ export default function CreditsPage() {
     }
   }, [notification]);
 
-  const handlePackageSelect = (pkg: typeof PACKAGES[0]) => {
+  const handlePackageSelect = async (pkg: typeof PACKAGES[0]) => {
     if (!user) {
       setNotification({ message: 'Você precisa estar logado para comprar créditos.', type: 'error' });
       return;
     }
-    // Redireciona para o link de checkout do SyncPay
-    window.location.href = pkg.link;
+
+    if (!token) {
+      setNotification({ message: 'Sessão inválida. Por favor, faça login novamente.', type: 'error' });
+      return;
+    }
+
+    try {
+      setNotification({ message: 'Iniciando pagamento seguro com Stripe...', type: 'success' });
+
+      // Mapeamento dos pacotes locais para os price_ids do Stripe Dashboard
+      const priceMap: { [key: string]: string } = {
+        '100_credits': 'price_1TXBt5AXb2fn2YJDXDIF0iKk',
+        '200_credits': 'price_1TXBtWAXb2fn2YJDZxm1s4Xz',
+        '400_credits': 'price_1TXBtrAXb2fn2YJDNsCz53jj'
+      };
+
+      const priceId = priceMap[pkg.id];
+      if (!priceId) {
+        setNotification({ message: 'Pacote de créditos inválido.', type: 'error' });
+        return;
+      }
+
+      const response = await createCheckoutSession(priceId, token);
+
+      if (response && response.success && response.url) {
+        window.location.href = response.url;
+      } else {
+        const errorMsg = response?.error || 'Erro ao gerar sessão de pagamento.';
+        setNotification({ message: errorMsg, type: 'error' });
+      }
+    } catch (err: any) {
+      console.error('Erro no checkout Stripe:', err);
+      setNotification({ message: 'Conexão com o estúdio interrompida. Tente novamente.', type: 'error' });
+    }
   };
 
   return (
@@ -207,7 +237,7 @@ export default function CreditsPage() {
             <div className="space-y-3 sm:space-y-4">
                <ShieldCheck className="w-8 h-8 sm:w-10 sm:h-10 text-[#748FCC] mx-auto" />
               <h4 className="font-semibold text-sm sm:text-base">Pagamento Seguro</h4>
-              <p className="text-[13px] sm:text-sm text-[#B8BCC4] font-light">Processado via SyncPay</p>
+              <p className="text-[13px] sm:text-sm text-[#B8BCC4] font-light">Processado via Stripe</p>
             </div>
             <div className="space-y-3 sm:space-y-4">
               <Clock className="w-8 h-8 sm:w-10 sm:h-10 text-[#748FCC] mx-auto" />

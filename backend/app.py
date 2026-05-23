@@ -16,6 +16,9 @@ from limiter_instance import limiter
 from flask_talisman import Talisman
 from config import Config
 
+from routes.payments import payments_bp
+from routes.webhooks import webhook_bp
+
 # ══════════════════════════════════════════════════════════════
 # Configuração de Logs
 # ══════════════════════════════════════════════════════════════

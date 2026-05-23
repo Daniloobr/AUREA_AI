@@ -1,51 +1,47 @@
 from flask import Blueprint, request, jsonify
-from services.syncpay_service import syncpay_service
 from utils.auth_utils import token_required
+from services.stripe_service import create_checkout_session
 import os
+import logging
 
 payments_bp = Blueprint('payments', __name__)
+logger = logging.getLogger(__name__)
 
-# Mapeamento dos pacotes (ajuste conforme seus valores reais)
-PACKAGES = {
-    '100_credits': {'amount': 25.00, 'credits': 100},
-    '200_credits': {'amount': 50.00, 'credits': 200},
-    '400_credits': {'amount': 120.00, 'credits': 400}
+# Permitted Stripe Price IDs mapping to credits
+ALLOWED_PRICES = {
+    'price_1TXBt5AXb2fn2YJDXDIF0iKk',  # 100 credits
+    'price_1TXBtWAXb2fn2YJDZxm1s4Xz',  # 200 credits
+    'price_1TXBtrAXb2fn2YJDNsCz53jj'   # 400 credits
 }
 
-@payments_bp.route('/create-pix-payment', methods=['POST'])
+@payments_bp.route('/create-checkout-session', methods=['POST'])
 @token_required
-def create_pix_payment(current_user):
-    data = request.get_json()
-    package_id = data.get('package_id')
-    client_cpf = data.get('cpf')
-    client_phone = data.get('phone')
-    client_name = data.get('name', current_user.name or "Cliente")
-
-    if not package_id or package_id not in PACKAGES:
-        return jsonify({'success': False, 'error': 'Pacote inválido'}), 400
-    if not client_cpf or not client_phone:
-        return jsonify({'success': False, 'error': 'CPF e telefone são obrigatórios'}), 400
-
-    package = PACKAGES[package_id]
-    description = f"user_{current_user.id}"   # identificador único do usuário
-
-    webhook_url = f"{os.environ.get('BASE_URL', 'http://localhost:5000')}/api/webhooks/syncpay"
-
+def create_session(current_user):
+    """
+    Creates a Stripe Checkout Session for the current authenticated user.
+    """
     try:
-        result = syncpay_service.create_cash_in(
-            amount=package['amount'],
-            client_name=client_name,
-            client_cpf=client_cpf,
-            client_email=current_user.email,
-            client_phone=client_phone,
-            description=description,
-            webhook_url=webhook_url
+        data = request.get_json() or {}
+        price_id = data.get('price_id')
+        
+        if not price_id:
+            return jsonify({'success': False, 'error': 'price_id é obrigatório'}), 400
+            
+        if price_id not in ALLOWED_PRICES:
+            return jsonify({'success': False, 'error': 'price_id inválido'}), 400
+            
+        success_url = os.environ.get('STRIPE_SUCCESS_URL', 'https://aureaia-saas.vercel.app/credits?success=true')
+        cancel_url = os.environ.get('STRIPE_CANCEL_URL', 'https://aureaia-saas.vercel.app/credits?canceled=true')
+        
+        session_data = create_checkout_session(
+            price_id=price_id,
+            user_id=current_user.id,
+            user_email=current_user.email,
+            success_url=success_url,
+            cancel_url=cancel_url
         )
-        return jsonify({
-            'success': True,
-            'qr_code': result['pix_code'],
-            'identifier': result['identifier']
-        }), 200
+        
+        return jsonify({'success': True, 'url': session_data['url']}), 200
     except Exception as e:
-        return jsonify({'success': False, 'error': str(e)}), 500
-
+        logger.error(f"Erro ao criar sessão Stripe Checkout: {str(e)}")
+        return jsonify({'success': False, 'error': 'Não foi possível iniciar o checkout'}), 500
