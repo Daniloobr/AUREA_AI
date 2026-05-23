@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Check, Sparkles, ShieldCheck, Gem, Star, Zap,
+import { 
+  Check, Sparkles, ShieldCheck, Gem, Star, Zap, 
   ArrowRight, Clock, Camera, Download, X, CheckCircle2
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
@@ -68,7 +68,7 @@ const PACKAGES = [
 
 export default function CreditsPage() {
   const { user, token } = useAuth();
-  const [notification, setNotification] = useState<{ message: string, type: 'success' | 'error' } | null>(null);
+  const [notification, setNotification] = useState<{message: string, type: 'success' | 'error'} | null>(null);
 
   // Limpar notificação
   useEffect(() => {
@@ -94,7 +94,7 @@ export default function CreditsPage() {
 
       // Mapeamento dos pacotes locais para os price_ids do Stripe Dashboard
       const priceMap: { [key: string]: string } = {
-        '100_credits': 'price_1TaOnsAXb2fn2YJDy6ecZJQq',
+        '100_credits': 'price_1TXBt5AXb2fn2YJDXDIF0iKk',
         '200_credits': 'price_1TXBtWAXb2fn2YJDZxm1s4Xz',
         '400_credits': 'price_1TXBtrAXb2fn2YJDNsCz53jj'
       };
@@ -128,15 +128,14 @@ export default function CreditsPage() {
       }
 
       setNotification({ message: 'Resposta inválida do servidor. Tente novamente.', type: 'error' });
-    } catch (err: unknown) {
-      console.error('Erro no checkout Stripe:', err);
+    } catch (err: unknown) {      console.error('Erro no checkout Stripe:', err);
       setNotification({ message: 'Conexão com o estúdio interrompida. Tente novamente.', type: 'error' });
     }
   };
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-[#F5F5F7] pt-24 pb-32 px-4 sm:px-6 relative overflow-x-hidden">
-
+      
       {/* Notificação */}
       <AnimatePresence>
         {notification && (
@@ -144,10 +143,11 @@ export default function CreditsPage() {
             initial={{ opacity: 0, y: -50, x: '-50%' }}
             animate={{ opacity: 1, y: 20, x: '-50%' }}
             exit={{ opacity: 0, y: -50, x: '-50%' }}
-            className={`fixed top-4 left-1/2 z-[200] px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 border ${notification.type === 'success'
-                ? 'bg-emerald-500/90 border-emerald-400 text-white'
+            className={`fixed top-4 left-1/2 z-[200] px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 border ${
+              notification.type === 'success' 
+                ? 'bg-emerald-500/90 border-emerald-400 text-white' 
                 : 'bg-red-500/90 border-red-400 text-white'
-              }`}
+            }`}
           >
             {notification.type === 'success' ? <CheckCircle2 className="w-5 h-5" /> : <X className="w-5 h-5" />}
             <span className="text-sm font-bold">{notification.message}</span>
@@ -189,13 +189,15 @@ export default function CreditsPage() {
               transition={{ delay: idx * 0.1 }}
               className="flex w-full"
             >
-              <div className={`flex-1 flex flex-col rounded-[28px] overflow-hidden transition-all duration-500 relative ${pkg.popular
+              <div className={`flex-1 flex flex-col rounded-[28px] overflow-hidden transition-all duration-500 relative ${
+                pkg.popular
                   ? 'bg-gradient-to-b from-[#748FCC]/20 to-[#0D0D0D] border-2 border-[#748FCC]/50 shadow-2xl scale-[1.02]'
                   : 'bg-[#121417] border border-[#1F2329] hover:border-[#748FCC]/20'
-                }`}>
+              }`}>
                 {pkg.badge && (
-                  <div className={`absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[10px] font-bold uppercase tracking-widest px-5 py-1.5 rounded-full z-10 ${pkg.popular ? 'bg-[#748FCC] text-[#F5F5F7]' : 'bg-white/10 text-[#F5F5F7]/80'
-                    }`}>
+                  <div className={`absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[10px] font-bold uppercase tracking-widest px-5 py-1.5 rounded-full z-10 ${
+                    pkg.popular ? 'bg-[#748FCC] text-[#F5F5F7]' : 'bg-white/10 text-[#F5F5F7]/80'
+                  }`}>
                     {pkg.badge}
                   </div>
                 )}
@@ -227,10 +229,11 @@ export default function CreditsPage() {
                   <Button
                     onClick={() => handlePackageSelect(pkg)}
                     variant={pkg.popular ? 'primary' : 'secondary'}
-                    className={`w-full py-4 h-auto text-[13px] sm:text-sm font-bold tracking-[0.1em] rounded-xl sm:rounded-2xl group transition-all duration-300 ${pkg.popular
+                    className={`w-full py-4 h-auto text-[13px] sm:text-sm font-bold tracking-[0.1em] rounded-xl sm:rounded-2xl group transition-all duration-300 ${
+                      pkg.popular 
                         ? 'bg-[#748FCC] hover:bg-[#5F7DB8] hover:shadow-[0_0_30px_rgba(116,143,204,0.3)] text-white border-none'
                         : 'bg-white/5 hover:bg-white/10 text-[#F5F5F7] border border-white/10'
-                      }`}
+                    }`}
                   >
                     Adquirir Pacote
                     <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
@@ -245,7 +248,7 @@ export default function CreditsPage() {
         <div className="bg-[#121417] border border-[#1F2329] rounded-[24px] sm:rounded-[32px] p-8 sm:p-14 text-center">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-10">
             <div className="space-y-3 sm:space-y-4">
-              <ShieldCheck className="w-8 h-8 sm:w-10 sm:h-10 text-[#748FCC] mx-auto" />
+               <ShieldCheck className="w-8 h-8 sm:w-10 sm:h-10 text-[#748FCC] mx-auto" />
               <h4 className="font-semibold text-sm sm:text-base">Pagamento Seguro</h4>
               <p className="text-[13px] sm:text-sm text-[#B8BCC4] font-light">Processado via Stripe</p>
             </div>
