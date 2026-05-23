@@ -145,8 +145,8 @@ export default function CreditsPage() {
             animate={{ opacity: 1, y: 20, x: '-50%' }}
             exit={{ opacity: 0, y: -50, x: '-50%' }}
             className={`fixed top-4 left-1/2 z-[200] px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 border ${notification.type === 'success'
-              ? 'bg-emerald-500/90 border-emerald-400 text-white'
-              : 'bg-red-500/90 border-red-400 text-white'
+                ? 'bg-emerald-500/90 border-emerald-400 text-white'
+                : 'bg-red-500/90 border-red-400 text-white'
               }`}
           >
             {notification.type === 'success' ? <CheckCircle2 className="w-5 h-5" /> : <X className="w-5 h-5" />}
@@ -190,8 +190,8 @@ export default function CreditsPage() {
               className="flex w-full"
             >
               <div className={`flex-1 flex flex-col rounded-[28px] overflow-hidden transition-all duration-500 relative ${pkg.popular
-                ? 'bg-gradient-to-b from-[#748FCC]/20 to-[#0D0D0D] border-2 border-[#748FCC]/50 shadow-2xl scale-[1.02]'
-                : 'bg-[#121417] border border-[#1F2329] hover:border-[#748FCC]/20'
+                  ? 'bg-gradient-to-b from-[#748FCC]/20 to-[#0D0D0D] border-2 border-[#748FCC]/50 shadow-2xl scale-[1.02]'
+                  : 'bg-[#121417] border border-[#1F2329] hover:border-[#748FCC]/20'
                 }`}>
                 {pkg.badge && (
                   <div className={`absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[10px] font-bold uppercase tracking-widest px-5 py-1.5 rounded-full z-10 ${pkg.popular ? 'bg-[#748FCC] text-[#F5F5F7]' : 'bg-white/10 text-[#F5F5F7]/80'
@@ -228,8 +228,8 @@ export default function CreditsPage() {
                     onClick={() => handlePackageSelect(pkg)}
                     variant={pkg.popular ? 'primary' : 'secondary'}
                     className={`w-full py-4 h-auto text-[13px] sm:text-sm font-bold tracking-[0.1em] rounded-xl sm:rounded-2xl group transition-all duration-300 ${pkg.popular
-                      ? 'bg-[#748FCC] hover:bg-[#5F7DB8] hover:shadow-[0_0_30px_rgba(116,143,204,0.3)] text-white border-none'
-                      : 'bg-white/5 hover:bg-white/10 text-[#F5F5F7] border border-white/10'
+                        ? 'bg-[#748FCC] hover:bg-[#5F7DB8] hover:shadow-[0_0_30px_rgba(116,143,204,0.3)] text-white border-none'
+                        : 'bg-white/5 hover:bg-white/10 text-[#F5F5F7] border border-white/10'
                       }`}
                   >
                     Adquirir Pacote
