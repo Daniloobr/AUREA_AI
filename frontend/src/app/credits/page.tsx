@@ -8,7 +8,6 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useAuth } from '@/contexts/AuthContext';
-import { createCheckoutSession } from '@/lib/stripe';
 
 /* ═══════════════════════════════════════════════════════════════════════════
    PACOTES
@@ -106,15 +105,30 @@ export default function CreditsPage() {
         return;
       }
 
-      const response = await createCheckoutSession(priceId, token);
+      const response = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ price_id: priceId }),
+      });
 
-      if (response && response.success && response.url) {
-        window.location.href = response.url;
-      } else {
-        const errorMsg = response?.error || 'Erro ao gerar sessão de pagamento.';
+      const data = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        const errorMsg = data?.error || data?.message || 'Erro ao gerar sessão de pagamento.';
         setNotification({ message: errorMsg, type: 'error' });
+        return;
       }
-    } catch (err: any) {
+
+      if (data?.url) {
+        window.location.assign(data.url);
+        return;
+      }
+
+      setNotification({ message: 'Resposta inválida do servidor. Tente novamente.', type: 'error' });
+    } catch (err: unknown) {
       console.error('Erro no checkout Stripe:', err);
       setNotification({ message: 'Conexão com o estúdio interrompida. Tente novamente.', type: 'error' });
     }

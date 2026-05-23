@@ -35,14 +35,17 @@ def stripe_webhook():
         return jsonify({'error': 'Assinatura inválida'}), 400
     except Exception as e:
         logger.error(f"Erro inesperado na verificação de webhook Stripe: {e}")
-        return jsonify({'error': str(e)}), 400
+        return jsonify({'error': 'Erro interno ao processar webhook'}), 400
 
     logger.info(f"Stripe Webhook recebido: Tipo de evento = {event['type']}")
 
     if event['type'] == 'checkout.session.completed':
         session = event['data']['object']
-        user_id = session.get('client_reference_id')
-        metadata = session.get('metadata') or {}
+        # Convert StripeObject to standard dict to safely use .get() across all SDK versions
+        session_dict = session.to_dict() if hasattr(session, 'to_dict') else dict(session)
+        
+        user_id = session_dict.get('client_reference_id')
+        metadata = session_dict.get('metadata') or {}
         price_id = metadata.get('price_id')
         
         logger.info(f"Sessão de checkout Stripe concluída. UserID={user_id}, PriceID={price_id}")
@@ -78,7 +81,7 @@ def stripe_webhook():
                 balance_before=old_balance,
                 balance_after=user.credits_balance,
                 description=f'Compra de {credits} créditos via Stripe',
-                external_id=session.get('id')
+                external_id=session_dict.get('id')
             )
             db.session.add(tx)
             db.session.commit()

@@ -100,14 +100,14 @@ def download_image():
             }), 404
         return jsonify({
             'success': False,
-            'error': 'Falha ao baixar a imagem da URL fornecida devido a um erro no servidor de origem.'
-        }), 502
+            'error': 'Falha ao baixar a imagem da URL fornecida (imagem não encontrada ou inacessível).'
+        }), 404
     except requests.exceptions.RequestException as e:
-        logger.error(f'Error fetching image for download (502): {e}')
+        logger.error(f'Error fetching image for download (404): {e}')
         return jsonify({
             'success': False,
-            'error': 'Falha ao baixar a imagem da URL fornecida. Verifique se a imagem ainda existe ou tente novamente.'
-        }), 502
+            'error': 'Imagem não encontrada ou URL inválida. Verifique se a imagem ainda existe.'
+        }), 404
     except Exception as e:
         logger.exception('Unexpected error in download_image (500)')
         return jsonify({
