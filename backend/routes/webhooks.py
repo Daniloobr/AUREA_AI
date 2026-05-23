@@ -51,7 +51,7 @@ def stripe_webhook():
         logger.info(f"Sessão de checkout Stripe concluída. UserID={user_id}, PriceID={price_id}")
 
         credits_map = {
-            'price_1TaOnsAXb2fn2YJDy6ecZJQq': 100,
+            'price_1TXBt5AXb2fn2YJDXDIF0iKk': 100,
             'price_1TXBtWAXb2fn2YJDZxm1s4Xz': 200,
             'price_1TXBtrAXb2fn2YJDNsCz53jj': 400,
         }
