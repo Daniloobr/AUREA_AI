@@ -49,4 +49,3 @@ def create_pix_payment(current_user):
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
 
-        'test_1_real': {'amount': 1.00, 'credits': 4}
