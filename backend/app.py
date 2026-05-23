@@ -97,6 +97,8 @@ def create_app():
     app.register_blueprint(admin_bp,    url_prefix='/api/admin')
     app.register_blueprint(styles_bp,   url_prefix='/api/styles')
     app.register_blueprint(download_bp, url_prefix='/api')
+    app.register_blueprint(payments_bp, url_prefix='/api')
+    app.register_blueprint(webhook_bp,  url_prefix='/api')
 
 
     # ─── Servir arquivos carregados/gerados ───
@@ -183,9 +185,4 @@ if __name__ == '__main__':
     # Em produção (Render), a variável de ambiente PORT é usada automaticamente pelo Gunicorn ou injetada aqui
     port = int(os.environ.get("PORT", 5000))
     app.run(debug=False, host='0.0.0.0', port=port, threaded=True)
-
-from routes.payments import payments_bp
-from routes.webhooks import webhook_bp
-
-app.register_blueprint(payments_bp, url_prefix='/api')
-app.register_blueprint(webhook_bp, url_prefix='/api')
+
