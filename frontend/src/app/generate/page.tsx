@@ -18,6 +18,25 @@ import {
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
+
+// Helper to map API errors to user‑friendly messages and trigger UI actions
+const handleApiError = (err: any) => {
+  // If the error object contains an HTTP status (axios style) use it
+  const status = err?.status || err?.response?.status;
+  if (status === 402) {
+    // Credits insufficient
+    setShowCreditModal(true);
+    return;
+  }
+  if (status === 429) {
+    // Rate limit exceeded
+    setError('Muitas solicitações. Por favor, aguarde um momento e tente novamente.');
+    return;
+  }
+  // Network or unknown error
+  const message = err?.message || 'O estúdio está temporariamente ocupado. Por favor, tente novamente em breve.';
+  setError(message);
+};
 import Image from 'next/image';
 
 // ─── Interface para os estilos ──────────────────────────────────────────────
@@ -71,22 +90,22 @@ export default function GeneratePage() {
         setJobId(null);
         return;
       }
-      try {
-        const res = await apiService.get(`/generate/${jobId}/result`, token || undefined);
-        if (res.status === 'completed') {
-          const imgUrl = res.result_url || (res.images && res.images[0]);
-          setImageUrl(imgUrl);
-          setSuccess(true);
-          clearInterval(interval);
-          setTimeout(() => router.push('/gallery'), 4000);
-        } else if (res.status === 'failed') {
-          setError("Ocorreu um erro ao gerar a sua imagem. Por favor, tente novamente.");
-          setJobId(null);
-          clearInterval(interval);
+        try {
+          const res = await apiService.get(`/generate/${jobId}/result`, token || undefined);
+          if (res.status === 'SUCCEEDED') {
+            const imgUrl = res.result_url || (res.images && res.images[0]);
+            setImageUrl(imgUrl);
+            setSuccess(true);
+            clearInterval(interval);
+            setTimeout(() => router.push('/gallery'), 4000);
+          } else if (res.status === 'FAILED') {
+            setError("Ocorreu um erro ao gerar a sua imagem. Por favor, tente novamente.");
+            setJobId(null);
+            clearInterval(interval);
+          }
+        } catch (e) {
+          console.error('Polling error', e);
         }
-      } catch (e) {
-        console.error('Polling error', e);
-      }
     }, 3000);
     return () => clearInterval(interval);
   }, [jobId, token, router]);
@@ -208,8 +227,8 @@ export default function GeneratePage() {
       }
     } catch (err: any) {
       console.error(err);
-      // Erro genérico com tom empático
-      setError(err.message || "O estúdio está temporariamente ocupado. Por favor, tente novamente em breve.");
+      // Use centralized error handling
+      handleApiError(err);
     } finally {
       setGenerating(false);
     }
@@ -472,6 +491,12 @@ export default function GeneratePage() {
           >
             <AlertCircle className="w-5 h-5 text-red-500 shrink-0" />
             <span className="text-sm font-medium">{error}</span>
+            {/* Show retry button for recoverable errors */}
+            {error && (error.includes('temporariamente') || error.includes('Muitas solicitações')) && (
+              <Button onClick={handleGenerate} className="ml-2 bg-[#748FCC] hover:bg-[#5F7DB8] text-sm">
+                Tentar novamente
+              </Button>
+            )}
             <button 
               className="p-1 hover:bg-black/10 rounded-full transition-colors focus:outline-none"
               onClick={() => setError(null)}

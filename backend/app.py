@@ -30,18 +30,14 @@ logger = logging.getLogger(__name__)
 def create_app():
     app = Flask(__name__)
     
-    # Configurações de Segurança Críticas (Sem fallbacks inseguros para produção)
-    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-    app.config['ADMIN_SECRET_KEY'] = os.environ.get('ADMIN_SECRET_KEY')
-    
+    # Critical security configuration: SECRET_KEY must be set via environment variable.
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
     if not app.config['SECRET_KEY']:
-        # Fallback apenas para desenvolvimento local, logando aviso
-        if os.environ.get('FLASK_ENV') == 'development':
-            app.config['SECRET_KEY'] = 'dev_secret_key_low_security'
-            logger.warning("⚠️ SECRET_KEY não definida. Usando chave de desenvolvimento!")
-        else:
-            print("CRITICAL ERROR: SECRET_KEY is not set in the environment variables! Please add it in the Render dashboard.")
-            raise RuntimeError("CRITICAL: SECRET_KEY não configurada no ambiente!")
+        raise RuntimeError('CRITICAL: SECRET_KEY is required but not set in environment variables.')
+    # ADMIN_SECRET_KEY can be optional, but warn if missing
+    app.config['ADMIN_SECRET_KEY'] = os.getenv('ADMIN_SECRET_KEY')
+    if not app.config['ADMIN_SECRET_KEY']:
+        logger.warning('⚠️ ADMIN_SECRET_KEY not set; admin features may be disabled.')
     
     # CORS — Restricted to ALLOWED_ORIGINS for production security
     CORS(app, resources={
@@ -185,3 +181,8 @@ if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(debug=False, host='0.0.0.0', port=port, threaded=True)
 
+from routes.payments import payments_bp
+from routes.webhooks import webhook_bp
+
+app.register_blueprint(payments_bp, url_prefix='/api')
+app.register_blueprint(webhook_bp, url_prefix='/api')
