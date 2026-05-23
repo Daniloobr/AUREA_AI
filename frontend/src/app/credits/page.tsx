@@ -128,8 +128,7 @@ export default function CreditsPage() {
       }
 
       setNotification({ message: 'Resposta inválida do servidor. Tente novamente.', type: 'error' });
-    } catch (err: unknown) {
-      console.error('Erro no checkout Stripe:', err);
+    } catch (err: unknown) {      console.error('Erro no checkout Stripe:', err);
       setNotification({ message: 'Conexão com o estúdio interrompida. Tente novamente.', type: 'error' });
     }
   };

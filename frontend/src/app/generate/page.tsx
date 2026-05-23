@@ -20,23 +20,6 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 
 // Helper to map API errors to user‑friendly messages and trigger UI actions
-const handleApiError = (err: any) => {
-  // If the error object contains an HTTP status (axios style) use it
-  const status = err?.status || err?.response?.status;
-  if (status === 402) {
-    // Credits insufficient
-    setShowCreditModal(true);
-    return;
-  }
-  if (status === 429) {
-    // Rate limit exceeded
-    setError('Muitas solicitações. Por favor, aguarde um momento e tente novamente.');
-    return;
-  }
-  // Network or unknown error
-  const message = err?.message || 'O estúdio está temporariamente ocupado. Por favor, tente novamente em breve.';
-  setError(message);
-};
 import Image from 'next/image';
 
 // ─── Interface para os estilos ──────────────────────────────────────────────
@@ -68,6 +51,25 @@ export default function GeneratePage() {
   const [error, setError] = useState<string | null>(null);
   const [showCreditModal, setShowCreditModal] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+  // Helper to map API errors to user‑friendly messages and trigger UI actions
+  const handleApiError = (err: any) => {
+    // If the error object contains an HTTP status (axios style) use it
+    const status = err?.status || err?.response?.status;
+    if (status === 402) {
+      // Credits insufficient
+      setShowCreditModal(true);
+      return;
+    }
+    if (status === 429) {
+      // Rate limit exceeded
+      setError('Muitas solicitações. Por favor, aguarde um momento e tente novamente.');
+      return;
+    }
+    // Network or unknown error
+    const message = err?.message || 'O estúdio está temporariamente ocupado. Por favor, tente novamente em breve.';
+    setError(message);
+  };
 
   // Helper: URL da imagem
   const getImageUrl = (imagePath: string) => {
