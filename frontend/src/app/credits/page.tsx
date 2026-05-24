@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Check, Sparkles, ShieldCheck, Gem, Star, Zap,
@@ -67,7 +67,7 @@ const PACKAGES = [
   },
 ];
 
-export default function CreditsPage() {
+function CreditsContent() {
   const { user, token, refreshUser } = useAuth();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -279,5 +279,13 @@ export default function CreditsPage() {
 
       </div>
     </div>
+  );
+}
+
+export default function CreditsPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center text-[#F5F5F7]">Carregando...</div>}>
+      <CreditsContent />
+    </Suspense>
   );
 }

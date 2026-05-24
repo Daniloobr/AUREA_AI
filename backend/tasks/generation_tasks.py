@@ -78,7 +78,7 @@ def _refund_user(flask_app, user_id: str, amount: int, reason: str) -> None:
             logger.exception(f"[REFUND] ❌ Erro crítico ao reembolsar user {user_id}: {e}")
 
 
-@shared_task(bind=True, name="generate_image_task")
+@celery.task(bind=True, name="generate_image_task")
 def generate_image_task(
     self,
     job_id: str,
