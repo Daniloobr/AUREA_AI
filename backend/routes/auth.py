@@ -104,7 +104,11 @@ def login():
 @auth_bp.route('/me', methods=['GET'])
 @token_required
 def get_me(current_user):
-    return jsonify({"success": True, "user": current_user.to_dict()})
+    response = make_response(jsonify({"success": True, "user": current_user.to_dict()}))
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
 
 @auth_bp.route('/user/balance', methods=['GET'])
 @token_required

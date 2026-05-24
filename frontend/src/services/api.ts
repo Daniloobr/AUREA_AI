@@ -25,6 +25,7 @@ export const apiService = {
         method: 'GET',
         headers,
         credentials: 'include',
+        cache: 'no-store',
       });
       
       if (response.status === 401) {
