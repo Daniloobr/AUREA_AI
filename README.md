@@ -1,89 +1,146 @@
 <div align="center">
-  <h1>AureaIA</h1>
-  <p><strong>Inteligência artificial para ensaios fotográficos de gestantes – transforme momentos em arte.</strong></p>
+  <img src="assets/banner.png" alt="AUREA IA Photo Studio" width="100%"/>
+</div>
+
+<br/>
+
+<div align="center">
+  
+  ## ✦ *A fotografia de gestante encontra a inteligência artificial* ✦
+  
+  **AUREA** é uma plataforma SaaS que transforma fotos de gestantes em ensaios premium com qualidade de estúdio — em segundos, sem sessão presencial, com identidade facial preservada.
+  
+</div>
+
+<p align="center">
+  <a href="#-stack"><strong>Stack</strong></a> ·
+  <a href="#-arquitetura"><strong>Arquitetura</strong></a> ·
+  <a href="#-endpoints"><strong>API</strong></a> ·
+  <a href="#-setup"><strong>Setup</strong></a> ·
+  <a href="#-roadmap"><strong>Roadmap</strong></a>
+</p>
+
+---
+
+## ✦ O Problema
+
+Estúdios fotográficos perdem clientes porque:
+- Ensaios presenciais são **caros e logísticos** (locação, maquiagem, transporte)
+- Clientes gestantes têm **janela curta** (24–32 semanas)
+- Edição manual leva **dias ou semanas**
+
+## ✦ A Solução AUREA
+
+1. Cliente faz **upload de 3 fotos de referência**
+2. Escolhe entre **4 estilos premium** (Estúdio Luxo, Pôr do Sol, P&B, Boho Chic)
+3. IA gera ensaio completo **em segundos**
+4. Cliente baixa as imagens **direto do navegador**
+
+> **Resultado:** Redução de 80% no tempo de entrega. Margem de 90% por ensaio. Zero necessidade de estúdio físico.
+
+---
+
+## ✦ Stack
+
+<div align="center">
+
+| Camada | Tecnologia | Propósito |
+|--------|-----------|-----------|
+| **Frontend** | Next.js 16 + React 19 + Tailwind CSS 4 | Interface reativa e moderna |
+| **Backend** | Flask 3.0 (Python 3.12) | API REST performática |
+| **Banco** | PostgreSQL (Supabase) | Dados transacionais + Storage |
+| **IA** | Motor proprietário de geração | Face preservation + estilos |
+| **Pagamentos** | Stripe | Checkout, webhooks, créditos |
+| **Fila** | Celery + Redis | Jobs assíncronos de geração |
+| **Auth** | JWT + Clerk | Autenticação segura |
+| **Deploy** | Render + Vercel | Serverless + edge |
+
 </div>
 
 ---
 
-## Sobre
+## ✦ Arquitetura
 
-AureaIA é uma plataforma SaaS que usa inteligência artificial para transformar fotos de gestantes em ensaios premium. O usuário faz upload de 3 fotos de referência, escolhe um estilo e recebe imagens geradas por IA com alta qualidade e identidade preservada.
+```
+┌──────────────┐     ┌──────────────┐     ┌──────────────────┐
+│   Next.js    │────▶│  Flask API   │────▶│   Supabase DB    │
+│  (Vercel)    │◀────│  (Render)    │◀────│  + Storage       │
+└──────────────┘     └──────┬───────┘     └──────────────────┘
+                            │
+                     ┌──────▼───────┐     ┌──────────────────┐
+                     │   Celery     │────▶│   Stripe API     │
+                     │  + Redis     │     │  (Pagamentos)    │
+                     └──────┬───────┘     └──────────────────┘
+                            │
+                     ┌──────▼───────┐
+                     │   AI Engine  │
+                     │  (Gerador)   │
+                     └──────────────┘
+```
 
-**Para quem é:** Estúdios fotográficos, fotógrafos autônomos e gestantes que desejam ensaios criativos sem depender de sessões presenciais.
+### Fluxo de Geração
 
-**Benefícios:**
-- Geração em 4 estilos premium (Estúdio Luxo, Pôr do Sol, Preto & Branco, Boho Chic)
-- Preservação de identidade facial
-- Créditos flexíveis (pagamento por uso via Stripe)
-- Pronto em segundos, não em dias
-
----
-
-## Stack Tecnológica
-
-| Componente     | Tecnologia                              |
-|----------------|----------------------------------------|
-| Frontend       | Next.js 16 + React 19 + Tailwind CSS 4 |
-| Backend        | Flask 3.0 (Python 3.12)               |
-| Banco de Dados | PostgreSQL (Supabase)                  |
-| ORM            | SQLAlchemy 2.0                         |
-| Pagamentos     | Stripe                                 |
-| Fila           | Celery + Redis                         |
-| IA             | API de IA proprietária                |
-| Auth           | JWT (backend) / Clerk (frontend)       |
-| Deploy         | Render (backend) + Vercel (frontend)   |
-
----
-
-## Variáveis de Ambiente
-
-Crie um arquivo `.env` na raiz do diretório `backend/` com as seguintes variáveis:
-
-```env
-# Flask
-FLASK_ENV=development
-SECRET_KEY=sua_chave_secreta_aqui
-ALLOWED_ORIGINS=http://localhost:3000,http://localhost:4000
-
-# Banco de Dados (Supabase PostgreSQL)
-DATABASE_URL=postgresql://usuario:senha@host:porta/postgres
-DIRECT_URL=postgresql://usuario:senha@host:porta/postgres
-
-# Supabase (Storage + Auth)
-SUPABASE_URL=https://seu-projeto.supabase.co
-SUPABASE_KEY=sua_anon_key
-SUPABASE_SERVICE_ROLE_KEY=sua_service_role_key
-
-# Stripe
-STRIPE_SECRET_KEY=sk_test_...
-STRIPE_WEBHOOK_SECRET=whsec_...
-STRIPE_PUBLISHABLE_KEY=pk_test_...
-STRIPE_ALLOWED_PRICES=price_id1,price_id2,price_id3
-STRIPE_SUCCESS_URL=https://seu-site.com/credits?success=true
-STRIPE_CANCEL_URL=https://seu-site.com/credits?canceled=true
-
-# IA
-AI_PROVIDER_API_TOKEN=seu_token_aqui
-AI_MODEL_ID=openai/gpt-image-2
-
-# Email (SendGrid)
-SENDGRID_API_KEY=
-EMAIL_FROM=contato@seudominio.com
+```
+Upload 3 fotos → Validação facial (MediaPipe) → Escolha de estilo
+       → Débito de 25 créditos → Job assíncrono (Celery)
+       → IA gera 4 variações → Upload p/ Supabase
+       → Notificação → Galeria do usuário
 ```
 
 ---
 
-## Setup Local
+## ✦ API — Endpoints Principais
+
+### Autenticação
+
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| `POST` | `/api/auth/register` | Registro de usuário |
+| `POST` | `/api/auth/login` | Login (retorna JWT) |
+| `GET` | `/api/auth/me` | Perfil do usuário 🔒 |
+| `POST` | `/api/auth/logout` | Invalida sessão 🔒 |
+
+### Upload e Geração
+
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| `POST` | `/api/upload` | Upload de imagem 🔒 |
+| `GET` | `/api/styles` | Listar estilos disponíveis |
+| `POST` | `/api/generate` | Iniciar geração 🔒 |
+| `GET` | `/api/generate/status/<job_id>` | Status do job 🔒 |
+| `GET` | `/api/gallery` | Galeria do usuário 🔒 |
+
+### Pagamentos
+
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| `POST` | `/api/create-checkout-session` | Criar sessão Stripe 🔒 |
+| `POST` | `/api/stripe-webhook` | Webhook Stripe (público) |
+
+> 🔒 = Requer token JWT no header `Authorization: Bearer <token>`
+
+---
+
+## ✦ Setup
+
+### Pré-requisitos
+
+- Python 3.12+
+- PostgreSQL (ou Supabase)
+- Node.js 20+
+- Stripe account
+- Redis (para fila)
 
 ### Backend
 
 ```bash
 cd backend
 python -m venv venv
-source venv/bin/activate  # Linux/macOS
-venv\Scripts\activate     # Windows
+source venv/bin/activate  # Linux/Mac
+# ou: venv\Scripts\activate  # Windows
 pip install -r requirements.txt
-cp .env.example .env      # Configurar variáveis
+cp .env.example .env
+# Edite .env com suas credenciais
 python app.py
 ```
 
@@ -102,16 +159,43 @@ npm install
 npm run dev
 ```
 
+### Variáveis de Ambiente Essenciais
+
+| Variável | Descrição |
+|----------|-----------|
+| `DATABASE_URL` | PostgreSQL (Supabase) |
+| `SECRET_KEY` | Chave secreta Flask |
+| `STRIPE_SECRET_KEY` | Chave secreta Stripe |
+| `STRIPE_WEBHOOK_SECRET` | Webhook signing secret |
+| `AI_PROVIDER_API_TOKEN` | Token do motor de IA |
+| `SUPABASE_URL` | URL do Supabase |
+| `SUPABASE_KEY` | Anon key do Supabase |
+| `SENDGRID_API_KEY` | (opcional) Email |
+
 ---
 
-## Produção
+## ✦ Roadmap
 
-- **Site:** [aureaia.com](https://aureaia-saas.vercel.app)
-- **Backend:** Render (Gunicorn + Celery)
-- **Frontend:** Vercel
+- [x] Autenticação JWT + Clerk
+- [x] Upload com validação facial
+- [x] Geração com 4 estilos premium
+- [x] Stripe checkout + créditos
+- [x] Galeria + download
+- [x] Admin (stats, usuários, créditos)
+- [x] Segurança (CORS, rate limit, Talisman)
+- [ ] Catálogo público de estilos
+- [ ] Compartilhamento social
+- [ ] Plano de assinatura mensal
+- [ ] App mobile (React Native)
+- [ ] Marketplace de estilos (comunidade)
+- [ ] Análise de fotos com IA
 
 ---
 
-## Licença
+## ✦ Licença
 
-Proprietária. Todos os direitos reservados.
+**AUREA** © 2026 — Todos os direitos reservados.
+
+<p align="center">
+  <sub>Feito com ❤️ e muito café • <a href="https://aureaia-saas.vercel.app">aureaia.com</a></sub>
+</p>
