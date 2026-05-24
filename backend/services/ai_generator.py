@@ -54,7 +54,7 @@ def generate_images(
         token = os.environ.get('AI_PROVIDER_API_TOKEN', '').strip()
             
         if not token or 'YOUR_' in token or token.startswith('r8_'):
-            raise ValueError("AI Provider API token is missing or invalid.")
+            raise ValueError("Token da API de IA não configurado ou inválido.")
 
         logger.info(f"Starting openai/gpt-image-2 Generation...")
         logger.info(f"  prompt: {prompt[:80]}...")
@@ -125,7 +125,7 @@ def generate_images(
                 except Exception as db_err:
                     logger.error(f"[AI Generator] Error updating job {job_id}: {db_err}")
         else:
-            result["error"] = "AI provider returned empty output"
+            result["error"] = "O gerador de IA retornou vazio. Tente novamente."
             logger.error("No images returned from AI provider")
 
     except Exception as e:
@@ -134,7 +134,7 @@ def generate_images(
             result["error"] = "RATE_LIMITED"
             logger.warning("Rate limit hit in openai/gpt-image-2")
         else:
-            result["error"] = f"AI generation error: {error_str}"
+            result["error"] = "Erro na geração da imagem. Nossa equipe foi notificada."
             logger.error(f"AI generation error: {e}", exc_info=True)
 
     return result

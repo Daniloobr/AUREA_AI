@@ -92,4 +92,4 @@ def upload_file(current_user):
         logger.error(f"Upload error: {e}")
         if filepath and os.path.exists(filepath):
             os.remove(filepath)
-        return jsonify({"error": f"Erro no upload: {str(e)}"}), 500
+        return jsonify({"error": "Erro ao fazer upload. Tente novamente."}), 500

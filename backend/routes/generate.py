@@ -52,10 +52,10 @@ def generate(current_user):
         }), 200
 
     except ValueError as ve:
-        return jsonify({"success": False, "error": str(ve)}), 402 # Payment Required
+        return jsonify({"success": False, "error": str(ve)}), 402
     except Exception as e:
         logger.error(f"Generate endpoint error: {e}")
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": "Erro interno ao processar geração"}), 500
 
 
 @generate_bp.route('/status', methods=['GET'], strict_slashes=False)

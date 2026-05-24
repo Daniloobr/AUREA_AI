@@ -34,9 +34,9 @@ def decode_token(auth_token):
         )
         return payload['sub']
     except jwt.ExpiredSignatureError:
-        return 'Signature expired. Please log in again.'
+        return 'Sessão expirada. Faça login novamente.'
     except jwt.InvalidTokenError:
-        return 'Invalid token. Please log in again.'
+        return 'Token inválido. Faça login novamente.'
 
 def token_required(f):
     @wraps(f)
@@ -48,23 +48,23 @@ def token_required(f):
             try:
                 token = auth_header.split(" ")[1]
             except IndexError:
-                return jsonify({'success': False, 'error': 'Bearer token malformed'}), 401
+                return jsonify({'success': False, 'error': 'Token de autenticação mal formatado'}), 401
         
         # Also check cookies for httpOnly support
         elif request.cookies.get('auth_token'):
             token = request.cookies.get('auth_token')
 
         if not token:
-            return jsonify({'success': False, 'error': 'Token is missing'}), 401
+            return jsonify({'success': False, 'error': 'Token de autenticação não fornecido'}), 401
 
         resp = decode_token(token)
-        if isinstance(resp, str) and (resp.startswith('Signature') or resp.startswith('Invalid')):
+        if isinstance(resp, str) and ('expirada' in resp or 'inválido' in resp):
             return jsonify({'success': False, 'error': resp}), 401
 
         # Check if user exists
         current_user = User.query.get(resp)
         if not current_user:
-            return jsonify({'success': False, 'error': 'User not found'}), 401
+            return jsonify({'success': False, 'error': 'Usuário não encontrado'}), 401
 
         return f(current_user, *args, **kwargs)
 
@@ -79,20 +79,20 @@ def admin_required(f):
             try:
                 token = auth_header.split(" ")[1]
             except IndexError:
-                return jsonify({'success': False, 'error': 'Bearer token malformed'}), 401
+                return jsonify({'success': False, 'error': 'Token de autenticação mal formatado'}), 401
         elif request.cookies.get('auth_token'):
             token = request.cookies.get('auth_token')
 
         if not token:
-            return jsonify({'success': False, 'error': 'Token is missing'}), 401
+            return jsonify({'success': False, 'error': 'Token de autenticação não fornecido'}), 401
 
         resp = decode_token(token)
-        if isinstance(resp, str) and (resp.startswith('Signature') or resp.startswith('Invalid')):
+        if isinstance(resp, str) and ('expirada' in resp or 'inválido' in resp):
             return jsonify({'success': False, 'error': resp}), 401
 
         current_user = User.query.get(resp)
         if not current_user or not current_user.is_admin:
-            return jsonify({'success': False, 'error': 'Admin access required'}), 403
+            return jsonify({'success': False, 'error': 'Acesso restrito a administradores'}), 403
 
         return f(current_user, *args, **kwargs)
 

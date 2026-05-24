@@ -14,16 +14,16 @@ def stripe_webhook():
     webhook_secret = os.environ.get("STRIPE_WEBHOOK_SECRET")
 
     if not sig_header:
-        return jsonify({"error": "Missing signature header"}), 400
+        return jsonify({"error": "Cabeçalho de assinatura ausente"}), 400
     if not webhook_secret:
-        return jsonify({"error": "Webhook secret missing"}), 500
+        return jsonify({"error": "Chave secreta do webhook não configurada"}), 500
 
     try:
         event = stripe.Webhook.construct_event(payload, sig_header, webhook_secret)
         current_app.logger.info(f"[WEBHOOK] Evento verificado: {event['type']}")
     except Exception as e:
         current_app.logger.error(f"[WEBHOOK] Assinatura inválida: {e}")
-        return jsonify({"error": "Invalid signature"}), 400
+        return jsonify({"error": "Assinatura inválida"}), 400
 
     if event["type"] != "checkout.session.completed":
         return jsonify({"status": "ignored"}), 200
@@ -126,4 +126,4 @@ def stripe_webhook():
     except Exception as e:
         db.session.rollback()
         current_app.logger.error(f"[WEBHOOK] Erro DB: {e}", exc_info=True)
-        return jsonify({"error": "Database error"}), 500
+        return jsonify({"error": "Erro interno ao processar pagamento"}), 500

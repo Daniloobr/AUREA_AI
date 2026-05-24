@@ -22,7 +22,7 @@ def download_image():
         logger.warning('download-image called without url parameter')
         return jsonify({
             'success': False,
-            'error': 'Missing required query parameter: url'
+            'error': 'Parâmetro "url" é obrigatório'
         }), 400
 
     try:
@@ -111,5 +111,5 @@ def download_image():
         logger.exception('Unexpected error in download_image (500)')
         return jsonify({
             'success': False,
-            'error': str(e)
+            'error': 'Erro inesperado ao baixar imagem. Tente novamente.'
         }), 500

@@ -65,7 +65,7 @@ def register():
         logger.error(f"CRITICAL: Erro no registro de {email}: {str(e)}", exc_info=True)
         return jsonify({
             "success": False, 
-            "error": f"Erro interno no servidor: {str(e)[:50]}" 
+            "error": "Erro interno no servidor. Nossa equipe foi notificada." 
         }), 500
 
 @auth_bp.route('/login', methods=['POST'])
@@ -179,7 +179,7 @@ def delete_account(current_user):
         return jsonify({"success": True, "message": "Conta anonimizada conforme LGPD"})
     except Exception as e:
         db.session.rollback()
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": "Erro ao excluir conta. Tente novamente."}), 500
 
 @auth_bp.route('/google-login', methods=['POST'])
 @limiter.limit("20 per hour")

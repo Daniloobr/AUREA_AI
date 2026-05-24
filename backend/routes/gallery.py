@@ -27,4 +27,4 @@ def get_gallery(current_user):
             "count": len(history)
         }), 200
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": "Erro ao carregar galeria"}), 500

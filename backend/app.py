@@ -36,7 +36,7 @@ def create_app():
     # Critical security configuration: SECRET_KEY must be set via environment variable.
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
     if not app.config['SECRET_KEY']:
-        raise RuntimeError('CRITICAL: SECRET_KEY is required but not set in environment variables.')
+        raise RuntimeError('CRÍTICO: SECRET_KEY é obrigatória mas não foi configurada nas variáveis de ambiente.')
     # ADMIN_SECRET_KEY can be optional, but warn if missing
     app.config['ADMIN_SECRET_KEY'] = os.getenv('ADMIN_SECRET_KEY')
     if not app.config['ADMIN_SECRET_KEY']:
