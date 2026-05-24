@@ -165,7 +165,7 @@ def recover_stuck_jobs(app):
         from datetime import datetime, timedelta
         timeout_limit = datetime.utcnow() - timedelta(minutes=20)
         stuck_jobs = GenerationJob.query.filter(
-            GenerationJob.status.in_(['queued', 'validating', 'generating']),
+            GenerationJob.status.in_(['queued', 'validating', 'generating', 'processing']),
             GenerationJob.updated_at < timeout_limit
         ).all()
         if not stuck_jobs:

@@ -1,6 +1,7 @@
 import logging
 import os
 import time
+from concurrent.futures import ThreadPoolExecutor, TimeoutError as FutureTimeoutError
 
 from celery.exceptions import SoftTimeLimitExceeded
 from celery_app import celery
@@ -217,15 +218,25 @@ def generate_image_task(
             db.session.commit()
             logger.info(f"[Task] Job {job_id} → status=processing")
 
-            # 2️⃣ Chamar API de IA
-            ai_result = generate_with_retry(
-                image_urls=image_urls,
-                prompt=prompt_text,
-                job_id=job.id,
-            )
-
-            if time.monotonic() >= deadline:
-                raise SoftTimeLimitExceeded()
+            # 2️⃣ Chamar API de IA com timeout Python-level
+            # (ThreadPoolExecutor garante que o timeout funciona mesmo que
+            #  o Replicate client bloqueie em C, onde sinais SIGUSR1 do
+            #  Celery podem não ser entregues.)
+            with ThreadPoolExecutor(max_workers=1) as pool:
+                future = pool.submit(
+                    generate_with_retry,
+                    image_urls=image_urls,
+                    prompt=prompt_text,
+                    job_id=job.id,
+                )
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    raise SoftTimeLimitExceeded()
+                try:
+                    ai_result = future.result(timeout=remaining)
+                except FutureTimeoutError:
+                    future.cancel()
+                    raise SoftTimeLimitExceeded()
 
             if not ai_result.get("success") or not ai_result.get("images"):
                 raise RuntimeError(
