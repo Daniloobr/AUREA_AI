@@ -1,4 +1,3 @@
-
 import uuid
 import os
 from flask import current_app
@@ -10,7 +9,6 @@ import logging
 import json
 from tasks.generation_tasks import generate_image_task
 
-
 # Setup logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -18,16 +16,18 @@ logger = logging.getLogger(__name__)
 def refund_credits(user_id, amount, description="Reembolso por falha na geração"):
     """
     Refunds credits to a user and records the transaction.
+    CORREÇÃO: usa filter_by para funcionar com UUID string.
     """
     try:
-        user = User.query.get(user_id)
+        # 🔧 Substituído User.query.get por filter_by
+        user = User.query.filter_by(id=user_id).first()
         if not user:
             logger.error(f"Cannot refund: User {user_id} not found.")
             return False
 
         old_balance = user.credits_balance
         user.credits_balance += amount
-        
+
         txn = Transaction(
             user_id=user_id,
             type='credit_refund',
@@ -53,7 +53,8 @@ def process_generation_pipeline(app, job_id, image_urls, tipo_ensaio, custom_pro
         job = None
         try:
             job = GenerationJob.query.get(job_id)
-            if not job: return
+            if not job:
+                return
 
             # 1. Prepare Prompts
             prompt = generate_prompt(tipo_ensaio, subject_description=custom_prompt or "", use_identity_text=True)
@@ -81,7 +82,7 @@ def process_generation_pipeline(app, job_id, image_urls, tipo_ensaio, custom_pro
                 # 4. Process and Save Outputs
                 from services.supabase_service import supabase_service
                 final_cloud_urls = []
-                
+
                 for idx, remote_url in enumerate(ai_result["images"]):
                     # Download to temp
                     local_path = download_generated_image(remote_url)
@@ -91,7 +92,7 @@ def process_generation_pipeline(app, job_id, image_urls, tipo_ensaio, custom_pro
                         cloud_url = supabase_service.upload_image(local_path, filename, bucket="outputs")
                         if cloud_url:
                             final_cloud_urls.append(cloud_url)
-                        
+
                         # Cleanup local output
                         if os.path.exists(local_path):
                             os.remove(local_path)
@@ -108,7 +109,7 @@ def process_generation_pipeline(app, job_id, image_urls, tipo_ensaio, custom_pro
                 # Send Notification Email
                 try:
                     from services.email_service import email_service
-                    user = User.query.get(job.user_id)
+                    user = User.query.filter_by(id=job.user_id).first()
                     if user and user.email:
                         email_service.send_generation_complete(user.email, job.id)
                 except Exception as mail_err:
@@ -128,8 +129,8 @@ def process_generation_pipeline(app, job_id, image_urls, tipo_ensaio, custom_pro
                     job.error = str(e)
                     job.message = "Ocorreu um erro técnico. Suas moedas foram reembolsadas."
                     db.session.commit()
-                    
-                    # Automatic Refund
+
+                    # Automatic Refund (já usa a refund_credits corrigida)
                     if job.cost_moedas > 0:
                         refund_credits(job.user_id, job.cost_moedas, f"Falha automática: {str(e)[:100]}")
                 except Exception as inner_e:
@@ -139,12 +140,12 @@ def queue_generation(user_id: str, image_urls: list = None, tipo_ensaio: str = N
     """
     Creates a new generation job with atomic credit deduction.
     """
-    COST_PER_CALL = 25 
-    
+    COST_PER_CALL = 25
+
     user = User.query.filter_by(id=user_id, is_active=True).first()
     if not user:
         raise ValueError("Usuário não encontrado ou inativo.")
-    
+
     if user.credits_balance < COST_PER_CALL:
         raise ValueError(f"Saldo insuficiente. Você precisa de {COST_PER_CALL} moedas.")
 
@@ -153,7 +154,7 @@ def queue_generation(user_id: str, image_urls: list = None, tipo_ensaio: str = N
     # 1. Atomic Credit Deduction
     old_balance = user.credits_balance
     user.credits_balance -= COST_PER_CALL
-    
+
     # 2. Record Transaction
     txn = Transaction(
         user_id=user_id,
@@ -175,7 +176,7 @@ def queue_generation(user_id: str, image_urls: list = None, tipo_ensaio: str = N
         input_image_url=json.dumps(image_urls) if image_urls else None,
         cost_moedas=COST_PER_CALL
     )
-    
+
     if prompt:
         new_job.set_metadata({"custom_prompt": prompt})
 
@@ -195,7 +196,8 @@ def queue_generation(user_id: str, image_urls: list = None, tipo_ensaio: str = N
 
 def get_job_status(job_id: str) -> dict:
     job = GenerationJob.query.get(job_id)
-    if not job: return None
+    if not job:
+        return None
     return job.to_dict()
 
 def recover_stuck_jobs(app):
@@ -204,11 +206,9 @@ def recover_stuck_jobs(app):
     This handles cases where the server crashed or restarted.
     """
     with app.app_context():
-        # Any job that is 'generating', 'validating' or 'queued' and is older than 20 minutes
-        # is likely stuck because the thread died on server restart.
         from datetime import datetime, timedelta
         timeout_limit = datetime.utcnow() - timedelta(minutes=20)
-        
+
         stuck_jobs = GenerationJob.query.filter(
             GenerationJob.status.in_(['queued', 'validating', 'generating']),
             GenerationJob.updated_at < timeout_limit
@@ -218,17 +218,17 @@ def recover_stuck_jobs(app):
             return
 
         logger.info(f"Detectados {len(stuck_jobs)} jobs travados. Iniciando recuperação/reembolso...")
-        
+
         for job in stuck_jobs:
             try:
                 job.status = "failed"
                 job.error = "Sistema reiniciado durante o processamento."
                 job.message = "O sistema foi reiniciado. Suas moedas foram devolvidas."
-                
-                # Refund
+
+                # Refund (usa função corrigida)
                 if job.cost_moedas > 0:
                     refund_credits(job.user_id, job.cost_moedas, "Reembolso por reinicialização do sistema")
-                
+
                 db.session.commit()
                 logger.info(f"Job {job.id} recuperado e reembolsado.")
             except Exception as e:
