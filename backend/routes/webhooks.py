@@ -1,3 +1,4 @@
+# backend/routes/webhooks.py
 import stripe
 import os
 from flask import Blueprint, request, jsonify, current_app
@@ -6,27 +7,28 @@ from models import User, Transaction
 
 webhook_bp = Blueprint('webhook', __name__)
 
-# 🔥 ATENÇÃO: isso é TEMPORÁRIO! Depois mova para variável de ambiente.
-HARDCODED_WEBHOOK_SECRET = "whsec_8tOd5kYzgzzvtbklMI0yZC2OiONej97C"
-
-# Inicializa cliente Stripe moderno
-stripe_client = stripe.StripeClient(api_key=os.environ.get('STRIPE_SECRET_KEY'))
+# Inicializa cliente Stripe (para o método parse_event_notification)
+stripe.api_key = os.environ.get('STRIPE_SECRET_KEY')
+stripe_client = stripe.StripeClient(api_key=stripe.api_key)
 
 @webhook_bp.route('/stripe-webhook', methods=['POST'])
 def stripe_webhook():
     payload = request.get_data()
     sig_header = request.headers.get('Stripe-Signature')
-    # 🔁 Usa o secret fixo para teste
-    webhook_secret = HARDCODED_WEBHOOK_SECRET
+    webhook_secret = os.environ.get('STRIPE_WEBHOOK_SECRET')
 
-    current_app.logger.info(f"[WEBHOOK] Recebido. Sig: {bool(sig_header)}, Secret usado: {webhook_secret[:10]}...")
+    current_app.logger.info(f"[WEBHOOK] Recebido. Sig presente: {bool(sig_header)}, Secret configurado: {bool(webhook_secret)}")
 
     if not webhook_secret:
-        current_app.logger.error("Webhook secret não definido")
+        current_app.logger.error("STRIPE_WEBHOOK_SECRET não configurado")
         return jsonify({'error': 'Webhook secret missing'}), 500
 
+    if not sig_header:
+        current_app.logger.error("Assinatura Stripe ausente")
+        return jsonify({'error': 'Missing signature'}), 400
+
     try:
-        # Método correto para Event Destinations
+        # Método para Event Destinations (thin events)
         event = stripe_client.parse_event_notification(
             payload=payload,
             sig_header=sig_header,
@@ -47,7 +49,8 @@ def stripe_webhook():
         current_app.logger.info(f"UserID={user_id}, PriceID={price_id}, SessionID={session_id}")
 
         # Idempotência
-        if Transaction.query.filter_by(external_id=session_id).first():
+        existing = Transaction.query.filter_by(external_id=session_id).first()
+        if existing:
             current_app.logger.warning(f"Evento duplicado ignorado: {session_id}")
             return jsonify({'status': 'already_processed'}), 200
 
@@ -59,14 +62,19 @@ def stripe_webhook():
         }
         credits = credits_map.get(price_id)
         if not credits:
-            current_app.logger.error(f"Price '{price_id}' não mapeado")
+            current_app.logger.error(f"Price ID '{price_id}' não mapeado")
             return jsonify({'error': 'Price not mapped'}), 400
+
+        if not user_id:
+            current_app.logger.error("client_reference_id ausente")
+            return jsonify({'error': 'Missing user_id'}), 400
 
         user = User.query.filter_by(id=user_id).first()
         if not user:
             current_app.logger.error(f"Usuário não encontrado: {user_id}")
             return jsonify({'error': 'User not found'}), 404
 
+        # Atualiza créditos
         old_balance = user.credits_balance
         user.credits_balance += credits
         tx = Transaction(
