@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify, make_response, current_app
 import os
+import uuid  # ← adicionado (faltava no original)
 from models.db_models import User, Transaction
 from database import db
 from utils.auth_utils import generate_token, token_required
@@ -118,10 +119,15 @@ def get_balance(current_user):
         "balance": current_user.credits_balance
     })
 
+# ==================== EXTRATO DE TRANSAÇÕES ====================
 @auth_bp.route('/user/transactions', methods=['GET'])
 @token_required
 def get_transactions(current_user):
-    txns = Transaction.query.filter_by(user_id=current_user.id).order_by(Transaction.created_at.desc()).all()
+    """
+    Retorna todas as transações (extrato) do usuário autenticado.
+    """
+    txns = Transaction.query.filter_by(user_id=current_user.id)\
+                            .order_by(Transaction.created_at.desc()).all()
     return jsonify({
         "success": True,
         "transactions": [{
