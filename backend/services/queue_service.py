@@ -1,6 +1,5 @@
 import uuid
 import os
-from flask import current_app
 from database import db
 from models.db_models import GenerationJob, User, Transaction
 from services.replicate_service import generate_with_retry, download_generated_image

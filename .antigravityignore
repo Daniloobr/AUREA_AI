@@ -1,0 +1,106 @@
+# Dependências e pacotes (enormes)
+node_modules/
+.venv/
+venv/
+env/
+lib/
+Lib/
+site-packages/
+__pycache__/
+*.pyc
+*.pyo
+*.so
+
+# Arquivos de ambiente e segredos
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
+
+# Logs e arquivos temporários
+*.log
+logs/
+*.tmp
+*.temp
+*.cache
+.cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Builds e distribuição
+dist/
+build/
+*.egg-info/
+*.whl
+*.tar.gz
+*.zip
+*.rar
+
+# Banco de dados e migrações (exceto estrutura)
+*.db
+*.sqlite
+*.sqlite3
+*.dump
+*.sql
+migrations/versions/*.py
+!migrations/versions/__init__.py
+!migrations/__init__.py
+!migrations/alembic.ini
+
+# Mídia e uploads (se houver)
+uploads/
+media/
+static/uploads/
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.mp4
+*.mov
+*.webp
+*.ico
+
+# Documentação e arquivos grandes
+docs/
+*.pdf
+*.md
+!README.md
+!CONTRIBUTING.md
+*.rst
+
+# Arquivos do IDE/editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Arquivos de deploy/servidor
+*.pid
+*.sock
+*.socket
+*.lock
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+requirements.txt
+!requirements.in
+
+# Frontend (se tiver React/Next na mesma raiz)
+.next/
+out/
+build/
+*.map
+
+# Stripe CLI e ferramentas locais
+stripe_*
+whsec_*
+.ngrok

@@ -11,7 +11,7 @@ Based on official GPT-Image-2 guidelines:
 """
 
 import logging
-from typing import Optional, Literal
+from typing import Literal
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -298,30 +298,3 @@ def get_available_styles() -> list:
     ]
 
 
-def get_framing_options() -> list:
-    return [{"id": k, "name": k.replace("_", " ").title()} for k in FRAMING_VARIANTS]
-
-
-if __name__ == "__main__":
-    prompt = generate_prompt(
-        tipo_ensaio="luxury_studio",
-        subject_description="Woman with medium-dark skin tone, dark curly hair and brown eyes.",
-        framing="three_quarters",
-        pose_key="looking_down_pose",
-        expression_key="warm",
-        lens_type="cinematic",
-    )
-    print("\n" + "=" * 80)
-    print("POSITIVE PROMPT")
-    print("=" * 80 + "\n")
-    print(prompt)
-    print("\n" + "=" * 80)
-    print("NEGATIVE PROMPT")
-    print("=" * 80 + "\n")
-    print(generate_negative_prompt())
-    print("\n" + "=" * 80)
-    print("AVAILABLE STYLES")
-    print("=" * 80 + "\n")
-    for style in get_available_styles():
-        print(f"- {style['name']} ({style['id']})")
-    print("\n" + "=" * 80)

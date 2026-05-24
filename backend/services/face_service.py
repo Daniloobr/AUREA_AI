@@ -10,6 +10,7 @@ Uses OpenCV DNN Face Detector (Caffe model) for:
 
 Falls back to OpenCV Haar Cascade if DNN model is unavailable.
 """
+import os
 import cv2
 import numpy as np
 from pathlib import Path
@@ -211,21 +212,4 @@ def _generate_face_crop(img, face_x, face_y, face_w, face_h, img_w, img_h) -> st
         return temp_crop_path
 
 
-def get_face_quality_rank(image_paths: list) -> list:
-    """
-    Ranks multiple images by face quality score.
-    Returns list sorted best-to-worst with scores.
-    """
-    ranked = []
-    for path in image_paths:
-        report = validate_image(path)
-        if report["valid"]:
-            ranked.append({
-                "path": path,
-                "quality_score": report["quality_score"],
-                "blur_score": report["blur_score"],
-                "face_crop_path": report["face_crop_path"]
-            })
 
-    ranked.sort(key=lambda x: x["quality_score"], reverse=True)
-    return ranked

@@ -77,6 +77,7 @@ def stripe_webhook():
     # ATENÇÃO: cada price_id deve ser ÚNICO — duplicatas são silenciosamente ignoradas pelo Python.
     credits_map = {
         "price_1TXBt5AXb2fn2YJDXDIF0iKk": 100,   # Pacote 100 créditos
+        "price_1TXBtWAXb2fn2YJDZxm1s4Xz": 200,   # Pacote 200 créditos
         "price_1TaSlbAXb2fn2YJD21xOhXPs": 400,   # Pacote 400 créditos
     }
     credits = credits_map.get(price_id)

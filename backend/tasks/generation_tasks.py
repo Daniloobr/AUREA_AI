@@ -1,7 +1,6 @@
 import logging
 import os
 
-from celery import shared_task
 from celery_app import celery
 
 from services.replicate_service import generate_with_retry, download_generated_image

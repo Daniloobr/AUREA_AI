@@ -1,9 +1,8 @@
-from flask import Blueprint, request, Response, jsonify, current_app
+from flask import Blueprint, request, Response, jsonify
 import requests
-import os
 import time
 import logging
-from urllib.parse import urlparse, unquote
+from urllib.parse import urlparse
 
 logger = logging.getLogger(__name__)
 

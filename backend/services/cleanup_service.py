@@ -62,12 +62,7 @@ def perform_cleanup():
                 if os.path.exists(local_path):
                     os.remove(local_path)
                 
-                # Delete from Supabase - DISABLED FOR PRODUCTION TO ENSURE NO LOSS
-                # try:
-                #     supabase_service.client.storage.from_("outputs").remove([filename])
-                #     # Also try legacy bucket
-                #     supabase_service.client.storage.from_("ensaios").remove([filename])
-                # except: pass
+                # Supabase cleanup disabled for production to ensure no data loss
 
             # Delete input images
             if job.input_image_url:
@@ -86,10 +81,7 @@ def perform_cleanup():
                     if os.path.exists(local_path):
                         os.remove(local_path)
                     
-                    # Delete from Supabase - DISABLED FOR PRODUCTION TO ENSURE NO LOSS
-                    # try:
-                    #     supabase_service.client.storage.from_("inputs").remove([filename])
-                    # except: pass
+                    # Supabase cleanup disabled for production to ensure no data loss
 
             # B. Mark job as expired
             job.status = "expired"
