@@ -37,46 +37,119 @@ def _get_flask_app():
 
 def _refund_user(flask_app, user_id: str, amount: int, reason: str) -> None:
     """
-    Refund credits to a user in an **isolated** app context + DB session.
+    Refund credits to a user using **direct SQL** to bypass ORM session issues.
 
-    Must never reuse the calling session (which may be dirty or rolled back).
-    Opens its own app_context so it gets a fresh SQLAlchemy session from the
-    scoped-session registry.
+    Root cause discovered:
+    ----------------------
+    The previous implementation used `user.credits_balance += amount` on an ORM
+    object. In eager (synchronous) mode, the same SQLAlchemy session is shared
+    across nested app contexts. The combination of `db.session.expire_all()`
+    followed by ORM mutation + commit could cause the User row update to silently
+    not persist, even though the Transaction INSERT succeeded in the same commit
+    (because the Transaction was a new object `add()`-ed to the session, while
+    the User was a pre-existing tracked object whose dirty flag was affected by
+    `expire_all` / rollback in the calling context).
+
+    Fix:
+    - Use `UPDATE users SET credits_balance = credits_balance + :amount WHERE id = :uid`
+      (atomic, bypasses ORM state entirely).
+    - Use `SELECT ... FOR UPDATE` to lock the row against concurrent refunds.
+    - Remove `db.session.expire_all()` — no longer needed and was part of the issue.
+    - Add idempotency check: skip if a credit_refund for this reason already exists
+      within the last 60 seconds (prevents double-refund on retry/recovery).
+    - Add post-commit verification + detailed logging.
     """
     with flask_app.app_context():
-        # Expire all objects in this new context so we read fresh data from DB
-        db.session.expire_all()
         try:
-            user = User.query.filter_by(id=user_id).first()
-            if not user:
+            # ── Idempotency check ──────────────────────────────────────────
+            # Avoid processing the same refund twice within 60s
+            from datetime import datetime, timedelta
+            recent = Transaction.query.filter(
+                Transaction.user_id == user_id,
+                Transaction.type == 'credit_refund',
+                Transaction.description == reason,
+                Transaction.created_at > datetime.utcnow() - timedelta(seconds=60),
+            ).first()
+            if recent:
+                logger.warning(
+                    f"[REFUND] ⚠️ Reembolso duplicado detectado — ignorando. "
+                    f"user={user_id}, amount={amount}, reason={reason[:100]}"
+                )
+                return
+
+            # ── Lock the row and read current balance ──────────────────────
+            row = db.session.execute(
+                db.text("SELECT credits_balance FROM users WHERE id = :uid FOR UPDATE"),
+                {"uid": user_id},
+            ).one_or_none()
+
+            if row is None:
                 logger.error(
                     f"[REFUND] ❌ User {user_id} não encontrado — "
                     f"reembolso de {amount} moedas cancelado."
                 )
                 return
 
-            old_balance = user.credits_balance
-            user.credits_balance += amount
+            old_balance = row[0]
+            new_balance = old_balance + amount
 
+            logger.info(
+                f"[REFUND] ⏳ Iniciando reembolso: user={user_id}, "
+                f"amount={amount}, old_balance={old_balance}, "
+                f"new_balance={new_balance}, reason={reason[:100]}"
+            )
+
+            # ── Atomic UPDATE (direct SQL — bypasses ORM) ──────────────────
+            updated = db.session.execute(
+                db.text(
+                    "UPDATE users SET credits_balance = credits_balance + :amount "
+                    "WHERE id = :user_id"
+                ),
+                {"amount": amount, "user_id": user_id},
+            ).rowcount
+
+            if updated == 0:
+                logger.error(
+                    f"[REFUND] ❌ Nenhuma linha foi atualizada para user {user_id}. "
+                    f"Reembolso de {amount} moedas NÃO aplicado."
+                )
+
+            # ── Create transaction record ──────────────────────────────────
             txn = Transaction(
                 user_id=user_id,
                 type="credit_refund",
                 amount=amount,
                 balance_before=old_balance,
-                balance_after=user.credits_balance,
+                balance_after=new_balance,
                 description=reason,
             )
             db.session.add(txn)
             db.session.commit()
 
-            logger.info(
-                f"[REFUND] ✅ +{amount} moedas → user {user_id} "
-                f"(antes: {old_balance}, depois: {user.credits_balance}) | {reason}"
-            )
+            # ── Post-commit verification ───────────────────────────────────
+            verify_balance = db.session.execute(
+                db.text("SELECT credits_balance FROM users WHERE id = :uid"),
+                {"uid": user_id},
+            ).scalar()
+
+            if verify_balance != new_balance:
+                logger.error(
+                    f"[REFUND] ❌ CRÍTICO: Saldo NÃO foi persistido corretamente! "
+                    f"Esperado={new_balance}, Real={verify_balance}, "
+                    f"user={user_id}, amount={amount}"
+                )
+            else:
+                logger.info(
+                    f"[REFUND] ✅ Reembolso confirmado: user={user_id}, "
+                    f"amount={amount}, old={old_balance}, new={verify_balance}, "
+                    f"reason={reason[:100]}"
+                )
 
         except Exception as e:
             db.session.rollback()
-            logger.exception(f"[REFUND] ❌ Erro crítico ao reembolsar user {user_id}: {e}")
+            logger.exception(
+                f"[REFUND] ❌ Erro crítico ao reembolsar user {user_id}: {e}"
+            )
 
 
 # ─── Timeout ────────────────────────────────────────────────────────────
