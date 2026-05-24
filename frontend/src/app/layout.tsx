@@ -57,6 +57,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className="scroll-smooth">
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        <meta name="theme-color" content="#748FCC" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="AureaIA" />
+      </head>
       <body
         className={`${montserrat.variable} ${cormorant.variable} antialiased bg-black text-white min-h-screen flex flex-col font-sans`}
       >

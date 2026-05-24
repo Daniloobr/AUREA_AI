@@ -5,8 +5,10 @@ import { motion } from 'framer-motion';
 import { apiService } from '@/services/api';
 import Link from 'next/link';
 import { ArrowLeft, Mail, Loader2, Sparkles } from 'lucide-react';
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 export default function ForgotPasswordPage() {
+  usePageTitle('Recuperar Senha');
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');

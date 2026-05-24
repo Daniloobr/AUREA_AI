@@ -9,6 +9,7 @@ import {
 import { Button } from '@/components/ui/Button';
 import { useAuth } from '@/contexts/AuthContext';
 import { useSearchParams, useRouter } from 'next/navigation';
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 /* ═══════════════════════════════════════════════════════════════════════════
    PACOTES
@@ -68,6 +69,7 @@ const PACKAGES = [
 ];
 
 function CreditsContent() {
+  usePageTitle('Créditos');
   const { user, token, refreshUser } = useAuth();
   const searchParams = useSearchParams();
   const router = useRouter();

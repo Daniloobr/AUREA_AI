@@ -1,0 +1,18 @@
+{
+  "name": "AureaIA™ — Seu ensaio de maternidade com IA",
+  "short_name": "AureaIA",
+  "description": "Crie ensaios de maternidade profissionais com inteligência artificial. Sem sair de casa.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A0A0A",
+  "theme_color": "#748FCC",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -9,8 +9,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import type { GalleryItem } from '@/types';
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 export default function GalleryPage() {
+  usePageTitle('Galeria');
   const { token, loading: authLoading } = useAuth();
   const router = useRouter();
   const [historyItems, setHistoryItems] = useState<GalleryItem[]>([]);

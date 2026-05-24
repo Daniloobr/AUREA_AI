@@ -1,14 +1,32 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { apiService } from '@/services/api';
 import Link from 'next/link';
 import { ArrowRight, Mail, Lock, User, Loader2, Sparkles, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { usePageTitle } from '@/hooks/usePageTitle';
+
+const strengthConfig = [
+  { label: 'Fraca', color: 'bg-red-500', bars: 1 },
+  { label: 'Média', color: 'bg-yellow-500', bars: 2 },
+  { label: 'Forte', color: 'bg-green-500', bars: 3 },
+  { label: 'Segura', color: 'bg-emerald-500', bars: 4 },
+];
+
+function passwordStrength(pw: string): number {
+  let score = 0;
+  if (pw.length >= 8) score++;
+  if (/[a-z]/.test(pw) && /[A-Z]/.test(pw)) score++;
+  if (/\d/.test(pw)) score++;
+  if (/[^a-zA-Z0-9]/.test(pw)) score++;
+  return score;
+}
 
 export default function RegisterPage() {
+  usePageTitle('Criar Conta');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,12 +36,24 @@ export default function RegisterPage() {
   const [error, setError] = useState('');
   const { login } = useAuth();
   const [logoError, setLogoError] = useState(false);
+  const strength = useMemo(() => passwordStrength(password), [password]);
+  const strengthInfo = strengthConfig[Math.min(strength, strengthConfig.length - 1)];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!acceptedTerms) {
       setError('Você precisa aceitar os termos de uso e LGPD.');
+      return;
+    }
+
+    if (password.length < 8) {
+      setError('A senha deve ter pelo menos 8 caracteres.');
+      return;
+    }
+
+    if (strength < 2) {
+      setError('Crie uma senha mais forte com letras maiúsculas, números ou caracteres especiais.');
       return;
     }
 
@@ -43,8 +73,8 @@ export default function RegisterPage() {
       } else {
         setError(response.error || 'Erro no cadastro.');
       }
-    } catch (error: any) {
-      console.error(error);
+    } catch (err: unknown) {
+      console.error(err);
       setError('Erro de conexão.');
     } finally {
       setLoading(false);
@@ -141,6 +171,18 @@ export default function RegisterPage() {
                     required 
                   />
                 </div>
+                {password.length > 0 && (
+                  <div className="mt-2 space-y-1.5">
+                    <div className="flex gap-1">
+                      {[1, 2, 3, 4].map((i) => (
+                        <div key={i} className={`h-1 flex-1 rounded-full transition-colors ${i <= strength ? strengthInfo.color : 'bg-white/10'}`} />
+                      ))}
+                    </div>
+                    <p className={`text-[10px] font-bold uppercase tracking-widest ${strength >= 3 ? 'text-green-500' : strength >= 2 ? 'text-yellow-500' : 'text-red-500'}`}>
+                      {strengthInfo.label}
+                    </p>
+                  </div>
+                )}
               </div>
               <div className="space-y-2 group">
                 <label className="text-[11px] font-bold text-[#B8BCC4] uppercase tracking-widest ml-1 transition-colors group-focus-within:text-[#748FCC]">Confirmar</label>

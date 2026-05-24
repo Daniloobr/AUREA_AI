@@ -4,8 +4,10 @@ import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, BookOpen, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 export default function TermsOfUse() {
+  usePageTitle('Termos de Uso');
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-[#F5F5F7] font-sans selection:bg-[#748FCC] selection:text-white">
       {/* Texture Overlay */}

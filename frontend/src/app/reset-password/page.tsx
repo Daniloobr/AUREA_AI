@@ -1,12 +1,30 @@
 'use client';
 
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, Suspense, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { apiService } from '@/services/api';
 import { Lock, Loader2, CheckCircle2 } from 'lucide-react';
+import { usePageTitle } from '@/hooks/usePageTitle';
+
+const strengthConfig = [
+  { label: 'Fraca', color: 'bg-red-500', bars: 1 },
+  { label: 'Média', color: 'bg-yellow-500', bars: 2 },
+  { label: 'Forte', color: 'bg-green-500', bars: 3 },
+  { label: 'Segura', color: 'bg-emerald-500', bars: 4 },
+];
+
+function passwordStrength(pw: string): number {
+  let score = 0;
+  if (pw.length >= 8) score++;
+  if (/[a-z]/.test(pw) && /[A-Z]/.test(pw)) score++;
+  if (/\d/.test(pw)) score++;
+  if (/[^a-zA-Z0-9]/.test(pw)) score++;
+  return score;
+}
 
 function ResetPasswordForm() {
+  usePageTitle('Redefinir Senha');
   const searchParams = useSearchParams();
   const router = useRouter();
   const token = searchParams.get('token');
@@ -16,6 +34,8 @@ function ResetPasswordForm() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const strength = useMemo(() => passwordStrength(password), [password]);
+  const strengthInfo = strengthConfig[Math.min(strength, strengthConfig.length - 1)];
 
   useEffect(() => {
     if (!token) {
@@ -25,6 +45,17 @@ function ResetPasswordForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (password.length < 8) {
+      setError('A senha deve ter pelo menos 8 caracteres.');
+      return;
+    }
+
+    if (strength < 2) {
+      setError('Crie uma senha mais forte com letras maiúsculas, números ou caracteres especiais.');
+      return;
+    }
+
     if (password !== confirmPassword) {
       setError('As senhas não coincidem.');
       return;
@@ -80,19 +111,31 @@ function ResetPasswordForm() {
               <label className="text-[10px] font-bold text-[#B8BCC4] uppercase tracking-widest ml-1">Nova Senha</label>
               <div className="relative group">
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#8A9099] group-focus-within:text-[#748FCC] transition-colors" />
-                <input 
-                  type="password" 
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full h-16 px-6 pl-12 rounded-2xl border border-[#1F2329] bg-[#121417] text-[#F5F5F7] focus:border-[#748FCC]/50 focus:outline-none transition-all"
-                  placeholder="••••••••"
-                  required 
-                />
+                  <input 
+                    type="password" 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full h-16 px-6 pl-12 rounded-2xl border border-[#1F2329] bg-[#121417] text-[#F5F5F7] focus:border-[#748FCC]/50 focus:outline-none transition-all"
+                    placeholder="••••••••"
+                    required 
+                  />
+                </div>
+                {password.length > 0 && (
+                  <div className="mt-2 space-y-1.5">
+                    <div className="flex gap-1">
+                      {[1, 2, 3, 4].map((i) => (
+                        <div key={i} className={`h-1 flex-1 rounded-full transition-colors ${i <= strength ? strengthInfo.color : 'bg-white/10'}`} />
+                      ))}
+                    </div>
+                    <p className={`text-[10px] font-bold uppercase tracking-widest ${strength >= 3 ? 'text-green-500' : strength >= 2 ? 'text-yellow-500' : 'text-red-500'}`}>
+                      {strengthInfo.label}
+                    </p>
+                  </div>
+                )}
               </div>
-            </div>
 
-            <div className="space-y-2">
-              <label className="text-[10px] font-bold text-[#B8BCC4] uppercase tracking-widest ml-1">Confirmar Nova Senha</label>
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-[#B8BCC4] uppercase tracking-widest ml-1">Confirmar Nova Senha</label>
               <div className="relative group">
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#8A9099] group-focus-within:text-[#748FCC] transition-colors" />
                 <input 

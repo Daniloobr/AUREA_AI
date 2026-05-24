@@ -7,8 +7,10 @@ import { apiService } from '@/services/api';
 import { Sparkles, Camera, CreditCard, ChevronRight, Loader2, ArrowUpRight, ArrowDownLeft } from 'lucide-react';
 import Link from 'next/link';
 import type { Transaction } from '@/types';
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 export default function DashboardPage() {
+  usePageTitle('Dashboard');
   const { user, token } = useAuth();
   const [jobCount, setJobCount] = useState(0);
   const [transactions, setTransactions] = useState<Transaction[]>([]);

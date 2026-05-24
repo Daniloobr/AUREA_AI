@@ -7,8 +7,10 @@ import { apiService } from '@/services/api';
 import { CreditCard, Loader2, ArrowUpRight, ArrowDownLeft, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import type { Transaction } from '@/types';
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 export default function ExtratoPage() {
+  usePageTitle('Extrato');
   const { user, token } = useAuth();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);

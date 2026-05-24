@@ -4,6 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Mail, ChevronDown, Sparkles, MessageCircle, Clock, Shield } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 const FAQS = [
   {
@@ -33,6 +34,7 @@ const FAQS = [
 ];
 
 export default function HelpPage() {
+  usePageTitle('Ajuda');
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-[#F5F5F7] pt-24 pb-32 px-6">
       <div className="max-w-[900px] mx-auto space-y-24">

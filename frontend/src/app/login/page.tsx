@@ -8,8 +8,10 @@ import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 import { ArrowRight, Mail, Lock, Loader2, Sparkles, AlertCircle, User } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 export default function LoginPage() {
+  usePageTitle('Entrar');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);

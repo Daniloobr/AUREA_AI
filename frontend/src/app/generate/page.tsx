@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { apiService } from '@/services/api';
@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 // Helper to map API errors to user‑friendly messages and trigger UI actions
 import Image from 'next/image';
@@ -35,6 +36,7 @@ interface Style {
 
 // ─── Componente principal ─────────────────────────────────────────────────
 export default function GeneratePage() {
+  usePageTitle('Criar Ensaio');
   const { user, token, updateUser, loading: authLoading } = useAuth();
   const router = useRouter();
 
@@ -51,6 +53,26 @@ export default function GeneratePage() {
   const [error, setError] = useState<string | null>(null);
   const [showCreditModal, setShowCreditModal] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+  // Persiste jobId na URL para sobreviver a F5
+  const updateUrlJobId = useCallback((id: string | null) => {
+    const url = new URL(window.location.href);
+    if (id) {
+      url.searchParams.set('job_id', id);
+    } else {
+      url.searchParams.delete('job_id');
+    }
+    window.history.replaceState({}, '', url.toString());
+  }, []);
+
+  // Recupera jobId da URL após refresh
+  React.useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const urlJobId = params.get('job_id');
+    if (urlJobId) {
+      setJobId(urlJobId);
+    }
+  }, []);
 
   // Helper to map API errors to user‑friendly messages and trigger UI actions
   const handleApiError = (err: any) => {
@@ -90,6 +112,7 @@ export default function GeneratePage() {
         clearInterval(interval);
         setError("O processo demorou mais que o esperado. Tente novamente.");
         setJobId(null);
+        updateUrlJobId(null);
         return;
       }
         try {
@@ -103,6 +126,7 @@ export default function GeneratePage() {
           } else if (res.status === 'FAILED') {
             setError("Ocorreu um erro ao gerar a sua imagem. Por favor, tente novamente.");
             setJobId(null);
+            updateUrlJobId(null);
             clearInterval(interval);
           }
         } catch (e) {
@@ -218,6 +242,7 @@ export default function GeneratePage() {
 
       if (genRes.success) {
         setJobId(genRes.job_id);
+        updateUrlJobId(genRes.job_id);
         if (user) updateUser({ ...user, credits_balance: user.credits_balance - 25 });
       } else {
         // Tratar erro 402 — créditos insuficientes (resposta do backend)
