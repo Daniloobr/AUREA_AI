@@ -25,9 +25,16 @@ def init_celery(app=None):
     # Store the Flask app so generation_tasks._get_flask_app() can retrieve it.
     celery.flask_app = app
 
-    # Update Celery configuration from Flask app config or environment.
     broker = os.getenv('CELERY_BROKER_URL') or app.config.get('CELERY_BROKER_URL')
     backend = os.getenv('CELERY_RESULT_BACKEND') or app.config.get('CELERY_RESULT_BACKEND')
+    
+    # Eager mode (synchronous task execution) if broker is not set
+    task_always_eager = not broker
+    if task_always_eager:
+        print("[CELERY] Broker nao configurado. Ativando modo EAGER (sincrono) com broker em memoria.")
+        broker = 'memory://'
+        backend = 'cache+memory://'
+
     celery.conf.update(
         broker_url=broker,
         result_backend=backend,
@@ -36,6 +43,7 @@ def init_celery(app=None):
         accept_content=['json'],
         timezone='UTC',
         enable_utc=True,
+        task_always_eager=task_always_eager,
     )
     return celery
 

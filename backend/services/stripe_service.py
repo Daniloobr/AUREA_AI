@@ -85,7 +85,7 @@ def create_checkout_session(price_id, user_id, user_email, success_url, cancel_u
             },
         )
 
-        print(f"[STRIPE] ✅ Sessão criada: {session.id}")
+        print(f"[STRIPE] SUCCESS Sessao criada: {session.id}")
 
         return {
             "sessionId": session.id,
