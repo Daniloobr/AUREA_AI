@@ -3,12 +3,14 @@ import requests
 import time
 import logging
 from urllib.parse import urlparse
+from limiter_instance import limiter
 
 logger = logging.getLogger(__name__)
 
 download_bp = Blueprint('download', __name__)
 
 @download_bp.route('/download-image', methods=['GET'])
+@limiter.limit("100 per hour")
 def download_image():
     """Proxy endpoint to download an image from a given URL.
 

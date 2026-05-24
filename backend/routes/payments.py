@@ -5,6 +5,7 @@ from flask import Blueprint, jsonify, request
 
 from services.stripe_service import create_checkout_session
 from utils.auth_utils import token_required
+from limiter_instance import limiter
 
 payments_bp = Blueprint("payments", __name__)
 logger = logging.getLogger(__name__)
@@ -51,6 +52,7 @@ def _get_price_id_map():
 
 
 @payments_bp.route("/create-checkout-session", methods=["POST"])
+@limiter.limit("20 per hour")
 @token_required
 def create_session(current_user):
     try:

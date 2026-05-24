@@ -5,6 +5,7 @@ from flask import Blueprint, request, jsonify
 from config import Config
 from services.supabase_service import supabase_service
 from utils.auth_utils import token_required
+from limiter_instance import limiter
 import logging
 
 logger = logging.getLogger(__name__)
@@ -20,6 +21,7 @@ def allowed_file(filename):
 
 @upload_bp.route('', methods=['POST'], strict_slashes=False)
 @upload_bp.route('/', methods=['POST'], strict_slashes=False)
+@limiter.limit("30 per hour")
 @token_required
 def upload_file(current_user):
     """

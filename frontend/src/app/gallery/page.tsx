@@ -90,22 +90,13 @@ export default function GalleryPage() {
       const base = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5000/api').replace(/\/api$/, '');
       const downloadUrl = `${base}/api/download-image?url=${encodeURIComponent(imageUrl)}`;
       
-      console.log('[Download] Image URL original:', imageUrl);
-      console.log('[Download] Proxy URL:', downloadUrl);
-      
       const response = await fetch(downloadUrl);
-      
-      console.log('[Download] Response status:', response.status);
-      console.log('[Download] Response Content-Type:', response.headers.get('Content-Type'));
-      
+
       if (!response.ok) {
-        const errorText = await response.text().catch(() => 'Erro desconhecido');
-        console.error('[Download] Erro do servidor:', errorText);
         throw new Error(`Servidor retornou erro ${response.status}`);
       }
-      
+
       const blob = await response.blob();
-      console.log('[Download] Blob size:', blob.size, 'type:', blob.type);
       
       const blobUrl = window.URL.createObjectURL(blob);
       
