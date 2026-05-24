@@ -8,11 +8,12 @@ import { apiService } from '@/services/api';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import type { GalleryItem } from '@/types';
 
 export default function GalleryPage() {
   const { token, loading: authLoading } = useAuth();
   const router = useRouter();
-  const [historyItems, setHistoryItems] = useState<any[]>([]);
+  const [historyItems, setHistoryItems] = useState<GalleryItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   // ─── Proteger rota ────────────────────────────────────────────────────────

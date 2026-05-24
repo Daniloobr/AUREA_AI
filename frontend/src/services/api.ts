@@ -44,13 +44,13 @@ export const apiService = {
         await response.text();
         return { success: false, error: `Indisponibilidade momentânea (${response.status}). Nossa equipe já foi notificada.` };
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Fetch error:", err);
       throw new Error('Não foi possível estabelecer conexão com o estúdio. Por favor, verifique sua rede.');
     }
   },
 
-  post: async (endpoint: string, data: any, token?: string) => {
+  post: async (endpoint: string, data: unknown, token?: string) => {
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
     };
@@ -82,7 +82,7 @@ export const apiService = {
         await response.text();
         return { success: false, error: `Ocorreu um imprevisto técnico (${response.status}). Por favor, tente novamente em alguns instantes.` };
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Fetch error:", err);
       throw new Error('Conexão com o estúdio interrompida. Certifique-se de que sua conexão está estável.');
     }
@@ -95,21 +95,26 @@ export const apiService = {
     if (token) {
       headers['Authorization'] = `Bearer ${token}`;
     }
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-      method: 'DELETE',
-      headers,
-      credentials: 'include',
-    });
-    
-    if (response.status === 401) {
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem('auth_token');
-        document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-        window.location.href = '/login?expired=true';
+    try {
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        method: 'DELETE',
+        headers,
+        credentials: 'include',
+      });
+      
+      if (response.status === 401) {
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('auth_token');
+          document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+          window.location.href = '/login?expired=true';
+        }
+        return { success: false, error: 'Sessão expirada. Por favor, faça login novamente.' };
       }
-      return { success: false, error: 'Sessão expirada. Por favor, faça login novamente.' };
+      
+      return response.json();
+    } catch (err: unknown) {
+      console.error("Fetch error:", err);
+      throw new Error('Conexão com o estúdio interrompida. Certifique-se de que sua conexão está estável.');
     }
-    
-    return response.json();
   }
 };

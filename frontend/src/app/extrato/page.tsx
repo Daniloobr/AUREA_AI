@@ -6,10 +6,11 @@ import { useAuth } from '@/contexts/AuthContext';
 import { apiService } from '@/services/api';
 import { CreditCard, Loader2, ArrowUpRight, ArrowDownLeft, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import type { Transaction } from '@/types';
 
 export default function ExtratoPage() {
   const { user, token } = useAuth();
-  const [transactions, setTransactions] = useState<any[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

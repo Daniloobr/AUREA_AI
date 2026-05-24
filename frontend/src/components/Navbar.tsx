@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Sparkles, Menu, X, User, Image, CreditCard, HelpCircle, LogOut } from "lucide-react";
+import { Sparkles, Menu, X, User, Image, CreditCard, HelpCircle, LogOut, type LucideIcon } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/Button";
 
@@ -24,7 +24,7 @@ export function Navbar() {
   interface NavItem {
     name: string;
     href: string;
-    icon?: React.ComponentType<any>;
+    icon?: LucideIcon;
   }
 
   const landingLinks: NavItem[] = [

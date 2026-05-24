@@ -6,11 +6,12 @@ import { useAuth } from '@/contexts/AuthContext';
 import { apiService } from '@/services/api';
 import { Sparkles, Camera, CreditCard, ChevronRight, Loader2, ArrowUpRight, ArrowDownLeft } from 'lucide-react';
 import Link from 'next/link';
+import type { Transaction } from '@/types';
 
 export default function DashboardPage() {
   const { user, token } = useAuth();
   const [jobCount, setJobCount] = useState(0);
-  const [transactions, setTransactions] = useState<any[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loadingTxns, setLoadingTxns] = useState(true);
   const [txnError, setTxnError] = useState<string | null>(null);
   const [retryKey, setRetryKey] = useState(0);

@@ -6,40 +6,18 @@ from services.ai_generator import generate_with_retry, download_generated_image
 from services.prompt_engine import generate_prompt, generate_negative_prompt
 import logging
 import json
-from tasks.generation_tasks import generate_image_task
+from tasks.generation_tasks import generate_image_task, _refund_user, _get_flask_app
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 def refund_credits(user_id, amount, description="Reembolso por falha na geração"):
     """
-    Refunds credits to a user and records the transaction.
+    Refunds credits to a user using the isolated context pattern.
+    Delegates to `_refund_user` from generation_tasks to avoid duplicate logic.
     """
-    try:
-        user = User.query.filter_by(id=user_id).first()
-        if not user:
-            logger.error(f"❌ Refund: User {user_id} not found.")
-            return False
-
-        old_balance = user.credits_balance
-        user.credits_balance += amount
-
-        txn = Transaction(
-            user_id=user.id,  # use user.id para consistência
-            type='credit_refund',
-            amount=amount,
-            balance_before=old_balance,
-            balance_after=user.credits_balance,
-            description=description
-        )
-        db.session.add(txn)
-        db.session.commit()
-        logger.info(f"✅ Refunded {amount} credits to user {user_id}. New balance: {user.credits_balance}")
-        return True
-    except Exception as e:
-        db.session.rollback()
-        logger.error(f"❌ Critical error during refund for user {user_id}: {e}", exc_info=True)
-        return False
+    flask_app = _get_flask_app()
+    _refund_user(flask_app, user_id, amount, description)
 
 def process_generation_pipeline(app, job_id, image_urls, tipo_ensaio, custom_prompt=None):
     with app.app_context():
