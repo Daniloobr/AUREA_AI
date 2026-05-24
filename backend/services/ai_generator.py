@@ -53,7 +53,7 @@ def generate_images(
     try:
         token = os.environ.get('AI_PROVIDER_API_TOKEN', '').strip()
             
-        if not token or 'YOUR_' in token or token.startswith('r8_'):
+        if not token or 'YOUR_' in token:
             raise ValueError("Token da API de IA não configurado ou inválido.")
 
         logger.info(f"Starting openai/gpt-image-2 Generation...")

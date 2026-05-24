@@ -33,10 +33,14 @@ logger = logging.getLogger(__name__)
 def create_app():
     app = Flask(__name__)
     
-    # Critical security configuration: SECRET_KEY must be set via environment variable.
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
     if not app.config['SECRET_KEY']:
-        raise RuntimeError('CRÍTICO: SECRET_KEY é obrigatória mas não foi configurada nas variáveis de ambiente.')
+        if os.getenv('FLASK_ENV') == 'development':
+            import secrets
+            app.config['SECRET_KEY'] = secrets.token_hex(32)
+            logger.warning('⚠️ SECRET_KEY não definida. Usando chave aleatória (apenas para desenvolvimento).')
+        else:
+            raise RuntimeError('CRÍTICO: SECRET_KEY é obrigatória mas não foi configurada nas variáveis de ambiente.')
     # ADMIN_SECRET_KEY can be optional, but warn if missing
     app.config['ADMIN_SECRET_KEY'] = os.getenv('ADMIN_SECRET_KEY')
     if not app.config['ADMIN_SECRET_KEY']:
