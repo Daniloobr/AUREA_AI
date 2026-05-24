@@ -125,10 +125,15 @@ export default function DashboardPage() {
             transition={{ delay: 0.3 }}
             className="bg-[#121417] border border-[#1F2329] rounded-[32px] p-10 flex flex-col gap-8"
           >
-            <h2 className="text-2xl font-serif font-medium flex items-center gap-3 text-[#F5F5F7]">
-              <CreditCard className="w-5 h-5 text-[#748FCC]" />
-              Extrato de Moedas
-            </h2>
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-serif font-medium flex items-center gap-3 text-[#F5F5F7]">
+                <CreditCard className="w-5 h-5 text-[#748FCC]" />
+                Extrato de Moedas
+              </h2>
+              <Link href="/extrato" className="text-sm font-medium text-[#748FCC] hover:text-[#5F7DB8] transition-colors">
+                Ver tudo
+              </Link>
+            </div>
 
             <div className="space-y-3 flex-1">
               {loadingTxns ? (
@@ -193,6 +198,7 @@ export default function DashboardPage() {
                 { label: 'Ateliê de Criação', desc: 'Transforme suas fotos em obra-prima', href: '/generate' },
                 { label: 'Sua Galeria', desc: 'Reveja seus ensaios eternizados', href: '/gallery' },
                 { label: 'Adquirir Moedas', desc: 'Expanda seu acervo de memórias', href: '/credits' },
+                { label: 'Extrato Completo', desc: 'Histórico de movimentação de moedas', href: '/extrato' },
                 { label: 'Suporte & Ajuda', desc: 'Tire suas dúvidas com nossa equipe', href: '/help' },
               ].map((item) => (
                 <Link
