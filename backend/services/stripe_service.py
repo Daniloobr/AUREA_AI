@@ -21,7 +21,8 @@ def create_checkout_session(price_id, user_id, user_email, success_url, cancel_u
             client_reference_id=str(user_id),
             customer_email=user_email,
             metadata={
-                'price_id': price_id
+                'user_id': str(user_id),
+                'price_id': price_id,
             }
         )
         return {"sessionId": session.id, "url": session.url}
@@ -40,7 +41,8 @@ def create_checkout_session(price_id, user_id, user_email, success_url, cancel_u
                 client_reference_id=str(user_id),
                 customer_email=user_email,
                 metadata={
-                    'price_id': price_id
+                    'user_id': str(user_id),
+                    'price_id': price_id,
                 }
             )
             return {"sessionId": session.id, "url": session.url}
