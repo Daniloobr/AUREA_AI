@@ -67,8 +67,23 @@ const PACKAGES = [
 ];
 
 export default function CreditsPage() {
-  const { user, token } = useAuth();
+  const { user, token, refreshUser } = useAuth();
   const [notification, setNotification] = useState<{message: string, type: 'success' | 'error'} | null>(null);
+
+  // Detectar sucesso no pagamento e atualizar créditos
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('success') === 'true') {
+        setNotification({ message: 'Pagamento confirmado! Atualizando saldo...', type: 'success' });
+        refreshUser().then(() => {
+          setNotification({ message: 'Créditos atualizados com sucesso!', type: 'success' });
+        });
+        // Limpar URL sem recarregar a página
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    }
+  }, [refreshUser]);
 
   // Limpar notificação
   useEffect(() => {
