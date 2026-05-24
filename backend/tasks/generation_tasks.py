@@ -7,7 +7,7 @@ from celery_app import celery
 
 from services.ai_generator import generate_with_retry, download_generated_image
 from services.supabase_service import supabase_service
-from models.db_models import GenerationJob, User, Transaction, db
+from models.db_models import GenerationJob, Transaction, db
 
 logger = logging.getLogger(__name__)
 

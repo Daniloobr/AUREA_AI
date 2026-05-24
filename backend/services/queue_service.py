@@ -16,8 +16,15 @@ def refund_credits(user_id, amount, description="Reembolso por falha na geraçã
     Refunds credits to a user using the isolated context pattern.
     Delegates to `_refund_user` from generation_tasks to avoid duplicate logic.
     """
+    logger.info(
+        f"[REFUND_CREDITS] ⏳ Iniciando: user={user_id}, "
+        f"amount={amount}, reason={description[:100]}"
+    )
     flask_app = _get_flask_app()
     _refund_user(flask_app, user_id, amount, description)
+    logger.info(
+        f"[REFUND_CREDITS] ✅ Concluído: user={user_id}, amount={amount}"
+    )
 
 def process_generation_pipeline(app, job_id, image_urls, tipo_ensaio, custom_prompt=None):
     with app.app_context():
@@ -170,7 +177,11 @@ def recover_stuck_jobs(app):
                 job.error = "Sistema reiniciado durante o processamento."
                 job.message = "O sistema foi reiniciado. Suas moedas foram devolvidas."
                 if job.cost_moedas > 0:
-                    refund_credits(job.user_id, job.cost_moedas, "Reembolso por reinicialização do sistema")
+                    refund_credits(
+                        job.user_id,
+                        job.cost_moedas,
+                        f"Reembolso por reinicialização do sistema – job {job.id}",
+                    )
                 db.session.commit()
                 logger.info(f"Job {job.id} recuperado e reembolsado.")
             except Exception as e:
