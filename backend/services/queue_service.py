@@ -2,7 +2,7 @@ import uuid
 import os
 from database import db
 from models.db_models import GenerationJob, User, Transaction
-from services.replicate_service import generate_with_retry, download_generated_image
+from services.ai_generator import generate_with_retry, download_generated_image
 from services.prompt_engine import generate_prompt, generate_negative_prompt
 import logging
 import json

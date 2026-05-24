@@ -1,8 +1,8 @@
 """
-Replicate API Service — openai/gpt-image-2
-===========================================
-Handles communication with Replicate using the openai/gpt-image-2 model.
-This model supports 3 reference images and produces ultra-realistic maternity photos.
+AI Image Generator Service
+==========================
+Handles communication with the AI image generation provider.
+Supports 3 reference images and produces ultra-realistic maternity photos.
 
 Features:
 - Single image generation per call (rate-limit safe)
@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 
 
 def generate_images(
-    image_urls: list,      # lista com 3 URLs das fotos de referência
+    image_urls: list,
     prompt: str,
     resolution: str = "2K",
     aspect_ratio: str = "16:9",
@@ -32,16 +32,14 @@ def generate_images(
     **kwargs
 ) -> dict:
     """
-    Calls Replicate API to generate images using openai/gpt-image-2.
-    
+    Calls the AI generation API to generate images.
+
     Args:
         image_urls: List of 3 reference image URLs
         prompt: Full generation prompt
-        resolution: Resolution ("2K", etc) - not directly used by this model
         aspect_ratio: Aspect ratio ("1:1", "3:2", "2:3", "16:9", "9:16")
         output_format: Image format ("webp", "jpg", "png")
-        safety_filter_level: Not used (kept for compatibility)
-    
+
     Returns:
         dict with 'success', 'images' (list of URLs), 'error'
     """
@@ -53,17 +51,10 @@ def generate_images(
     }
 
     try:
-        token = os.environ.get('REPLICATE_API_TOKEN', '').strip()
-        
-        # Clean up if user accidentally pasted 'REPLICATE_API_TOKEN=r8_...'
-        if token.startswith('REPLICATE_API_TOKEN='):
-            token = token.replace('REPLICATE_API_TOKEN=', '').strip()
+        token = os.environ.get('AI_PROVIDER_API_TOKEN', '').strip()
             
-        if not token or 'YOUR_' in token:
-            raise ValueError("Replicate API token is missing.")
-
-        # Ensure environment variable is clean (no newlines)
-        os.environ['REPLICATE_API_TOKEN'] = token
+        if not token or 'YOUR_' in token or token.startswith('r8_'):
+            raise ValueError("AI Provider API token is missing or invalid.")
 
         logger.info(f"Starting openai/gpt-image-2 Generation...")
         logger.info(f"  prompt: {prompt[:80]}...")
@@ -77,12 +68,11 @@ def generate_images(
             logger.warning(f"Aspect ratio '{aspect_ratio}' not supported, using '2:3' (vertical portrait)")
             aspect_ratio = "2:3"
 
-        # Build input for openai/gpt-image-2
-        replicate_input = {
+        model_input = {
             "prompt": prompt,
             "input_images": image_urls,
             "aspect_ratio": aspect_ratio,
-            "quality": "medium",               # ← fixed to medium for optimal cost/quality
+            "quality": "medium",
             "background": "auto",
             "moderation": "auto",
             "output_format": output_format if output_format in ["webp", "jpg", "png"] else "webp",
@@ -91,10 +81,8 @@ def generate_images(
         }
 
         client = replicate.Client(api_token=token)
-        output = client.run(
-            "openai/gpt-image-2",
-            input=replicate_input
-        )
+        model_id = os.environ.get("AI_MODEL_ID", "openai/gpt-image-2")
+        output = client.run(model_id, input=model_input)
 
         elapsed = round(time.time() - start_time, 2)
         result["generation_time"] = elapsed
@@ -113,7 +101,7 @@ def generate_images(
         if images:
             result["success"] = True
             result["images"] = images
-            logger.info(f"openai/gpt-image-2 Complete: {len(images)} images in {elapsed}s")
+            logger.info(f"Generation Complete: {len(images)} images in {elapsed}s")
             
             # Update job in database if job_id provided
             job_id = kwargs.get('job_id')
@@ -131,14 +119,14 @@ def generate_images(
                         job.progress = 100
                         job.message = "Sucesso! Seu ensaio premium está pronto."
                         db.session.commit()
-                        logger.info(f"[Replicate Service] Job {job_id} updated to 'completed' with result_url='{images[0]}'")
+                        logger.info(f"[AI Generator] Job {job_id} updated to 'completed' with result_url='{images[0]}'")
                     else:
-                        logger.warning(f"[Replicate Service] Job {job_id} not found in database.")
+                        logger.warning(f"[AI Generator] Job {job_id} not found in database.")
                 except Exception as db_err:
-                    logger.error(f"[Replicate Service] Error updating job {job_id}: {db_err}")
+                    logger.error(f"[AI Generator] Error updating job {job_id}: {db_err}")
         else:
-            result["error"] = "Replicate returned empty output"
-            logger.error("No images returned from openai/gpt-image-2")
+            result["error"] = "AI provider returned empty output"
+            logger.error("No images returned from AI provider")
 
     except Exception as e:
         error_str = str(e)
@@ -146,8 +134,8 @@ def generate_images(
             result["error"] = "RATE_LIMITED"
             logger.warning("Rate limit hit in openai/gpt-image-2")
         else:
-            result["error"] = f"openai/gpt-image-2 error: {error_str}"
-            logger.error(f"Replicate error: {e}", exc_info=True)
+            result["error"] = f"AI generation error: {error_str}"
+            logger.error(f"AI generation error: {e}", exc_info=True)
 
     return result
 

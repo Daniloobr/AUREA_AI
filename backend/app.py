@@ -136,7 +136,7 @@ def create_app():
     logger.info("═" * 60)
     logger.info("  AI Photo Studio API v2.0 — Production Pipeline")
     logger.info("  Face Detection: MediaPipe")
-    logger.info("  Generation: Replicate InstantID")
+    logger.info("  Generation: AI Neural Engine v2")
     logger.info("  Quality: Similarity + Aesthetic Scoring")
     logger.info(f"  Uploads: {Config.UPLOAD_FOLDER}")
     logger.info("═" * 60)

@@ -4,6 +4,7 @@ import imghdr
 from flask import Blueprint, request, jsonify
 from config import Config
 from services.supabase_service import supabase_service
+from utils.auth_utils import token_required
 import logging
 
 logger = logging.getLogger(__name__)
@@ -19,7 +20,8 @@ def allowed_file(filename):
 
 @upload_bp.route('', methods=['POST'], strict_slashes=False)
 @upload_bp.route('/', methods=['POST'], strict_slashes=False)
-def upload_file():
+@token_required
+def upload_file(current_user):
     """
     POST /api/upload
     
