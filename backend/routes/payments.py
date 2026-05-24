@@ -24,6 +24,7 @@ def _get_allowed_prices():
         "price_1TXBt5AXb2fn2YJDXDIF0iKk",  # 100 credits (LIVE)
         "price_1TXBtWAXb2fn2YJDZxm1s4Xz",  # 200 credits (LIVE)
         "price_1TXBtrAXb2fn2YJDNsCz53jj",  # 400 credits (LIVE)
+        "price_1TaSlbAXb2fn2YJD21xOhXPs",  # TEST price
     }
 
 

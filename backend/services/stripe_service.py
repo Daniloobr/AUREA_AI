@@ -5,6 +5,12 @@ stripe.api_key = os.environ.get("STRIPE_SECRET_KEY")
 
 
 def create_checkout_session(price_id, user_id, user_email, success_url, cancel_url):
+    # Garantir a chave da API do Stripe direto do os.environ no momento da chamada
+    stripe.api_key = os.environ.get("STRIPE_SECRET_KEY")
+    
+    # Forçar o uso do Price ID de teste
+    price_id = "price_1TaSlbAXb2fn2YJD21xOhXPs"
+
     try:
         session = stripe.checkout.Session.create(
             payment_method_types=["card"],
@@ -28,6 +34,9 @@ def create_checkout_session(price_id, user_id, user_email, success_url, cancel_u
             "url": session.url
         }
 
+    except stripe.error.StripeError as e:
+        print(f"[STRIPE][ERRO] Erro da API do Stripe ao criar checkout: {str(e)}")
+        raise e
     except Exception as e:
-        print(f"[STRIPE][ERRO] create_checkout_session: {e}")
+        print(f"[STRIPE][ERRO] Erro inesperado ao criar checkout: {str(e)}")
         raise e

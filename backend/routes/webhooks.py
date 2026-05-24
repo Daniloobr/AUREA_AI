@@ -11,6 +11,7 @@ stripe.api_key = os.environ.get("STRIPE_SECRET_KEY")
 
 @webhook_bp.route("/stripe-webhook", methods=["POST"])
 def stripe_webhook():
+    stripe.api_key = os.environ.get("STRIPE_SECRET_KEY")
     payload = request.get_data()
     sig_header = request.headers.get("Stripe-Signature")
     webhook_secret = os.environ.get("STRIPE_WEBHOOK_SECRET")
