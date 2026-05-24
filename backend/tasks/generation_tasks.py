@@ -271,7 +271,6 @@ def generate_image_task(
 
         except SoftTimeLimitExceeded:
             logger.error(f"[Task] ⏰ TIMEOUT job {job_id} — excedeu {TIMEOUT_SECONDS}s")
-            job_failed = True
 
             try:
                 db.session.rollback()
@@ -286,6 +285,12 @@ def generate_image_task(
                     job.message = "Tempo limite excedido. Tente novamente mais tarde. Seus créditos foram devolvidos."
                     db.session.commit()
                     logger.info(f"[Task] Job {job_id} marcado como timeout.")
+
+                    # ⚡ Reembolso IMEDIATO dentro do handler
+                    from services.queue_service import refund_credits
+                    amt = job.cost_moedas if (job.cost_moedas and job.cost_moedas > 0) else 25
+                    refund_credits(user_id, amt, f"Timeout na geração – job {job_id}")
+                    logger.info(f"[Task] ✅ Reembolso imediato de {amt} moedas para user {user_id} (timeout).")
             except Exception as mark_err:
                 logger.error(f"[Task] Não foi possível marcar job como timeout: {mark_err}")
 
@@ -312,7 +317,7 @@ def generate_image_task(
                     f"[Task] Não foi possível marcar job como failed: {mark_err}"
                 )
 
-    # 5️⃣ Reembolso em contexto SEPARADO — SOMENTE em caso de falha
+    # 5️⃣ Reembolso — SOMENTE para erros não-timeout (timeout já reembolsou acima)
     if job_failed:
         logger.info(
             f"[Task] Emitindo reembolso de {refund_amount} moedas "
@@ -322,7 +327,7 @@ def generate_image_task(
             flask_app,
             user_id,
             refund_amount,
-            f"Reembolso automático – timeout no job {job_id}",
+            f"Reembolso automático – falha no job {job_id}",
         )
     else:
         logger.info(f"[Task] Job {job_id} concluído com sucesso — sem reembolso.")
