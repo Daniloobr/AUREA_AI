@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useAuth } from '@/contexts/AuthContext';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 /* ═══════════════════════════════════════════════════════════════════════════
    PACOTES
@@ -68,22 +69,21 @@ const PACKAGES = [
 
 export default function CreditsPage() {
   const { user, token, refreshUser } = useAuth();
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const [notification, setNotification] = useState<{message: string, type: 'success' | 'error'} | null>(null);
 
   // Detectar sucesso no pagamento e atualizar créditos
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('success') === 'true') {
-        setNotification({ message: 'Pagamento confirmado! Atualizando saldo...', type: 'success' });
-        refreshUser().then(() => {
-          setNotification({ message: 'Créditos atualizados com sucesso!', type: 'success' });
-        });
-        // Limpar URL sem recarregar a página
-        window.history.replaceState({}, document.title, window.location.pathname);
-      }
+    if (searchParams.get('success') === 'true') {
+      setNotification({ message: 'Pagamento confirmado! Atualizando saldo...', type: 'success' });
+      refreshUser().then(() => {
+        setNotification({ message: 'Créditos atualizados com sucesso!', type: 'success' });
+      });
+      // Limpar URL sem recarregar a página
+      router.replace('/credits');
     }
-  }, [refreshUser]);
+  }, [searchParams, refreshUser, router]);
 
   // Limpar notificação
   useEffect(() => {
