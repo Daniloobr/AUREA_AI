@@ -44,6 +44,8 @@ def init_celery(app=None):
         timezone='UTC',
         enable_utc=True,
         task_always_eager=task_always_eager,
+        task_soft_time_limit=180,
+        task_time_limit=200,
     )
     return celery
 

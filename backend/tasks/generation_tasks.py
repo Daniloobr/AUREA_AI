@@ -1,6 +1,8 @@
 import logging
 import os
+import time
 
+from celery.exceptions import SoftTimeLimitExceeded
 from celery_app import celery
 
 from services.ai_generator import generate_with_retry, download_generated_image
@@ -77,7 +79,17 @@ def _refund_user(flask_app, user_id: str, amount: int, reason: str) -> None:
             logger.exception(f"[REFUND] ❌ Erro crítico ao reembolsar user {user_id}: {e}")
 
 
-@celery.task(bind=True, name="generate_image_task")
+# ─── Timeout ────────────────────────────────────────────────────────────
+TIMEOUT_SECONDS = 180  # 3 minutos — soft limit (graceful exception)
+HARD_TIMEOUT_SECONDS = 200  # 3min20s — hard kill se o soft falhar
+
+
+@celery.task(
+    bind=True,
+    name="generate_image_task",
+    soft_time_limit=TIMEOUT_SECONDS,
+    time_limit=HARD_TIMEOUT_SECONDS,
+)
 def generate_image_task(
     self,
     job_id: str,
@@ -116,6 +128,8 @@ def generate_image_task(
         # Capture cost BEFORE any possible exception
         refund_amount = job.cost_moedas if (job.cost_moedas and job.cost_moedas > 0) else 25
 
+        deadline = time.monotonic() + TIMEOUT_SECONDS
+
         try:
             # 1️⃣ Atualizar status → processing
             job.status = "processing"
@@ -131,6 +145,9 @@ def generate_image_task(
                 job_id=job.id,
             )
 
+            if time.monotonic() >= deadline:
+                raise SoftTimeLimitExceeded()
+
             if not ai_result.get("success") or not ai_result.get("images"):
                 raise RuntimeError(
                     ai_result.get("error", "Erro desconhecido na API de IA")
@@ -140,6 +157,9 @@ def generate_image_task(
             final_urls = []
 
             for remote_url in ai_result["images"]:
+                if time.monotonic() >= deadline:
+                    raise SoftTimeLimitExceeded()
+
                 local_path = download_generated_image(remote_url)
 
                 if not local_path:
@@ -169,6 +189,26 @@ def generate_image_task(
             job.message = "Sucesso! Seu ensaio premium está pronto."
             db.session.commit()
             logger.info(f"[Task] ✅ Job {job_id} concluído com {len(final_urls)} imagens.")
+
+        except SoftTimeLimitExceeded:
+            logger.error(f"[Task] ⏰ TIMEOUT job {job_id} — excedeu {TIMEOUT_SECONDS}s")
+            job_failed = True
+
+            try:
+                db.session.rollback()
+            except Exception:
+                pass
+
+            try:
+                job = GenerationJob.query.filter_by(id=job_id).first()
+                if job:
+                    job.status = "failed"
+                    job.error = "Tempo limite excedido"
+                    job.message = "Tempo limite excedido. Tente novamente mais tarde. Seus créditos foram devolvidos."
+                    db.session.commit()
+                    logger.info(f"[Task] Job {job_id} marcado como timeout.")
+            except Exception as mark_err:
+                logger.error(f"[Task] Não foi possível marcar job como timeout: {mark_err}")
 
         except Exception as exc:
             logger.exception(f"[Task] ❌ Erro no job {job_id}: {exc}")
@@ -203,7 +243,7 @@ def generate_image_task(
             flask_app,
             user_id,
             refund_amount,
-            f"Reembolso automático – falha no job {job_id}",
+            f"Reembolso automático – timeout no job {job_id}",
         )
     else:
         logger.info(f"[Task] Job {job_id} concluído com sucesso — sem reembolso.")

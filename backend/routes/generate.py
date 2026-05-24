@@ -100,6 +100,7 @@ def check_result(job_id):
     status_map = {
         "completed": "SUCCEEDED",
         "failed": "FAILED",
+        "timeout": "FAILED",
         "queued": "PENDING",
         "validating": "PROCESSING",
         "generating": "PROCESSING"
