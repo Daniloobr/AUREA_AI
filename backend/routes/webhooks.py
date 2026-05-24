@@ -78,7 +78,7 @@ def stripe_webhook():
         "price_1TXBt5AXb2fn2YJDXDIF0iKk": 100,
         "price_1TaSlbAXb2fn2YJD21xOhXPs": 200,
         "price_1TaSlbAXb2fn2YJD21xOhXPs": 400,
-        "price_1TaSlbAXb2fn2YJD21xOhXPs": 100,   # seu price de teste
+        "price_1TaSlbAXb2fn2YJD21xOhXPs": 400,   # seu price de teste
     }
     credits = credits_map.get(price_id)
     if not credits:
