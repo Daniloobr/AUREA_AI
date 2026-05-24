@@ -11,7 +11,8 @@ class User(db.Model):
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False, index=True)
     password_hash = db.Column(db.String(128), nullable=False)
-    credits_balance = db.Column(db.Integer, default=25) # Bônus inicial: 25 moedas
+    credits_balance = db.Column(db.Integer, default=0)  # Sem bônus inicial; créditos via compra
+
     phone = db.Column(db.String(20), nullable=True)
     cpf = db.Column(db.String(14), nullable=True)
     is_admin = db.Column(db.Boolean, default=False)

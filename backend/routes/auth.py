@@ -35,23 +35,10 @@ def register():
         return jsonify({"success": False, "error": "Email já cadastrado"}), 409
 
     try:
-        INITIAL_BONUS = 0
-        new_user = User(name=name, email=email, credits_balance=INITIAL_BONUS)
+        new_user = User(name=name, email=email, credits_balance=0)
         new_user.set_password(password)
-        
-        db.session.add(new_user)
-        db.session.flush() # Get ID before commit
 
-        # Create bonus transaction
-        bonus_txn = Transaction(
-            user_id=new_user.id,
-            type='bonus_initial',
-            amount=INITIAL_BONUS,
-            balance_before=0,
-            balance_after=INITIAL_BONUS,
-            description="Bônus de boas-vindas"
-        )
-        db.session.add(bonus_txn)
+        db.session.add(new_user)
         db.session.commit()
 
         # Send Welcome Email (Async to prevent timeout)
@@ -233,29 +220,16 @@ def google_login():
     if not user:
         # Create new user for Google login
         is_new_user = True
-        INITIAL_BONUS = 0
         user = User(
-            name=name, 
-            email=email, 
-            credits_balance=INITIAL_BONUS,
+            name=name,
+            email=email,
+            credits_balance=0,
             is_active=True
         )
         # Dummy password for OAuth users
         user.set_password(os.urandom(24).hex())
         db.session.add(user)
-        db.session.flush()
 
-        # Bonus transaction
-        bonus_txn = Transaction(
-            user_id=user.id,
-            type='bonus_initial',
-            amount=INITIAL_BONUS,
-            balance_before=0,
-            balance_after=INITIAL_BONUS,
-            description="Bônus de boas-vindas (Google)"
-        )
-        db.session.add(bonus_txn)
-        
         try:
             from services.email_service import email_service
             email_service.send_welcome(user.email, user.name)

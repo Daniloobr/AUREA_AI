@@ -73,12 +73,11 @@ def stripe_webhook():
     if not price_id:
         return jsonify({"status": "ignored", "reason": "no_price_id"}), 200
 
-    # Mapeamento (inclui seu price de teste)
+    # Mapeamento price_id → créditos concedidos
+    # ATENÇÃO: cada price_id deve ser ÚNICO — duplicatas são silenciosamente ignoradas pelo Python.
     credits_map = {
-        "price_1TXBt5AXb2fn2YJDXDIF0iKk": 100,
-        "price_1TaSlbAXb2fn2YJD21xOhXPs": 200,
-        "price_1TaSlbAXb2fn2YJD21xOhXPs": 400,
-        "price_1TaSlbAXb2fn2YJD21xOhXPs": 400,   # seu price de teste
+        "price_1TXBt5AXb2fn2YJDXDIF0iKk": 100,   # Pacote 100 créditos
+        "price_1TaSlbAXb2fn2YJD21xOhXPs": 400,   # Pacote 400 créditos
     }
     credits = credits_map.get(price_id)
     if not credits:
