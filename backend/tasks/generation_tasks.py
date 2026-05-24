@@ -78,10 +78,16 @@ def _refund_user(flask_app, user_id: str, amount: int, reason: str) -> None:
                 return
 
             # ── Lock the row and read current balance ──────────────────────
-            row = db.session.execute(
-                db.text("SELECT credits_balance FROM users WHERE id = :uid FOR UPDATE"),
-                {"uid": user_id},
-            ).one_or_none()
+            if db.engine.dialect.name == 'sqlite':
+                row = db.session.execute(
+                    db.text("SELECT credits_balance FROM users WHERE id = :uid"),
+                    {"uid": user_id},
+                ).one_or_none()
+            else:
+                row = db.session.execute(
+                    db.text("SELECT credits_balance FROM users WHERE id = :uid FOR UPDATE"),
+                    {"uid": user_id},
+                ).one_or_none()
 
             if row is None:
                 logger.error(
