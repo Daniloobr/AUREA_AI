@@ -128,8 +128,10 @@ def get_transactions(current_user):
             "id": t.id,
             "type": t.type,
             "amount": t.amount,
+            "balance_before": t.balance_before,
+            "balance_after": t.balance_after,
             "description": t.description,
-            "created_at": t.created_at.isoformat()
+            "created_at": t.created_at.isoformat() if t.created_at else None
         } for t in txns]
     })
 
