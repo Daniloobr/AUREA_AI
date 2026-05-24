@@ -12,30 +12,44 @@ export default function DashboardPage() {
   const [jobCount, setJobCount] = useState(0);
   const [transactions, setTransactions] = useState<any[]>([]);
   const [loadingTxns, setLoadingTxns] = useState(true);
+  const [txnError, setTxnError] = useState<string | null>(null);
+  const [retryKey, setRetryKey] = useState(0);
 
   useEffect(() => {
     const fetchStats = async () => {
       if (!token) return;
-      try {
-        const [galleryRes, txnsRes] = await Promise.all([
-          apiService.get('/gallery', token),
-          apiService.get('/auth/user/transactions', token),
-        ]);
+      setLoadingTxns(true);
+      setTxnError(null);
 
-        if (galleryRes.gallery) {
-          setJobCount(galleryRes.count || galleryRes.gallery.length);
+      const results = await Promise.allSettled([
+        apiService.get('/gallery', token),
+        apiService.get('/auth/user/transactions', token),
+      ]);
+
+      const [galleryResult, txnsResult] = results;
+
+      if (galleryResult.status === 'fulfilled') {
+        const galleryRes = galleryResult.value as any;
+        if (galleryRes?.gallery) {
+          setJobCount(galleryRes.count ?? galleryRes.gallery.length);
         }
-        if (txnsRes.transactions) {
-          setTransactions(txnsRes.transactions.slice(0, 5));
-        }
-      } catch (err) {
-        console.error('Erro ao buscar dados do painel:', err);
-      } finally {
-        setLoadingTxns(false);
       }
+
+      if (txnsResult.status === 'fulfilled') {
+        const txnsRes = txnsResult.value as any;
+        if (txnsRes?.transactions) {
+          setTransactions(txnsRes.transactions.slice(0, 5));
+        } else if (txnsRes?.error) {
+          setTxnError(txnsRes.error);
+        }
+      } else {
+        setTxnError('Não foi possível carregar o extrato.');
+      }
+
+      setLoadingTxns(false);
     };
     fetchStats();
-  }, [token, user]);
+  }, [token, retryKey]);
 
   const stats = [
     {
@@ -52,7 +66,7 @@ export default function DashboardPage() {
     },
     {
       label: 'Imagens Geradas',
-      value: jobCount * 4,
+      value: jobCount,
       icon: Sparkles,
       href: '/gallery',
     },
@@ -139,6 +153,16 @@ export default function DashboardPage() {
               {loadingTxns ? (
                 <div className="py-12 flex justify-center">
                   <Loader2 className="w-8 h-8 animate-spin text-[#748FCC]" />
+                </div>
+              ) : txnError ? (
+                <div className="py-12 flex flex-col items-center justify-center text-red-400 gap-4">
+                  <p className="text-sm text-center">{txnError}</p>
+                  <button
+                    onClick={() => setRetryKey((k) => k + 1)}
+                    className="px-5 py-2 bg-red-400/10 hover:bg-red-400/20 rounded-xl transition-colors font-medium text-xs uppercase tracking-wider"
+                  >
+                    Tentar Novamente
+                  </button>
                 </div>
               ) : transactions.length > 0 ? (
                 transactions.map((txn) => (
