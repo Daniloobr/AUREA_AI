@@ -81,11 +81,13 @@ def stripe_webhook():
         return "", 500
 
     # Mapeamento de créditos
-    credits_map = {
-        "price_1TXBt5AXb2fn2YJDXDIF0iKk": 100,
-        "price_1TXBtWAXb2fn2YJDZxm1s4Xz": 200,
-        "price_1TXBtrAXb2fn2YJDNsCz53jj": 400,
-    }
+        credits_map = {
+            "price_1TXBt5AXb2fn2YJDXDIF0iKk": 100,
+            "price_1TXBtWAXb2fn2YJDZxm1s4Xz": 200,
+            "price_1TXBtrAXb2fn2YJDNsCz53jj": 400,
+            # TEST (temporário): um único PriceID usado para todos os pacotes
+            "price_1TaSlbAXb2fn2YJD21xOhXPs": 100,
+        }
 
     if price_id not in credits_map:
         current_app.logger.error(f"[STRIPE][ERRO] price_id não mapeado: {price_id}")
