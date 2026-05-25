@@ -50,10 +50,7 @@ function CreditsContent() {
   const [pixPaymentId, setPixPaymentId] = useState<string | null>(null);
   const [pixCopied, setPixCopied] = useState(false);
 
-  const [cardNumber, setCardNumber] = useState('');
-  const [cardName, setCardName] = useState('');
-  const [cardExpiry, setCardExpiry] = useState('');
-  const [cardCvv, setCardCvv] = useState('');
+
 
   useEffect(() => {
     if (searchParams.get('success') === 'true') {
@@ -103,10 +100,6 @@ function CreditsContent() {
     setQrCodeText('');
     setPixPaymentId(null);
     setPixCopied(false);
-    setCardNumber('');
-    setCardName('');
-    setCardExpiry('');
-    setCardCvv('');
   };
 
   const handlePixPayment = async () => {
@@ -144,35 +137,20 @@ function CreditsContent() {
 
   const handleCardPayment = async () => {
     if (!selectedPkg || !user || !token) return;
-    if (!cardNumber || !cardName || !cardExpiry || !cardCvv) {
-      notify('Preencha todos os campos do cartão.', 'error');
-      return;
-    }
     setLoading(true);
     try {
-      const [month, year] = cardExpiry.split('/').map(s => s.trim());
-      const fullYear = year.length === 2 ? `20${year}` : year;
       const externalRef = `${user.id}:${selectedPkg.id}`;
       const res = await apiService.post('/create-card-payment', {
         external_reference: externalRef,
         value: selectedPkg.priceValue,
         description: selectedPkg.name,
-        card_number: cardNumber.replace(/\s/g, ''),
-        expiry_month: month,
-        expiry_year: fullYear,
-        cvv: cardCvv,
-        holder_name: cardName,
       }, token);
-      if (res?.success) {
-        if (res.status === 'CONFIRMED') {
-          setSelectedPkg(null);
-          notify('Pagamento aprovado! Créditos adicionados.', 'success');
-          await refreshUser();
-        } else {
-          notify(`Pagamento ${res.status}: tente novamente.`, 'error');
-        }
+      if (res?.success && res.checkout_url) {
+        setPixPaymentId(res.payment_id);
+        window.open(res.checkout_url, '_blank');
+        notify('Redirecionando para o Checkout Asaas...', 'success');
       } else {
-        notify(res?.error || 'Erro ao processar cartão.', 'error');
+        notify(res?.error || 'Erro ao gerar checkout.', 'error');
       }
     } catch {
       notify('Erro ao processar cartão.', 'error');
@@ -180,9 +158,6 @@ function CreditsContent() {
       setLoading(false);
     }
   };
-
-  const formatCardNumber = (v: string) => v.replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1 ').slice(0, 19);
-  const formatExpiry = (v: string) => v.replace(/\D/g, '').replace(/^(\d{2})(\d)/, '$1/$2').slice(0, 5);
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-[#F5F5F7] pt-24 pb-32 px-4 sm:px-6 relative overflow-x-hidden">
@@ -357,39 +332,33 @@ function CreditsContent() {
 
               {paymentTab === 'card' && (
                 <div className="space-y-4">
-                  <div>
-                    <label className="text-[11px] font-bold text-[#B8BCC4] uppercase tracking-widest ml-1">Número do Cartão</label>
-                    <input value={cardNumber} onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
-                      placeholder="5031 4332 1540 7451"
-                      className="w-full mt-1 h-12 px-4 rounded-xl bg-[#0A0A0A] border border-[#1F2329] focus:border-[#748FCC] focus:outline-none text-[#F5F5F7] placeholder:text-[#8A9099]/30" />
-                  </div>
-                  <div>
-                    <label className="text-[11px] font-bold text-[#B8BCC4] uppercase tracking-widest ml-1">Nome no Cartão</label>
-                    <input value={cardName} onChange={(e) => setCardName(e.target.value)}
-                      placeholder="Nome como está no cartão"
-                      className="w-full mt-1 h-12 px-4 rounded-xl bg-[#0A0A0A] border border-[#1F2329] focus:border-[#748FCC] focus:outline-none text-[#F5F5F7] placeholder:text-[#8A9099]/30" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="text-[11px] font-bold text-[#B8BCC4] uppercase tracking-widest ml-1">Validade</label>
-                      <input value={cardExpiry} onChange={(e) => setCardExpiry(formatExpiry(e.target.value))}
-                        placeholder="MM/AA"
-                        className="w-full mt-1 h-12 px-4 rounded-xl bg-[#0A0A0A] border border-[#1F2329] focus:border-[#748FCC] focus:outline-none text-[#F5F5F7] placeholder:text-[#8A9099]/30" />
+                  {!loading && !pixPaymentId ? (
+                    <>
+                      <div className="text-center space-y-3 mb-4">
+                        <CreditCard className="w-12 h-12 text-[#748FCC] mx-auto" />
+                        <p className="text-sm text-[#B8BCC4]">
+                          Você será redirecionado para o ambiente seguro do Asaas para preencher os dados do cartão.
+                        </p>
+                      </div>
+                      <Button onClick={handleCardPayment}
+                        className="w-full py-4 bg-[#748FCC] hover:bg-[#5F7DB8] text-white rounded-xl font-bold">
+                        Pagar R$ {selectedPkg.price} com Cartão
+                      </Button>
+                      <p className="text-[10px] text-[#8A9099] text-center">
+                        Pagamento processado via Asaas Checkout Pro. Seus dados são seguros.
+                      </p>
+                    </>
+                  ) : (
+                    <div className="text-center space-y-4 py-6">
+                      <div className="flex items-center justify-center gap-2 text-sm text-emerald-400">
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Aguardando pagamento...
+                      </div>
+                      <p className="text-xs text-[#8A9099]">
+                        Finalize o pagamento na nova aba. Esta página será atualizada automaticamente.
+                      </p>
                     </div>
-                    <div>
-                      <label className="text-[11px] font-bold text-[#B8BCC4] uppercase tracking-widest ml-1">CVV</label>
-                      <input value={cardCvv} onChange={(e) => setCardCvv(e.target.value.replace(/\D/g, '').slice(0, 4))}
-                        placeholder="123"
-                        className="w-full mt-1 h-12 px-4 rounded-xl bg-[#0A0A0A] border border-[#1F2329] focus:border-[#748FCC] focus:outline-none text-[#F5F5F7] placeholder:text-[#8A9099]/30" />
-                    </div>
-                  </div>
-                  <Button onClick={handleCardPayment} isLoading={loading}
-                    className="w-full py-4 bg-[#748FCC] hover:bg-[#5F7DB8] text-white rounded-xl font-bold">
-                    Pagar R$ {selectedPkg.price}
-                  </Button>
-                  <p className="text-[10px] text-[#8A9099] text-center">
-                    Pagamento processado via Asaas. Seus dados são seguros.
-                  </p>
+                  )}
                 </div>
               )}
             </motion.div>
