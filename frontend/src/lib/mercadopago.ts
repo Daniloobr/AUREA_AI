@@ -2,10 +2,11 @@ import { apiService } from '@/services/api';
 
 const MP_PUBLIC_KEY = process.env.NEXT_PUBLIC_MP_PUBLIC_KEY || '';
 
-let mpInstance: any = null;
+let loaded = false;
 
-function loadScript(src: string): Promise<void> {
+function loadV1Script(): Promise<void> {
   return new Promise((resolve, reject) => {
+    const src = 'https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js';
     if (document.querySelector(`script[src="${src}"]`)) {
       resolve();
       return;
@@ -13,19 +14,18 @@ function loadScript(src: string): Promise<void> {
     const script = document.createElement('script');
     script.src = src;
     script.onload = () => resolve();
-    script.onerror = () => reject(new Error(`Falha ao carregar ${src}`));
+    script.onerror = () => reject(new Error('Falha ao carregar MercadoPago V1 SDK'));
     document.body.appendChild(script);
   });
 }
 
-export async function initMercadoPago(): Promise<any> {
-  if (mpInstance) return mpInstance;
-  await loadScript('https://sdk.mercadopago.dev/js/v2');
-  if (typeof window !== 'undefined' && (window as any).MercadoPago) {
-    mpInstance = new (window as any).MercadoPago(MP_PUBLIC_KEY);
-    return mpInstance;
-  }
-  throw new Error('MercadoPago SDK não carregado');
+async function ensureMercadopago(): Promise<void> {
+  if (loaded) return;
+  await loadV1Script();
+  const mp = (window as any).Mercadopago;
+  if (!mp) throw new Error('MercadoPago SDK não disponível');
+  mp.setPublishableKey(MP_PUBLIC_KEY);
+  loaded = true;
 }
 
 export async function createCardToken(cardData: {
@@ -34,23 +34,27 @@ export async function createCardToken(cardData: {
   cardExpirationYear: string;
   securityCode: string;
   cardholderName: string;
-  docType?: string;
   docNumber?: string;
 }): Promise<string> {
-  const mp = await initMercadoPago();
+  await ensureMercadopago();
+  const mp = (window as any).Mercadopago;
   return new Promise((resolve, reject) => {
-    mp.createCardToken({
+    const payload: any = {
       cardNumber: cardData.cardNumber,
       cardExpirationMonth: cardData.cardExpirationMonth,
       cardExpirationYear: cardData.cardExpirationYear,
       securityCode: cardData.securityCode,
       cardholderName: cardData.cardholderName,
-      ...(cardData.docType && cardData.docNumber
-        ? { cardholder: { identification: { type: cardData.docType, number: cardData.docNumber } } }
-        : {}),
-    }, (error: any, token: any) => {
+      cardholder: {
+        identification: {
+          type: 'CPF',
+          number: cardData.docNumber || '12345678909',
+        },
+      },
+    };
+    mp.createCardToken(payload, (error: any, token: any) => {
       if (error) {
-        reject(new Error(error.message || 'Erro ao tokenizar cartão'));
+        reject(new Error(error.user_message || error.message || 'Erro ao tokenizar cartão'));
       } else {
         resolve(token.id);
       }

@@ -6,6 +6,7 @@ from services.mercadopago_service import (
     create_card_payment,
     create_pix_payment,
     get_payment_status,
+    MERCADOPAGO_ACCESS_TOKEN,
 )
 from utils.auth_utils import token_required
 from limiter_instance import limiter
@@ -24,6 +25,8 @@ PACKAGES = {
 @limiter.limit("20 per hour")
 @token_required
 def create_card_payment_route(current_user):
+    if not MERCADOPAGO_ACCESS_TOKEN:
+        return jsonify({"success": False, "error": "Pagamento indisponível no momento"}), 503
     try:
         data = request.get_json() or {}
         card_token = data.get("card_token")
@@ -36,6 +39,7 @@ def create_card_payment_route(current_user):
 
         pkg = PACKAGES[package_id]
         external_ref = f"{current_user.id}:{package_id}"
+        identification = {"type": "CPF", "number": current_user.cpf} if current_user.cpf else None
 
         result = create_card_payment(
             card_token=card_token,
@@ -43,6 +47,7 @@ def create_card_payment_route(current_user):
             description=pkg["title"],
             payer_email=current_user.email,
             external_ref=external_ref,
+            identification=identification,
         )
 
         logger.info(
@@ -70,6 +75,8 @@ def create_card_payment_route(current_user):
 @limiter.limit("20 per hour")
 @token_required
 def create_pix_payment_route(current_user):
+    if not MERCADOPAGO_ACCESS_TOKEN:
+        return jsonify({"success": False, "error": "Pagamento PIX indisponível no momento"}), 503
     try:
         data = request.get_json() or {}
         package_id = data.get("package_id")
@@ -79,12 +86,14 @@ def create_pix_payment_route(current_user):
 
         pkg = PACKAGES[package_id]
         external_ref = f"{current_user.id}:{package_id}"
+        identification = {"type": "CPF", "number": current_user.cpf} if current_user.cpf else None
 
         result = create_pix_payment(
             amount=pkg["price"],
             description=pkg["title"],
             payer_email=current_user.email,
             external_ref=external_ref,
+            identification=identification,
         )
 
         point_of_interaction = result.get("point_of_interaction", {})
