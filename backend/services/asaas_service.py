@@ -67,7 +67,7 @@ def update_customer(customer_id: str, cpf_cnpj: str = None) -> dict:
     return resp.json()
 
 
-def create_payment(customer: str, value: float, description: str, external_reference: str, billing_type: str = 'PIX', credit_card_token: str = None, due_date: str = None) -> dict:
+def create_payment(customer: str, value: float, description: str, external_reference: str, billing_type: str = 'PIX', credit_card_token: str = None, credit_card: dict = None, due_date: str = None) -> dict:
     if not due_date:
         from datetime import datetime, timedelta
         due_date = (datetime.utcnow() + timedelta(days=3)).strftime('%Y-%m-%d')
@@ -82,8 +82,11 @@ def create_payment(customer: str, value: float, description: str, external_refer
     }
     if ASAAS_WALLET_ID:
         payload["walletId"] = ASAAS_WALLET_ID
-    if billing_type == 'CREDIT_CARD' and credit_card_token:
-        payload["creditCardToken"] = credit_card_token
+    if billing_type == 'CREDIT_CARD':
+        if credit_card_token:
+            payload["creditCardToken"] = credit_card_token
+        elif credit_card:
+            payload["creditCard"] = credit_card
 
     resp = requests.post(
         f"{ASAAS_API_URL}/payments",
