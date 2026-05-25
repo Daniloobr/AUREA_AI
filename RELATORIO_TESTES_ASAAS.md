@@ -3,21 +3,48 @@
 **Projeto:** AureaIA — Estúdio de Fotos IA  
 **Data:** 25/05/2026  
 **Responsável:** QA-Engineer  
-**Ambiente:** Sandbox Asaas  
 
 ---
 
-## Resumo
+## ⚠️ ATENÇÃO — PROBLEMA CRÍTICO EM PRODUÇÃO
+
+O ambiente **Render** (produção) está usando **chaves Asaas de PRODUÇÃO** (`www.asaas.com`), NÃO as chaves sandbox do `.env` local.  
+Isso foi descoberto durante os testes — o `checkout_url` do cartão aponta para `https://www.asaas.com/` (produção) em vez de `https://sandbox.asaas.com/`.
+
+### Problemas encontrados em produção:
+
+| Item | Status | Detalhe |
+|------|--------|---------|
+| PIX | ❌ **500 Internal Server Error** | `"Nao foi possivel gerar o PIX"` — quebrado em produção |
+| Cartão | ✔️ Funciona | `checkout_url` gerado, status PENDING |
+| Webhook | ❌ **401 Unauthorized** | Token sandbox rejeitado — produção usa token diferente |
+
+### Causa raiz:
+O `.env` local contém chaves **sandbox** (`ASAAS_SANDBOX=True`, `$aact_hmlg_*`), mas o deploy no Render tem variáveis de ambiente próprias que sobrescrevem com chaves **reais de produção**.
+
+### Recomendação urgente:
+1. Verificar variáveis de ambiente no dashboard do Render
+2. Corrigir chave PIX na conta Asaas de produção (ou voltar para sandbox)
+3. Obter webhook token correto da produção
+4. **NÃO testar com valores reais** — conta de produção pode cobrar de verdade
+
+---
+
+## Ambiente de Desenvolvimento (Sandbox) — Testes Controlados
+
+**Ambiente:** Sandbox Asaas (`https://sandbox.asaas.com`)
+
+## Resumo (Sandbox)
 
 | Categoria | Resultado |
 |-----------|-----------|
 | Testes unitários (backend) | **48/48 ✔️** |
 | Testes unitários (frontend) | **27/27 ✔️** |
-| Integração PIX | **✔️ Aprovado** |
-| Integração Cartão | **✔️ Aprovado** |
-| Webhook | **✔️ Aprovado** |
+| Integração PIX (sandbox) | **✔️ Aprovado** |
+| Integração Cartão (sandbox) | **✔️ Aprovado** |
+| Webhook (sandbox) | **✔️ Aprovado** |
 | Segurança | **✔️ Aprovado** |
-| **Geral** | **75/75 testes — 0 falhas** |
+| **Geral (sandbox)** | **75/75 testes — 0 falhas** |
 
 ---
 
@@ -214,9 +241,46 @@ POST /api/webhooks/asaas
 
 ---
 
-## 8. Conclusão
+## 8. Testes em Produção (ambiente real Asaas)
 
-**Testes concluídos com sucesso.** A integração Asaas está funcional, segura e estável no ambiente Sandbox. Todos os 75 testes (48 backend + 27 frontend + integração PIX + integração Cartão + Webhook + Segurança) passaram sem falhas críticas.
+### 8.1 Resultados
+
+| Teste | Resultado | Observação |
+|-------|-----------|------------|
+| Health Check API | 404 (sem rota `/api/health`) | ⚠️ Rota inexistente |
+| Frontend | 200 OK | ✔️ |
+| Registrar usuário | ✔️ | `prod.test.53780@teste.com` |
+| **PIX - Criar pagamento** | **❌ 500 ERROR** | `"Nao foi possivel gerar o PIX"` |
+| Cartão - Criar pagamento | ✔️ | `checkout_url` gerado |
+| **Webhook (token sandbox)** | **❌ 401** | Token de produção é diferente |
+| Segurança (sem token) | ✔️ 401 | Funciona |
+| Saldo | 0 | Webhook não processado |
+
+### 8.2 Diagnóstico
+
+```
+Local .env:           ASAAS_SANDBOX=True,  key=$aact_hmlg_*  → sandbox.asaas.com
+Render (produção):    ASAAS_SANDBOX=False, key=$aact_*      → www.asaas.com
+```
+
+- O deploy no **Render** tem **suas próprias variáveis de ambiente** que sobrescrevem o `.env` local
+- O backend em produção está conectado à **conta Asaas real** (produção)
+- `checkout_url` do cartão: `https://www.asaas.com/i/...` (produção) ✅
+- PIX quebrado em produção: `500 Internal Server Error`
+- Webhook token sandbox não funciona em produção (esperado)
+
+### 8.3 Causa Provável do Erro PIX (500)
+
+1. **Chave PIX não configurada** na conta Asaas de produção
+2. **`walletId` inválido** para o ambiente de produção
+3. A conta de produção pode não ter o recurso PIX habilitado
+4. O erro ocorre no `get_pix_qr_code()` — a criação do pagamento em si pode funcionar, mas a consulta do QR code falha
+
+---
+
+## 9. Conclusão (Sandbox)
+
+**Testes no sandbox concluídos com sucesso.** A integração Asaas está funcional, segura e estável.
 
 O sistema processa corretamente:
 - Pagamentos PIX com QR Code
@@ -224,3 +288,7 @@ O sistema processa corretamente:
 - Webhooks com idempotência e proteção por token
 - Adição de créditos ao saldo do usuário
 - Registro de transações no extrato
+
+### ⚠️ Ação Necessária
+
+**Corrigir PIX em produção** antes de liberar para usuários reais. O fluxo de cartão está funcional, mas PIX retorna erro 500. Verificar configuração da chave PIX e `walletId` na conta Asaas de produção, bem como as variáveis de ambiente no dashboard do Render.

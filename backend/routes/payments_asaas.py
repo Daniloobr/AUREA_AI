@@ -11,7 +11,6 @@ from services.asaas_service import (
     get_payment_status,
     get_pix_qr_code,
     ASAAS_API_KEY,
-    SANDBOX_CPF,
 )
 from utils.auth_utils import token_required
 from limiter_instance import limiter
@@ -27,7 +26,7 @@ PACKAGES = {
 
 
 def _get_or_create_customer(current_user):
-    cpf = current_user.cpf or SANDBOX_CPF
+    cpf = current_user.cpf or ""
     if current_user.asaas_customer_id:
         try:
             update_customer(current_user.asaas_customer_id, cpf_cnpj=cpf)

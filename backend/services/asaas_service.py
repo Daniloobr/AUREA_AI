@@ -5,11 +5,12 @@ import logging
 logger = logging.getLogger(__name__)
 
 ASAAS_API_KEY = os.environ.get('ASAAS_API_KEY')
-ASAAS_SANDBOX = os.environ.get('ASAAS_SANDBOX', 'True').lower() == 'true'
-SANDBOX_CPF = "12345678909"
 ASAAS_WALLET_ID = os.environ.get('ASAAS_WALLET_ID')
 
-ASAAS_API_URL = "https://sandbox.asaas.com/api/v3" if ASAAS_SANDBOX else "https://api.asaas.com/v3"
+if os.environ.get('ASAAS_SANDBOX', 'False').lower() == 'true':
+    ASAAS_API_URL = "https://sandbox.asaas.com/api/v3"
+else:
+    ASAAS_API_URL = "https://api.asaas.com/v3"
 
 if not ASAAS_API_KEY:
     logger.warning("ASAAS_API_KEY nao configurado")
@@ -35,7 +36,7 @@ def find_or_create_customer(name: str, email: str, cpf_cnpj: str = None) -> str:
             logger.info(f"Asaas customer encontrado: {customer_id} para {email}")
             return customer_id
 
-    payload = {"name": name, "email": email, "cpfCnpj": cpf_cnpj or SANDBOX_CPF}
+    payload = {"name": name, "email": email, "cpfCnpj": cpf_cnpj or ""}
     resp = requests.post(
         f"{ASAAS_API_URL}/customers",
         json=payload,
