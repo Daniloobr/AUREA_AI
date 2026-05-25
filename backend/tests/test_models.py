@@ -74,7 +74,7 @@ class TestTransactionModel:
         txn1 = Transaction(
             user_id=test_user.id, type='purchase',
             amount=100, balance_before=0, balance_after=100,
-            external_id='stripe_session_123',
+            external_id='mp_payment_123',
         )
         db.session.add(txn1)
         db.session.commit()
@@ -84,7 +84,7 @@ class TestTransactionModel:
         txn2 = Transaction(
             user_id=test_user.id, type='purchase',
             amount=200, balance_before=100, balance_after=300,
-            external_id='stripe_session_123',
+            external_id='mp_payment_123',
         )
         db.session.add(txn2)
         with pytest.raises(IntegrityError):

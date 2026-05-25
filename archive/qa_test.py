@@ -171,83 +171,103 @@ if os.path.exists(dummy_txt_path): os.remove(dummy_txt_path)
 
 
 # =====================================================================
-# AREA 3: STRIPE & PURCHASE OF CREDITS
+# AREA 3: MERCADO PAGO PAYMENT (PIX FLOW)
 # =====================================================================
-log_step("3. Compra de Créditos (Pacotes, Redirecionamento Stripe, Webhook, Saldo Atualizado, Transação)")
+log_step("3. Compra de Créditos (Pacote 100 créditos via PIX, Webhook, Saldo Atualizado, Transação)")
 
-# 3.1 Try to create checkout session
-stripe_session_id = None
-test_price_id = "price_1TaSlbAXb2fn2YJD21xOhXPs" # test price from config
+PACKAGE_ID_FOR_TEST = "100_credits"
+TEST_PRICE = 25.00
+TEST_CREDITS_EXPECTED = 100
+payment_id = None
+webhook_secret = WEBHOOK_SECRET # Reusing the secret for security check verification (if webhook_bp uses it for validation, which it does)
+
 try:
-    pay_res = session.post(f"{API_URL}/create-checkout-session", json={
-        "price_id": test_price_id
+    # 3.1 Create PIX Payment
+    pay_res = session.post(f"{API_URL}/create-pix-payment", json={
+        "package_id": PACKAGE_ID_FOR_TEST
     })
     if pay_res.status_code == 200:
         pay_data = pay_res.json()
-        log_result(True, "Sessão Stripe Checkout criada com sucesso.", pay_data)
-        stripe_url = pay_data.get("url")
-        # Extract session id from URL if possible
-        if "cs_test_" in stripe_url:
-            parts = stripe_url.split("cs_test_")
-            stripe_session_id = "cs_test_" + parts[1].split("#")[0].split("?")[0]
-            print(f"    [Extracted Stripe Session ID]: {stripe_session_id}")
+        log_result(True, "PIX Payment Request created successfully.", pay_data)
+        payment_id = pay_data.get("payment_id")
+        qr_code = pay_data.get("qr_code") or pay_data.get("qr_code_base64")
+        
+        # Check QR code data exists
+        log_result(bool(qr_code), "QR Code data present in response.")
+        
+        # Expected external reference based on service implementation
+        expected_external_ref = f"{user_id}:{PACKAGE_ID_FOR_TEST}"
     else:
-        log_result(False, f"Falha ao criar sessão de checkout: Status {pay_res.status_code}", pay_res.text)
+        log_result(False, f"Falha ao criar PIX session: Status {pay_res.status_code}", pay_res.text)
+        payment_id = None
+        expected_external_ref = None
+
 except Exception as e:
-    log_result(False, f"Erro ao criar sessão Stripe Checkout: {e}")
+    log_result(False, f"Erro ao iniciar PIX payment: {e}")
+    payment_id = None
+    expected_external_ref = None
 
-# Generate HMAC-SHA256 signature helper for webhook mock
-def make_stripe_signature(payload_bytes, secret):
-    timestamp = str(int(time.time()))
-    signed_payload = timestamp.encode('utf-8') + b'.' + payload_bytes
-    signature = hmac.new(
-        secret.encode('utf-8') if isinstance(secret, str) else secret,
-        signed_payload,
-        hashlib.sha256
-    ).hexdigest()
-    return f"t={timestamp},v1={signature}"
-
-# 3.2 Mock the webhook completion
-if stripe_session_id:
-    # Build checkout.session.completed payload
-    webhook_payload = {
-        "id": f"evt_{uuid.uuid4().hex[:8]}",
-        "object": "event",
-        "type": "checkout.session.completed",
-        "data": {
-            "object": {
-                "id": stripe_session_id,
-                "object": "checkout.session",
-                "payment_status": "paid",
-                "client_reference_id": user_id,
-                "metadata": {
-                    "user_id": user_id,
-                    "price_id": test_price_id
-                }
-            }
-        }
+# 3.2 Mock the webhook completion for PIX payment.updated
+if payment_id and expected_external_ref:
+    # Construct payload simulating a completed payment notification from MP
+    mock_payload_data = {
+        "id": payment_id,
+        "type": "payment",
+        "action": "payment.updated", # Crucial: must be updated, not created
+        "object": "payment",
+        "status": "approved", # Critical status for credit addition
+        "external_reference": expected_external_ref,
+        "amount_paid": TEST_PRICE,
+        "payer": {"email": test_email}
     }
     
-    payload_str = json.dumps(webhook_payload)
+    payload_str = json.dumps(mock_payload_data, separators=(",", ":"))
     payload_bytes = payload_str.encode('utf-8')
-    sig = make_stripe_signature(payload_bytes, WEBHOOK_SECRET)
+    
+    # Generate signature for webhook verification (assuming webhook_bp uses the same secret key pattern as Stripe tests)
+    # NOTE: Mercado Pago uses 'ts' and 'v1' in signature headers, not 't' and 'v1' like the old Stripe mock.
+    # We must ensure the webhook logic in backend/routes/webhooks.py can handle this mock or remove signature checks for this mock.
+    # Reviewing backend/routes/webhooks.py: It expects 'x-request-id' and uses 'ts' and 'v1'.
+    
+    # Since the webhook logic relies on SECRET being set AND specific headers, 
+    # for QA testing convenience where we control the source, we might temporarily bypass signature in the mock if we cannot perfectly replicate MP headers.
+    # However, for robust testing, we should try to comply or disable the check.
+    
+    # Option: Temporarily disable signature check in the webhook route for this test only, OR rely on a known secret.
+    # I will rely on the WEBHOOK_SECRET defined at the top of qa_test.py, hoping the webhook route uses it.
+    
+    timestamp = str(int(time.time()))
+    # MP Manifest structure: id:{request-id};request-id:{request-id};ts:{ts};{payload_json}
+    request_id = str(uuid.uuid4()) 
+    manifest = f"id:{request_id};request-id:{request_id};ts:{timestamp};" + payload_str
+    
+    signature = hmac.new(
+        webhook_secret.encode('utf-8'),
+        manifest.encode('utf-8'),
+        hashlib.sha256
+    ).hexdigest()
+    
+    mp_signature_header = f"ts={timestamp},v1={signature}"
     
     try:
         wh_res = requests.post(
-            f"{API_URL}/stripe-webhook",
+            f"{API_URL}/webhooks/mercadopago",
             data=payload_bytes,
             headers={
-                "Stripe-Signature": sig,
+                "X-Signature": mp_signature_header, # Using X-Signature as a proxy for the expected header if webhook_bp uses it, or setting 'x-signature' based on webhook.py Line 131
+                "x-request-id": request_id,
                 "Content-Type": "application/json"
             }
         )
+        
+        # The webhook route returns 200 on success, or 200/400 based on validation
         if wh_res.status_code == 200:
-            wh_data = wh_res.json()
-            log_result(True, "Webhook do Stripe recebido e processado com sucesso (200 OK).", wh_data)
+             log_result(True, "Mock MP Webhook POST success.", wh_res.json())
         else:
-            log_result(False, f"Falha no webhook: Status {wh_res.status_code}", wh_res.text)
+             log_result(False, f"Mock MP Webhook returned status {wh_res.status_code}.", wh_res.text)
+             
     except Exception as e:
-        log_result(False, f"Erro ao enviar webhook simulado: {e}")
+        log_result(False, f"Erro ao enviar mock MP webhook: {e}")
 
     # 3.3 Verify Updated Balance
     try:
@@ -255,18 +275,24 @@ if stripe_session_id:
         if bal_res.status_code == 200:
             bal_data = bal_res.json()
             new_credits = bal_data.get("user", {}).get("credits_balance", 0)
-            log_result(new_credits > 0, f"Saldo de créditos atualizado! Novo saldo: {new_credits} créditos. (Antes era 0)")
+            
+            # If webhook worked, credits should be 100 (since previous step established initial balance was 0)
+            log_result(new_credits == TEST_CREDITS_EXPECTED, 
+                       f"Saldo de créditos atualizado corretamente! Novo saldo: {new_credits} créditos (Esperado: {TEST_CREDITS_EXPECTED}).")
         else:
-            log_result(False, "Falha ao obter saldo atualizado.", bal_res.text)
+            log_result(False, "Falha ao obter saldo atualizado após webhook.", bal_res.text)
     except Exception as e:
         log_result(False, f"Erro ao verificar saldo atualizado: {e}")
+        
+else:
+    log_result(False, "Skipping webhook simulation due to prior payment failure.")
 
 # =====================================================================
-# AREA 4: GENERATION
+# AREA 4: GENERATION (Requires Credits)
 # =====================================================================
 log_step("4. Geração (Seleção de estilo, Débito de 25 créditos, Job assíncrono, Imagem na galeria, Reembolso em falha)")
 
-# 4.1 styles
+# 4.1 styles (Re-run to ensure we have styles data)
 try:
     styles_res = session.get(f"{API_URL}/generate/styles")
     if styles_res.status_code == 200:
@@ -297,7 +323,7 @@ try:
         log_result(True, "Job de geração criado com sucesso (200).", gen_data)
         job_id = gen_data.get("job_id")
     else:
-        # If credits is 0 or failed, it will return 402/500
+        # If credits < 25, it will return 402/500
         log_result(False, f"Falha ao iniciar geração: Status {gen_res.status_code}", gen_res.text)
 except Exception as e:
     log_result(False, f"Erro ao iniciar geração: {e}")
@@ -309,8 +335,8 @@ if job_id:
         if bal_res.status_code == 200:
             bal_data = bal_res.json()
             curr_credits = bal_data.get("user", {}).get("credits_balance", 0)
-            # New credits must be (previous - 25)
-            log_result(True, f"Débito de 25 créditos verificado com sucesso. Saldo atual: {curr_credits} créditos.")
+            # New credits must be (previous_balance + 100 - 25) = 75
+            log_result(curr_credits == 75, f"Débito de 25 créditos verificado com sucesso. Saldo atual: {curr_credits} créditos. (Esperado: 75)")
         else:
             log_result(False, "Falha ao verificar débito.")
     except Exception as e:
@@ -325,16 +351,11 @@ if job_id:
             status_data = status_res.json()
             log_result(True, "Job assíncrono criado e verificado no banco.", status_data)
             
-            # Since no celery worker is running, it should remain queued/processing or fail.
-            # If it fails, does it refund credits?
-            # We can programmatically trigger a failure in the DB or wait a moment.
-            # Actually, since Celery is configured, let's verify if the status is 'queued'.
             print(f"    [Job Status]: {status_data.get('status')} | Progress: {status_data.get('progress')}%")
         else:
             log_result(False, f"Falha ao obter status do job: Status {status_res.status_code}", status_res.text)
     except Exception as e:
         log_result(False, f"Erro ao obter status do job: {e}")
-
 
 # =====================================================================
 # AREA 5: GALLERY
@@ -364,7 +385,6 @@ try:
 except Exception as e:
     log_result(False, f"Erro ao testar downloads: {e}")
 
-
 # =====================================================================
 # AREA 6: STATEMENT (EXTRATO)
 # =====================================================================
@@ -382,7 +402,6 @@ try:
         log_result(False, f"Falha ao carregar extrato: Status {tx_res.status_code}", tx_res.text)
 except Exception as e:
     log_result(False, f"Erro ao carregar extrato: {e}")
-
 
 # =====================================================================
 # AREA 7: SECURITY (CORS, HEADERS, EXPOSED KEYS)
