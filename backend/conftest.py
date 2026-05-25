@@ -14,6 +14,7 @@ def pytest_configure(config):
     os.environ['SENDGRID_API_KEY'] = ''
     os.environ['ASAAS_API_KEY'] = 'test_asaas_mock_key'
     os.environ['ASAAS_SANDBOX'] = 'True'
+    os.environ['ASAAS_WEBHOOK_TOKEN'] = ''
     os.environ['BACKEND_URL'] = 'http://localhost:5000'
     os.environ['FRONTEND_URL'] = 'http://localhost:3000'
     os.environ['CELERY_BROKER_URL'] = ''
