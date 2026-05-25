@@ -116,7 +116,8 @@ def create_card_payment_route(current_user):
     if not ASAAS_API_KEY:
         return jsonify({"success": False, "error": "Pagamento com cartao indisponivel no momento"}), 503
     try:
-        data = request.get_json() or {}
+        data = request.get_json(force=True, silent=True) or {}
+        logger.info(f"Card payment body: {str(data)[:200]}")
         external_reference = data.get("external_reference")
         value = data.get("value")
         description = data.get("description")
