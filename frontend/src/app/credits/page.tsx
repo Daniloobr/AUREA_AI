@@ -50,11 +50,6 @@ function CreditsContent() {
   const [pixPaymentId, setPixPaymentId] = useState<string | null>(null);
   const [pixCopied, setPixCopied] = useState(false);
 
-  const [cardNumber, setCardNumber] = useState('');
-  const [cardName, setCardName] = useState('');
-  const [cardExpiry, setCardExpiry] = useState('');
-  const [cardCvv, setCardCvv] = useState('');
-
   useEffect(() => {
     if (searchParams.get('success') === 'true') {
       setNotification({ message: 'Pagamento confirmado! Atualizando saldo...', type: 'success' });
@@ -103,10 +98,6 @@ function CreditsContent() {
     setQrCodeText('');
     setPixPaymentId(null);
     setPixCopied(false);
-    setCardNumber('');
-    setCardName('');
-    setCardExpiry('');
-    setCardCvv('');
   };
 
   const handlePixPayment = async () => {
@@ -144,36 +135,20 @@ function CreditsContent() {
 
   const handleCardPayment = async () => {
     if (!selectedPkg || !user || !token) return;
-    if (!cardNumber || !cardName || !cardExpiry || !cardCvv) {
-      notify('Preencha todos os campos do cartão.', 'error');
-      return;
-    }
     setLoading(true);
     try {
-      const [month, year] = cardExpiry.split('/').map(s => s.trim());
-      const fullYear = year.length === 2 ? `20${year}` : year;
       const externalRef = `${user.id}:${selectedPkg.id}`;
       const res = await apiService.post('/create-card-payment', {
         external_reference: externalRef,
         value: selectedPkg.priceValue,
         description: selectedPkg.name,
-        card_number: cardNumber.replace(/\s/g, ''),
-        expiry_month: month,
-        expiry_year: fullYear,
-        cvv: cardCvv,
-        holder_name: cardName,
       }, token);
-      if (res?.success) {
-        if (res.status === 'CONFIRMED') {
-          setSelectedPkg(null);
-          notify('Pagamento aprovado! Créditos adicionados.', 'success');
-          await refreshUser();
-        } else {
-          setPixPaymentId(res.payment_id);
-          notify('Pagamento em processamento...', 'success');
-        }
+      if (res?.success && res.checkout_url) {
+        setPixPaymentId(res.payment_id);
+        window.open(res.checkout_url, '_blank');
+        notify('Redirecionando para o Asaas...', 'success');
       } else {
-        notify(res?.error || 'Erro ao processar cartão.', 'error');
+        notify(res?.error || 'Erro ao gerar checkout.', 'error');
       }
     } catch {
       notify('Erro ao processar cartão.', 'error');
@@ -181,9 +156,6 @@ function CreditsContent() {
       setLoading(false);
     }
   };
-
-  const formatCardNumber = (v: string) => v.replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1 ').slice(0, 19);
-  const formatExpiry = (v: string) => v.replace(/\D/g, '').replace(/^(\d{2})(\d)/, '$1/$2').slice(0, 5);
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-[#F5F5F7] pt-24 pb-32 px-4 sm:px-6 relative overflow-x-hidden">
@@ -358,88 +330,42 @@ function CreditsContent() {
 
               {paymentTab === 'card' && !pixPaymentId && (
                 <div className="space-y-5">
-                  <div className="relative">
-                    <div className="bg-gradient-to-br from-[#1a1d24] to-[#0D0D0D] border border-[#2a2f38] rounded-2xl p-5 mb-5 overflow-hidden">
-                      <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#748FCC]/10 rounded-full blur-3xl" />
-                      <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-[#748FCC]/5 rounded-full blur-2xl" />
-                      <div className="relative z-10">
-                        <div className="flex items-center justify-between mb-6">
-                          <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#8A9099]">Cartão de Crédito</span>
-                          <div className="flex gap-1.5">
-                            <div className="w-6 h-4 rounded bg-gradient-to-br from-red-400 to-red-600" />
-                            <div className="w-6 h-4 rounded bg-gradient-to-br from-yellow-300 to-yellow-500" />
-                          </div>
-                        </div>
-                        <div className="space-y-4">
-                          <p className="text-lg sm:text-xl font-mono tracking-[0.15em] text-white">
-                            {cardNumber || '5031 4332 1540 7451'}
-                          </p>
-                          <div className="flex items-center gap-6 sm:gap-10">
-                            <div className="flex-1 min-w-0">
-                              <p className="text-[9px] uppercase tracking-[0.2em] text-[#8A9099] mb-1">Titular</p>
-                              <p className="text-sm font-medium text-white truncate">
-                                {cardName || 'Seu Nome'}
-                              </p>
-                            </div>
-                            <div className="shrink-0">
-                              <p className="text-[9px] uppercase tracking-[0.2em] text-[#8A9099] mb-1">Validade</p>
-                              <p className="text-sm font-medium text-white">
-                                {cardExpiry || 'MM/AA'}
-                              </p>
-                            </div>
-                            <div className="shrink-0">
-                              <p className="text-[9px] uppercase tracking-[0.2em] text-[#8A9099] mb-1">CVV</p>
-                              <p className="text-sm font-medium text-white">
-                                {cardCvv.padEnd(3, '•') || '•••'}
-                              </p>
-                            </div>
-                          </div>
+                  <div className="bg-gradient-to-br from-[#1a1d24] to-[#0D0D0D] border border-[#2a2f38] rounded-2xl p-5 overflow-hidden relative">
+                    <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#748FCC]/10 rounded-full blur-3xl" />
+                    <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-[#748FCC]/5 rounded-full blur-2xl" />
+                    <div className="relative z-10">
+                      <div className="flex items-center justify-between mb-5">
+                        <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#8A9099]">Pagamento Seguro</span>
+                        <div className="flex gap-1.5">
+                          <div className="w-6 h-4 rounded bg-gradient-to-br from-red-400 to-red-600" />
+                          <div className="w-6 h-4 rounded bg-gradient-to-br from-yellow-300 to-yellow-500" />
                         </div>
                       </div>
-                    </div>
-                  </div>
-
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                      <CreditCard className="w-4 h-4 text-[#8A9099]" />
-                    </div>
-                    <input value={cardNumber} onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
-                      placeholder="Número do cartão"
-                      className="w-full h-12 pl-11 pr-4 rounded-xl bg-[#0A0A0A] border border-[#1F2329] focus:border-[#748FCC] focus:outline-none text-[#F5F5F7] text-sm placeholder:text-[#8A9099]/40 transition-colors" />
-                  </div>
-
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                      <svg className="w-4 h-4 text-[#8A9099]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                      </svg>
-                    </div>
-                    <input value={cardName} onChange={(e) => setCardName(e.target.value)}
-                      placeholder="Nome do titular (como está no cartão)"
-                      className="w-full h-12 pl-11 pr-4 rounded-xl bg-[#0A0A0A] border border-[#1F2329] focus:border-[#748FCC] focus:outline-none text-[#F5F5F7] text-sm placeholder:text-[#8A9099]/40 transition-colors" />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="relative">
-                      <input value={cardExpiry} onChange={(e) => setCardExpiry(formatExpiry(e.target.value))}
-                        placeholder="Validade (MM/AA)"
-                        className="w-full h-12 px-4 rounded-xl bg-[#0A0A0A] border border-[#1F2329] focus:border-[#748FCC] focus:outline-none text-[#F5F5F7] text-sm placeholder:text-[#8A9099]/40 transition-colors" />
-                    </div>
-                    <div className="relative">
-                      <input value={cardCvv} onChange={(e) => setCardCvv(e.target.value.replace(/\D/g, '').slice(0, 4))}
-                        placeholder="CVV"
-                        className="w-full h-12 px-4 rounded-xl bg-[#0A0A0A] border border-[#1F2329] focus:border-[#748FCC] focus:outline-none text-[#F5F5F7] text-sm placeholder:text-[#8A9099]/40 transition-colors" />
+                      <div className="flex items-center gap-4 mb-4">
+                        <div className="w-12 h-12 rounded-full bg-[#748FCC]/15 border border-[#748FCC]/20 flex items-center justify-center shrink-0">
+                          <ShieldCheck className="w-6 h-6 text-[#748FCC]" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-white">Checkout Asaas</p>
+                          <p className="text-xs text-[#8A9099]">Ambiente certificado PCI</p>
+                        </div>
+                      </div>
+                      <p className="text-xs text-[#8A9099] leading-relaxed">
+                        Você será redirecionado para o ambiente seguro do Asaas. 
+                        Seus dados bancários serão preenchidos diretamente lá — 
+                        <span className="text-emerald-400 font-semibold"> nós nunca armazenamos</span> números de cartão ou CVV.
+                      </p>
                     </div>
                   </div>
 
                   <Button onClick={handleCardPayment} isLoading={loading}
                     className="w-full py-4 bg-gradient-to-r from-[#748FCC] to-[#5F7DB8] hover:from-[#5F7DB8] hover:to-[#4D6BA8] text-white rounded-xl font-bold shadow-lg shadow-[#748FCC]/20 hover:shadow-[#748FCC]/30 transition-all duration-300">
-                    Pagar R$ {selectedPkg.price}
+                    Pagar R$ {selectedPkg.price} com Cartão
                   </Button>
 
                   <div className="flex items-center justify-center gap-3 text-[10px] text-[#8A9099]">
                     <ShieldCheck className="w-3.5 h-3.5" />
-                    Pagamento 100% seguro processado via Asaas
+                    Dados protegidos — ambiente Asaas
                   </div>
                 </div>
               )}
@@ -448,8 +374,8 @@ function CreditsContent() {
                   <div className="w-16 h-16 rounded-full bg-[#748FCC]/10 border border-[#748FCC]/20 flex items-center justify-center mx-auto">
                     <Loader2 className="w-7 h-7 text-[#748FCC] animate-spin" />
                   </div>
-                  <p className="text-sm font-medium text-[#F5F5F7]">Processando pagamento...</p>
-                  <p className="text-xs text-[#8A9099]">Aguardando confirmação. Esta página será atualizada automaticamente.</p>
+                  <p className="text-sm font-medium text-[#F5F5F7]">Aguardando pagamento...</p>
+                  <p className="text-xs text-[#8A9099]">Finalize o pagamento na nova aba. Esta página será atualizada automaticamente.</p>
                 </div>
               )}
             </motion.div>
