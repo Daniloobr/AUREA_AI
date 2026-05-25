@@ -356,40 +356,90 @@ function CreditsContent() {
               )}
 
               {paymentTab === 'card' && (
-                <div className="space-y-4">
-                  <div>
-                    <label className="text-[11px] font-bold text-[#B8BCC4] uppercase tracking-widest ml-1">Número do Cartão</label>
+                <div className="space-y-5">
+                  <div className="relative">
+                    <div className="bg-gradient-to-br from-[#1a1d24] to-[#0D0D0D] border border-[#2a2f38] rounded-2xl p-5 mb-5 overflow-hidden">
+                      <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#748FCC]/10 rounded-full blur-3xl" />
+                      <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-[#748FCC]/5 rounded-full blur-2xl" />
+                      <div className="relative z-10">
+                        <div className="flex items-center justify-between mb-6">
+                          <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#8A9099]">Cartão de Crédito</span>
+                          <div className="flex gap-1.5">
+                            <div className="w-6 h-4 rounded bg-gradient-to-br from-red-400 to-red-600" />
+                            <div className="w-6 h-4 rounded bg-gradient-to-br from-yellow-300 to-yellow-500" />
+                          </div>
+                        </div>
+                        <div className="space-y-4">
+                          <p className="text-lg sm:text-xl font-mono tracking-[0.15em] text-white">
+                            {cardNumber || '5031 4332 1540 7451'}
+                          </p>
+                          <div className="flex items-center gap-6 sm:gap-10">
+                            <div className="flex-1 min-w-0">
+                              <p className="text-[9px] uppercase tracking-[0.2em] text-[#8A9099] mb-1">Titular</p>
+                              <p className="text-sm font-medium text-white truncate">
+                                {cardName || 'Seu Nome'}
+                              </p>
+                            </div>
+                            <div className="shrink-0">
+                              <p className="text-[9px] uppercase tracking-[0.2em] text-[#8A9099] mb-1">Validade</p>
+                              <p className="text-sm font-medium text-white">
+                                {cardExpiry || 'MM/AA'}
+                              </p>
+                            </div>
+                            <div className="shrink-0">
+                              <p className="text-[9px] uppercase tracking-[0.2em] text-[#8A9099] mb-1">CVV</p>
+                              <p className="text-sm font-medium text-white">
+                                {cardCvv.padEnd(3, '•') || '•••'}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                      <CreditCard className="w-4 h-4 text-[#8A9099]" />
+                    </div>
                     <input value={cardNumber} onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
-                      placeholder="5031 4332 1540 7451"
-                      className="w-full mt-1 h-12 px-4 rounded-xl bg-[#0A0A0A] border border-[#1F2329] focus:border-[#748FCC] focus:outline-none text-[#F5F5F7] placeholder:text-[#8A9099]/30" />
+                      placeholder="Número do cartão"
+                      className="w-full h-12 pl-11 pr-4 rounded-xl bg-[#0A0A0A] border border-[#1F2329] focus:border-[#748FCC] focus:outline-none text-[#F5F5F7] text-sm placeholder:text-[#8A9099]/40 transition-colors" />
                   </div>
-                  <div>
-                    <label className="text-[11px] font-bold text-[#B8BCC4] uppercase tracking-widest ml-1">Nome no Cartão</label>
+
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                      <svg className="w-4 h-4 text-[#8A9099]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                      </svg>
+                    </div>
                     <input value={cardName} onChange={(e) => setCardName(e.target.value)}
-                      placeholder="Nome como está no cartão"
-                      className="w-full mt-1 h-12 px-4 rounded-xl bg-[#0A0A0A] border border-[#1F2329] focus:border-[#748FCC] focus:outline-none text-[#F5F5F7] placeholder:text-[#8A9099]/30" />
+                      placeholder="Nome do titular (como está no cartão)"
+                      className="w-full h-12 pl-11 pr-4 rounded-xl bg-[#0A0A0A] border border-[#1F2329] focus:border-[#748FCC] focus:outline-none text-[#F5F5F7] text-sm placeholder:text-[#8A9099]/40 transition-colors" />
                   </div>
+
                   <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="text-[11px] font-bold text-[#B8BCC4] uppercase tracking-widest ml-1">Validade</label>
+                    <div className="relative">
                       <input value={cardExpiry} onChange={(e) => setCardExpiry(formatExpiry(e.target.value))}
-                        placeholder="MM/AA"
-                        className="w-full mt-1 h-12 px-4 rounded-xl bg-[#0A0A0A] border border-[#1F2329] focus:border-[#748FCC] focus:outline-none text-[#F5F5F7] placeholder:text-[#8A9099]/30" />
+                        placeholder="Validade (MM/AA)"
+                        className="w-full h-12 px-4 rounded-xl bg-[#0A0A0A] border border-[#1F2329] focus:border-[#748FCC] focus:outline-none text-[#F5F5F7] text-sm placeholder:text-[#8A9099]/40 transition-colors" />
                     </div>
-                    <div>
-                      <label className="text-[11px] font-bold text-[#B8BCC4] uppercase tracking-widest ml-1">CVV</label>
+                    <div className="relative">
                       <input value={cardCvv} onChange={(e) => setCardCvv(e.target.value.replace(/\D/g, '').slice(0, 4))}
-                        placeholder="123"
-                        className="w-full mt-1 h-12 px-4 rounded-xl bg-[#0A0A0A] border border-[#1F2329] focus:border-[#748FCC] focus:outline-none text-[#F5F5F7] placeholder:text-[#8A9099]/30" />
+                        placeholder="CVV"
+                        className="w-full h-12 px-4 rounded-xl bg-[#0A0A0A] border border-[#1F2329] focus:border-[#748FCC] focus:outline-none text-[#F5F5F7] text-sm placeholder:text-[#8A9099]/40 transition-colors" />
                     </div>
                   </div>
+
                   <Button onClick={handleCardPayment} isLoading={loading}
-                    className="w-full py-4 bg-[#748FCC] hover:bg-[#5F7DB8] text-white rounded-xl font-bold">
+                    className="w-full py-4 bg-gradient-to-r from-[#748FCC] to-[#5F7DB8] hover:from-[#5F7DB8] hover:to-[#4D6BA8] text-white rounded-xl font-bold shadow-lg shadow-[#748FCC]/20 hover:shadow-[#748FCC]/30 transition-all duration-300">
                     Pagar R$ {selectedPkg.price}
                   </Button>
-                  <p className="text-[10px] text-[#8A9099] text-center">
-                    Pagamento processado via Asaas. Seus dados são seguros.
-                  </p>
+
+                  <div className="flex items-center justify-center gap-3 text-[10px] text-[#8A9099]">
+                    <ShieldCheck className="w-3.5 h-3.5" />
+                    Pagamento 100% seguro processado via Asaas
+                  </div>
                 </div>
               )}
             </motion.div>
