@@ -21,9 +21,14 @@ def create_card_payment(card_token, amount, description, payer_email, external_r
         "installments": installments,
         "transaction_amount": float(amount),
         "description": description,
-        "payment_method_id": "master",
         "external_reference": external_ref,
-        "payer": {"email": payer_email},
+        "payer": {
+            "email": payer_email,
+            "identification": {
+                "type": "CPF",
+                "number": "12345678909",
+            },
+        },
     }
     logger.info(
         f"Criando pagamento cartão | amount={amount} | "
@@ -48,7 +53,13 @@ def create_pix_payment(amount, description, payer_email, external_ref):
         "description": description,
         "payment_method_id": "pix",
         "external_reference": external_ref,
-        "payer": {"email": payer_email},
+        "payer": {
+            "email": payer_email,
+            "identification": {
+                "type": "CPF",
+                "number": "12345678909",
+            },
+        },
     }
     logger.info(
         f"Criando pagamento PIX | amount={amount} | "
