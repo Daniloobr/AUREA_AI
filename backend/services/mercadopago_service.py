@@ -26,6 +26,10 @@ def create_card_payment(card_token, amount, description, payer_email, external_r
         "statement_descriptor": "AureaIA",
         "payer": {
             "email": payer_email,
+            "identification": {
+                "type": "CPF",
+                "number": "12345678909",
+            },
         },
     }
     logger.info(f"Card payment payload: {payload}")
@@ -52,6 +56,10 @@ def create_pix_payment(amount, description, payer_email, external_ref):
         "statement_descriptor": "AureaIA",
         "payer": {
             "email": payer_email,
+            "identification": {
+                "type": "CPF",
+                "number": "12345678909",
+            },
         },
     }
     logger.info(f"PIX payment payload: {payload}")
