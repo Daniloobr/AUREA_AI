@@ -1,4 +1,5 @@
 import logging
+import os
 
 from flask import Blueprint, jsonify, request
 
@@ -6,7 +7,6 @@ from services.mercadopago_service import (
     create_card_payment,
     create_pix_payment,
     get_payment_status,
-    MERCADOPAGO_ACCESS_TOKEN,
 )
 from utils.auth_utils import token_required
 from limiter_instance import limiter
@@ -47,7 +47,6 @@ def create_card_payment_route(current_user):
             description=pkg["title"],
             payer_email=current_user.email,
             external_ref=external_ref,
-            identification=identification,
         )
 
         logger.info(
@@ -93,7 +92,6 @@ def create_pix_payment_route(current_user):
             description=pkg["title"],
             payer_email=current_user.email,
             external_ref=external_ref,
-            identification=identification,
         )
 
         point_of_interaction = result.get("point_of_interaction", {})
@@ -123,7 +121,8 @@ def create_pix_payment_route(current_user):
         }), 500
 
 
-@payments_mp_bp.route("/payment-status/<payment_id>", methods=["GET"])
+
+@payments_mp_bp.route("/payment-status/<payment_id>", methods=["GET"])@payments_mp_bp.route("/payment-status/<payment_id>", methods=["GET"])
 @limiter.limit("60 per minute")
 @token_required
 def payment_status_route(current_user, payment_id):
