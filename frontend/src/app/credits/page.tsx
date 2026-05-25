@@ -82,7 +82,7 @@ function CreditsContent() {
           setSelectedPkg(null);
           setPixPaymentId(null);
           setQrCodeBase64('');
-          setNotification({ message: 'PIX aprovado! Créditos adicionados.', type: 'success' });
+          setNotification({ message: 'Pagamento aprovado! Créditos adicionados.', type: 'success' });
           await refreshUser();
         }
       } catch { }
@@ -169,7 +169,8 @@ function CreditsContent() {
           notify('Pagamento aprovado! Créditos adicionados.', 'success');
           await refreshUser();
         } else {
-          notify(`Pagamento ${res.status}: tente novamente.`, 'error');
+          setPixPaymentId(res.payment_id);
+          notify('Pagamento em processamento...', 'success');
         }
       } else {
         notify(res?.error || 'Erro ao processar cartão.', 'error');
@@ -355,7 +356,7 @@ function CreditsContent() {
                 </div>
               )}
 
-              {paymentTab === 'card' && (
+              {paymentTab === 'card' && !pixPaymentId && (
                 <div className="space-y-5">
                   <div className="relative">
                     <div className="bg-gradient-to-br from-[#1a1d24] to-[#0D0D0D] border border-[#2a2f38] rounded-2xl p-5 mb-5 overflow-hidden">
@@ -440,6 +441,15 @@ function CreditsContent() {
                     <ShieldCheck className="w-3.5 h-3.5" />
                     Pagamento 100% seguro processado via Asaas
                   </div>
+                </div>
+              )}
+              {paymentTab === 'card' && pixPaymentId && (
+                <div className="text-center space-y-4 py-8">
+                  <div className="w-16 h-16 rounded-full bg-[#748FCC]/10 border border-[#748FCC]/20 flex items-center justify-center mx-auto">
+                    <Loader2 className="w-7 h-7 text-[#748FCC] animate-spin" />
+                  </div>
+                  <p className="text-sm font-medium text-[#F5F5F7]">Processando pagamento...</p>
+                  <p className="text-xs text-[#8A9099]">Aguardando confirmação. Esta página será atualizada automaticamente.</p>
                 </div>
               )}
             </motion.div>
