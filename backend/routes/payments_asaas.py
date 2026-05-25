@@ -1,6 +1,7 @@
 import logging
 import re
 from flask import Blueprint, jsonify, request
+from requests.exceptions import HTTPError
 from database import db
 
 from services.asaas_service import (
@@ -28,8 +29,16 @@ PACKAGES = {
 def _get_or_create_customer(current_user):
     cpf = current_user.cpf or SANDBOX_CPF
     if current_user.asaas_customer_id:
-        update_customer(current_user.asaas_customer_id, cpf_cnpj=cpf)
-        return current_user.asaas_customer_id
+        try:
+            update_customer(current_user.asaas_customer_id, cpf_cnpj=cpf)
+            return current_user.asaas_customer_id
+        except HTTPError as e:
+            if e.response.status_code == 404:
+                logger.warning(f"Customer {current_user.asaas_customer_id} not found, creating new one")
+                current_user.asaas_customer_id = None
+                db.session.commit()
+            else:
+                raise
     customer_id = find_or_create_customer(
         name=current_user.name,
         email=current_user.email,
