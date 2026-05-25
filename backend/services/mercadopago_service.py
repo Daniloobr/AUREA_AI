@@ -5,7 +5,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 MERCADOPAGO_ACCESS_TOKEN = os.environ.get('MERCADOPAGO_ACCESS_TOKEN')
-MERCADOPAGO_BASE_URL = "https://api.mercadopago.com/v1"
+MERCADOPAGO_API_URL = "https://api.mercadopago.com"
 
 
 def create_preference(amount, title, payer_email, external_reference,
@@ -35,7 +35,7 @@ def create_preference(amount, title, payer_email, external_reference,
         f"payer={payer_email} | ref={external_reference}"
     )
     response = requests.post(
-        f"{MERCADOPAGO_BASE_URL}/preferences",
+        f"{MERCADOPAGO_API_URL}/checkout/preferences",
         json=payload,
         headers=headers,
     )
@@ -52,7 +52,7 @@ def create_preference(amount, title, payer_email, external_reference,
 def get_payment_info(payment_id):
     headers = {"Authorization": f"Bearer {MERCADOPAGO_ACCESS_TOKEN}"}
     response = requests.get(
-        f"{MERCADOPAGO_BASE_URL}/payments/{payment_id}",
+        f"{MERCADOPAGO_API_URL}/v1/payments/{payment_id}",
         headers=headers,
     )
     if response.status_code != 200:
