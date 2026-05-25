@@ -107,34 +107,21 @@ function CreditsContent() {
     }
 
     try {
-      setNotification({ message: 'Iniciando pagamento seguro com Stripe...', type: 'success' });
+      setNotification({ message: 'Redirecionando para o Mercado Pago...', type: 'success' });
 
-      // Mapeamento dos pacotes locais para os price_ids do Stripe Dashboard
-      const priceMap: { [key: string]: string } = {
-        '100_credits': 'price_1TXBt5AXb2fn2YJDXDIF0iKk',
-        '200_credits': 'price_1TXBtWAXb2fn2YJDZxm1s4Xz',
-        '400_credits': 'price_1TaSlbAXb2fn2YJD21xOhXPs'
-      };
-
-      const priceId = priceMap[pkg.id];
-      if (!priceId) {
-        setNotification({ message: 'Pacote de créditos inválido.', type: 'error' });
-        return;
-      }
-
-      const response = await fetch('/api/create-checkout-session', {
+      const response = await fetch('/api/create-checkout-preference', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ price_id: priceId }),
+        body: JSON.stringify({ package_id: pkg.id }),
       });
 
       const data = await response.json().catch(() => null);
 
       if (!response.ok) {
-        const errorMsg = data?.error || data?.message || 'Erro ao gerar sessão de pagamento.';
+        const errorMsg = data?.error || data?.message || 'Erro ao gerar pagamento.';
         setNotification({ message: errorMsg, type: 'error' });
         return;
       }
@@ -146,7 +133,7 @@ function CreditsContent() {
 
       setNotification({ message: 'Resposta inválida do servidor. Tente novamente.', type: 'error' });
     } catch (err: unknown) {
-      console.error('Erro no checkout Stripe:', err);
+      console.error('Erro no checkout Mercado Pago:', err);
       setNotification({ message: 'Conexão com o estúdio interrompida. Tente novamente.', type: 'error' });
     }
   };
@@ -264,7 +251,7 @@ function CreditsContent() {
             <div className="space-y-3 sm:space-y-4">
               <ShieldCheck className="w-8 h-8 sm:w-10 sm:h-10 text-[#748FCC] mx-auto" />
               <h4 className="font-semibold text-sm sm:text-base">Pagamento Seguro</h4>
-              <p className="text-[13px] sm:text-sm text-[#B8BCC4] font-light">Processado via Stripe</p>
+              <p className="text-[13px] sm:text-sm text-[#B8BCC4] font-light">Processado via Mercado Pago</p>
             </div>
             <div className="space-y-3 sm:space-y-4">
               <Clock className="w-8 h-8 sm:w-10 sm:h-10 text-[#748FCC] mx-auto" />

@@ -71,11 +71,11 @@ export default function RegisterPage() {
       if (response.success) {
         login(response.token, response.user);
       } else {
-        setError(response.error || 'Erro no cadastro.');
+        setError(response.error || 'Não foi possível finalizar o cadastro. Tente novamente.');
       }
     } catch (err: unknown) {
       console.error(err);
-      setError('Erro de conexão.');
+      setError('Erro de conexão com o servidor. Verifique sua internet.');
     } finally {
       setLoading(false);
     }

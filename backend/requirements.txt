@@ -44,5 +44,4 @@ supabase>=2.0.0
 celery==5.4.0
 redis==5.0.3
 
-# Payments
-stripe==15.1.0
+# Payments (Mercado Pago via REST API)

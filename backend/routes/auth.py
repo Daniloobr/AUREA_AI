@@ -15,7 +15,7 @@ auth_bp = Blueprint('auth', __name__)
 @limiter.limit("20 per hour")
 def register():
     data = request.json
-    if not data: return jsonify({"success": False, "error": "Dados inválidos"}), 400
+    if not data: return jsonify({"success": False, "error": "Dados inválidos. Envie nome, email e senha."}), 400
 
     name = data.get('name')
     raw_email = data.get('email')

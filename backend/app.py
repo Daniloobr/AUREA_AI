@@ -16,7 +16,7 @@ from limiter_instance import limiter
 from flask_talisman import Talisman
 from config import Config
 
-from routes.payments import payments_bp
+from routes.payments_mp import payments_mp_bp
 from routes.webhooks import webhook_bp
 
 # ══════════════════════════════════════════════════════════════
@@ -99,8 +99,8 @@ def create_app():
     app.register_blueprint(admin_bp,    url_prefix='/api/admin')
     app.register_blueprint(styles_bp,   url_prefix='/api/styles')
     app.register_blueprint(download_bp, url_prefix='/api')
-    app.register_blueprint(payments_bp, url_prefix='/api')
-    app.register_blueprint(webhook_bp,  url_prefix='/api')
+    app.register_blueprint(payments_mp_bp, url_prefix='/api')
+    app.register_blueprint(webhook_bp,      url_prefix='/api')
 
 
     # ─── Servir arquivos carregados/gerados ───

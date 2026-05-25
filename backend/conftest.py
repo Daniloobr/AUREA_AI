@@ -12,8 +12,10 @@ def pytest_configure(config):
     os.environ['SUPABASE_KEY'] = ''
     os.environ['SUPABASE_SERVICE_ROLE_KEY'] = ''
     os.environ['SENDGRID_API_KEY'] = ''
-    os.environ['STRIPE_SECRET_KEY'] = 'sk_test_mock'
-    os.environ['STRIPE_WEBHOOK_SECRET'] = 'whsec_mock'
+    os.environ['MERCADOPAGO_ACCESS_TOKEN'] = 'TEST-0000-mock'
+    os.environ['MERCADOPAGO_WEBHOOK_SECRET'] = 'mock_secret'
+    os.environ['BACKEND_URL'] = 'http://localhost:5000'
+    os.environ['FRONTEND_URL'] = 'http://localhost:3000'
     os.environ['CELERY_BROKER_URL'] = ''
 
 

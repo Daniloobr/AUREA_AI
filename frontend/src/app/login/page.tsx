@@ -39,12 +39,12 @@ export default function LoginPage() {
           if (response.success) {
             login(response.token, response.user);
           } else {
-            setError(response.error || 'Erro ao autenticar com Google.');
+            setError(response.error || 'Falha na autenticação com Google. Tente novamente.');
             supabase.auth.signOut();
           }
         } catch (error) {
           console.error(error);
-          setError('Erro de conexão ao processar Google Login.');
+          setError('Conexão interrompida ao autenticar com Google. Verifique sua internet.');
           supabase.auth.signOut();
         } finally {
           setLoading(false);
@@ -67,7 +67,7 @@ export default function LoginPage() {
     });
 
     if (error) {
-      setError('Não foi possível iniciar o login com Google.');
+      setError('Não foi possível conectar ao Google. Tente novamente mais tarde.');
     }
   };
 
@@ -81,11 +81,11 @@ export default function LoginPage() {
       if (response.success) {
         login(response.token, response.user);
       } else {
-        setError(response.error || 'Dados inválidos.');
+        setError(response.error || 'Email ou senha inválidos.');
       }
     } catch (error) {
       console.error(error);
-      setError('Erro de conexão.');
+      setError('Erro de conexão com o servidor. Verifique sua internet.');
     } finally {
       setLoading(false);
     }

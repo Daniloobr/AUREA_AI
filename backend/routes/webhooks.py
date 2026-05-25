@@ -1,112 +1,118 @@
 import os
-import uuid
-import stripe
+import hashlib
+import hmac
+import json as _json
+import logging
+
 from flask import Blueprint, request, jsonify, current_app
 from models.db_models import db, User, Transaction
 
 webhook_bp = Blueprint("webhook", __name__)
+logger = logging.getLogger(__name__)
 
-@webhook_bp.route("/stripe-webhook", methods=["POST"])
-def stripe_webhook():
-    stripe.api_key = os.environ.get("STRIPE_SECRET_KEY")
-    payload = request.get_data()
-    sig_header = request.headers.get("Stripe-Signature")
-    webhook_secret = os.environ.get("STRIPE_WEBHOOK_SECRET")
+PACKAGES_BY_TITLE = {
+    "100 Créditos AureaIA": 100,
+    "200 Créditos AureaIA": 200,
+    "400 Créditos AureaIA": 400,
+}
 
-    if not sig_header:
-        return jsonify({"error": "Cabeçalho de assinatura ausente"}), 400
+
+def _verify_signature(payload, x_signature, x_request_id):
+    webhook_secret = os.environ.get("MERCADOPAGO_WEBHOOK_SECRET")
     if not webhook_secret:
-        return jsonify({"error": "Chave secreta do webhook não configurada"}), 500
+        logger.warning("MERCADOPAGO_WEBHOOK_SECRET não configurado — pulando verificação")
+        return True
+    if not x_signature or not x_request_id:
+        logger.warning("Headers de assinatura ausentes")
+        return False
+    parts = {}
+    for part in x_signature.split(","):
+        if "=" in part:
+            key, value = part.split("=", 1)
+            parts[key.strip()] = value.strip()
+    ts = parts.get("ts")
+    hash_value = parts.get("v1")
+    if not ts or not hash_value:
+        logger.warning("Formato de assinatura inválido")
+        return False
+    manifest = (
+        f"id:{x_request_id};request-id:{x_request_id};ts:{ts};"
+        + _json.dumps(payload, separators=(",", ":"))
+    )
+    expected = hmac.new(
+        webhook_secret.encode(),
+        manifest.encode(),
+        hashlib.sha256,
+    ).hexdigest()
+    if not hmac.compare_digest(expected, hash_value):
+        logger.warning("Assinatura do webhook MP inválida")
+        return False
+    return True
 
-    try:
-        event = stripe.Webhook.construct_event(payload, sig_header, webhook_secret)
-        current_app.logger.info(f"[WEBHOOK] Evento verificado: {event['type']}")
-    except Exception as e:
-        current_app.logger.error(f"[WEBHOOK] Assinatura inválida: {e}")
+
+@webhook_bp.route("/webhooks/mercadopago", methods=["POST"])
+def mercadopago_webhook():
+    payload = request.get_json(silent=True) or {}
+    x_signature = request.headers.get("x-signature", "")
+    x_request_id = request.headers.get("x-request-id", "")
+
+    current_app.logger.info(
+        f"[WEBHOOK MP] Recebido | type={payload.get('type')} | "
+        f"action={payload.get('action')}"
+    )
+
+    if not _verify_signature(payload, x_signature, x_request_id):
         return jsonify({"error": "Assinatura inválida"}), 400
 
-    if event["type"] != "checkout.session.completed":
+    action = payload.get("action")
+    if action not in ("payment.created", "payment.updated"):
         return jsonify({"status": "ignored"}), 200
 
-    session = event["data"]["object"]
-    session_id = session.id
-    payment_status = session.payment_status
+    data = payload.get("data", {})
+    payment_id = data.get("id")
 
-    # Tratamento seguro do metadata (resolve KeyError:0)
-    metadata = {}
-    if hasattr(session, 'metadata') and session.metadata is not None:
-        if hasattr(session.metadata, 'to_dict'):
-            metadata = session.metadata.to_dict()
-        elif isinstance(session.metadata, dict):
-            metadata = session.metadata
-        else:
-            try:
-                metadata = dict(session.metadata)
-            except:
-                pass
+    if not payment_id:
+        return jsonify({"status": "ignored", "reason": "no_payment_id"}), 200
 
-    user_id = metadata.get("user_id") or getattr(session, 'client_reference_id', None)
-    price_id = metadata.get("price_id")
+    if action == "payment.created":
+        return jsonify({"status": "received"}), 200
 
-    current_app.logger.info(f"[WEBHOOK] session={session_id}, user={user_id}, price={price_id}, status={payment_status}")
+    from services.mercadopago_service import get_payment_info
+    payment_info = get_payment_info(payment_id)
 
-    # Idempotência
-    if session_id and Transaction.query.filter_by(external_id=session_id).first():
-        current_app.logger.warning(f"[WEBHOOK] Duplicado: {session_id}")
+    current_app.logger.info(
+        f"[WEBHOOK MP] Payment info | id={payment_id} | "
+        f"status={payment_info.get('status')} | "
+        f"status_detail={payment_info.get('status_detail')}"
+    )
+
+    if payment_info.get("status") != "approved":
+        return jsonify({"status": "ignored", "reason": "not_approved"}), 200
+
+    external_reference = payment_info.get("external_reference") or ""
+    payer_email = payment_info.get("payer", {}).get("email", "")
+    items = payment_info.get("additional_info", {}).get("items", [])
+    title = items[0].get("title") if items else ""
+    credits = PACKAGES_BY_TITLE.get(title, 0)
+
+    if not credits:
+        current_app.logger.error(f"[WEBHOOK MP] Título não mapeado: {title}")
+        return jsonify({"status": "ignored", "reason": "title_not_mapped"}), 200
+
+    tx_id_str = f"mp_{payment_id}"
+
+    existing = Transaction.query.filter_by(external_id=tx_id_str).first()
+    if existing:
+        current_app.logger.warning(f"[WEBHOOK MP] Duplicado: {tx_id_str}")
         return jsonify({"status": "already_processed"}), 200
 
-    if payment_status != "paid":
-        return jsonify({"status": "ignored", "reason": "not_paid"}), 200
-
-    if not user_id:
-        return jsonify({"status": "ignored", "reason": "no_user_id"}), 200
-
-    # Fallback price_id via line_items
-    if not price_id:
-        try:
-            line_items = stripe.checkout.Session.list_line_items(session_id, limit=1)
-            if line_items and line_items.data:
-                price_id = line_items.data[0].price.id
-        except Exception as e:
-            current_app.logger.error(f"[WEBHOOK] Erro line_items: {e}")
-
-    if not price_id:
-        return jsonify({"status": "ignored", "reason": "no_price_id"}), 200
-
-    # Mapeamento price_id → créditos concedidos
-    # ATENÇÃO: cada price_id deve ser ÚNICO — duplicatas são silenciosamente ignoradas pelo Python.
-    credits_map = {
-        "price_1TXBt5AXb2fn2YJDXDIF0iKk": 100,   # Pacote 100 créditos
-        "price_1TXBtWAXb2fn2YJDZxm1s4Xz": 200,   # Pacote 200 créditos
-        "price_1TaSlbAXb2fn2YJD21xOhXPs": 400,   # Pacote 400 créditos
-    }
-    credits = credits_map.get(price_id)
-    if not credits:
-        current_app.logger.error(f"[WEBHOOK] Price não mapeado: {price_id}")
-        return jsonify({"status": "ignored", "reason": "price_not_mapped"}), 200
-
-    # Busca usuário (UUID)
-    user = None
-    try:
-        user = User.query.get(user_id)
-        if not user:
-            try:
-                user = User.query.get(uuid.UUID(user_id))
-            except:
-                pass
-        if not user:
-            try:
-                user = User.query.get(int(user_id))
-            except:
-                pass
-    except Exception as e:
-        current_app.logger.error(f"[WEBHOOK] Erro busca user: {e}")
-
+    user = User.query.filter_by(email=payer_email).first()
     if not user:
-        current_app.logger.error(f"[WEBHOOK] Usuário não encontrado: {user_id}")
+        current_app.logger.error(
+            f"[WEBHOOK MP] Usuário não encontrado: {payer_email}"
+        )
         return jsonify({"status": "ignored", "reason": "user_not_found"}), 200
 
-    # Atualiza créditos
     try:
         old_balance = user.credits_balance or 0
         user.credits_balance = old_balance + credits
@@ -116,14 +122,19 @@ def stripe_webhook():
             amount=credits,
             balance_before=old_balance,
             balance_after=user.credits_balance,
-            description=f"Compra de {credits} créditos via Stripe",
-            external_id=session_id,
+            description=f"Compra de {credits} créditos via Mercado Pago",
+            external_id=tx_id_str,
         )
         db.session.add(tx)
         db.session.commit()
-        current_app.logger.info(f"[WEBHOOK] ✅ +{credits} créditos para {user.id} (agora {user.credits_balance})")
+        current_app.logger.info(
+            f"[WEBHOOK MP] +{credits} créditos para {user.id} "
+            f"(agora {user.credits_balance})"
+        )
         return jsonify({"status": "success", "added_credits": credits}), 200
     except Exception as e:
         db.session.rollback()
-        current_app.logger.error(f"[WEBHOOK] Erro DB: {e}", exc_info=True)
+        current_app.logger.error(
+            f"[WEBHOOK MP] Erro DB: {e}", exc_info=True
+        )
         return jsonify({"error": "Erro interno ao processar pagamento"}), 500

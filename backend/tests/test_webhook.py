@@ -2,51 +2,53 @@ import json
 import uuid
 
 
-class MockStripeSession:
-    def __init__(self, payment_status, user_id, price_id):
-        self.id = f'cs_test_{uuid.uuid4().hex}'
-        self.payment_status = payment_status
-        self.metadata = {'user_id': user_id, 'price_id': price_id}
+def _make_mp_payload(action, payment_id, status="approved", title="100 Créditos AureaIA", payer_email="maria@teste.com"):
+    return {
+        "action": action,
+        "api_version": "v1",
+        "data": {"id": payment_id},
+        "date_created": "2026-05-24T12:00:00.000-03:00",
+        "id": str(uuid.uuid4()),
+        "live_mode": False,
+        "type": "payment",
+        "user_id": "123456",
+    }
 
 
-class MockStripeEvent:
-    def __init__(self, event_type, data_object):
-        self.type = event_type
-        self.data = {'object': data_object}
-
-    def __getitem__(self, key):
-        return getattr(self, key)
-
-
-class TestStripeWebhook:
+class TestMercadoPagoWebhook:
     def test_webhook_missing_signature(self, client, db):
-        resp = client.post('/api/stripe-webhook', data='{}',
-                           content_type='application/json')
+        resp = client.post(
+            "/api/webhooks/mercadopago",
+            data=json.dumps({}),
+            content_type="application/json",
+        )
         assert resp.status_code == 400
-        assert 'assinatura' in resp.json['error']
+        assert "Assinatura" in resp.json["error"]
 
-    def test_webhook_invalid_signature(self, client, db):
-        resp = client.post('/api/stripe-webhook', data='{}',
-                           content_type='application/json',
-                           headers={'Stripe-Signature': 'invalid'})
-        assert resp.status_code == 400
-
-    def test_webhook_unrelated_event(self, client, db, mocker):
-        mocker.patch('stripe.Webhook.construct_event',
-                     return_value=MockStripeEvent('ping', {}))
-        resp = client.post('/api/stripe-webhook', data='{}',
-                           content_type='application/json',
-                           headers={'Stripe-Signature': 'fake'})
+    def test_webhook_ignored_action(self, client, db):
+        payload = _make_mp_payload("merchant_order.created", "123")
+        resp = client.post(
+            "/api/webhooks/mercadopago",
+            data=json.dumps(payload),
+            content_type="application/json",
+            headers={
+                "x-signature": "ts=123456,v1=fake",
+                "x-request-id": "req-123",
+            },
+        )
         assert resp.status_code == 200
-        assert resp.json['status'] == 'ignored'
+        assert resp.json["status"] == "ignored"
 
-    def test_webhook_unpaid_session(self, client, db, test_user, mocker):
-        session = MockStripeSession('unpaid', test_user.id, 'price_1TXBt5AXb2fn2YJDXDIF0iKk')
-        event = MockStripeEvent('checkout.session.completed', session)
-        mocker.patch('stripe.Webhook.construct_event', return_value=event)
-
-        resp = client.post('/api/stripe-webhook', data='{}',
-                           content_type='application/json',
-                           headers={'Stripe-Signature': 'fake'})
+    def test_webhook_payment_created(self, client, db):
+        payload = _make_mp_payload("payment.created", "456")
+        resp = client.post(
+            "/api/webhooks/mercadopago",
+            data=json.dumps(payload),
+            content_type="application/json",
+            headers={
+                "x-signature": "ts=123456,v1=fake",
+                "x-request-id": "req-456",
+            },
+        )
         assert resp.status_code == 200
-        assert resp.json['status'] == 'ignored'
+        assert resp.json["status"] == "received"
