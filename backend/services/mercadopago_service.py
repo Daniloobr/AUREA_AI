@@ -22,18 +22,13 @@ def create_card_payment(card_token, amount, description, payer_email, external_r
         "transaction_amount": float(amount),
         "description": description,
         "external_reference": external_ref,
+        "notification_url": f"{os.environ.get('BACKEND_URL')}/api/webhooks/mercadopago",
+        "statement_descriptor": "AureaIA",
         "payer": {
             "email": payer_email,
-            "identification": {
-                "type": "CPF",
-                "number": "12345678909",
-            },
         },
     }
-    logger.info(
-        f"Criando pagamento cartão | amount={amount} | "
-        f"payer={payer_email} | ref={external_ref}"
-    )
+    logger.info(f"Card payment payload: {payload}")
     resp = requests.post(
         f"{MERCADOPAGO_API_URL}/v1/payments",
         json=payload,
@@ -53,18 +48,13 @@ def create_pix_payment(amount, description, payer_email, external_ref):
         "description": description,
         "payment_method_id": "pix",
         "external_reference": external_ref,
+        "notification_url": f"{os.environ.get('BACKEND_URL')}/api/webhooks/mercadopago",
+        "statement_descriptor": "AureaIA",
         "payer": {
             "email": payer_email,
-            "identification": {
-                "type": "CPF",
-                "number": "12345678909",
-            },
         },
     }
-    logger.info(
-        f"Criando pagamento PIX | amount={amount} | "
-        f"payer={payer_email} | ref={external_ref}"
-    )
+    logger.info(f"PIX payment payload: {payload}")
     resp = requests.post(
         f"{MERCADOPAGO_API_URL}/v1/payments",
         json=payload,
@@ -84,8 +74,6 @@ def get_payment_status(payment_id):
         headers=_headers(),
     )
     if resp.status_code != 200:
-        logger.error(
-            f"Erro get_payment_status: {resp.status_code} {resp.text}"
-        )
+        logger.error(f"Erro get_payment_status: {resp.status_code} {resp.text}")
         resp.raise_for_status()
     return resp.json()
