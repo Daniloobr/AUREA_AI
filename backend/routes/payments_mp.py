@@ -7,6 +7,7 @@ from services.mercadopago_service import (
     create_card_payment,
     create_pix_payment,
     get_payment_status,
+    MERCADOPAGO_API_URL,
 )
 from utils.auth_utils import token_required
 from limiter_instance import limiter

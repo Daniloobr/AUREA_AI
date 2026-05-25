@@ -11,11 +11,10 @@ import { Button } from '@/components/ui/Button';
 import { useAuth } from '@/contexts/AuthContext';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { usePageTitle } from '@/hooks/usePageTitle';
+import { apiService } from '@/services/api';
 import {
   createPixPayment,
-  createCardPayment,
   checkPaymentStatus,
-  createCardToken,
 } from '@/lib/mercadopago';
 
 const PACKAGES = [
@@ -153,14 +152,15 @@ function CreditsContent() {
     setLoading(true);
     try {
       const [month, year] = cardExpiry.split('/').map(s => s.trim());
-      const cardToken = await createCardToken({
-        cardNumber: cardNumber.replace(/\s/g, ''),
-        cardExpirationMonth: month,
-        cardExpirationYear: year.length === 2 ? `20${year}` : year,
-        securityCode: cardCvv,
-        cardholderName: cardName,
-      });
-      const res = await createCardPayment(selectedPkg.id, cardToken, token);
+      const fullYear = year.length === 2 ? `20${year}` : year;
+      const res = await apiService.post('/create-card-payment-direct', {
+        package_id: selectedPkg.id,
+        card_number: cardNumber.replace(/\s/g, ''),
+        card_expiration_month: month,
+        card_expiration_year: fullYear,
+        card_cvv: cardCvv,
+        card_holder_name: cardName,
+      }, token);
       if (res?.success) {
         if (res.status === 'approved') {
           setSelectedPkg(null);
