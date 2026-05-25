@@ -49,12 +49,7 @@ function CreditsContent() {
   const [qrCodeText, setQrCodeText] = useState('');
   const [pixPaymentId, setPixPaymentId] = useState<string | null>(null);
   const [pixCopied, setPixCopied] = useState(false);
-  const [cardNumber, setCardNumber] = useState('');
-  const [cardExpiry, setCardExpiry] = useState('');
-  const [cardCvv, setCardCvv] = useState('');
-  const [cardHolderName, setCardHolderName] = useState('');
-  const [cardCpfCnpj, setCardCpfCnpj] = useState('');
-  const [cardPaymentId, setCardPaymentId] = useState<string | null>(null);
+  const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (searchParams.get('success') === 'true') {
@@ -91,22 +86,7 @@ function CreditsContent() {
     return () => clearInterval(interval);
   }, [pixPaymentId, token, refreshUser]);
 
-  useEffect(() => {
-    if (!cardPaymentId) return;
-    const interval = setInterval(async () => {
-      try {
-        const res = await apiService.get(`/payment-status/${cardPaymentId}`, token || '');
-        if (res?.status === 'RECEIVED' || res?.status === 'CONFIRMED') {
-          clearInterval(interval);
-          setSelectedPkg(null);
-          setCardPaymentId(null);
-          setNotification({ message: 'Pagamento aprovado! Créditos adicionados.', type: 'success' });
-          await refreshUser();
-        }
-      } catch { }
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [cardPaymentId, token, refreshUser]);
+
 
   const notify = useCallback((msg: string, type: 'success' | 'error') => {
     setNotification({ message: msg, type });
@@ -121,11 +101,7 @@ function CreditsContent() {
     setQrCodeText('');
     setPixPaymentId(null);
     setPixCopied(false);
-    setCardNumber('');
-    setCardExpiry('');
-    setCardCvv('');
-    setCardHolderName('');
-    setCardCpfCnpj(user.cpf || '');
+    setCheckoutUrl(null);
   };
 
   const handlePixPayment = async () => {
@@ -161,38 +137,8 @@ function CreditsContent() {
     }
   };
 
-  const clearMask = (v: string) => v.replace(/\D/g, '');
-
-  const formatCardNumber = (v: string) => {
-    const digits = clearMask(v).slice(0, 16);
-    return digits.replace(/(\d{4})(?=\d)/g, '$1 ');
-  };
-
-  const formatExpiry = (v: string) => {
-    const digits = clearMask(v).slice(0, 4);
-    if (digits.length > 2) return `${digits.slice(0, 2)}/${digits.slice(2)}`;
-    return digits;
-  };
-
-  const formatCpfCnpj = (v: string) => {
-    const digits = clearMask(v).slice(0, 14);
-    if (digits.length <= 11) {
-      return digits.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-    }
-    return digits.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
-  };
-
   const handleCardPayment = async () => {
     if (!selectedPkg || !user || !token) return;
-    if (!cardNumber || !cardExpiry || !cardCvv || !cardHolderName || !cardCpfCnpj) {
-      notify('Preencha todos os campos do cartão.', 'error');
-      return;
-    }
-    const [month, year] = cardExpiry.split('/');
-    if (!month || !year || month.length !== 2 || year.length !== 2) {
-      notify('Data de validade inválida.', 'error');
-      return;
-    }
     setLoading(true);
     try {
       const externalRef = `${user.id}:${selectedPkg.id}`;
@@ -200,18 +146,13 @@ function CreditsContent() {
         external_reference: externalRef,
         value: selectedPkg.priceValue,
         description: selectedPkg.name,
-        card_number: clearMask(cardNumber),
-        expiry_month: month,
-        expiry_year: `20${year}`,
-        cvv: clearMask(cardCvv),
-        holder_name: cardHolderName.trim(),
-        cpf_cnpj: clearMask(cardCpfCnpj),
       }, token);
-      if (res?.success) {
-        setCardPaymentId(res.payment_id);
-        notify('Pagamento processado! Aguardando confirmação...', 'success');
+      if (res?.success && res.checkout_url) {
+        setCheckoutUrl(res.checkout_url);
+        window.open(res.checkout_url, '_blank');
+        notify('Redirecionando para o Asaas...', 'success');
       } else {
-        notify(res?.error || 'Erro ao processar cartão.', 'error');
+        notify(res?.error || 'Erro ao gerar checkout.', 'error');
       }
     } catch {
       notify('Erro ao processar cartão.', 'error');
@@ -391,65 +332,33 @@ function CreditsContent() {
                 </div>
               )}
 
-              {paymentTab === 'card' && !cardPaymentId && (
+              {paymentTab === 'card' && !checkoutUrl && (
                 <div className="space-y-5">
                   <div className="bg-gradient-to-br from-[#1a1d24] to-[#0D0D0D] border border-[#2a2f38] rounded-2xl p-5 overflow-hidden relative">
                     <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#748FCC]/10 rounded-full blur-3xl" />
                     <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-[#748FCC]/5 rounded-full blur-2xl" />
-                    <div className="relative z-10 space-y-4">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#8A9099]">Dados do Cartão</span>
+                    <div className="relative z-10">
+                      <div className="flex items-center justify-between mb-5">
+                        <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#8A9099]">Pagamento Seguro</span>
                         <div className="flex gap-1.5">
                           <div className="w-6 h-4 rounded bg-gradient-to-br from-red-400 to-red-600" />
                           <div className="w-6 h-4 rounded bg-gradient-to-br from-yellow-300 to-yellow-500" />
                         </div>
                       </div>
-
-                      <div>
-                        <input
-                          type="text" inputMode="numeric"
-                          placeholder="Número do Cartão"
-                          value={formatCardNumber(cardNumber)}
-                          onChange={(e) => setCardNumber(e.target.value)}
-                          className="w-full bg-[#0A0A0A]/80 border border-[#2a2f38] rounded-xl px-4 py-3 text-sm text-white placeholder-[#8A9099] outline-none focus:border-[#748FCC]/50 transition-colors tracking-wider"
-                        />
+                      <div className="flex items-center gap-4 mb-4">
+                        <div className="w-12 h-12 rounded-full bg-[#748FCC]/15 border border-[#748FCC]/20 flex items-center justify-center shrink-0">
+                          <ShieldCheck className="w-6 h-6 text-[#748FCC]" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-white">Checkout Asaas</p>
+                          <p className="text-xs text-[#8A9099]">Ambiente certificado PCI</p>
+                        </div>
                       </div>
-
-                      <div className="grid grid-cols-2 gap-3">
-                        <input
-                          type="text" inputMode="numeric"
-                          placeholder="MM/AA"
-                          value={formatExpiry(cardExpiry)}
-                          onChange={(e) => setCardExpiry(e.target.value)}
-                          className="w-full bg-[#0A0A0A]/80 border border-[#2a2f38] rounded-xl px-4 py-3 text-sm text-white placeholder-[#8A9099] outline-none focus:border-[#748FCC]/50 transition-colors"
-                        />
-                        <input
-                          type="text" inputMode="numeric"
-                          placeholder="CVV"
-                          value={cardCvv}
-                          onChange={(e) => setCardCvv(clearMask(e.target.value).slice(0, 4))}
-                          className="w-full bg-[#0A0A0A]/80 border border-[#2a2f38] rounded-xl px-4 py-3 text-sm text-white placeholder-[#8A9099] outline-none focus:border-[#748FCC]/50 transition-colors"
-                        />
-                      </div>
-
-                      <input
-                        type="text"
-                        placeholder="Nome do Titular"
-                        value={cardHolderName}
-                        onChange={(e) => setCardHolderName(e.target.value.toUpperCase())}
-                        className="w-full bg-[#0A0A0A]/80 border border-[#2a2f38] rounded-xl px-4 py-3 text-sm text-white placeholder-[#8A9099] outline-none focus:border-[#748FCC]/50 transition-colors"
-                      />
-
-                      <div>
-                        <label className="block text-[10px] font-bold uppercase tracking-[0.15em] text-[#8A9099] mb-1.5">CPF / CNPJ</label>
-                        <input
-                          type="text" inputMode="numeric"
-                          placeholder="000.000.000-00"
-                          value={formatCpfCnpj(cardCpfCnpj)}
-                          onChange={(e) => setCardCpfCnpj(e.target.value)}
-                          className="w-full bg-[#0A0A0A]/80 border border-[#2a2f38] rounded-xl px-4 py-3 text-sm text-white placeholder-[#8A9099] outline-none focus:border-[#748FCC]/50 transition-colors"
-                        />
-                      </div>
+                      <p className="text-xs text-[#8A9099] leading-relaxed">
+                        Você será redirecionado para o ambiente seguro do Asaas. 
+                        Seus dados bancários serão preenchidos diretamente lá — 
+                        <span className="text-emerald-400 font-semibold"> nós nunca armazenamos</span> números de cartão ou CVV.
+                      </p>
                     </div>
                   </div>
 
@@ -460,17 +369,17 @@ function CreditsContent() {
 
                   <div className="flex items-center justify-center gap-3 text-[10px] text-[#8A9099]">
                     <ShieldCheck className="w-3.5 h-3.5" />
-                    Dados protegidos — criptografia ponta a ponta
+                    Dados protegidos — ambiente Asaas
                   </div>
                 </div>
               )}
-              {paymentTab === 'card' && cardPaymentId && (
+              {paymentTab === 'card' && checkoutUrl && (
                 <div className="text-center space-y-4 py-8">
                   <div className="w-16 h-16 rounded-full bg-[#748FCC]/10 border border-[#748FCC]/20 flex items-center justify-center mx-auto">
                     <Loader2 className="w-7 h-7 text-[#748FCC] animate-spin" />
                   </div>
-                  <p className="text-sm font-medium text-[#F5F5F7]">Aguardando confirmação...</p>
-                  <p className="text-xs text-[#8A9099]">Esta página será atualizada automaticamente.</p>
+                  <p className="text-sm font-medium text-[#F5F5F7]">Aguardando pagamento...</p>
+                  <p className="text-xs text-[#8A9099]">Finalize o pagamento na nova aba. Esta página será atualizada automaticamente.</p>
                 </div>
               )}
             </motion.div>

@@ -119,16 +119,9 @@ def create_card_payment_route(current_user):
         external_reference = data.get("external_reference")
         value = data.get("value")
         description = data.get("description")
-        card_number = data.get("card_number", "").replace(" ", "")
-        expiry_month = data.get("expiry_month")
-        expiry_year = data.get("expiry_year")
-        cvv = data.get("cvv")
-        holder_name = data.get("holder_name")
-        cpf_cnpj = data.get("cpf_cnpj")
 
-        required = [external_reference, card_number, expiry_month, expiry_year, cvv, holder_name, cpf_cnpj]
-        if not all(required):
-            return jsonify({"success": False, "error": "Todos os dados do cartão são obrigatórios"}), 400
+        if not external_reference:
+            return jsonify({"success": False, "error": "external_reference é obrigatório"}), 400
 
         _, package_id = _parse_external_ref(external_reference)
         pkg = _validate_package(package_id)
@@ -137,27 +130,12 @@ def create_card_payment_route(current_user):
 
         customer_id = _get_or_create_customer(current_user)
 
-        card_data = {
-            "number": card_number,
-            "expiryMonth": expiry_month,
-            "expiryYear": expiry_year,
-            "cvv": cvv,
-            "holderName": holder_name,
-        }
-        holder_info = {
-            "name": holder_name,
-            "email": current_user.email,
-            "cpfCnpj": re.sub(r'\D', '', cpf_cnpj),
-        }
-
         payment = create_payment(
             customer=customer_id,
             value=float(value) if value else pkg["price"],
             description=description or pkg["title"],
             external_reference=external_reference,
             billing_type='CREDIT_CARD',
-            credit_card=card_data,
-            credit_card_holder_info=holder_info,
         )
 
         logger.info(
@@ -170,6 +148,7 @@ def create_card_payment_route(current_user):
             "success": True,
             "payment_id": payment.get("id"),
             "status": payment.get("status"),
+            "checkout_url": payment.get("invoiceUrl"),
         }), 200
 
     except Exception as e:
