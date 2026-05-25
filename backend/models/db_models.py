@@ -15,6 +15,7 @@ class User(db.Model):
 
     phone = db.Column(db.String(20), nullable=True)
     cpf = db.Column(db.String(14), nullable=True)
+    asaas_customer_id = db.Column(db.String(50), nullable=True)
     is_admin = db.Column(db.Boolean, default=False)
     is_active = db.Column(db.Boolean, default=True) # Para LGPD (Exclusão Lógica)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)

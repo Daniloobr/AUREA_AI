@@ -12,10 +12,6 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { apiService } from '@/services/api';
-import {
-  createPixPayment,
-  checkPaymentStatus,
-} from '@/lib/mercadopago';
 
 const PACKAGES = [
   {
@@ -81,8 +77,8 @@ function CreditsContent() {
     if (!pixPaymentId) return;
     const interval = setInterval(async () => {
       try {
-        const res = await checkPaymentStatus(pixPaymentId, token || '');
-        if (res?.status === 'approved') {
+        const res = await apiService.get(`/payment-status/${pixPaymentId}`, token || '');
+        if (res?.status === 'RECEIVED' || res?.status === 'CONFIRMED') {
           clearInterval(interval);
           setSelectedPkg(null);
           setPixPaymentId(null);
@@ -119,7 +115,7 @@ function CreditsContent() {
     if (!selectedPkg || !token) return;
     setLoading(true);
     try {
-      const res = await createPixPayment(selectedPkg.id, token);
+      const res = await apiService.post('/create-pix-payment', { package_id: selectedPkg.id }, token);
       if (res?.success) {
         setQrCodeBase64(res.qr_code_base64 || '');
         setQrCodeText(res.qr_code || '');
@@ -162,12 +158,12 @@ function CreditsContent() {
         card_holder_name: cardName,
       }, token);
       if (res?.success) {
-        if (res.status === 'approved') {
+        if (res.status === 'CONFIRMED') {
           setSelectedPkg(null);
           notify('Pagamento aprovado! Créditos adicionados.', 'success');
           await refreshUser();
         } else {
-          notify(`Pagamento ${res.status}: ${res.status_detail || 'tente novamente.'}`, 'error');
+          notify(`Pagamento ${res.status}: tente novamente.`, 'error');
         }
       } else {
         notify(res?.error || 'Erro ao processar cartão.', 'error');
@@ -270,7 +266,7 @@ function CreditsContent() {
             <div className="space-y-3 sm:space-y-4">
               <ShieldCheck className="w-8 h-8 sm:w-10 sm:h-10 text-[#748FCC] mx-auto" />
               <h4 className="font-semibold text-sm sm:text-base">Pagamento Seguro</h4>
-              <p className="text-[13px] sm:text-sm text-[#B8BCC4] font-light">Processado via Mercado Pago</p>
+              <p className="text-[13px] sm:text-sm text-[#B8BCC4] font-light">Processado via Asaas</p>
             </div>
             <div className="space-y-3 sm:space-y-4">
               <Clock className="w-8 h-8 sm:w-10 sm:h-10 text-[#748FCC] mx-auto" />
@@ -394,7 +390,7 @@ function CreditsContent() {
                     Pagar R$ {selectedPkg.price}
                   </Button>
                   <p className="text-[10px] text-[#8A9099] text-center">
-                    Pagamento processado via Mercado Pago. Seus dados são seguros.
+                    Pagamento processado via Asaas. Seus dados são seguros.
                   </p>
                 </div>
               )}
