@@ -10,10 +10,10 @@ from models.db_models import db, User, Transaction
 webhook_bp = Blueprint("webhook", __name__)
 logger = logging.getLogger(__name__)
 
-PACKAGES_BY_TITLE = {
-    "100 Créditos AureaIA": 100,
-    "200 Créditos AureaIA": 200,
-    "400 Créditos AureaIA": 400,
+PACKAGES_BY_ID = {
+    "100_credits": 100,
+    "200_credits": 200,
+    "400_credits": 400,
 }
 
 
@@ -50,68 +50,53 @@ def _verify_signature(payload, x_signature, x_request_id):
     return True
 
 
-@webhook_bp.route("/webhooks/mercadopago", methods=["POST"])
-def mercadopago_webhook():
-    payload = request.get_json(silent=True) or {}
-    x_signature = request.headers.get("x-signature", "")
-    x_request_id = request.headers.get("x-request-id", "")
-
-    current_app.logger.info(
-        f"[WEBHOOK MP] Recebido | type={payload.get('type')} | "
-        f"action={payload.get('action')}"
-    )
-
-    if not _verify_signature(payload, x_signature, x_request_id):
-        return jsonify({"error": "Assinatura inválida"}), 400
-
-    action = payload.get("action")
-    if action not in ("payment.created", "payment.updated"):
-        return jsonify({"status": "ignored"}), 200
-
-    data = payload.get("data", {})
-    payment_id = data.get("id")
-
-    if not payment_id:
-        return jsonify({"status": "ignored", "reason": "no_payment_id"}), 200
-
-    if action == "payment.created":
-        return jsonify({"status": "received"}), 200
-
-    from services.mercadopago_service import get_payment_info
-    payment_info = get_payment_info(payment_id)
-
-    current_app.logger.info(
-        f"[WEBHOOK MP] Payment info | id={payment_id} | "
-        f"status={payment_info.get('status')} | "
-        f"status_detail={payment_info.get('status_detail')}"
-    )
-
-    if payment_info.get("status") != "approved":
-        return jsonify({"status": "ignored", "reason": "not_approved"}), 200
-
-    external_reference = payment_info.get("external_reference") or ""
+def _process_payment(payment_info):
+    payment_id = payment_info.get("id")
+    status = payment_info.get("status")
+    external_ref = payment_info.get("external_reference") or ""
     payer_email = payment_info.get("payer", {}).get("email", "")
-    items = payment_info.get("additional_info", {}).get("items", [])
-    title = items[0].get("title") if items else ""
-    credits = PACKAGES_BY_TITLE.get(title, 0)
 
-    if not credits:
-        current_app.logger.error(f"[WEBHOOK MP] Título não mapeado: {title}")
-        return jsonify({"status": "ignored", "reason": "title_not_mapped"}), 200
+    current_app.logger.info(
+        f"[WEBHOOK MP] Processando | id={payment_id} | status={status} | "
+        f"ref={external_ref} | email={payer_email}"
+    )
+
+    if status != "approved":
+        current_app.logger.info(f"[WEBHOOK MP] Status não aprovado: {status}")
+        return False
+
+    user_id = None
+    credits = None
+
+    if ":" in external_ref:
+        parts = external_ref.split(":", 1)
+        user_id = parts[0]
+        package_id = parts[1]
+        credits = PACKAGES_BY_ID.get(package_id)
+        if credits:
+            current_app.logger.info(
+                f"[WEBHOOK MP] Parsed ref: user={user_id}, pkg={package_id}, credits={credits}"
+            )
+
+    if not user_id or not credits:
+        current_app.logger.error(
+            f"[WEBHOOK MP] external_reference inválida ou não mapeada: {external_ref}"
+        )
+        return False
 
     tx_id_str = f"mp_{payment_id}"
 
     existing = Transaction.query.filter_by(external_id=tx_id_str).first()
     if existing:
         current_app.logger.warning(f"[WEBHOOK MP] Duplicado: {tx_id_str}")
-        return jsonify({"status": "already_processed"}), 200
+        return True
 
-    user = User.query.filter_by(email=payer_email).first()
+    user = User.query.get(user_id)
     if not user:
         current_app.logger.error(
-            f"[WEBHOOK MP] Usuário não encontrado: {payer_email}"
+            f"[WEBHOOK MP] Usuário não encontrado: {user_id}"
         )
-        return jsonify({"status": "ignored", "reason": "user_not_found"}), 200
+        return False
 
     try:
         old_balance = user.credits_balance or 0
@@ -131,10 +116,47 @@ def mercadopago_webhook():
             f"[WEBHOOK MP] +{credits} créditos para {user.id} "
             f"(agora {user.credits_balance})"
         )
-        return jsonify({"status": "success", "added_credits": credits}), 200
+        return True
     except Exception as e:
         db.session.rollback()
         current_app.logger.error(
             f"[WEBHOOK MP] Erro DB: {e}", exc_info=True
         )
-        return jsonify({"error": "Erro interno ao processar pagamento"}), 500
+        return False
+
+
+@webhook_bp.route("/webhooks/mercadopago", methods=["POST"])
+def mercadopago_webhook():
+    payload = request.get_json(silent=True) or {}
+    x_signature = request.headers.get("x-signature", "")
+    x_request_id = request.headers.get("x-request-id", "")
+
+    current_app.logger.info(
+        f"[WEBHOOK MP] Recebido | type={payload.get('type')} | "
+        f"action={payload.get('action')}"
+    )
+
+    if not _verify_signature(payload, x_signature, x_request_id):
+        current_app.logger.warning("[WEBHOOK MP] Assinatura inválida")
+        return jsonify({"error": "Assinatura inválida"}), 400
+
+    action = payload.get("action")
+    if action not in ("payment.created", "payment.updated"):
+        return jsonify({"status": "ignored"}), 200
+
+    data = payload.get("data", {})
+    payment_id = data.get("id")
+
+    if not payment_id:
+        return jsonify({"status": "ignored", "reason": "no_payment_id"}), 200
+
+    if action == "payment.created":
+        return jsonify({"status": "received"}), 200
+
+    from services.mercadopago_service import get_payment_status
+    payment_info = get_payment_status(payment_id)
+
+    ok = _process_payment(payment_info)
+    if ok:
+        return jsonify({"status": "success"}), 200
+    return jsonify({"status": "ignored"}), 200

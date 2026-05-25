@@ -1,10 +1,12 @@
 import logging
-import os
-import uuid
 
 from flask import Blueprint, jsonify, request
 
-from services.mercadopago_service import create_preference
+from services.mercadopago_service import (
+    create_card_payment,
+    create_pix_payment,
+    get_payment_status,
+)
 from utils.auth_utils import token_required
 from limiter_instance import limiter
 
@@ -18,10 +20,56 @@ PACKAGES = {
 }
 
 
-@payments_mp_bp.route("/create-checkout-preference", methods=["POST"])
+@payments_mp_bp.route("/create-card-payment", methods=["POST"])
 @limiter.limit("20 per hour")
 @token_required
-def create_checkout_preference(current_user):
+def create_card_payment_route(current_user):
+    try:
+        data = request.get_json() or {}
+        card_token = data.get("card_token")
+        package_id = data.get("package_id")
+
+        if not card_token:
+            return jsonify({"success": False, "error": "card_token é obrigatório"}), 400
+        if not package_id or package_id not in PACKAGES:
+            return jsonify({"success": False, "error": "package_id inválido"}), 400
+
+        pkg = PACKAGES[package_id]
+        external_ref = f"{current_user.id}:{package_id}"
+
+        result = create_card_payment(
+            card_token=card_token,
+            amount=pkg["price"],
+            description=pkg["title"],
+            payer_email=current_user.email,
+            external_ref=external_ref,
+        )
+
+        logger.info(
+            f"Card payment | user={current_user.id} | "
+            f"package={package_id} | mp_id={result.get('id')} | "
+            f"status={result.get('status')}"
+        )
+
+        return jsonify({
+            "success": True,
+            "payment_id": result.get("id"),
+            "status": result.get("status"),
+            "status_detail": result.get("status_detail"),
+        }), 200
+
+    except Exception as e:
+        logger.error(f"Erro card payment route: {str(e)}", exc_info=True)
+        return jsonify({
+            "success": False,
+            "error": "Não foi possível processar o pagamento",
+        }), 500
+
+
+@payments_mp_bp.route("/create-pix-payment", methods=["POST"])
+@limiter.limit("20 per hour")
+@token_required
+def create_pix_payment_route(current_user):
     try:
         data = request.get_json() or {}
         package_id = data.get("package_id")
@@ -30,41 +78,57 @@ def create_checkout_preference(current_user):
             return jsonify({"success": False, "error": "package_id inválido"}), 400
 
         pkg = PACKAGES[package_id]
+        external_ref = f"{current_user.id}:{package_id}"
 
-        FRONTEND_URL = os.environ.get(
-            "FRONTEND_URL", "https://aureaia-saas.vercel.app"
-        )
-        BACKEND_URL = os.environ.get(
-            "BACKEND_URL", "https://aurea-ai-ftqa.onrender.com"
-        )
-
-        external_reference = str(uuid.uuid4())
-
-        preference = create_preference(
+        result = create_pix_payment(
             amount=pkg["price"],
-            title=pkg["title"],
+            description=pkg["title"],
             payer_email=current_user.email,
-            external_reference=external_reference,
-            success_url=f"{FRONTEND_URL}/credits?success=true&ref={external_reference}",
-            failure_url=f"{FRONTEND_URL}/credits?canceled=true",
-            pending_url=f"{FRONTEND_URL}/credits?pending=true",
+            external_ref=external_ref,
         )
+
+        point_of_interaction = result.get("point_of_interaction", {})
+        transaction_data = point_of_interaction.get("transaction_data", {})
 
         logger.info(
-            f"Preferência MP criada | user={current_user.id} | "
-            f"package={package_id} | init_point={preference.get('init_point')}"
+            f"PIX payment | user={current_user.id} | "
+            f"package={package_id} | mp_id={result.get('id')} | "
+            f"status={result.get('status')}"
         )
 
         return jsonify({
             "success": True,
-            "url": preference.get("init_point"),
-            "preference_id": preference.get("id"),
-            "external_reference": external_reference,
+            "payment_id": result.get("id"),
+            "status": result.get("status"),
+            "qr_code": transaction_data.get("qr_code"),
+            "qr_code_base64": transaction_data.get("qr_code_base64"),
+            "ticket_url": transaction_data.get("ticket_url"),
+            "expiration": point_of_interaction.get("business_hours"),
         }), 200
 
     except Exception as e:
-        logger.error(f"Erro ao criar preferência MP: {str(e)}", exc_info=True)
+        logger.error(f"Erro PIX route: {str(e)}", exc_info=True)
         return jsonify({
             "success": False,
-            "error": "Não foi possível iniciar o checkout",
+            "error": "Não foi possível gerar o PIX",
+        }), 500
+
+
+@payments_mp_bp.route("/payment-status/<payment_id>", methods=["GET"])
+@limiter.limit("60 per minute")
+@token_required
+def payment_status_route(current_user, payment_id):
+    try:
+        result = get_payment_status(payment_id)
+        return jsonify({
+            "success": True,
+            "payment_id": result.get("id"),
+            "status": result.get("status"),
+            "status_detail": result.get("status_detail"),
+        }), 200
+    except Exception as e:
+        logger.error(f"Erro payment status: {str(e)}", exc_info=True)
+        return jsonify({
+            "success": False,
+            "error": "Erro ao consultar pagamento",
         }), 500
