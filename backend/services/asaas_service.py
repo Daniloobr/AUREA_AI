@@ -9,7 +9,7 @@ ASAAS_SANDBOX = os.environ.get('ASAAS_SANDBOX', 'True').lower() == 'true'
 SANDBOX_CPF = "12345678909"
 ASAAS_WALLET_ID = os.environ.get('ASAAS_WALLET_ID')
 
-ASAAS_API_URL = "https://sandbox.asaas.com/api/v3" if ASAAS_SANDBOX else "https://api.asaas.com/api/v3"
+ASAAS_API_URL = "https://sandbox.asaas.com/api/v3" if ASAAS_SANDBOX else "https://api.asaas.com/v3"
 
 if not ASAAS_API_KEY:
     logger.warning("ASAAS_API_KEY nao configurado")
@@ -67,7 +67,7 @@ def update_customer(customer_id: str, cpf_cnpj: str = None) -> dict:
     return resp.json()
 
 
-def create_payment(customer: str, value: float, description: str, external_reference: str, billing_type: str = 'PIX', credit_card_token: str = None, credit_card: dict = None, due_date: str = None) -> dict:
+def create_payment(customer: str, value: float, description: str, external_reference: str, billing_type: str = 'PIX', credit_card_token: str = None, credit_card: dict = None, credit_card_holder_info: dict = None, due_date: str = None) -> dict:
     if not due_date:
         from datetime import datetime, timedelta
         due_date = (datetime.utcnow() + timedelta(days=3)).strftime('%Y-%m-%d')
@@ -87,6 +87,8 @@ def create_payment(customer: str, value: float, description: str, external_refer
             payload["creditCardToken"] = credit_card_token
         elif credit_card:
             payload["creditCard"] = credit_card
+        if credit_card_holder_info:
+            payload["creditCardHolderInfo"] = credit_card_holder_info
 
     resp = requests.post(
         f"{ASAAS_API_URL}/payments",
