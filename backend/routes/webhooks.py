@@ -85,6 +85,15 @@ def _process_asaas_payment(payment):
 
 @webhook_bp.route("/webhooks/asaas", methods=["POST"])
 def asaas_webhook():
+    expected_token = os.environ.get("ASAAS_WEBHOOK_TOKEN")
+    if expected_token:
+        received_token = request.headers.get("asaas-access-token", "")
+        if received_token != expected_token:
+            current_app.logger.warning(
+                f"[WEBHOOK ASAAS] Token invalido: recebido={received_token[:8]}... esperado={expected_token[:8]}..."
+            )
+            return jsonify({"error": "Token de acesso invalido"}), 401
+
     payload = request.get_json(silent=True) or {}
 
     current_app.logger.info(
