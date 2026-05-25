@@ -49,6 +49,7 @@ function CreditsContent() {
   const [qrCodeText, setQrCodeText] = useState('');
   const [pixPaymentId, setPixPaymentId] = useState<string | null>(null);
   const [pixCopied, setPixCopied] = useState(false);
+  const [cardPaymentId, setCardPaymentId] = useState<string | null>(null);
   const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
 
   useEffect(() => {
@@ -86,7 +87,23 @@ function CreditsContent() {
     return () => clearInterval(interval);
   }, [pixPaymentId, token, refreshUser]);
 
-
+  useEffect(() => {
+    if (!cardPaymentId) return;
+    const interval = setInterval(async () => {
+      try {
+        const res = await apiService.get(`/payment-status/${cardPaymentId}`, token || '');
+        if (res?.status === 'RECEIVED' || res?.status === 'CONFIRMED') {
+          clearInterval(interval);
+          setSelectedPkg(null);
+          setCardPaymentId(null);
+          setCheckoutUrl(null);
+          setNotification({ message: 'Pagamento aprovado! Créditos adicionados.', type: 'success' });
+          await refreshUser();
+        }
+      } catch { }
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [cardPaymentId, token, refreshUser]);
 
   const notify = useCallback((msg: string, type: 'success' | 'error') => {
     setNotification({ message: msg, type });
@@ -101,6 +118,7 @@ function CreditsContent() {
     setQrCodeText('');
     setPixPaymentId(null);
     setPixCopied(false);
+    setCardPaymentId(null);
     setCheckoutUrl(null);
   };
 
@@ -148,6 +166,7 @@ function CreditsContent() {
         description: selectedPkg.name,
       }, token);
       if (res?.success && res.checkout_url) {
+        setCardPaymentId(res.payment_id);
         setCheckoutUrl(res.checkout_url);
         window.open(res.checkout_url, '_blank');
         notify('Redirecionando para o Asaas...', 'success');
@@ -373,7 +392,7 @@ function CreditsContent() {
                   </div>
                 </div>
               )}
-              {paymentTab === 'card' && checkoutUrl && (
+              {paymentTab === 'card' && cardPaymentId && (
                 <div className="text-center space-y-4 py-8">
                   <div className="w-16 h-16 rounded-full bg-[#748FCC]/10 border border-[#748FCC]/20 flex items-center justify-center mx-auto">
                     <Loader2 className="w-7 h-7 text-[#748FCC] animate-spin" />

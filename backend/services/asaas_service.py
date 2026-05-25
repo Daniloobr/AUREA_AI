@@ -123,25 +123,3 @@ def get_pix_qr_code(payment_id: str) -> dict:
         resp.raise_for_status()
     return resp.json()
 
-
-def create_credit_card_token(card_number: str, expiry_month: str, expiry_year: str, cvv: str, holder_name: str) -> str:
-    payload = {
-        "cardNumber": card_number,
-        "holderName": holder_name,
-        "expirationMonth": expiry_month,
-        "expirationYear": expiry_year,
-        "ccv": cvv,
-    }
-    resp = requests.post(
-        f"{ASAAS_API_URL}/creditCard/token",
-        json=payload,
-        headers=_headers(),
-    )
-    if resp.status_code not in (200, 201):
-        logger.error(f"Erro create_credit_card_token: {resp.status_code} {resp.text}")
-        resp.raise_for_status()
-    data = resp.json()
-    token = data.get("creditCardToken")
-    if not token:
-        raise ValueError(f"Token de cartao nao retornado pelo Asaas: {data}")
-    return token
