@@ -1,4 +1,5 @@
 import logging
+import re
 from flask import Blueprint, jsonify, request
 from database import db
 
@@ -36,6 +37,19 @@ def _get_or_create_customer(current_user):
     return customer_id
 
 
+def _parse_external_ref(external_reference):
+    if ":" in external_reference:
+        parts = external_reference.split(":", 1)
+        return parts[0], parts[1]
+    return None, None
+
+
+def _validate_package(package_id):
+    if package_id in PACKAGES:
+        return PACKAGES[package_id]
+    return None
+
+
 @payments_asaas_bp.route("/create-pix-payment", methods=["POST"])
 @limiter.limit("20 per hour")
 @token_required
@@ -44,21 +58,25 @@ def create_pix_payment_route(current_user):
         return jsonify({"success": False, "error": "Pagamento PIX indisponivel no momento"}), 503
     try:
         data = request.get_json() or {}
-        package_id = data.get("package_id")
+        external_reference = data.get("external_reference")
+        value = data.get("value")
+        description = data.get("description")
 
-        if not package_id or package_id not in PACKAGES:
-            return jsonify({"success": False, "error": "package_id invalido"}), 400
+        if not external_reference:
+            return jsonify({"success": False, "error": "external_reference é obrigatório"}), 400
 
-        pkg = PACKAGES[package_id]
-        external_ref = f"{current_user.id}:{package_id}"
+        _, package_id = _parse_external_ref(external_reference)
+        pkg = _validate_package(package_id)
+        if not pkg:
+            return jsonify({"success": False, "error": "package_id inválido na referência"}), 400
 
         customer_id = _get_or_create_customer(current_user)
 
         payment = create_payment(
             customer=customer_id,
-            value=pkg["price"],
-            description=pkg["title"],
-            external_reference=external_ref,
+            value=float(value) if value else pkg["price"],
+            description=description or pkg["title"],
+            external_reference=external_reference,
             billing_type='PIX',
         )
 
@@ -87,7 +105,7 @@ def create_pix_payment_route(current_user):
         }), 500
 
 
-@payments_asaas_bp.route("/create-card-payment-direct", methods=["POST"])
+@payments_asaas_bp.route("/create-card-payment", methods=["POST"])
 @limiter.limit("20 per hour")
 @token_required
 def create_card_payment_route(current_user):
@@ -95,36 +113,40 @@ def create_card_payment_route(current_user):
         return jsonify({"success": False, "error": "Pagamento com cartao indisponivel no momento"}), 503
     try:
         data = request.get_json() or {}
-        package_id = data.get("package_id")
+        external_reference = data.get("external_reference")
+        value = data.get("value")
+        description = data.get("description")
         card_number = data.get("card_number")
-        card_expiration_month = data.get("card_expiration_month")
-        card_expiration_year = data.get("card_expiration_year")
-        card_cvv = data.get("card_cvv")
-        card_holder_name = data.get("card_holder_name")
+        expiry_month = data.get("expiry_month")
+        expiry_year = data.get("expiry_year")
+        cvv = data.get("cvv")
+        holder_name = data.get("holder_name")
 
-        if not package_id or package_id not in PACKAGES:
-            return jsonify({"success": False, "error": "package_id invalido"}), 400
-        if not all([card_number, card_expiration_month, card_expiration_year, card_cvv, card_holder_name]):
+        if not external_reference:
+            return jsonify({"success": False, "error": "external_reference é obrigatório"}), 400
+        if not all([card_number, expiry_month, expiry_year, cvv, holder_name]):
             return jsonify({"success": False, "error": "Dados do cartao incompletos"}), 400
 
-        pkg = PACKAGES[package_id]
-        external_ref = f"{current_user.id}:{package_id}"
+        _, package_id = _parse_external_ref(external_reference)
+        pkg = _validate_package(package_id)
+        if not pkg:
+            return jsonify({"success": False, "error": "package_id inválido na referência"}), 400
 
         customer_id = _get_or_create_customer(current_user)
 
         card_token = create_credit_card_token(
             card_number=card_number,
-            expiry_month=card_expiration_month,
-            expiry_year=card_expiration_year,
-            cvv=card_cvv,
-            holder_name=card_holder_name,
+            expiry_month=expiry_month,
+            expiry_year=expiry_year,
+            cvv=cvv,
+            holder_name=holder_name,
         )
 
         payment = create_payment(
             customer=customer_id,
-            value=pkg["price"],
-            description=pkg["title"],
-            external_reference=external_ref,
+            value=float(value) if value else pkg["price"],
+            description=description or pkg["title"],
+            external_reference=external_reference,
             billing_type='CREDIT_CARD',
             credit_card_token=card_token,
         )

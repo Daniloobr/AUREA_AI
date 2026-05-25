@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Check, Sparkles, ShieldCheck, Gem, Star, Zap,
   ArrowRight, Clock, X, CheckCircle2, Copy, QrCode, CreditCard,
-  Loader2, AlertCircle,
+  Loader2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useAuth } from '@/contexts/AuthContext';
@@ -54,7 +54,6 @@ function CreditsContent() {
   const [cardName, setCardName] = useState('');
   const [cardExpiry, setCardExpiry] = useState('');
   const [cardCvv, setCardCvv] = useState('');
-  const [cardDoc, setCardDoc] = useState('');
 
   useEffect(() => {
     if (searchParams.get('success') === 'true') {
@@ -108,14 +107,18 @@ function CreditsContent() {
     setCardName('');
     setCardExpiry('');
     setCardCvv('');
-    setCardDoc('');
   };
 
   const handlePixPayment = async () => {
-    if (!selectedPkg || !token) return;
+    if (!selectedPkg || !user || !token) return;
     setLoading(true);
     try {
-      const res = await apiService.post('/create-pix-payment', { package_id: selectedPkg.id }, token);
+      const externalRef = `${user.id}:${selectedPkg.id}`;
+      const res = await apiService.post('/create-pix-payment', {
+        external_reference: externalRef,
+        value: selectedPkg.priceValue,
+        description: selectedPkg.name,
+      }, token);
       if (res?.success) {
         setQrCodeBase64(res.qr_code_base64 || '');
         setQrCodeText(res.qr_code || '');
@@ -140,7 +143,7 @@ function CreditsContent() {
   };
 
   const handleCardPayment = async () => {
-    if (!selectedPkg || !token) return;
+    if (!selectedPkg || !user || !token) return;
     if (!cardNumber || !cardName || !cardExpiry || !cardCvv) {
       notify('Preencha todos os campos do cartão.', 'error');
       return;
@@ -149,13 +152,16 @@ function CreditsContent() {
     try {
       const [month, year] = cardExpiry.split('/').map(s => s.trim());
       const fullYear = year.length === 2 ? `20${year}` : year;
-      const res = await apiService.post('/create-card-payment-direct', {
-        package_id: selectedPkg.id,
+      const externalRef = `${user.id}:${selectedPkg.id}`;
+      const res = await apiService.post('/create-card-payment', {
+        external_reference: externalRef,
+        value: selectedPkg.priceValue,
+        description: selectedPkg.name,
         card_number: cardNumber.replace(/\s/g, ''),
-        card_expiration_month: month,
-        card_expiration_year: fullYear,
-        card_cvv: cardCvv,
-        card_holder_name: cardName,
+        expiry_month: month,
+        expiry_year: fullYear,
+        cvv: cardCvv,
+        holder_name: cardName,
       }, token);
       if (res?.success) {
         if (res.status === 'CONFIRMED') {
@@ -168,8 +174,8 @@ function CreditsContent() {
       } else {
         notify(res?.error || 'Erro ao processar cartão.', 'error');
       }
-    } catch (err: any) {
-      notify(err?.message || 'Erro ao processar cartão.', 'error');
+    } catch {
+      notify('Erro ao processar cartão.', 'error');
     } finally {
       setLoading(false);
     }
@@ -282,7 +288,6 @@ function CreditsContent() {
         </div>
       </div>
 
-      {/* Payment Modal */}
       <AnimatePresence>
         {selectedPkg && (
           <motion.div
@@ -310,7 +315,6 @@ function CreditsContent() {
                 <span className="text-3xl font-bold">R$ {selectedPkg.price}</span>
               </div>
 
-              {/* Tabs */}
               <div className="flex gap-2 mb-6">
                 <button onClick={() => setPaymentTab('pix')}
                   className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold transition-all ${paymentTab === 'pix' ? 'bg-[#748FCC] text-white' : 'bg-white/5 text-[#B8BCC4] hover:bg-white/10'}`}>
@@ -378,12 +382,6 @@ function CreditsContent() {
                         placeholder="123"
                         className="w-full mt-1 h-12 px-4 rounded-xl bg-[#0A0A0A] border border-[#1F2329] focus:border-[#748FCC] focus:outline-none text-[#F5F5F7] placeholder:text-[#8A9099]/30" />
                     </div>
-                  </div>
-                  <div>
-                    <label className="text-[11px] font-bold text-[#B8BCC4] uppercase tracking-widest ml-1">CPF</label>
-                    <input value={cardDoc} onChange={(e) => setCardDoc(e.target.value.replace(/\D/g, '').slice(0, 11))}
-                      placeholder="000.000.000-00"
-                      className="w-full mt-1 h-12 px-4 rounded-xl bg-[#0A0A0A] border border-[#1F2329] focus:border-[#748FCC] focus:outline-none text-[#F5F5F7] placeholder:text-[#8A9099]/30" />
                   </div>
                   <Button onClick={handleCardPayment} isLoading={loading}
                     className="w-full py-4 bg-[#748FCC] hover:bg-[#5F7DB8] text-white rounded-xl font-bold">
