@@ -114,8 +114,10 @@ Upload 3 fotos → Validação facial (MediaPipe) → Escolha de estilo
 
 | Método | Rota | Descrição |
 |--------|------|-----------|
-| `POST` | `/api/create-checkout-session` | Criar sessão Stripe 🔒 |
-| `POST` | `/api/stripe-webhook` | Webhook Stripe (público) |
+| `POST` | `/api/create-pix-payment` | Criar pagamento PIX 🔒 |
+| `POST` | `/api/create-card-payment` | Criar pagamento com cartão (Checkout Pro) 🔒 |
+| `GET` | `/api/payment-status/<id>` | Status do pagamento 🔒 |
+| `POST` | `/api/webhooks/asaas` | Webhook Asaas (público) |
 
 > 🔒 = Requer token JWT no header `Authorization: Bearer <token>`
 
@@ -165,8 +167,10 @@ npm run dev
 |----------|-----------|
 | `DATABASE_URL` | PostgreSQL (Supabase) |
 | `SECRET_KEY` | Chave secreta Flask |
-| `STRIPE_SECRET_KEY` | Chave secreta Stripe |
-| `STRIPE_WEBHOOK_SECRET` | Webhook signing secret |
+| `ASAAS_API_KEY` | API Key do Asaas |
+| `ASAAS_WALLET_ID` | Wallet ID (split de pagamento) |
+| `ASAAS_SANDBOX` | `True` para sandbox, `False` para produção |
+| `ASAAS_WEBHOOK_TOKEN` | Token de validação do webhook (opcional) |
 | `AI_PROVIDER_API_TOKEN` | Token do motor de IA |
 | `SUPABASE_URL` | URL do Supabase |
 | `SUPABASE_KEY` | Anon key do Supabase |
@@ -179,7 +183,7 @@ npm run dev
 - [x] Autenticação JWT + Clerk
 - [x] Upload com validação facial
 - [x] Geração com 4 estilos premium
-- [x] Stripe checkout + créditos
+- [x] Asaas checkout (PIX + cartão)
 - [x] Galeria + download
 - [x] Admin (stats, usuários, créditos)
 - [x] Segurança (CORS, rate limit, Talisman)
