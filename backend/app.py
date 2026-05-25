@@ -15,6 +15,7 @@ from flask_cors import CORS
 from limiter_instance import limiter
 from flask_talisman import Talisman
 from config import Config
+from sqlalchemy import text
 
 from routes.payments_asaas import payments_asaas_bp
 from routes.webhooks import webhook_bp
@@ -151,6 +152,15 @@ def create_app():
             logger.info("✅ Banco de dados inicializado e tabelas verificadas.")
         except Exception as e:
             logger.error(f"❌ Erro ao inicializar banco de dados: {e}")
+
+        try:
+            db.session.execute(text(
+                "ALTER TABLE users ADD COLUMN asaas_customer_id VARCHAR(50)"
+            ))
+            db.session.commit()
+            logger.info("✅ Coluna asaas_customer_id adicionada com sucesso.")
+        except Exception:
+            db.session.rollback()
 
     # ─── Iniciar Agendador de Limpeza (Retenção de 24h) ───
     from services.cleanup_service import start_cleanup_scheduler
