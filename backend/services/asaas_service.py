@@ -6,6 +6,7 @@ logger = logging.getLogger(__name__)
 
 ASAAS_API_KEY = os.environ.get('ASAAS_API_KEY')
 ASAAS_SANDBOX = os.environ.get('ASAAS_SANDBOX', 'True').lower() == 'true'
+SANDBOX_CPF = "12345678909"
 ASAAS_WALLET_ID = os.environ.get('ASAAS_WALLET_ID')
 
 ASAAS_API_URL = "https://sandbox.asaas.com/api/v3" if ASAAS_SANDBOX else "https://api.asaas.com/api/v3"
@@ -34,9 +35,7 @@ def find_or_create_customer(name: str, email: str, cpf_cnpj: str = None) -> str:
             logger.info(f"Asaas customer encontrado: {customer_id} para {email}")
             return customer_id
 
-    payload = {"name": name, "email": email}
-    if cpf_cnpj:
-        payload["cpfCnpj"] = cpf_cnpj
+    payload = {"name": name, "email": email, "cpfCnpj": cpf_cnpj or SANDBOX_CPF}
     resp = requests.post(
         f"{ASAAS_API_URL}/customers",
         json=payload,
@@ -48,6 +47,24 @@ def find_or_create_customer(name: str, email: str, cpf_cnpj: str = None) -> str:
     customer_id = resp.json()["id"]
     logger.info(f"Asaas customer criado: {customer_id} para {email}")
     return customer_id
+
+
+def update_customer(customer_id: str, cpf_cnpj: str = None) -> dict:
+    payload = {}
+    if cpf_cnpj:
+        payload["cpfCnpj"] = cpf_cnpj
+    if not payload:
+        return {"id": customer_id}
+    resp = requests.post(
+        f"{ASAAS_API_URL}/customers/{customer_id}",
+        json=payload,
+        headers=_headers(),
+    )
+    if resp.status_code not in (200, 201):
+        logger.error(f"Erro update_customer: {resp.status_code} {resp.text}")
+        resp.raise_for_status()
+    logger.info(f"Asaas customer atualizado: {customer_id}")
+    return resp.json()
 
 
 def create_payment(customer: str, value: float, description: str, external_reference: str, billing_type: str = 'PIX', credit_card_token: str = None, due_date: str = None) -> dict:

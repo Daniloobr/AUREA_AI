@@ -5,11 +5,13 @@ from database import db
 
 from services.asaas_service import (
     find_or_create_customer,
+    update_customer,
     create_payment,
     get_payment_status,
     get_pix_qr_code,
     create_credit_card_token,
     ASAAS_API_KEY,
+    SANDBOX_CPF,
 )
 from utils.auth_utils import token_required
 from limiter_instance import limiter
@@ -25,12 +27,14 @@ PACKAGES = {
 
 
 def _get_or_create_customer(current_user):
+    cpf = current_user.cpf or SANDBOX_CPF
     if current_user.asaas_customer_id:
+        update_customer(current_user.asaas_customer_id, cpf_cnpj=cpf)
         return current_user.asaas_customer_id
     customer_id = find_or_create_customer(
         name=current_user.name,
         email=current_user.email,
-        cpf_cnpj=current_user.cpf,
+        cpf_cnpj=cpf,
     )
     current_user.asaas_customer_id = customer_id
     db.session.commit()
