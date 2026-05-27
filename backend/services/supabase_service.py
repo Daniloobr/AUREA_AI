@@ -85,5 +85,21 @@ class SupabaseService:
         except Exception as e:
             logger.warning(f"Could not verify/create bucket {bucket_name}: {e}")
 
+    def delete_image(self, url_or_filename: str, bucket: str = "inputs") -> bool:
+        """Deletes an image from Supabase Storage given its URL or filename."""
+        if not self.client:
+            logger.warning("Supabase Client not initialized. Skipping delete.")
+            return False
+        try:
+            filename = os.path.basename(url_or_filename.split('?')[0])
+            if not filename:
+                return False
+            self.client.storage.from_(bucket).remove([filename])
+            logger.info(f"Deleted {filename} from Supabase bucket '{bucket}'")
+            return True
+        except Exception as e:
+            logger.warning(f"Could not delete file from Supabase: {e}")
+            return False
+
 # Singleton instance
 supabase_service = SupabaseService()

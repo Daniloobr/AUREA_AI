@@ -102,28 +102,6 @@ def generate_images(
             result["success"] = True
             result["images"] = images
             logger.info(f"Generation Complete: {len(images)} images in {elapsed}s")
-            
-            # Update job in database if job_id provided
-            job_id = kwargs.get('job_id')
-            if job_id:
-                try:
-                    from database import db
-                    from models.db_models import GenerationJob
-                    import json
-                    
-                    job = GenerationJob.query.get(job_id)
-                    if job:
-                        job.status = 'completed'
-                        job.result_url = images[0]
-                        job.images_json = json.dumps(images)
-                        job.progress = 100
-                        job.message = "Sucesso! Seu ensaio premium está pronto."
-                        db.session.commit()
-                        logger.info(f"[AI Generator] Job {job_id} updated to 'completed' with result_url='{images[0]}'")
-                    else:
-                        logger.warning(f"[AI Generator] Job {job_id} not found in database.")
-                except Exception as db_err:
-                    logger.error(f"[AI Generator] Error updating job {job_id}: {db_err}")
         else:
             result["error"] = "O gerador de IA retornou vazio. Tente novamente."
             logger.error("No images returned from AI provider")

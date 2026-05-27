@@ -69,7 +69,7 @@ export default function DashboardPage() {
     },
     {
       label: 'Imagens Geradas',
-      value: jobCount,
+      value: jobCount * 3,
       icon: Sparkles,
       href: '/gallery',
     },

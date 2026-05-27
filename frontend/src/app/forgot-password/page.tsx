@@ -29,7 +29,7 @@ export default function ForgotPasswordPage() {
       }
     } catch (error) {
       console.error(error);
-      setError('Erro de conexão.');
+      setError('Não foi possível conectar ao servidor. Verifique sua internet e tente novamente.');
     } finally {
       setLoading(false);
     }

@@ -35,6 +35,7 @@ class User(db.Model):
             "id": self.id,
             "name": self.name if self.is_active else "Usuário Excluído",
             "email": self.email if self.is_active else "anonimo@aureaia.com",
+            "cpf": self.cpf if self.is_active else None,
             "credits_balance": self.credits_balance,
             "is_admin": self.is_admin,
             "is_active": self.is_active,
