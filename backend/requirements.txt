@@ -40,6 +40,10 @@ Flask-Talisman==1.1.0
 # Cloud Storage
 supabase>=2.0.0
 
+# Database Migrations
+Flask-Migrate==4.1.0
+alembic>=1.9.0
+
 # Async task queue
 celery==5.4.0
 redis==5.0.3
