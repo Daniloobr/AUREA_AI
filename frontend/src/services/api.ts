@@ -42,7 +42,7 @@ export const apiService = {
         return await response.json();
       } else {
         await response.text();
-        return { success: false, error: `Indisponibilidade momentânea (${response.status}). Nossa equipe já foi notificada.` };
+        return { success: false, error: 'Indisponibilidade momentânea do servidor. Nossa equipe já foi notificada.' };
       }
     } catch (err: unknown) {
       console.error("Fetch error:", err);
@@ -80,7 +80,7 @@ export const apiService = {
         return await response.json();
       } else {
         await response.text();
-        return { success: false, error: `Ocorreu um imprevisto técnico (${response.status}). Por favor, tente novamente em alguns instantes.` };
+        return { success: false, error: 'Ocorreu um imprevisto técnico. Por favor, tente novamente em alguns instantes.' };
       }
     } catch (err: unknown) {
       console.error("Fetch error:", err);

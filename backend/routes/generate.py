@@ -25,7 +25,7 @@ def generate(current_user):
     """
     data = request.json
     if not data:
-        return jsonify({"success": False, "error": "Payload JSON inválido"}), 400
+        return jsonify({"success": False, "error": "Dados inválidos enviados ao servidor. Verifique as informações e tente novamente."}), 400
 
     # Expect a list of exactly 3 image URLs
     image_urls = data.get('image_urls')
@@ -73,17 +73,18 @@ def check_status(current_user, job_id=None):
 
     job_data = get_job_status(job_id)
     if not job_data:
-        return jsonify({"success": False, "error": "Job não encontrado"}), 404
+        return jsonify({"success": False, "error": "Geração não encontrada. Pode ter expirado ou sido removida."}), 404
 
     # Privacy check
     if job_data.get('user_id') and job_data.get('user_id') != current_user.id:
-        return jsonify({"success": False, "error": "Acesso negado"}), 403
+        return jsonify({"success": False, "error": "Você não tem permissão para acessar esta geração."}), 403
 
     return jsonify(job_data), 200
 
 
 @generate_bp.route('/<job_id>/result', methods=['GET'], strict_slashes=False)
-def check_result(job_id):
+@token_required
+def check_result(current_user, job_id):
     """
     GET /api/generate/<id>/result
     Required architectural endpoint that returns exact format:

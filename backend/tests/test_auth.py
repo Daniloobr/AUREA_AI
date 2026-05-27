@@ -22,7 +22,7 @@ class TestAuthRegister:
             'password': 'SenhaForte1!',
         })
         assert resp.status_code == 409
-        assert resp.json['error'] == 'Email já cadastrado'
+        assert 'já possui cadastro' in resp.json['error']
 
     def test_register_missing_fields(self, client, db):
         resp = client.post('/api/auth/register', json={'name': 'Só Nome'})

@@ -6,6 +6,15 @@
 .env.*
 !.env.example
 
+# Garantia explícita para subdiretórios (backend e frontend)
+backend/.env
+backend/.env.*
+!backend/.env.example
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+!frontend/.env.local.example
+
 # Credenciais, Certificados e Chaves Privadas
 *.pem
 *.key

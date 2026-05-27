@@ -3,7 +3,7 @@ import os
 from database import db
 from models.db_models import GenerationJob, User, Transaction
 from services.ai_generator import generate_with_retry, download_generated_image
-from services.prompt_engine import generate_prompt, generate_negative_prompt
+from services.prompt_engine import generate_prompt
 import logging
 import json
 from tasks.generation_tasks import generate_image_task, _refund_user, _get_flask_app
@@ -35,7 +35,6 @@ def process_generation_pipeline(app, job_id, image_urls, tipo_ensaio, custom_pro
                 return
 
             prompt = generate_prompt(tipo_ensaio, subject_description=custom_prompt or "", use_identity_text=True)
-            generate_negative_prompt()
 
             if image_urls:
                 job.status = "validating"
@@ -114,7 +113,7 @@ def queue_generation(user_id: str, image_urls: list = None, tipo_ensaio: str = N
     if not user:
         raise ValueError("Usuário não encontrado ou inativo.")
     if user.credits_balance < COST_PER_CALL:
-        raise ValueError(f"Saldo insuficiente. Você precisa de {COST_PER_CALL} moedas.")
+        raise ValueError(f"Você não tem moedas suficientes para esta geração. Adquira um pacote de créditos na página de Moedas.")
 
     job_id = str(uuid.uuid4())
     old_balance = user.credits_balance

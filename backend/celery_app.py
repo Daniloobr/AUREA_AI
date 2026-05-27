@@ -28,12 +28,16 @@ def init_celery(app=None):
     broker = os.getenv('CELERY_BROKER_URL') or app.config.get('CELERY_BROKER_URL')
     backend = os.getenv('CELERY_RESULT_BACKEND') or app.config.get('CELERY_RESULT_BACKEND')
     
-    # Eager mode (synchronous task execution) if broker is not set
+    import logging
+    celery_logger = logging.getLogger(__name__)
+
     task_always_eager = not broker
     if task_always_eager:
-        print("[CELERY] Broker nao configurado. Ativando modo EAGER (sincrono) com broker em memoria.")
+        celery_logger.warning("[CELERY] Broker nao configurado. Ativando modo EAGER (sincrono).")
         broker = 'memory://'
         backend = 'cache+memory://'
+    else:
+        celery_logger.info(f"[CELERY] Conectado ao broker: {broker.split('@')[0] if '@' in broker else 'redis://'}...")
 
     celery.conf.update(
         broker_url=broker,

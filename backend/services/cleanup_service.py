@@ -8,6 +8,7 @@ from database import db
 from models.db_models import GenerationJob
 from config import Config
 from services.queue_service import recover_stuck_jobs
+from services.supabase_service import supabase_service
 
 logger = logging.getLogger(__name__)
 
@@ -62,15 +63,15 @@ def perform_cleanup():
                 if os.path.exists(local_path):
                     os.remove(local_path)
                 
-                # Supabase cleanup disabled for production to ensure no data loss
+                supabase_service.delete_image(img_url, bucket="outputs")
 
             # Delete input images
             if job.input_image_url:
                 try:
-                    # Check if it's a JSON list
                     input_urls = json.loads(job.input_image_url)
                     if not isinstance(input_urls, list): input_urls = [str(input_urls)]
-                except:
+                except Exception as e:
+                    logger.warning(f"Failed to parse input_image_url as JSON: {e}")
                     input_urls = [job.input_image_url]
 
                 for url in input_urls:
@@ -81,7 +82,7 @@ def perform_cleanup():
                     if os.path.exists(local_path):
                         os.remove(local_path)
                     
-                    # Supabase cleanup disabled for production to ensure no data loss
+                    supabase_service.delete_image(url, bucket="inputs")
 
             # B. Mark job as expired
             job.status = "expired"

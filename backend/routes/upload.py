@@ -1,6 +1,6 @@
 import os
 import uuid
-import imghdr
+from PIL import Image
 from flask import Blueprint, request, jsonify
 from config import Config
 from services.supabase_service import supabase_service
@@ -54,7 +54,16 @@ def upload_file(current_user):
         file.save(filepath)
 
         # Validate actual file content (not just extension)
-        actual_type = imghdr.what(filepath)
+        try:
+            with Image.open(filepath) as img:
+                img.verify()
+                actual_type = img.format.lower()
+        except Exception:
+            if os.path.exists(filepath): os.remove(filepath)
+            return jsonify({
+                "error": "O conteúdo do arquivo não é uma imagem válida"
+            }), 400
+
         if actual_type not in ['jpeg', 'png', 'webp']:
             if os.path.exists(filepath): os.remove(filepath)
             return jsonify({

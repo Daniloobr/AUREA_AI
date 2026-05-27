@@ -14,6 +14,7 @@ from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
 from limiter_instance import limiter
 from flask_talisman import Talisman
+from flask_migrate import Migrate
 from config import Config
 from sqlalchemy import text
 
@@ -83,6 +84,7 @@ def create_app():
     
     from database import db
     db.init_app(app)
+    Migrate(app, db)
     
     # ─── Registrar Blueprints ───
     from routes.upload import upload_bp
@@ -153,14 +155,9 @@ def create_app():
         except Exception as e:
             logger.error(f"❌ Erro ao inicializar banco de dados: {e}")
 
-        try:
-            db.session.execute(text(
-                "ALTER TABLE users ADD COLUMN asaas_customer_id VARCHAR(50)"
-            ))
-            db.session.commit()
-            logger.info("✅ Coluna asaas_customer_id adicionada com sucesso.")
-        except Exception:
-            db.session.rollback()
+        # NOTE: Schema migrations should use Flask-Migrate / Alembic.
+        # Run `flask db upgrade` after deploying to ensure the `asaas_customer_id`
+        # column and all future schema changes are applied.
 
     # ─── Iniciar Agendador de Limpeza (Retenção de 24h) ───
     from services.cleanup_service import start_cleanup_scheduler

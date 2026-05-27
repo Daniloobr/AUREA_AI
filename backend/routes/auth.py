@@ -1,6 +1,7 @@
+import re
 from flask import Blueprint, request, jsonify, make_response, current_app
 import os
-import uuid  # ← adicionado (faltava no original)
+import uuid
 from models.db_models import User, Transaction
 from database import db
 from utils.auth_utils import generate_token, token_required
@@ -26,13 +27,19 @@ def register():
 
     email = raw_email.lower().strip()
 
+    if not re.match(r'^[^\s@]+@[^\s@]+\.[^\s@]+$', email):
+        return jsonify({"success": False, "error": "Formato de e-mail inválido."}), 400
+
+    if len(password) < 6:
+        return jsonify({"success": False, "error": "A senha deve ter pelo menos 6 caracteres."}), 400
+
     logger.info(f"Tentativa de registro: {email}")
 
     # Check if user exists
     user = User.query.filter_by(email=email).first()
     if user: 
         logger.warning(f"Tentativa de registro com email já existente: {email}")
-        return jsonify({"success": False, "error": "Email já cadastrado"}), 409
+        return jsonify({"success": False, "error": "Este email já possui cadastro. Faça login ou recupere sua senha."}), 409
 
     try:
         new_user = User(name=name, email=email, credits_balance=0)
@@ -72,8 +79,14 @@ def register():
 @limiter.limit("10 per minute")
 def login():
     data = request.json
+    if not data:
+        return jsonify({"success": False, "error": "Dados inválidos. Envie email e senha."}), 400
+
     email = data.get('email', '').lower().strip()
     password = data.get('password')
+
+    if not email or not password:
+        return jsonify({"success": False, "error": "Email e senha são obrigatórios."}), 400
 
     user = User.query.filter_by(email=email, is_active=True).first()
 
@@ -135,7 +148,7 @@ def admin_add_credits():
     provided_key = request.headers.get('X-Admin-Key')
     
     if not admin_secret or provided_key != admin_secret:
-        return jsonify({"success": False, "error": "Não autorizado"}), 403
+        return jsonify({"success": False, "error": "Acesso não autorizado. Verifique suas credenciais e tente novamente."}), 403
 
     data = request.json
     user_id = data.get('user_id')
@@ -188,7 +201,7 @@ def google_login():
     access_token = data.get('access_token') or data.get('id_token')
 
     if not access_token:
-        return jsonify({"success": False, "error": "Token de acesso é obrigatório"}), 400
+        return jsonify({"success": False, "error": "Token de acesso não informado. Faça login novamente."}), 400
 
     try:
         from services.supabase_service import supabase_service
@@ -230,10 +243,15 @@ def google_login():
         user.set_password(os.urandom(24).hex())
         db.session.add(user)
 
-        try:
-            from services.email_service import email_service
-            email_service.send_welcome(user.email, user.name)
-        except: pass
+        import threading
+        def send_async_email(email, name):
+            try:
+                from services.email_service import email_service
+                email_service.send_welcome(email, name)
+            except Exception as e:
+                logger.warning(f"Failed to send welcome email: {e}")
+
+        threading.Thread(target=send_async_email, args=(user.email, user.name), daemon=True).start()
 
     db.session.commit()
 

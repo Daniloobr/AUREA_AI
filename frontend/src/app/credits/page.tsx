@@ -71,38 +71,62 @@ function CreditsContent() {
 
   useEffect(() => {
     if (!pixPaymentId) return;
-    const interval = setInterval(async () => {
+    let attempts = 0;
+    const MAX_ATTEMPTS = 15;
+    const poll = async () => {
+      if (attempts >= MAX_ATTEMPTS) {
+        setNotification({ message: 'Tempo limite excedido. Verifique o status no seu banco.', type: 'error' });
+        return;
+      }
       try {
         const res = await apiService.get(`/payment-status/${pixPaymentId}`, token || '');
         if (res?.status === 'RECEIVED' || res?.status === 'CONFIRMED') {
-          clearInterval(interval);
           setSelectedPkg(null);
           setPixPaymentId(null);
           setQrCodeBase64('');
           setNotification({ message: 'Pagamento aprovado! Créditos adicionados.', type: 'success' });
           await refreshUser();
+          return;
         }
-      } catch { }
-    }, 3000);
-    return () => clearInterval(interval);
+      } catch (e) {
+        console.warn('[PIX] Polling error:', e);
+      }
+      attempts++;
+      const delay = Math.min(1000 * Math.pow(2, attempts - 1), 5000);
+      setTimeout(poll, delay);
+    };
+    const initialDelay = setTimeout(poll, 1000);
+    return () => clearTimeout(initialDelay);
   }, [pixPaymentId, token, refreshUser]);
 
   useEffect(() => {
     if (!cardPaymentId) return;
-    const interval = setInterval(async () => {
+    let attempts = 0;
+    const MAX_ATTEMPTS = 15;
+    const poll = async () => {
+      if (attempts >= MAX_ATTEMPTS) {
+        setNotification({ message: 'Tempo limite excedido. Verifique o status da sua fatura.', type: 'error' });
+        return;
+      }
       try {
         const res = await apiService.get(`/payment-status/${cardPaymentId}`, token || '');
         if (res?.status === 'RECEIVED' || res?.status === 'CONFIRMED') {
-          clearInterval(interval);
           setSelectedPkg(null);
           setCardPaymentId(null);
           setCheckoutUrl(null);
           setNotification({ message: 'Pagamento aprovado! Créditos adicionados.', type: 'success' });
           await refreshUser();
+          return;
         }
-      } catch { }
-    }, 3000);
-    return () => clearInterval(interval);
+      } catch (e) {
+        console.warn('[Card] Polling error:', e);
+      }
+      attempts++;
+      const delay = Math.min(1000 * Math.pow(2, attempts - 1), 5000);
+      setTimeout(poll, delay);
+    };
+    const initialDelay = setTimeout(poll, 1000);
+    return () => clearTimeout(initialDelay);
   }, [cardPaymentId, token, refreshUser]);
 
   const notify = useCallback((msg: string, type: 'success' | 'error') => {

@@ -74,12 +74,12 @@ def create_pix_payment_route(current_user):
         description = data.get("description")
 
         if not external_reference:
-            return jsonify({"success": False, "error": "external_reference é obrigatório"}), 400
+            return jsonify({"success": False, "error": "Referência do pacote não informada. Selecione novamente o pacote desejado."}), 400
 
         _, package_id = _parse_external_ref(external_reference)
         pkg = _validate_package(package_id)
         if not pkg:
-            return jsonify({"success": False, "error": "package_id inválido na referência"}), 400
+            return jsonify({"success": False, "error": "Pacote não encontrado. Selecione um pacote válido."}), 400
 
         customer_id = _get_or_create_customer(current_user)
 
@@ -129,12 +129,12 @@ def create_card_payment_route(current_user):
         description = data.get("description")
 
         if not external_reference:
-            return jsonify({"success": False, "error": "external_reference é obrigatório"}), 400
+            return jsonify({"success": False, "error": "Referência do pacote não informada. Selecione novamente o pacote desejado."}), 400
 
         _, package_id = _parse_external_ref(external_reference)
         pkg = _validate_package(package_id)
         if not pkg:
-            return jsonify({"success": False, "error": "package_id inválido na referência"}), 400
+            return jsonify({"success": False, "error": "Pacote não encontrado. Selecione um pacote válido."}), 400
 
         customer_id = _get_or_create_customer(current_user)
 
