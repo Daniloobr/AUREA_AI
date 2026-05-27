@@ -88,19 +88,28 @@ def login():
     if not email or not password:
         return jsonify({"success": False, "error": "Email e senha são obrigatórios."}), 400
 
-    user = User.query.filter_by(email=email, is_active=True).first()
+    user = User.query.filter_by(email=email).first()
 
-    if user and user.check_password(password):
-        token = generate_token(user.id)
-        response = make_response(jsonify({
-            "success": True,
-            "user": user.to_dict(),
-            "token": token
-        }))
-        response.set_cookie('auth_token', token, httponly=True, secure=True, samesite='None')
-        return response
+    if not user:
+        logger.warning(f"Tentativa de login com email não cadastrado: {email}")
+        return jsonify({"success": False, "error": "Este email não possui cadastro. Crie uma conta primeiro."}), 401
 
-    return jsonify({"success": False, "error": "Email ou senha incorretos"}), 401
+    if not user.is_active:
+        logger.warning(f"Tentativa de login em conta desativada: {email}")
+        return jsonify({"success": False, "error": "Sua conta foi desativada. Entre em contato com o suporte."}), 401
+
+    if not user.check_password(password):
+        logger.warning(f"Senha incorreta para: {email}")
+        return jsonify({"success": False, "error": "Senha incorreta. Verifique e tente novamente."}), 401
+
+    token = generate_token(user.id)
+    response = make_response(jsonify({
+        "success": True,
+        "user": user.to_dict(),
+        "token": token
+    }))
+    response.set_cookie('auth_token', token, httponly=True, secure=True, samesite='None')
+    return response
 
 @auth_bp.route('/me', methods=['GET'])
 @token_required
