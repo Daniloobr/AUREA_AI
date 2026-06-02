@@ -186,7 +186,7 @@ STYLE_PRESETS = {
         "name": "Veludo Borgonha",
         "category": "Editoriais Vogue",
         "description": "Vestido longo de veludo borgonha com cauda dramática, rim light dourado e fundo mármore preto.",
-        "cover": "/thumbnails/luxury_studio.png",
+        "cover": "/thumbnails/red_velvet.png",
         "camera": "135mm lens.",
         "scene": "Studio, black marble backdrop and floor.",
         "lighting": "Warm golden rim light from behind right, soft front fill.",
