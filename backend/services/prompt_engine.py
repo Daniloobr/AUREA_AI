@@ -328,6 +328,64 @@ STYLE_PRESETS = {
         "processing": "Color, highly saturated, cinematic, warm golden tones with deep blue sky contrast. Subject slightly silhouetted, background sunset in sharp dramatic detail.",
     },
 
+    # ─── NOVOS ESTILOS (TORCEDORA, BOUQUÊ, USG, MONOCROMÁTICO) ─────
+
+    "sports_fan": {
+        "name": "Torcedora Fanática",
+        "category": "Temáticos & Especiais",
+        "description": "Gestante usando camisa de time cropped e calça jeans, segurando miniatura da mesma camisa. Casual, divertido e patriótico.",
+        "cover": "/thumbnails/sports_fan.png",
+        "camera": "Medium format camera, 85mm portrait lens, shallow depth of field.",
+        "scene": "Simple clean light grey/white wall background, minimal and casual, no studio setup.",
+        "lighting": "Natural or soft indoor lighting, even ambient light from front, bright, clean, casual, no dramatic shadows.",
+        "outfit": "Bright canary yellow cropped sports jersey (short sleeve, V-neck, green collar trim, blue sleeve stripe), low-rise light wash denim jeans unbuttoned below belly. Bump fully exposed.",
+        "pose": "Pure side profile, standing naturally, head turned slightly to look at a tiny yellow baby jersey held up with both hands raised in front, gaze focused on the small jersey, casual and playful mood.",
+        "framing": "Upper body to mid-thigh.",
+        "processing": "Color, bright and clean, natural tones, slight warmth.",
+    },
+
+    "baby_breath_bouquet": {
+        "name": "Bouquet de Nuvem",
+        "category": "Ambientes Elegantes",
+        "description": "Estúdio escuro e dramático, buquê gigante de gipsófila cobrindo o peito, barriga nua exposta, iluminação Rembrandt, atmosfera de pintura clássica.",
+        "cover": "/thumbnails/baby_breath_bouquet.png",
+        "camera": "Medium format camera, 85mm portrait lens, shallow depth of field.",
+        "scene": "Dark moody studio with deep charcoal/dark olive grey seamless background, no floor visible.",
+        "lighting": "Dramatic Rembrandt-style studio lighting. Single key light from upper front-left, high contrast, warm-toned, painterly. Strong directional light illuminating face, bouquet and bump, deep shadows on right side and background.",
+        "outfit": "Blush pink / nude rose silky satin draped fabric from just below bump downward, floor-length. No top garment — bare chest and décolletage covered only by bouquet. Strapless low-cut wrap.",
+        "pose": "3/4 front angle, slight body twist, head bowed downward with eyes closed and soft smile. Holding a large oversized pure white baby's breath bouquet pressed against the chest covering it, other hand on lower back/hip. Bump prominently exposed below bouquet.",
+        "framing": "Upper body portrait, bouquet as central element.",
+        "processing": "Color, warm and moody, dark shadows, rich tones, painterly quality reminiscent of Old Masters.",
+    },
+
+    "ultrasound_projection": {
+        "name": "Projeção do Bebê",
+        "category": "Temáticos & Especiais",
+        "description": "Gestante ajoelhada em estúdio com projeção gigante de ultrassom na parede, vestido preto com recorte lateral, P&B. Terno e íntimo.",
+        "cover": "/thumbnails/ultrasound_projection.png",
+        "camera": "Medium format camera, 85mm portrait lens, shallow depth of field.",
+        "scene": "Minimalist studio with large baby ultrasound/sonogram image projected onto light grey seamless background wall. Projection soft glowing white-grey, slightly blurred, baby profile visible, massive filling entire wall.",
+        "lighting": "Soft studio lighting combined with projector light. Front key light, projector from behind/above. Soft contrast, clean and even. Projection creates subtle glow on hair and shoulders.",
+        "outfit": "Solid black sleeveless fitted maternity dress with side cut-out window at waist exposing bare skin. Scoop neckline, thick shoulder straps, floor-length fitted skirt. Bump visible through cut-out.",
+        "pose": "Kneeling on both knees on the floor, seated back on heels, pure side profile. Head bowed downward looking at bump with soft tender smile. One hand gently resting on top of bump, other hand cradling bump from below.",
+        "framing": "Full body from head to floor, large ultrasound projection dominating background.",
+        "processing": "Black and white, clean monochrome, moderate contrast, soft tones. Subject sharp, projection soft and glowing.",
+    },
+
+    "monochromatic_blue": {
+        "name": "Azul Monocromático",
+        "category": "Editoriais Vogue",
+        "description": "Gestante ajoelhada em fundo azul céu, vestido azul exato ao fundo, painel de tecido voando fundindo-se ao cenário. Buquê de rosas brancas. Surreal e editorial.",
+        "cover": "/thumbnails/monochromatic_blue.png",
+        "camera": "Medium format camera, 85mm portrait lens, shallow depth of field.",
+        "scene": "Flat solid sky blue / powder blue seamless studio background, bright and even, floor same color creating infinite look.",
+        "lighting": "Bright even studio lighting. Front-centered, fully even, bright, flat, clean, no shadows.",
+        "outfit": "Powder blue strapless fitted maternity gown with dramatic flying fabric panel. Strapless bandeau bodice, form-fitting. Attached extremely long flowing fabric panel frozen mid-air sweeping upward and to the right in large fluid wave shapes. Fabric matches background color exactly, creating surreal seamless effect.",
+        "pose": "Kneeling on both knees on floor, seated back on heels, body turned slightly to side at 3/4 angle. Head bowed downward with warm joyful smile. Both arms hugging a large bouquet of white roses pressed against chest/bump, long stems visible hanging down.",
+        "framing": "Full body with dramatic flying fabric extending to upper right corner.",
+        "processing": "Color, bright and saturated, clean blue tones, slight airbrushed finish. Monochromatic concept: dress and background same color, flying fabric blends into background.",
+    },
+
     # ─── TEMÁTICOS & ESPECIAIS ──────────────────────────────────────
 
     "red_lotus": {
