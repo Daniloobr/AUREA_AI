@@ -196,25 +196,12 @@ STYLE_PRESETS = {
         "processing": "Color, opulent warm tones, rich velvet texture.",
     },
 
-    "editorial_black_blazer": {
-        "name": "Editorial Blazer & Mesh",
-        "category": "Editoriais Vogue",
-        "description": "Blazer charcoal, body de tule preto transparente, barriga à mostra, calça pantalona e joias douradas.",
-        "cover": "/thumbnails/black_white_editorial.png",
-        "camera": "85mm lens.",
-        "scene": "Studio, muted olive-khaki grey gradient backdrop.",
-        "lighting": "Front diffused warm studio light, soft spotlight on belly.",
-        "outfit": "Oversized charcoal blazer off-shoulder, sheer black mesh top, high-waist wide-leg black trousers, gold jewelry.",
-        "pose": "Standing facing camera, hands cupped under belly, calm serene expression.",
-        "framing": "Three-quarter length.",
-        "processing": "Color, warm desaturated tones, editorial fashion grade.",
-    },
-
+    
     "seated_cube_editorial": {
         "name": "Cubo Branco Editorial",
         "category": "Editoriais Vogue",
         "description": "Sentada em cubo branco matte, blazer preto, top cropped, calça pantalona e sandália plataforma.",
-        "cover": "/thumbnails/vestidoBlack.png",
+        "cover": "/thumbnails/CuboBranco.png",
         "camera": "35mm lens.",
         "scene": "Studio, warm dark taupe-mocha gradient backdrop, light polished floor.",
         "lighting": "Front-left warm diffused studio light, subtle floor spotlight.",
@@ -224,19 +211,6 @@ STYLE_PRESETS = {
         "processing": "Color, sophisticated warm tones, modern editorial finish.",
     },
 
-    "bw_silhouette_profile": {
-        "name": "P&B Silhueta Artística",
-        "category": "Editoriais Vogue",
-        "description": "Perfil puro a 90 graus mostrando silhueta da barriga, vestido bodycon preto gola rulê, P&B alto contraste.",
-        "cover": "/thumbnails/black_white_editorial.png",
-        "camera": "50mm lens.",
-        "scene": "Studio, neutral grey gradient backdrop.",
-        "lighting": "Front-left diffuse studio light, soft sculpting shadows along body.",
-        "outfit": "Sleek black turtleneck bodycon maxi dress, long sleeves, matte stretch fabric.",
-        "pose": "Pure 90-degree side profile, slight back arch accentuating belly curve, one hand on belly front, other on lower back.",
-        "framing": "Full body.",
-        "processing": "Black and white, high contrast, fine art monochrome.",
-    },
 
     # ─── ORGÂNICOS & SONHADORES ─────────────────────────────────────
 
@@ -244,7 +218,7 @@ STYLE_PRESETS = {
         "name": "Pôr do Sol na Natureza",
         "category": "Orgânicos & Sonhadores",
         "description": "Campo aberto de flores silvestres ao pôr do sol com luz dourada lateral e vestido fluido rosa antigo.",
-        "cover": "/thumbnails/golden_hour_nature.png",
+        "cover": "/thumbnails/golden.png",
         "camera": "85mm lens.",
         "scene": "Open wildflower meadow at golden hour.",
         "lighting": "Warm orange-gold sunlight from right side.",
@@ -282,79 +256,6 @@ STYLE_PRESETS = {
         "processing": "Color, ethereal airy tones, translucent fabric effect.",
     },
 
-    # ─── AO AR LIVRE & NATUREZA ─────────────────────────────────────
-
-    "forest_fairy": {
-        "name": "Floresta Encantada",
-        "category": "Ao Ar Livre & Natureza",
-        "description": "Floresta densa com raios de luz solar, musgo, samambaias e vestido de renda off-white etéreo.",
-        "cover": "/thumbnails/classic.png",
-        "camera": "85mm lens.",
-        "scene": "Dense forest, tall trees, moss-covered ground, ferns, wildflowers.",
-        "lighting": "Dappled sunlight breaking through canopy, volumetric light shafts.",
-        "outfit": "Off-white lace boho gown with long sleeves.",
-        "pose": "Standing among ferns, one hand touching hair, other on belly, serene expression.",
-        "framing": "Full body.",
-        "processing": "Color, soft green and warm gold tones, natural forest atmosphere.",
-    },
-
-    "beach_sunrise": {
-        "name": "Praia ao Amanhecer",
-        "category": "Ao Ar Livre & Natureza",
-        "description": "Praia deserta ao amanhecer com luz rosada do horizonte, vestido branco fluido e pés descalços.",
-        "cover": "/thumbnails/golden_hour_nature.png",
-        "camera": "35mm lens.",
-        "scene": "Empty sandy beach at sunrise, wet sand reflecting sky.",
-        "lighting": "Warm pink-orange sunrise light from horizon, backlighting silhouette.",
-        "outfit": "Flowing white organza dress touching sand, bare feet.",
-        "pose": "Standing in profile at water edge, hands on belly, serene expression, eyes slightly closed.",
-        "framing": "Full body.",
-        "processing": "Color, warm pastel pink and gold tones, soft sunrise glow.",
-    },
-
-    "lavender_fields": {
-        "name": "Campo de Lavanda",
-        "category": "Ao Ar Livre & Natureza",
-        "description": "Campos infinitos de lavanda roxa ao entardecer com vestido lavanda coordenado e buquê de lavanda.",
-        "cover": "/thumbnails/boho_chic.png",
-        "camera": "85mm lens.",
-        "scene": "Endless rows of purple lavender under soft blue sky.",
-        "lighting": "Warm afternoon sunlight, soft golden glow.",
-        "outfit": "Flowing dusty lavender chiffon maxi dress, holding fresh lavender bouquet.",
-        "pose": "Walking through lavender rows, one hand holding bouquet, other on belly, warm smile.",
-        "framing": "Three-quarter length.",
-        "processing": "Color, pastel purple and sage palette, romantic Provence tones.",
-    },
-
-    # ─── AMBIENTES ÍNTIMOS & ELEGANTES ──────────────────────────────
-
-    "paris_balcony": {
-        "name": "Varanda Parisiense",
-        "category": "Ambientes Elegantes",
-        "description": "Varanda parisiense com grades de ferro forjado, flores brancas e vista de telhados ao fundo.",
-        "cover": "/thumbnails/luxury_studio.png",
-        "camera": "50mm lens.",
-        "scene": "Parisian balcony, ornate wrought-iron railing with white roses and ivy, Paris rooftops visible.",
-        "lighting": "Soft morning light from left, rooftops in soft bokeh background.",
-        "outfit": "Champagne silk slip dress.",
-        "pose": "Leaning on railing, one hand on belly, dreamy gaze toward the view.",
-        "framing": "Three-quarter length.",
-        "processing": "Color, warm golden morning palette, romantic European elegance.",
-    },
-
-    "luxury_bedroom": {
-        "name": "Quarto Luxuoso",
-        "category": "Ambientes Elegantes",
-        "description": "Quarto de hotel luxuoso com cama king-size linho branco, peônias, cortinas de voile e robe de seda.",
-        "cover": "/thumbnails/image3.png",
-        "camera": "100mm lens.",
-        "scene": "Luxury hotel bedroom, king bed with white linen, white peonies on nightstand, sheer curtains.",
-        "lighting": "Warm morning window light diffused through sheer voile curtains.",
-        "outfit": "Silk cream robe open to reveal belly.",
-        "pose": "Seated on edge of bed, one hand on belly, looking down at belly with love, soft smile.",
-        "framing": "Medium waist-up portrait.",
-        "processing": "Color, warm 3200K intimate tones, soft shadow detail.",
-    },
 
     # ─── TEMÁTICOS & ESPECIAIS ──────────────────────────────────────
 
