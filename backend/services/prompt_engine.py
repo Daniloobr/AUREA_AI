@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 # ══════════════════════════════════════════════════════════════
 # GLOBAL CONFIG
 # ══════════════════════════════════════════════════════════════
-MAX_PROMPT_LENGTH = 900
+MAX_PROMPT_LENGTH = 1200
 
 
 # ══════════════════════════════════════════════════════════════
@@ -211,7 +211,70 @@ STYLE_PRESETS = {
         ),
     },
 
+    "editorial_black_blazer": {
+        "name": "Editorial Blazer & Mesh",
+        "category": "Editoriais Vogue",
+        "description": "Estúdio minimalista com fundo degradê verde-oliva acinzentado. Blazer charcoal largo drapeado nos ombros sobre body de tule preto transparente revelando a barriga nua. Calça pantalona preta e joias douradas. Luz frontal difusa com destaque suave na barriga. Joyful, confiante, editorial.",
+        "cover": "/thumbnails/black_white_editorial.png",
+        "lens": "portrait",
+        "pose": "front_cradle",
+        "expression": "serene",
+        "framing": "three_quarters",
+        "prompt": (
+            "Modern editorial maternity studio portrait. Muted olive-khaki grey gradient backdrop. "
+            "She wears an oversized charcoal blazer draped loosely off-shoulder, "
+            "sheer black mesh turtleneck bodysuit with bare pregnant belly visible through fabric, "
+            "solid black bralette underneath, high-waist wide-leg black trousers. "
+            "Delicate gold layered necklaces, crystal statement earrings, gold rings. "
+            "Front-centered diffused warm studio light, subtle warm spotlight on belly. "
+            "Warm-toned slightly desaturated color grade. Joyful, confident, chic, empowered editorial."
+        ),
+    },
+
+    "seated_cube_editorial": {
+        "name": "Cubo Branco Editorial",
+        "category": "Editoriais Vogue",
+        "description": "Estúdio com fundo degradê taupe-moca escuro e piso claro. Gestante sentada de lado em um cubo branco matte, pernas cruzadas no tornozelo, blazer longo preto aberto, top cropped com barra scalloped, calça pantalona preta e sandália plataforma bege. Joias prata. Sofisticado e moderno.",
+        "cover": "/thumbnails/vestidoBlack.png",
+        "lens": "wide",
+        "pose": "seated_grace",
+        "expression": "editorial",
+        "framing": "full_body",
+        "prompt": (
+            "Modern editorial maternity studio portrait. Warm dark taupe-mocha gradient backdrop, "
+            "light polished floor. Large matte white cube prop used as seat. "
+            "She sits sideways on the cube, legs crossed at ankle, torso turned toward camera, "
+            "gaze directed calmly off to the side. Open-front long black blazer/duster, "
+            "scalloped-edge black crop bralette, high-waist wide-leg black trousers, "
+            "beige chunky platform open-toe sandals. Delicate silver layered necklaces, silver rings. "
+            "Front-left warm diffused studio light, subtle floor spotlight, gentle background vignette. "
+            "Sophisticated, calm, modern editorial mood."
+        ),
+    },
+
+    "bw_silhouette_profile": {
+        "name": "P&B Silhueta Artística",
+        "category": "Editoriais Vogue",
+        "description": "Arte fotográfica em preto e branco de alto contraste. Perfil puro a 90° mostrando a silhueta da barriga. Vestido bodycon preto de gola rulê manga longa, body-hugging. Leve arqueamento nas costas acentuando a curva da barriga. Luz lateral esculpindo as formas. Elegante, atemporal, poderoso.",
+        "cover": "/thumbnails/black_white_editorial.png",
+        "lens": "cinematic",
+        "pose": "side_profile",
+        "expression": "editorial",
+        "framing": "full_body",
+        "prompt": (
+            "Fine art maternity portrait, pure 90-degree side profile. "
+            "Neutral grey gradient studio backdrop. "
+            "She wears a form-fitting sleek black turtleneck bodycon maxi dress, "
+            "long sleeves, smooth matte stretch fabric, no embellishments, body-hugging silhouette. "
+            "One hand gently resting on belly from front, other hand on lower back, "
+            "slight arch in the back accentuating the belly curve. "
+            "Front-left diffused studio light creating soft sculpting shadows along the body. "
+            "Processed in high contrast black and white monochrome. Elegant, timeless, powerful."
+        ),
+    },
+
     # ─── ORGÂNICOS & SONHADORES ───────────────────────────────────────────────
+
     "golden_hour_nature": {
         "name": "Pôr do Sol na Natureza",
         "category": "Orgânicos & Sonhadores",
