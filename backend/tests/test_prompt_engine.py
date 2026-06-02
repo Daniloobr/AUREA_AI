@@ -17,7 +17,7 @@ class TestPromptEngine:
 
     def test_generate_prompt_respects_max_length(self):
         result = generate_prompt(tipo_ensaio="classic")
-        assert len(result) <= 700
+        assert len(result) <= 1000
 
     def test_generate_prompt_without_identity_text(self):
         result = generate_prompt(tipo_ensaio="classic", use_identity_text=False)

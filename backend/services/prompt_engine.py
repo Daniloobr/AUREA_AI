@@ -8,7 +8,7 @@ Engineering Principles:
   2. Concrete visual facts only: scene, lighting, outfit, pose, framing, processing.
   3. Camera/lens language activates photorealistic behavior.
   4. No vague adjectives ("beautiful", "elegant", "stunning").
-  5. Prompts ≤ 550 chars to ensure full delivery.
+  5. Prompts ≤ 1000 chars to ensure full delivery.
   6. Each style describes a real photoshoot a photographer would direct.
 
 Context:
@@ -26,22 +26,38 @@ logger = logging.getLogger(__name__)
 # ══════════════════════════════════════════════════════════════
 # CONFIG
 # ══════════════════════════════════════════════════════════════
-MAX_PROMPT_LENGTH = 600
+MAX_PROMPT_LENGTH = 1000
 
 # ══════════════════════════════════════════════════════════════
-# IDENTITY — single sentence, placed once at prompt start
+# IDENTITY — single sentence at prompt start
 # ══════════════════════════════════════════════════════════════
-IDENTITY_TEXT = "Preserve exact identity from the 3 reference photos: same face, skin, body."
+IDENTITY_TEXT = (
+    "Preserve exact identity from the 3 reference photos. "
+    "Same face, facial structure, skin tone, body proportions, and pregnancy features. "
+    "This woman is pregnant, with a visible pregnant belly."
+)
+
+# ══════════════════════════════════════════════════════════════
+# QUALITY BLOCK — global quality instructions after identity
+# ══════════════════════════════════════════════════════════════
+QUALITY_BLOCK = (
+    "Ultra photorealistic maternity photography. "
+    "Natural skin texture, no beauty filter, no plastic skin. "
+    "Realistic eyes, realistic hands, realistic anatomy. "
+    "Professional studio lighting. Medium format camera. "
+    "Shallow depth of field. Editorial magazine quality, high dynamic range. "
+    "Direct eye contact, sharp focus on eyes."
+)
 
 # ══════════════════════════════════════════════════════════════
 # LENS PRESETS — override library (backward compat)
 # ══════════════════════════════════════════════════════════════
 LENS_PRESETS = {
-    "portrait":    "85mm lens, natural compression, soft background.",
-    "cinematic":   "50mm lens, cinematic depth of field.",
-    "wide":        "35mm lens, environmental context.",
-    "telephoto":   "135mm lens, background compression, subject isolation.",
-    "close":       "100mm macro, intimate detail, sharp focus on face.",
+    "portrait":    "Medium format camera, 85mm portrait lens, shallow depth of field.",
+    "cinematic":   "Medium format camera, 50mm lens, cinematic depth of field.",
+    "wide":        "Medium format camera, 35mm lens, environmental context.",
+    "telephoto":   "Medium format camera, 135mm telephoto lens, background compression.",
+    "close":       "Medium format camera, 100mm macro lens, sharp focus on face.",
 }
 
 # ══════════════════════════════════════════════════════════════
@@ -372,10 +388,10 @@ NEGATIVE_PROMPT = (
 # ══════════════════════════════════════════════════════════════
 FALLBACK_STYLE = {
     "camera": "85mm lens.",
-    "scene": "Professional studio, neutral backdrop.",
-    "lighting": "Soft natural studio light from front.",
-    "outfit": "Flowing elegant maternity dress.",
-    "pose": "Standing with hands on belly, warm expression toward camera.",
+    "scene": "Professional maternity studio, neutral backdrop, pregnant woman standing.",
+    "lighting": "Soft natural studio light from front, even fill.",
+    "outfit": "Flowing maternity dress with soft fabric over the pregnant belly.",
+    "pose": "Standing with hands on pregnant belly, warm expression toward camera.",
     "framing": "Three-quarter length.",
     "processing": "Color, professional finish.",
 }
@@ -423,6 +439,7 @@ def generate_prompt(
     parts = []
     if use_identity_text:
         parts.append(IDENTITY_TEXT)
+    parts.append(QUALITY_BLOCK)
     parts.append(style["scene"])
     parts.append(style["lighting"])
     parts.append(style["outfit"])
