@@ -26,7 +26,7 @@ def generate_images(
     image_urls: list,
     prompt: str,
     resolution: str = "2K",
-    aspect_ratio: str = "16:9",
+    aspect_ratio: str = None,
     output_format: str = "webp",
     safety_filter_level: str = "block_only_high",
     **kwargs
@@ -37,7 +37,7 @@ def generate_images(
     Args:
         image_urls: List of 3 reference image URLs
         prompt: Full generation prompt
-        aspect_ratio: Aspect ratio ("1:1", "3:2", "2:3", "16:9", "9:16")
+        aspect_ratio: Aspect ratio ("1:1", "3:2", "2:3")
         output_format: Image format ("webp", "jpg", "png")
 
     Returns:
@@ -62,23 +62,27 @@ def generate_images(
 
         start_time = time.time()
 
-        # Normalize aspect ratio to accepted values (FIXED: added 16:9 and 9:16)
-        valid_ratios = ["1:1", "3:2", "2:3", "16:9", "9:16"]
-        if aspect_ratio not in valid_ratios:
-            logger.warning(f"Aspect ratio '{aspect_ratio}' not supported, using '2:3' (vertical portrait)")
-            aspect_ratio = "2:3"
+        # Normalize aspect ratio — model only accepts "1:1", "3:2", "2:3"
+        VALID_RATIOS = ["1:1", "3:2", "2:3"]
+        if not aspect_ratio or aspect_ratio not in VALID_RATIOS:
+            fallback = "1:1"
+            logger.warning(
+                f"Aspect ratio '{aspect_ratio}' inválido ou não informado. "
+                f"Usando fallback '{fallback}'."
+            )
+            aspect_ratio = fallback
 
         model_input = {
             "prompt": prompt,
             "input_images": image_urls,
             "aspect_ratio": aspect_ratio,
             "quality": "medium",
-            "background": "auto",
-            "moderation": "auto",
             "output_format": output_format if output_format in ["webp", "jpg", "png"] else "webp",
             "output_compression": 90,
             "number_of_images": 1
         }
+
+        logger.info(f"  aspect_ratio: {aspect_ratio}")
 
         client = replicate.Client(api_token=token, timeout=120)
         model_id = os.environ.get("AI_MODEL_ID", "openai/gpt-image-2")
@@ -107,6 +111,18 @@ def generate_images(
             result["error"] = "O gerador de IA retornou vazio. Tente novamente."
             logger.error("No images returned from AI provider")
 
+    except replicate.exceptions.ReplicateError as e:
+        error_str = str(e)
+        if '422' in error_str or 'Input validation failed' in error_str or 'must be one of' in error_str:
+            result["error"] = "VALIDATION_ERROR"
+            result["detail"] = error_str
+            logger.error(f"Erro de validação no modelo Replicate: {e}")
+        elif '429' in error_str or 'throttled' in error_str.lower() or 'rate limit' in error_str.lower():
+            result["error"] = "RATE_LIMITED"
+            logger.warning("Rate limit hit in openai/gpt-image-2")
+        else:
+            result["error"] = f"REPLICATE_ERROR: {error_str[:200]}"
+            logger.error(f"Replicate error: {e}", exc_info=True)
     except Exception as e:
         error_str = str(e)
         if '429' in error_str or 'throttled' in error_str.lower() or 'rate limit' in error_str.lower():
@@ -121,20 +137,34 @@ def generate_images(
 
 def generate_with_retry(image_urls: list, prompt: str, max_retries: int = 3, **kwargs) -> dict:
     """
-    Wraps generation with retry logic and 429 handling.
+    Wraps generation with retry logic.
+    - 422 / VALIDATION_ERROR: não retenta, retorna imediatamente.
+    - 429 / RATE_LIMITED: backoff exponencial (2^attempt segundos).
+    - Outros erros: retry linear com seed aleatório.
     """
     last_result = None
 
     for attempt in range(max_retries + 1):
         if attempt > 0:
-            wait_time = 15 if last_result and last_result.get("error") == "RATE_LIMITED" else 5 * attempt
+            err_type = last_result.get("error", "") if last_result else ""
+            if err_type == "VALIDATION_ERROR":
+                logger.error("Erro de validação — retry cancelado.")
+                return last_result
+            elif err_type == "RATE_LIMITED":
+                wait_time = 2 ** attempt
+            else:
+                wait_time = min(5 * attempt, 30)
+                kwargs["seed"] = random.randint(1, 2147483647)
             logger.warning(f"Retry {attempt}/{max_retries}, waiting {wait_time}s...")
             time.sleep(wait_time)
-            kwargs["seed"] = random.randint(1, 2147483647)
 
         last_result = generate_images(image_urls=image_urls, prompt=prompt, **kwargs)
 
         if last_result["success"]:
+            return last_result
+
+        if last_result.get("error") == "VALIDATION_ERROR":
+            logger.error("Erro de validação — não será repetido.")
             return last_result
 
     return last_result
