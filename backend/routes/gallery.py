@@ -5,6 +5,7 @@ from utils.auth_utils import token_required
 
 gallery_bp = Blueprint('gallery', __name__)
 
+@gallery_bp.route('', methods=['GET'])
 @gallery_bp.route('/', methods=['GET'])
 @token_required
 def get_gallery(current_user):
