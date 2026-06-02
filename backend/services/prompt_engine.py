@@ -42,7 +42,9 @@ IDENTITY_TEXT = (
 # ══════════════════════════════════════════════════════════════
 QUALITY_BLOCK = (
     "Ultra photorealistic maternity photography. "
-    "Natural skin texture, no beauty filter, no plastic skin. "
+    "Soft, smooth skin texture, subtle makeup look. "
+    "Light foundation, even skin tone, natural glow. "
+    "No visible pores, no blemishes, no plastic skin effect. "
     "Realistic eyes, realistic hands, realistic anatomy. "
     "Professional studio lighting. Medium format camera. "
     "Shallow depth of field. Editorial magazine quality, high dynamic range. "
