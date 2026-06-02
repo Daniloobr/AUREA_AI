@@ -35,11 +35,12 @@ MAX_PROMPT_LENGTH = 1200
 # ══════════════════════════════════════════════════════════════
 IDENTITY_OPEN = (
     "Photorealistic maternity portrait. "
-    "Preserve exact identity from the 3 reference photos: same face, skin tone, hair, body. "
+    "Images 1, 2, and 3 are reference photos of this woman. "
+    "Preserve exact identity: same face, skin tone, hair, body. "
 )
 
 IDENTITY_CLOSE = (
-    "Same woman as reference photos. Pregnant belly clearly visible."
+    "Same woman as in reference images 1–3. Pregnant belly clearly visible."
 )
 
 

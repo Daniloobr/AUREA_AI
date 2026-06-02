@@ -28,7 +28,7 @@ def generate_images(
     resolution: str = "2K",
     aspect_ratio: str = None,
     output_format: str = "webp",
-    safety_filter_level: str = "block_only_high",
+    safety_filter_level: str = "low",
     **kwargs
 ) -> dict:
     """
@@ -76,6 +76,7 @@ def generate_images(
             "prompt": prompt,
             "input_images": image_urls,
             "aspect_ratio": aspect_ratio,
+            "safety_filter_level": safety_filter_level,
             "quality": "medium",
             "output_format": output_format if output_format in ["webp", "jpg", "png"] else "webp",
             "output_compression": 90,
