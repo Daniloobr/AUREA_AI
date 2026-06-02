@@ -113,3 +113,4 @@ class Config:
 
         if Config.REPLICATE_API_TOKEN:
             os.environ['REPLICATE_API_TOKEN'] = Config.REPLICATE_API_TOKEN
+            os.environ['AI_PROVIDER_API_TOKEN'] = Config.REPLICATE_API_TOKEN

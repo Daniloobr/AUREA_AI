@@ -51,7 +51,7 @@ def generate_images(
     }
 
     try:
-        token = os.environ.get('AI_PROVIDER_API_TOKEN', '').strip()
+        token = os.environ.get('AI_PROVIDER_API_TOKEN', '').strip() or os.environ.get('REPLICATE_API_TOKEN', '').strip()
             
         if not token or 'YOUR_' in token:
             raise ValueError("Token da API de IA não configurado ou inválido.")
@@ -80,8 +80,9 @@ def generate_images(
             "number_of_images": 1
         }
 
-        client = replicate.Client(api_token=token)
+        client = replicate.Client(api_token=token, timeout=120)
         model_id = os.environ.get("AI_MODEL_ID", "openai/gpt-image-2")
+        logger.info(f"Calling Replicate model={model_id} with prompt={prompt[:60] if prompt else 'None'}...")
         output = client.run(model_id, input=model_input)
 
         elapsed = round(time.time() - start_time, 2)

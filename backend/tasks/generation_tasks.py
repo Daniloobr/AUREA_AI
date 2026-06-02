@@ -216,7 +216,18 @@ def generate_image_task(
             job.progress = 10
             job.message = "Iniciando pipeline de geração..."
             db.session.commit()
-            logger.info(f"[Task] Job {job_id} → status=processing")
+            logger.info(f"[Task] Job {job_id} → status=processing (style={style_id})")
+
+            # 1.5️⃣ Gerar prompt se não foi fornecido
+            if not prompt_text:
+                from services.prompt_engine import generate_prompt
+                logger.info(f"[Task] Nenhum prompt_text fornecido. Gerando a partir do style_id={style_id}")
+                prompt_text = generate_prompt(
+                    style_id,
+                    subject_description="",
+                    use_identity_text=True,
+                )
+                logger.info(f"[Task] Prompt gerado: {prompt_text[:80]}...")
 
             # 2️⃣ Chamar API de IA com timeout Python-level
             # (ThreadPoolExecutor garante que o timeout funciona mesmo que

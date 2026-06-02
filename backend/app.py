@@ -71,6 +71,9 @@ def create_app():
     app.limiter = limiter # Disponibiliza para as rotas
     
     # Inicializa a configuração (cria diretórios, define variáveis de ambiente)
+    # Initialize config (creates directories, propagates env vars)
+    Config.init_app(app)
+
     # Initialize Celery with Flask app context.
     # init_celery stores the Flask app on celery.flask_app so that
     # Celery workers can push a proper app context without re-creating the app.
