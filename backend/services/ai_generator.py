@@ -92,16 +92,25 @@ def generate_images(
         elapsed = round(time.time() - start_time, 2)
         result["generation_time"] = elapsed
 
+        # ── Log raw output from Replicate ─────────────────────────────────
+        logger.info(f"[RAW_REPLICATE] output type={type(output).__name__}, value={str(output)[:300]}")
+
         # Process output (list of FileOutput objects)
         images = []
         if output:
             if isinstance(output, list):
-                for item in output:
+                logger.info(f"[RAW_REPLICATE] output is list of len={len(output)}")
+                for i, item in enumerate(output):
+                    logger.info(f"[RAW_REPLICATE]   item[{i}] type={type(item).__name__}, has_url={hasattr(item, 'url')}, value={str(item)[:200]}")
                     images.append(str(item.url) if hasattr(item, 'url') else str(item))
             elif hasattr(output, 'url'):
+                logger.info(f"[RAW_REPLICATE] output is single FileOutput, url={output.url}")
                 images.append(str(output.url))
             else:
+                logger.info(f"[RAW_REPLICATE] output is scalar, converting to str")
                 images.append(str(output))
+        else:
+            logger.warning(f"[RAW_REPLICATE] output is None/empty")
 
         if images:
             result["success"] = True

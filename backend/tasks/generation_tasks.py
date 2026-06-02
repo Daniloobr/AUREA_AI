@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 import time
@@ -249,12 +250,20 @@ def generate_image_task(
                     future.cancel()
                     raise SoftTimeLimitExceeded()
 
+            # ── Debug: log full ai_result ─────────────────────────────────
+            logger.info(f"[TASK_DEBUG] ai_result keys: {list(ai_result.keys())}")
+            logger.info(f"[TASK_DEBUG] ai_result success={ai_result.get('success')}")
+            logger.info(f"[TASK_DEBUG] ai_result images={ai_result.get('images')}")
+            logger.info(f"[TASK_DEBUG] ai_result error={ai_result.get('error')}")
+            logger.info(f"[TASK_DEBUG] ai_result generation_time={ai_result.get('generation_time')}")
+
             if not ai_result.get("success") or not ai_result.get("images"):
-                raise RuntimeError(
-                    ai_result.get("error", "Erro desconhecido na API de IA")
-                )
+                error_msg = ai_result.get("error", "Erro desconhecido na API de IA")
+                logger.error(f"[TASK_DEBUG] ❌ ai_result falhou: {error_msg}")
+                raise RuntimeError(error_msg)
 
             # 3️⃣ Fazer upload das imagens geradas
+            logger.info(f"[TASK_DEBUG] Processando {len(ai_result['images'])} imagem(ns) da Replicate")
             final_urls = []
 
             for remote_url in ai_result["images"]:
@@ -281,14 +290,21 @@ def generate_image_task(
                     logger.warning(f"[Task] Erro ao deletar temp: {cleanup_err}")
 
             if not final_urls:
+                logger.error(f"[TASK_DEBUG] Nenhuma URL final após processamento. remote_urls={ai_result['images']}")
                 raise RuntimeError("Falha ao salvar as imagens no Supabase.")
 
             # 4️⃣ Persistir sucesso — job_failed permanece False
+            logger.info(f"[TASK_DEBUG] Salvando {len(final_urls)} URLs no job: {final_urls}")
             job.set_images(final_urls)
             job.status = "completed"
             job.progress = 100
             job.message = "Sucesso! Seu ensaio premium está pronto."
             db.session.commit()
+
+            # Verificação pós-commit
+            verify_job = GenerationJob.query.filter_by(id=job_id).first()
+            verify_urls = json.loads(verify_job.images_json) if verify_job and verify_job.images_json else []
+            logger.info(f"[TASK_DEBUG] Pós-commit: images_json contém {len(verify_urls)} URL(s)")
             logger.info(f"[Task] ✅ Job {job_id} concluído com {len(final_urls)} imagens.")
 
         except SoftTimeLimitExceeded:
