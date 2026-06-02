@@ -256,6 +256,77 @@ STYLE_PRESETS = {
         "processing": "Color, ethereal airy tones, translucent fabric effect.",
     },
 
+    # ─── NOVOS ESTILOS ADICIONADOS ─────────────────────────────────
+
+    "tropical_dusk": {
+        "name": "Tropical Dusk",
+        "category": "Ao Ar Livre & Natureza",
+        "description": "Joelhos na areia molhada, água na altura dos joelhos, floresta tropical ao fundo, vestido creme com aplicações florais 3D, serenidade e romance.",
+        "cover": "/thumbnails/tropical_dusk.png",
+        "camera": "Medium format camera, 85mm portrait lens, shallow depth of field.",
+        "scene": "Tropical beach at dusk. Kneeling on wet sand at shoreline, shallow water lapping around knees, lush dense tropical palm tree forest as backdrop, clear soft blue dusk sky.",
+        "lighting": "Natural ambient blue hour light. Even soft frontal ambient light, cool-toned, soft, low contrast, film-like quality. Soft shadows, warm skin contrast against cool background.",
+        "outfit": "Cream/off-white fitted spaghetti strap maternity midi dress. Textured knit or crochet-like fabric, V-neckline, form-fitting. 3D floral appliqué rosettes scattered on skirt, hem resting on wet sand.",
+        "pose": "Kneeling upright on both knees on wet sand, side profile with 3/4 turn toward camera, head tilted back with eyes closed, serene expression. One arm wrapped around top of bump, other hand on lower bump, back slightly arched.",
+        "framing": "Full length kneeling figure with tropical background, sand and water in foreground.",
+        "processing": "Color, slightly desaturated, film grain, cool-warm contrast, analog/film aesthetic. Subject sharp, background palm trees softly blurred.",
+    },
+
+    "ocean_goddess": {
+        "name": "Ocean Goddess",
+        "category": "Ao Ar Livre & Natureza",
+        "description": "Em pé na água até a cintura em mar calmo, tecido branco flutuando na superfície, céu nublado dramático. Poderosa, etérea, primal.",
+        "cover": "/thumbnails/ocean_goddess.png",
+        "camera": "Medium format camera, 85mm portrait lens, shallow depth of field.",
+        "scene": "Open ocean / calm sea, standing in waist-deep water. Fabric floating and spreading on water surface, vast open calm sea extending to horizon. Overcast moody sky, soft grey and white clouds.",
+        "lighting": "Natural diffused overcast daylight. Even all-around soft light, flat, cool-toned, no harsh shadows. Moody ethereal atmosphere, no specular highlights.",
+        "outfit": "Pure white draped fabric / strapless wrap. Lightweight semi-sheer chiffon or muslin, loosely draped and wrapped around the body, strapless. Fabric flows freely into water, floating and spreading. Wet fabric clinging to bump, translucent revealing baby bump beneath.",
+        "pose": "3/4 front angle, standing in water, head dramatically tilted back with eyes closed, chin raised toward sky. One arm crossing chest holding draped fabric, other arm extended back with hand on lower back/hip, body arched slightly backward.",
+        "framing": "Upper body to water level, vast sky occupying upper third.",
+        "processing": "Color, desaturated cool tones, moody and cinematic, slight film quality. Subject sharp, background ocean softly blurred.",
+    },
+
+    "golden_couple": {
+        "name": "Golden Couple",
+        "category": "Ao Ar Livre & Natureza",
+        "description": "Casal sentado à beira do lago ao pôr do sol, luz dourada intensa, vestido branco, colete jeans amarrado na frente, barriga exposta. Romântico e cinematográfico.",
+        "cover": "/thumbnails/golden_couple.png",
+        "camera": "Medium format camera, 85mm portrait lens, shallow depth of field.",
+        "scene": "Lakeside at golden hour sunset. Sitting on grassy ground at water's edge, natural vegetation and reeds, silhouetted tree line on horizon, calm reflective water surface. Dramatic golden sunset sky with wispy streaked clouds.",
+        "lighting": "Natural golden hour backlight. Intense warm golden rim light from behind, high contrast. Hair dramatically lit, strong rim lighting outlining body, golden reflections on water, lens flare from sun.",
+        "outfit": "Denim halter crop vest open front tied with bow, sides open exposing bare bump. White/cream flowy maxi skirt, lightweight chiffon, pooling on ground.",
+        "pose": "Seated on ground facing away from camera at 3/4 back angle, turned slightly to side with soft smile visible in profile. One hand resting on bump, legs to the side, relaxed and intimate. Male partner partially visible on left edge (arm/torso).",
+        "framing": "Upper body to ground, vast sky and water in background.",
+        "processing": "Color, warm and golden, high contrast, cinematic tones. Subject in focus, background landscape slightly soft.",
+    },
+
+    "cream_profile": {
+        "name": "Cream Profile",
+        "category": "Ao Ar Livre & Natureza",
+        "description": "Perfil puro na praia ao entardecer, vestido longo justo creme, mãos na barriga, sorriso suave. Íntimo e cinematográfico.",
+        "cover": "/thumbnails/cream_profile.png",
+        "camera": "Medium format camera, 85mm portrait lens, shallow depth of field.",
+        "scene": "Ocean beach at sunset/dusk. Standing on wet sand at shoreline, ocean waves crashing in background. Soft pastel sunset sky, pale peach and cream tones.",
+        "lighting": "Natural ambient dusk light. Soft wrap-around light from horizon behind, very soft, low contrast, moody. Warm rim light on hair and shoulders, overall cool-warm mixed tones.",
+        "outfit": "Cream/off-white form-fitting long sleeve maternity gown. Smooth matte stretch jersey or ribbed knit, body-hugging, long sleeves, scoop or boat neckline, floor-length fitted skirt, no slit.",
+        "pose": "Pure side profile, standing still, head turned very slightly with soft gentle smile. Both hands cradling baby bump from below and side, relaxed and natural stance.",
+        "framing": "Medium to full body, ocean background bokeh/soft blur.",
+        "processing": "Color, moody and desaturated, cool-warm contrast, film-like grain, low light aesthetic. Subject sharp, background ocean softly blurred.",
+    },
+
+    "sunset_silhouette": {
+        "name": "Sunset Silhouette",
+        "category": "Ao Ar Livre & Natureza",
+        "description": "De costas para o sol ao pôr do sol na praia, vestido branco, raios solares dramáticos, semi-silhueta. Épico e cinematográfico.",
+        "cover": "/thumbnails/sunset_silhouette.png",
+        "camera": "Medium format camera, 85mm portrait lens, shallow depth of field.",
+        "scene": "Ocean beach at golden hour sunset. Standing in shallow ocean water, small waves around ankles, wet sand visible, rocky outcrops and distant figures on horizon. Dramatic sky with deep vivid blue, white and golden clouds, brilliant orange and golden sun rays bursting from horizon.",
+        "lighting": "Natural golden hour sunlight directly from behind (backlit). Intense warm golden light creating strong rim light and silhouette effect. Sun rays radiating through clouds (crepuscular rays), golden reflections on wet sand and water.",
+        "outfit": "White/off-white midi/maxi sundress. Lightweight cotton or linen, tiered or flowy, spaghetti straps, fitted bodice, hem wet from ocean water.",
+        "pose": "Back facing camera completely, standing still in shallow water, head slightly bowed or in profile. Both hands cradling baby bump from the sides, silhouetted against sunset.",
+        "framing": "Full length with vast sky occupying top 60% of frame, subject centered in lower third.",
+        "processing": "Color, highly saturated, cinematic, warm golden tones with deep blue sky contrast. Subject slightly silhouetted, background sunset in sharp dramatic detail.",
+    },
 
     # ─── TEMÁTICOS & ESPECIAIS ──────────────────────────────────────
 
