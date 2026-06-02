@@ -13,17 +13,23 @@ celery = Celery(__name__)
 celery.flask_app = None
 
 # ── Module-level configuration (used by Celery worker process) ────────
-_broker_url = os.getenv('CELERY_BROKER_URL')
-_backend_url = os.getenv('CELERY_RESULT_BACKEND')
+# Behaviour governed by two env vars:
+#   CELERY_ENABLED     = "true" → use real Redis broker (requires a worker process)
+#                        unset or "false" → EAGER mode (tasks run inline, no worker needed)
+#   CELERY_BROKER_URL  = redis://...  (only used when CELERY_ENABLED=true)
+#
+_celery_enabled = os.getenv('CELERY_ENABLED', '').strip().lower() == 'true'
+_broker_url = os.getenv('CELERY_BROKER_URL') if _celery_enabled else None
+_backend_url = os.getenv('CELERY_RESULT_BACKEND') if _celery_enabled else None
 _eager_mode = not _broker_url
 
 if _eager_mode:
-    logger.warning("[CELERY] Broker nao configurado no modulo. Modo EAGER.")
+    logger.warning("[CELERY] Modo EAGER ativado. Tasks executam inline (síncrono).")
     _broker_url = 'memory://'
     _backend_url = 'cache+memory://'
 else:
     logger.info(
-        "[CELERY] Configurado via env vars: "
+        "[CELERY] Assíncrono ativado. Broker: "
         f"{_broker_url.split('@')[0] if '@' in _broker_url else 'redis://'}..."
     )
 
@@ -54,17 +60,22 @@ def init_celery(app=None):
 
     celery.flask_app = app
 
-    # Read from app config first (allows override of env vars)
-    broker = app.config.get('CELERY_BROKER_URL') or os.getenv('CELERY_BROKER_URL')
-    backend = app.config.get('CELERY_RESULT_BACKEND') or os.getenv('CELERY_RESULT_BACKEND')
+    # Respect CELERY_ENABLED flag; fall back to eager mode unless explicitly enabled
+    celery_enabled = str(os.getenv('CELERY_ENABLED', app.config.get('CELERY_ENABLED', ''))).strip().lower() == 'true'
+    broker = None
+    backend = None
+
+    if celery_enabled:
+        broker = os.getenv('CELERY_BROKER_URL') or app.config.get('CELERY_BROKER_URL')
+        backend = os.getenv('CELERY_RESULT_BACKEND') or app.config.get('CELERY_RESULT_BACKEND')
 
     task_always_eager = not broker
     if task_always_eager:
-        logger.warning("[CELERY] Broker nao configurado. Ativando modo EAGER (sincrono).")
+        logger.warning("[CELERY] Modo EAGER ativado. Tasks executam inline (síncrono).")
         broker = 'memory://'
         backend = 'cache+memory://'
     else:
-        logger.info(f"[CELERY] Conectado ao broker: {broker.split('@')[0] if '@' in broker else 'redis://'}...")
+        logger.info(f"[CELERY] Assíncrono ativado. Broker: {broker.split('@')[0] if '@' in broker else 'redis://'}...")
 
     celery.conf.update(
         broker_url=broker,

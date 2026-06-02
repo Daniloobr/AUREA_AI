@@ -3,6 +3,7 @@ import uuid
 
 
 class TestQueueService:
+
     def test_queue_generation_insufficient_credits(self, db, test_user):
         test_user.credits_balance = 10
         db.session.commit()
@@ -17,26 +18,28 @@ class TestQueueService:
         test_user.credits_balance = 100
         db.session.commit()
 
-        with patch("services.queue_service.generate_image_task.delay") as mock_delay:
-            from services.queue_service import queue_generation
-            job_id = queue_generation(test_user.id, image_urls=["url1", "url2", "url3"], tipo_ensaio="classic")
+        with patch("services.queue_service.threading.Thread") as mock_thread:
+            with patch("services.queue_service.generate_image_task.run"):
+                from services.queue_service import queue_generation
+                job_id = queue_generation(test_user.id, image_urls=["url1", "url2", "url3"], tipo_ensaio="classic")
 
-            assert job_id is not None
-            assert isinstance(job_id, str)
-            assert len(job_id) == 36
-            mock_delay.assert_called_once()
+                assert job_id is not None
+                assert isinstance(job_id, str)
+                assert len(job_id) == 36
+                mock_thread.assert_called_once()
 
     def test_queue_generation_deducts_credits(self, db, test_user):
         test_user.credits_balance = 100
         db.session.commit()
 
-        with patch("services.queue_service.generate_image_task.delay"):
-            from services.queue_service import queue_generation
-            queue_generation(test_user.id, image_urls=["url1", "url2", "url3"], tipo_ensaio="classic")
+        with patch("services.queue_service.threading.Thread"):
+            with patch("services.queue_service.generate_image_task.run"):
+                from services.queue_service import queue_generation
+                queue_generation(test_user.id, image_urls=["url1", "url2", "url3"], tipo_ensaio="classic")
 
-            from models.db_models import User
-            updated = User.query.get(test_user.id)
-            assert updated.credits_balance == 75
+        from models.db_models import User
+        updated = User.query.get(test_user.id)
+        assert updated.credits_balance == 75
 
     def test_get_job_status_not_found(self, db):
         from services.queue_service import get_job_status

@@ -1,5 +1,6 @@
 import uuid
 import os
+import threading
 from database import db
 from models.db_models import GenerationJob, User, Transaction
 from services.ai_generator import generate_with_retry, download_generated_image
@@ -149,7 +150,20 @@ def queue_generation(user_id: str, image_urls: list = None, tipo_ensaio: str = N
         db.session.rollback()
         raise e
 
-    generate_image_task.delay(job_id, image_urls, tipo_ensaio, prompt, user.id)
+    from celery_app import celery as celery_app
+    if celery_app.conf.task_always_eager:
+        # Modo EAGER: roda em background thread para não travar o HTTP request
+        logger.info(f"[EAGER] Job {job_id} executando em background thread...")
+        t = threading.Thread(
+            target=generate_image_task.run,
+            args=(job_id, image_urls, tipo_ensaio, prompt, user.id),
+            daemon=True,
+        )
+        t.start()
+    else:
+        # Modo assíncrono com Redis: envia para a fila
+        generate_image_task.delay(job_id, image_urls, tipo_ensaio, prompt, user.id)
+
     logger.info(f"Job {job_id} queued for user {user.id}. Cost: {COST_PER_CALL}")
     return job_id
 
