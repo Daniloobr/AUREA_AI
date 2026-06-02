@@ -3,18 +3,18 @@ AUREA AI — Premium Maternity Photography Prompt Engine
 =======================================================
 Optimized for openai/gpt-image-2 via Replicate with 3 reference photos.
 
-Engineering Principles (GPT-Image-2 best practices):
-  1. Identity anchor at the START and END of every prompt — combats identity drift.
-  2. Concrete visual facts: lighting direction, color palette, fabric texture, set details.
-  3. Camera/lens language activates photorealistic rendering behavior.
-  4. Avoid negatives ("no", "don't") — describe what IS there instead.
-  5. Keep prompts ≤ 580 chars to avoid truncation before identity anchor.
-  6. Each style must feel like a real, premium editorial shoot — not stock photography.
+Engineering Principles:
+  1. Identity anchor once at the START — no repetition.
+  2. Concrete visual facts only: scene, lighting, outfit, pose, framing, processing.
+  3. Camera/lens language activates photorealistic behavior.
+  4. No vague adjectives ("beautiful", "elegant", "stunning").
+  5. Prompts ≤ 550 chars to ensure full delivery.
+  6. Each style describes a real photoshoot a photographer would direct.
 
 Context:
-  - Subject: pregnant woman (gestante), belly visible and celebrated.
-  - Input: 3 natural photos of the real woman uploaded by the user.
-  - Output: a produced, beautiful maternity photoshoot image.
+  - Subject: pregnant woman, belly visible and celebrated.
+  - Input: 3 natural reference photos of the real woman.
+  - Output: professional studio-quality maternity portrait.
 """
 
 import logging
@@ -24,426 +24,336 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # ══════════════════════════════════════════════════════════════
-# GLOBAL CONFIG
+# CONFIG
 # ══════════════════════════════════════════════════════════════
-MAX_PROMPT_LENGTH = 1200
-
-
-# ══════════════════════════════════════════════════════════════
-# IDENTITY ANCHORS — placed at start and end of every prompt
-# to minimize identity drift in gpt-image-2
-# ══════════════════════════════════════════════════════════════
-IDENTITY_OPEN = (
-    "Photorealistic maternity portrait. "
-    "Images 1, 2, and 3 are reference photos of this woman. "
-    "Preserve exact identity: same face, skin tone, hair, body. "
-)
-
-IDENTITY_CLOSE = (
-    "Same woman as in reference images 1–3. Pregnant belly clearly visible."
-)
-
+MAX_PROMPT_LENGTH = 600
 
 # ══════════════════════════════════════════════════════════════
-# LENS PRESETS — short, technical, activates realism mode
+# IDENTITY — single sentence, placed once at prompt start
+# ══════════════════════════════════════════════════════════════
+IDENTITY_TEXT = "Preserve exact identity from the 3 reference photos: same face, skin, body."
+
+# ══════════════════════════════════════════════════════════════
+# LENS PRESETS — override library (backward compat)
 # ══════════════════════════════════════════════════════════════
 LENS_PRESETS = {
-    "portrait":    "Shot on 85mm f/1.8, natural compression, silky background blur.",
-    "cinematic":   "Shot on 50mm f/2, cinematic depth of field, film grain.",
-    "wide":        "Shot on 35mm f/2.8, environmental context, editorial framing.",
-    "telephoto":   "Shot on 135mm f/2, extreme background compression, subject isolation.",
-    "close":       "Shot on 100mm macro, intimate detail, razor-sharp focus on face.",
+    "portrait":    "85mm lens, natural compression, soft background.",
+    "cinematic":   "50mm lens, cinematic depth of field.",
+    "wide":        "35mm lens, environmental context.",
+    "telephoto":   "135mm lens, background compression, subject isolation.",
+    "close":       "100mm macro, intimate detail, sharp focus on face.",
 }
 
-
 # ══════════════════════════════════════════════════════════════
-# EXPRESSIONS — specific, emotionally resonant
+# EXPRESSIONS — override library (backward compat)
 # ══════════════════════════════════════════════════════════════
 EXPRESSION_LIBRARY = {
-    "warm":           "gentle radiant smile, eyes soft and full of joy.",
-    "serene":         "calm peaceful expression, eyes slightly closed in contentment.",
-    "editorial":      "composed introspective look, chin slightly lowered, gaze distant.",
-    "laughing":       "genuine candid laugh, head tilted back naturally.",
-    "tender_belly":   "looking down at the belly with pure love, soft gentle smile.",
-    "window_dream":   "gazing toward soft light, dreamy faraway expression.",
-    "proud":          "proud confident gaze toward camera, empowered expression.",
+    "warm":           "warm gentle smile, eyes full of joy.",
+    "serene":         "calm peaceful expression, eyes slightly closed.",
+    "editorial":      "composed introspective look, chin lowered, gaze distant.",
+    "laughing":       "genuine candid laugh, head tilted back.",
+    "tender_belly":   "looking down at belly with love, soft smile.",
+    "window_dream":   "gazing toward light, dreamy faraway expression.",
+    "proud":          "confident gaze toward camera, empowered expression.",
 }
 
-
 # ══════════════════════════════════════════════════════════════
-# POSES — elegant, natural maternity poses
+# POSES — override library (backward compat)
 # ══════════════════════════════════════════════════════════════
 POSE_LIBRARY = {
-    "front_cradle":     "facing camera, both hands cupped gently under the belly.",
-    "side_profile":     "standing in soft profile, belly silhouette beautifully visible.",
-    "walking_natural":  "mid-stride, natural movement, flowing fabric in gentle motion.",
-    "window_lean":      "leaning softly against window frame, one hand on belly.",
-    "seated_grace":     "seated elegantly, one hand on belly, the other relaxed.",
-    "hair_belly":       "one hand lightly touching hair, other hand on belly.",
-    "looking_down":     "standing tall, looking tenderly down at the belly.",
+    "front_cradle":     "facing camera, hands cupped gently under belly.",
+    "side_profile":     "standing in profile, belly silhouette visible.",
+    "walking_natural":  "mid-stride, natural movement, fabric in motion.",
+    "window_lean":      "leaning against window frame, one hand on belly.",
+    "seated_grace":     "seated, one hand on belly, the other relaxed.",
+    "hair_belly":       "one hand touching hair, other on belly.",
+    "looking_down":     "standing tall, looking tenderly down at belly.",
 }
 
-
 # ══════════════════════════════════════════════════════════════
-# FRAMING VARIANTS
+# FRAMING VARIANTS — override library (backward compat)
 # ══════════════════════════════════════════════════════════════
 FRAMING_VARIANTS = {
-    "full_body":          "full body composition, floor to crown, elegant proportions.",
-    "three_quarters":     "three-quarter shot from knees up, belly naturally centered.",
-    "medium":             "medium portrait from waist up, emotional intimacy.",
-    "close_up_emotional": "tight portrait, face fills frame, emotion in every detail.",
-    "detail_hands_belly": "close detail of hands resting on belly, bokeh background.",
-    "silhouette":         "dramatic side silhouette, belly and figure outlined by backlight.",
+    "full_body":          "full body, floor to crown.",
+    "three_quarters":     "three-quarter shot from knees up.",
+    "medium":             "medium portrait from waist up.",
+    "close_up_emotional": "tight portrait, face fills frame.",
+    "detail_hands_belly": "close detail of hands on belly.",
+    "silhouette":         "side silhouette, belly outlined by backlight.",
 }
 
-
 # ══════════════════════════════════════════════════════════════
-# STYLE PRESETS — 15 premium environments
-# Each prompt is crafted to:
-#   - describe the PHYSICAL SET (colors, textures, objects, light source)
-#   - describe the OUTFIT in concrete terms
-#   - use LIGHTING language a photographer would recognize
+# STYLE PRESETS — structured JSON
+# Each preset contains the concrete facts a photographer would
+# communicate to produce the shot: scene, lighting, outfit,
+# pose, framing, processing, and default camera lens.
 # ══════════════════════════════════════════════════════════════
 STYLE_PRESETS = {
 
-    # ─── CLÁSSICOS ATEMPORAIS ─────────────────────────────────────────────────
+    # ─── CLÁSSICOS ATEMPORAIS ───────────────────────────────────────
+
     "classic_studio": {
         "name": "Estúdio Clássico",
         "category": "Clássicos Atemporais",
-        "description": "Um retrato clássico em estúdio com fundo neutro cinza-pérola, iluminação suave de dois softboxes que esculpem a silhueta da gestante. Vestido de musselina fluida em branco gelo. Atemporal e elegante.",
+        "description": "Retrato clássico em estúdio com fundo neutro cinza-pérola, iluminação suave e vestido de musselina branco.",
         "cover": "/thumbnails/classic.png",
-        "lens": "portrait",
-        "pose": "front_cradle",
-        "expression": "warm",
-        "framing": "three_quarters",
-        "prompt": (
-            "High-end maternity studio portrait. Pearl-gray seamless backdrop. "
-            "Two large softbox lights: one main at 45° left, one fill from right. "
-            "She wears a flowing white muslin wrap dress with natural folds. "
-            "Skin lit evenly, warm ivory tones. Clean professional photography."
-        ),
+        "camera": "85mm lens.",
+        "scene": "Minimalist studio, pearl-gray seamless backdrop.",
+        "lighting": "Two softboxes: main at 45 deg left, fill from right, even diffuse light.",
+        "outfit": "White muslin wrap dress with natural folds.",
+        "pose": "Standing centered, hands resting gently on belly, warm smile toward camera.",
+        "framing": "Three-quarter length.",
+        "processing": "Color, warm ivory tones, clean professional finish.",
     },
 
     "luxury_studio": {
         "name": "Estúdio Luxo Couture",
         "category": "Clássicos Atemporais",
-        "description": "Estúdio luxuoso com fundo degradê cinza-pomba, iluminação de rim que realça a silhueta e um vestido de seda marfim com decote elegante. Sofisticação de alta costura.",
+        "description": "Estúdio luxuoso com fundo degradê cinza-pomba, rim light dourado e vestido de seda marfim.",
         "cover": "/thumbnails/luxury_studio.png",
-        "lens": "cinematic",
-        "pose": "side_profile",
-        "expression": "editorial",
-        "framing": "full_body",
-        "prompt": (
-            "Luxury couture maternity portrait. Dove-gray gradient studio backdrop. "
-            "Rim light outlining her silhouette in warm gold. Front soft fill light. "
-            "She wears a backless ivory silk gown with long train pooling on the floor. "
-            "Polished concrete floor reflecting her silhouette. Vogue editorial quality."
-        ),
+        "camera": "50mm lens.",
+        "scene": "Luxury studio, dove-gray gradient backdrop, polished concrete floor.",
+        "lighting": "Warm gold rim light from behind right, soft front fill.",
+        "outfit": "Backless ivory silk gown with long train on floor.",
+        "pose": "Standing in profile, hands on belly, composed look toward camera.",
+        "framing": "Full body.",
+        "processing": "Color, warm gold tones, editorial finish.",
     },
 
     "ivory_satin": {
         "name": "Cetim Imperial",
         "category": "Clássicos Atemporais",
-        "description": "Vestido imperial de cetim marfim, sem costas, cauda longa sobre piso polido refletido. Iluminação lateral dramática que realça a textura sedosa. Cinematográfico e atemporal.",
+        "description": "Vestido imperial de cetim marfim sem costas com cauda longa sobre piso polido, iluminação lateral dramática.",
         "cover": "/thumbnails/image3.png",
-        "lens": "telephoto",
-        "pose": "side_profile",
-        "expression": "serene",
-        "framing": "full_body",
-        "prompt": (
-            "Imperial maternity portrait. Ivory satin backless gown with a long train. "
-            "Side directional light source from the right casting elegant shadows. "
-            "Highly reflective polished white marble floor. Dark gray studio backdrop. "
-            "Fabric texture crisp, satin sheen catching the light. Fine art photograph."
-        ),
+        "camera": "135mm lens.",
+        "scene": "Studio, dark gray backdrop, highly reflective white marble floor.",
+        "lighting": "Directional side light from right, satin sheen catching light.",
+        "outfit": "Ivory satin backless gown with long train.",
+        "pose": "Standing in profile, hands on belly, eyes closed in serene expression.",
+        "framing": "Full body.",
+        "processing": "Color, crisp satin texture, fine art finish.",
     },
 
-    # ─── EDITORIAIS VOGUE ─────────────────────────────────────────────────────
+    # ─── EDITORIAIS VOGUE ───────────────────────────────────────────
+
     "black_white_editorial": {
         "name": "Preto & Branco Editorial",
         "category": "Editoriais Vogue",
-        "description": "Editorial monocromático de alto contraste estilo Vogue. Luz dramática esculpindo o corpo. Granulação de filme analógico. Sombras profundas, realces nítidos. Intemporal.",
+        "description": "Editorial monocromático de alto contraste com luz dramática, granulação de filme e silhueta esculpida.",
         "cover": "/thumbnails/black_white_editorial.png",
-        "lens": "cinematic",
-        "pose": "side_profile",
-        "expression": "editorial",
-        "framing": "full_body",
-        "prompt": (
-            "Black and white fine art maternity portrait, Vogue editorial style. "
-            "Single dramatic side light from the left, deep shadows, bright highlights. "
-            "Rich tonal range from near-black to crisp white. Subtle film grain texture. "
-            "She wears a flowing black silk chiffon gown. Seamless dark backdrop. "
-            "Timeless monochrome, high contrast, museum quality print."
-        ),
+        "camera": "50mm lens.",
+        "scene": "Studio, seamless dark backdrop.",
+        "lighting": "Single dramatic side light from left, deep shadows, bright highlights.",
+        "outfit": "Flowing black silk chiffon gown.",
+        "pose": "Standing in profile, hands on belly, composed editorial gaze off-camera.",
+        "framing": "Full body.",
+        "processing": "Black and white, high contrast, subtle film grain.",
     },
 
     "dramatic_black_gown": {
         "name": "Vestido Preto Dramático",
         "category": "Editoriais Vogue",
-        "description": "Vestido longo preto sem costas com cauda. Iluminação Chiaroscuro lateral sobre piso escuro polido. Composição marcante e poderosa. Sombras profundas e elegantes.",
+        "description": "Vestido longo preto sem costas com iluminação Chiaroscuro lateral sobre piso escuro polido.",
         "cover": "/thumbnails/vestidoBlack.png",
-        "lens": "cinematic",
-        "pose": "side_profile",
-        "expression": "proud",
-        "framing": "full_body",
-        "prompt": (
-            "Dramatic Chiaroscuro maternity portrait. She wears an elegant backless "
-            "black velvet gown with a long trailing skirt. Single strong side light "
-            "from left, creating bold shadow on one half of the body. "
-            "Highly polished dark floor reflecting her silhouette. Black backdrop. "
-            "Cinematic power, bold editorial composition."
-        ),
+        "camera": "50mm lens.",
+        "scene": "Studio, black backdrop, highly polished dark floor.",
+        "lighting": "Single strong side light from left, bold shadow on half the body.",
+        "outfit": "Backless black velvet gown with long trailing skirt.",
+        "pose": "Standing in profile, hands on belly, confident gaze toward camera.",
+        "framing": "Full body.",
+        "processing": "Black and white, deep shadows, cinematic contrast.",
     },
 
     "red_velvet": {
         "name": "Veludo Borgonha",
         "category": "Editoriais Vogue",
-        "description": "Vestido longo de veludo borgonha com cauda dramática. Fundo escuro de mármore preto. Iluminação quente de rim em dourado que realça o tecido rico. Intensidade editorial.",
+        "description": "Vestido longo de veludo borgonha com cauda dramática, rim light dourado e fundo mármore preto.",
         "cover": "/thumbnails/luxury_studio.png",
-        "lens": "telephoto",
-        "pose": "side_profile",
-        "expression": "editorial",
-        "framing": "full_body",
-        "prompt": (
-            "Editorial maternity portrait. She wears a deep burgundy velvet gown "
-            "with dramatic floor-length train. Warm golden rim light from behind right. "
-            "Soft front fill preserving face detail. Black marble floor and backdrop. "
-            "Rich velvet texture catching the warm rim light. Opulent, magazine editorial."
-        ),
+        "camera": "135mm lens.",
+        "scene": "Studio, black marble backdrop and floor.",
+        "lighting": "Warm golden rim light from behind right, soft front fill.",
+        "outfit": "Deep burgundy velvet gown with floor-length train.",
+        "pose": "Standing in profile, hands on belly, composed editorial expression.",
+        "framing": "Full body.",
+        "processing": "Color, opulent warm tones, rich velvet texture.",
     },
 
     "editorial_black_blazer": {
         "name": "Editorial Blazer & Mesh",
         "category": "Editoriais Vogue",
-        "description": "Estúdio minimalista com fundo degradê verde-oliva acinzentado. Blazer charcoal largo drapeado nos ombros sobre body de tule preto transparente revelando a barriga nua. Calça pantalona preta e joias douradas. Luz frontal difusa com destaque suave na barriga. Joyful, confiante, editorial.",
+        "description": "Blazer charcoal, body de tule preto transparente, barriga à mostra, calça pantalona e joias douradas.",
         "cover": "/thumbnails/black_white_editorial.png",
-        "lens": "portrait",
-        "pose": "front_cradle",
-        "expression": "serene",
-        "framing": "three_quarters",
-        "prompt": (
-            "Modern editorial maternity studio portrait. Muted olive-khaki grey gradient backdrop. "
-            "She wears an oversized charcoal blazer draped loosely off-shoulder, "
-            "sheer black mesh turtleneck bodysuit with bare pregnant belly visible through fabric, "
-            "solid black bralette underneath, high-waist wide-leg black trousers. "
-            "Delicate gold layered necklaces, crystal statement earrings, gold rings. "
-            "Front-centered diffused warm studio light, subtle warm spotlight on belly. "
-            "Warm-toned slightly desaturated color grade. Joyful, confident, chic, empowered editorial."
-        ),
+        "camera": "85mm lens.",
+        "scene": "Studio, muted olive-khaki grey gradient backdrop.",
+        "lighting": "Front diffused warm studio light, soft spotlight on belly.",
+        "outfit": "Oversized charcoal blazer off-shoulder, sheer black mesh top, high-waist wide-leg black trousers, gold jewelry.",
+        "pose": "Standing facing camera, hands cupped under belly, calm serene expression.",
+        "framing": "Three-quarter length.",
+        "processing": "Color, warm desaturated tones, editorial fashion grade.",
     },
 
     "seated_cube_editorial": {
         "name": "Cubo Branco Editorial",
         "category": "Editoriais Vogue",
-        "description": "Estúdio com fundo degradê taupe-moca escuro e piso claro. Gestante sentada de lado em um cubo branco matte, pernas cruzadas no tornozelo, blazer longo preto aberto, top cropped com barra scalloped, calça pantalona preta e sandália plataforma bege. Joias prata. Sofisticado e moderno.",
+        "description": "Sentada em cubo branco matte, blazer preto, top cropped, calça pantalona e sandália plataforma.",
         "cover": "/thumbnails/vestidoBlack.png",
-        "lens": "wide",
-        "pose": "seated_grace",
-        "expression": "editorial",
-        "framing": "full_body",
-        "prompt": (
-            "Modern editorial maternity studio portrait. Warm dark taupe-mocha gradient backdrop, "
-            "light polished floor. Large matte white cube prop used as seat. "
-            "She sits sideways on the cube, legs crossed at ankle, torso turned toward camera, "
-            "gaze directed calmly off to the side. Open-front long black blazer/duster, "
-            "scalloped-edge black crop bralette, high-waist wide-leg black trousers, "
-            "beige chunky platform open-toe sandals. Delicate silver layered necklaces, silver rings. "
-            "Front-left warm diffused studio light, subtle floor spotlight, gentle background vignette. "
-            "Sophisticated, calm, modern editorial mood."
-        ),
+        "camera": "35mm lens.",
+        "scene": "Studio, warm dark taupe-mocha gradient backdrop, light polished floor.",
+        "lighting": "Front-left warm diffused studio light, subtle floor spotlight.",
+        "outfit": "Open long black blazer, scalloped black crop top, high-waist wide-leg black trousers, beige platform sandals, silver jewelry.",
+        "pose": "Seated sideways on matte white cube, legs crossed at ankle, torso turned toward camera, calm gaze off-camera.",
+        "framing": "Full body.",
+        "processing": "Color, sophisticated warm tones, modern editorial finish.",
     },
 
     "bw_silhouette_profile": {
         "name": "P&B Silhueta Artística",
         "category": "Editoriais Vogue",
-        "description": "Arte fotográfica em preto e branco de alto contraste. Perfil puro a 90° mostrando a silhueta da barriga. Vestido bodycon preto de gola rulê manga longa, body-hugging. Leve arqueamento nas costas acentuando a curva da barriga. Luz lateral esculpindo as formas. Elegante, atemporal, poderoso.",
+        "description": "Perfil puro a 90 graus mostrando silhueta da barriga, vestido bodycon preto gola rulê, P&B alto contraste.",
         "cover": "/thumbnails/black_white_editorial.png",
-        "lens": "cinematic",
-        "pose": "side_profile",
-        "expression": "editorial",
-        "framing": "full_body",
-        "prompt": (
-            "Fine art maternity portrait, pure 90-degree side profile. "
-            "Neutral grey gradient studio backdrop. "
-            "She wears a form-fitting sleek black turtleneck bodycon maxi dress, "
-            "long sleeves, smooth matte stretch fabric, no embellishments, body-hugging silhouette. "
-            "One hand gently resting on belly from front, other hand on lower back, "
-            "slight arch in the back accentuating the belly curve. "
-            "Front-left diffused studio light creating soft sculpting shadows along the body. "
-            "Processed in high contrast black and white monochrome. Elegant, timeless, powerful."
-        ),
+        "camera": "50mm lens.",
+        "scene": "Studio, neutral grey gradient backdrop.",
+        "lighting": "Front-left diffuse studio light, soft sculpting shadows along body.",
+        "outfit": "Sleek black turtleneck bodycon maxi dress, long sleeves, matte stretch fabric.",
+        "pose": "Pure 90-degree side profile, slight back arch accentuating belly curve, one hand on belly front, other on lower back.",
+        "framing": "Full body.",
+        "processing": "Black and white, high contrast, fine art monochrome.",
     },
 
-    # ─── ORGÂNICOS & SONHADORES ───────────────────────────────────────────────
+    # ─── ORGÂNICOS & SONHADORES ─────────────────────────────────────
 
     "golden_hour_nature": {
         "name": "Pôr do Sol na Natureza",
         "category": "Orgânicos & Sonhadores",
-        "description": "Campo aberto de flores silvestres ao pôr do sol. Luz dourada lateral banhando a gestante. Vestido fluido rosa antigo. Bokeh suave de flores desfocadas. Mágico e caloroso.",
+        "description": "Campo aberto de flores silvestres ao pôr do sol com luz dourada lateral e vestido fluido rosa antigo.",
         "cover": "/thumbnails/golden_hour_nature.png",
-        "lens": "portrait",
-        "pose": "walking_natural",
-        "expression": "warm",
-        "framing": "full_body",
-        "prompt": (
-            "Outdoor maternity portrait at golden hour. Open wildflower meadow: "
-            "lavender, chamomile, and poppies in the foreground, soft bokeh background. "
-            "Warm orange-gold sunlight from the right side bathing her face and body. "
-            "She wears a flowing dusty rose chiffon maxi dress in gentle motion. "
-            "Lens flare, warm 4500K color grade. Real outdoor natural beauty."
-        ),
+        "camera": "85mm lens.",
+        "scene": "Open wildflower meadow at golden hour.",
+        "lighting": "Warm orange-gold sunlight from right side.",
+        "outfit": "Flowing dusty rose chiffon maxi dress in gentle motion.",
+        "pose": "Walking naturally through meadow, hands on belly, radiant smile toward camera.",
+        "framing": "Full body.",
+        "processing": "Color, warm 4500K golden tones, outdoor natural light.",
     },
 
     "boho_chic": {
         "name": "Boho Chic Rústico",
         "category": "Orgânicos & Sonhadores",
-        "description": "Interior rústico com cortinas translúcidas brancas, pampas grass em vaso de barro, cobertor de tricô em tom areia. Luz natural filtrada suave. Aconchego e autenticidade.",
+        "description": "Interior rústico com cortinas translúcidas, pampas grass e vestido de linho em tom terra.",
         "cover": "/thumbnails/boho_chic.png",
-        "lens": "wide",
-        "pose": "window_lean",
-        "expression": "window_dream",
-        "framing": "three_quarters",
-        "prompt": (
-            "Bohemian maternity portrait indoors. Sheer white linen curtains diffusing "
-            "natural window light from the left. Pampas grass in a terracotta vase, "
-            "dried floral wreaths, macramé wall hanging visible in background. "
-            "She wears a flowing earth-tone crinkle linen maxi dress. "
-            "Warm sand and terracotta color palette. Cozy, authentic, editorial boho."
-        ),
+        "camera": "35mm lens.",
+        "scene": "Rustic interior, sheer white linen curtains, pampas grass in terracotta vase, dried floral wreaths.",
+        "lighting": "Diffused natural window light from left, soft warm fill.",
+        "outfit": "Flowing earth-tone crinkle linen maxi dress.",
+        "pose": "Leaning against window frame, one hand on belly, dreamy gaze toward light.",
+        "framing": "Three-quarter length.",
+        "processing": "Color, warm sand and terracotta palette, natural cozy finish.",
     },
 
     "taupe_wings": {
         "name": "Asas de Chiffon Nude",
         "category": "Orgânicos & Sonhadores",
-        "description": "Vestido de chiffon nude fluindo como asas em movimento. Fundo cinza suave. Luz de softbox overhead. Tecido ultra-leve capturado em movimento etéreo. Sonhador e poético.",
+        "description": "Vestido de chiffon nude fluindo como asas com luz de softbox overhead, etéreo e poético.",
         "cover": "/thumbnails/image2.png",
-        "lens": "cinematic",
-        "pose": "walking_natural",
-        "expression": "serene",
-        "framing": "full_body",
-        "prompt": (
-            "Ethereal maternity portrait. She wears an ultra-light deep taupe-nude "
-            "chiffon gown with wide draped sleeves flowing like wings in gentle motion. "
-            "Overhead softbox light from above, creating soft top-light on her face. "
-            "Light gray seamless backdrop. Fabric billowing naturally, translucent where "
-            "backlit. Dreamy, otherworldly, poetic maternity art."
-        ),
+        "camera": "50mm lens.",
+        "scene": "Studio, light gray seamless backdrop.",
+        "lighting": "Overhead softbox light, soft top-light on face, translucent fabric backlit.",
+        "outfit": "Ultra-light deep taupe-nude chiffon gown with wide draped sleeves.",
+        "pose": "Walking forward, fabric billowing like wings, serene expression, eyes slightly closed.",
+        "framing": "Full body.",
+        "processing": "Color, ethereal airy tones, translucent fabric effect.",
     },
 
-    # ─── AO AR LIVRE & NATUREZA ───────────────────────────────────────────────
+    # ─── AO AR LIVRE & NATUREZA ─────────────────────────────────────
+
     "forest_fairy": {
         "name": "Floresta Encantada",
         "category": "Ao Ar Livre & Natureza",
-        "description": "Floresta densa com raios de luz solar entre as árvores. Musgo verde, samambaias, raízes expostas. Vestido de renda off-white etéreo. Atmosfera de fada da floresta.",
+        "description": "Floresta densa com raios de luz solar, musgo, samambaias e vestido de renda off-white etéreo.",
         "cover": "/thumbnails/classic.png",
-        "lens": "portrait",
-        "pose": "hair_belly",
-        "expression": "serene",
-        "framing": "full_body",
-        "prompt": (
-            "Enchanted forest maternity portrait. Dense green forest: tall trees, "
-            "dappled sunlight breaking through canopy, moss-covered ground, "
-            "ferns and wild flowers at her feet. Volumetric light shafts from above. "
-            "She wears an ethereal off-white lace boho gown with long sleeves. "
-            "Soft green and warm gold tones. Fairy tale atmosphere."
-        ),
+        "camera": "85mm lens.",
+        "scene": "Dense forest, tall trees, moss-covered ground, ferns, wildflowers.",
+        "lighting": "Dappled sunlight breaking through canopy, volumetric light shafts.",
+        "outfit": "Off-white lace boho gown with long sleeves.",
+        "pose": "Standing among ferns, one hand touching hair, other on belly, serene expression.",
+        "framing": "Full body.",
+        "processing": "Color, soft green and warm gold tones, natural forest atmosphere.",
     },
 
     "beach_sunrise": {
         "name": "Praia ao Amanhecer",
         "category": "Ao Ar Livre & Natureza",
-        "description": "Praia deserta ao amanhecer com areia fina dourada e ondas suaves. Luz rosada e dourada do horizonte. Vestido branco fluido que toca a areia. Pés descalços. Livre e poderosa.",
+        "description": "Praia deserta ao amanhecer com luz rosada do horizonte, vestido branco fluido e pés descalços.",
         "cover": "/thumbnails/golden_hour_nature.png",
-        "lens": "wide",
-        "pose": "side_profile",
-        "expression": "serene",
-        "framing": "full_body",
-        "prompt": (
-            "Beach maternity portrait at sunrise. Empty sandy beach, wet sand "
-            "reflecting pink and gold sky, gentle waves in background. "
-            "Warm pink-orange sunrise light from the horizon backlighting her silhouette. "
-            "She wears a flowing white organza dress touching the sand, bare feet. "
-            "Fresh ocean breeze moving fabric. Freedom, power, natural beauty."
-        ),
+        "camera": "35mm lens.",
+        "scene": "Empty sandy beach at sunrise, wet sand reflecting sky.",
+        "lighting": "Warm pink-orange sunrise light from horizon, backlighting silhouette.",
+        "outfit": "Flowing white organza dress touching sand, bare feet.",
+        "pose": "Standing in profile at water edge, hands on belly, serene expression, eyes slightly closed.",
+        "framing": "Full body.",
+        "processing": "Color, warm pastel pink and gold tones, soft sunrise glow.",
     },
 
     "lavender_fields": {
         "name": "Campo de Lavanda",
         "category": "Ao Ar Livre & Natureza",
-        "description": "Campos infinitos de lavanda roxa sob céu azul suave. Luz de tarde quente. Vestido lavanda coordenado. Buquê de lavanda fresca nas mãos. Provence romântico e sonhador.",
+        "description": "Campos infinitos de lavanda roxa ao entardecer com vestido lavanda coordenado e buquê de lavanda.",
         "cover": "/thumbnails/boho_chic.png",
-        "lens": "portrait",
-        "pose": "walking_natural",
-        "expression": "warm",
-        "framing": "three_quarters",
-        "prompt": (
-            "Lavender field maternity portrait. Endless rows of purple lavender "
-            "stretching to the horizon, soft blue sky, warm afternoon sunlight. "
-            "She wears a flowing dusty lavender chiffon maxi dress. "
-            "Holding a loose bouquet of fresh lavender in one hand, "
-            "other hand gently on belly. Bees and butterflies in soft bokeh. "
-            "Romantic Provence atmosphere, pastel purple and sage palette."
-        ),
+        "camera": "85mm lens.",
+        "scene": "Endless rows of purple lavender under soft blue sky.",
+        "lighting": "Warm afternoon sunlight, soft golden glow.",
+        "outfit": "Flowing dusty lavender chiffon maxi dress, holding fresh lavender bouquet.",
+        "pose": "Walking through lavender rows, one hand holding bouquet, other on belly, warm smile.",
+        "framing": "Three-quarter length.",
+        "processing": "Color, pastel purple and sage palette, romantic Provence tones.",
     },
 
-    # ─── AMBIENTES ÍNTIMOS & ELEGANTES ───────────────────────────────────────
+    # ─── AMBIENTES ÍNTIMOS & ELEGANTES ──────────────────────────────
+
     "paris_balcony": {
         "name": "Varanda Parisiense",
         "category": "Ambientes Elegantes",
-        "description": "Varanda parisiense com grades de ferro forjado e flores brancas. Vista de telhados da cidade ao fundo. Vestido de seda champagne. Luz natural matinal. Elegância europeia.",
+        "description": "Varanda parisiense com grades de ferro forjado, flores brancas e vista de telhados ao fundo.",
         "cover": "/thumbnails/luxury_studio.png",
-        "lens": "cinematic",
-        "pose": "window_lean",
-        "expression": "window_dream",
-        "framing": "three_quarters",
-        "prompt": (
-            "Parisian balcony maternity portrait. Ornate wrought-iron railing with "
-            "white roses and ivy. Soft morning light from the left. Paris rooftops "
-            "visible in soft bokeh background. She wears a champagne silk slip dress. "
-            "Fresh flowers on railing, vintage bistro chair visible. "
-            "Romantic European elegance, warm golden morning palette."
-        ),
+        "camera": "50mm lens.",
+        "scene": "Parisian balcony, ornate wrought-iron railing with white roses and ivy, Paris rooftops visible.",
+        "lighting": "Soft morning light from left, rooftops in soft bokeh background.",
+        "outfit": "Champagne silk slip dress.",
+        "pose": "Leaning on railing, one hand on belly, dreamy gaze toward the view.",
+        "framing": "Three-quarter length.",
+        "processing": "Color, warm golden morning palette, romantic European elegance.",
     },
 
     "luxury_bedroom": {
         "name": "Quarto Luxuoso",
         "category": "Ambientes Elegantes",
-        "description": "Quarto de hotel de luxo com cama king-size de linho branco, cortinas de voile brancas filtrando luz natural. Flores de peônia brancas. Robe de seda creme. Íntimo e requintado.",
+        "description": "Quarto de hotel luxuoso com cama king-size linho branco, peônias, cortinas de voile e robe de seda.",
         "cover": "/thumbnails/image3.png",
-        "lens": "close",
-        "pose": "seated_grace",
-        "expression": "tender_belly",
-        "framing": "medium",
-        "prompt": (
-            "Intimate luxury bedroom maternity portrait. King-size bed with crisp "
-            "white linen sheets, large white peony bouquet on nightstand, "
-            "sheer white voile curtains diffusing warm morning window light. "
-            "She wears a silk cream robe open to reveal the belly, seated elegantly "
-            "on the edge of the bed. Soft shadows, warm 3200K light. "
-            "Hotel suite intimacy, quiet tenderness."
-        ),
+        "camera": "100mm lens.",
+        "scene": "Luxury hotel bedroom, king bed with white linen, white peonies on nightstand, sheer curtains.",
+        "lighting": "Warm morning window light diffused through sheer voile curtains.",
+        "outfit": "Silk cream robe open to reveal belly.",
+        "pose": "Seated on edge of bed, one hand on belly, looking down at belly with love, soft smile.",
+        "framing": "Medium waist-up portrait.",
+        "processing": "Color, warm 3200K intimate tones, soft shadow detail.",
     },
 
-    # ─── TEMÁTICOS & ESPECIAIS ────────────────────────────────────────────────
+    # ─── TEMÁTICOS & ESPECIAIS ──────────────────────────────────────
+
     "red_lotus": {
         "name": "Natal Aconchegante",
         "category": "Temáticos & Especiais",
-        "description": "Sala de estar aconchegante no Natal. Árvore iluminada com pisca-piscas dourados. Lareira acesa. Sofá branco. Pijama de seda vermelho. Pipoca. Magia natalina calorosa.",
+        "description": "Sala de estar natalina com árvore iluminada, lareira acesa, sofá branco e pijama de seda vermelho.",
         "cover": "/thumbnails/red_lotus.png",
-        "lens": "wide",
-        "pose": "seated_grace",
-        "expression": "laughing",
-        "framing": "three_quarters",
-        "prompt": (
-            "Cozy Christmas maternity portrait. Living room scene: lit Christmas tree "
-            "with warm golden fairy lights, crackling fireplace glow from the right. "
-            "White plush sofa with cream knit throw. She sits in lotus position "
-            "wearing red silk pajamas, popcorn bowl on lap. "
-            "Warm amber and red candlelight tones. Magical holiday warmth."
-        ),
+        "camera": "35mm lens.",
+        "scene": "Cozy living room, lit Christmas tree with golden fairy lights, crackling fireplace, white plush sofa.",
+        "lighting": "Warm amber firelight from right, golden fairy light glow, soft ambient fill.",
+        "outfit": "Red silk pajamas.",
+        "pose": "Seated in lotus on white sofa, hands on belly, genuine soft laugh.",
+        "framing": "Three-quarter length.",
+        "processing": "Color, warm amber and red candlelight tones, magical holiday warmth.",
     },
 }
-
 
 # ══════════════════════════════════════════════════════════════
 # NEGATIVE PROMPT — reference only (not used by gpt-image-2)
@@ -457,10 +367,19 @@ NEGATIVE_PROMPT = (
     "instagram filter, influencer aesthetic, stock photo look, ai artifacts."
 )
 
-
 # ══════════════════════════════════════════════════════════════
 # PROMPT GENERATOR
 # ══════════════════════════════════════════════════════════════
+FALLBACK_STYLE = {
+    "camera": "85mm lens.",
+    "scene": "Professional studio, neutral backdrop.",
+    "lighting": "Soft natural studio light from front.",
+    "outfit": "Flowing elegant maternity dress.",
+    "pose": "Standing with hands on belly, warm expression toward camera.",
+    "framing": "Three-quarter length.",
+    "processing": "Color, professional finish.",
+}
+
 def generate_prompt(
     tipo_ensaio: str,
     subject_description: str = "",
@@ -473,70 +392,58 @@ def generate_prompt(
     lens_type: str = None,
     use_identity_text: bool = True,
 ) -> str:
-    """
-    Assembles a full generation prompt for gpt-image-2.
-
-    Priority:
-      1. Caller-provided overrides (framing, pose, expression, lens).
-      2. Style preset defaults.
-      3. Global fallbacks.
-    """
     preset = STYLE_PRESETS.get(tipo_ensaio)
     if not preset:
         logger.warning(f"Unknown style '{tipo_ensaio}' — using fallback.")
-        style_prompt = "Professional maternity portrait in a beautiful natural setting."
-        _framing  = FRAMING_VARIANTS["three_quarters"]
-        _pose     = POSE_LIBRARY["front_cradle"]
-        _expr     = EXPRESSION_LIBRARY["warm"]
-        _lens     = LENS_PRESETS["portrait"]
+        style = FALLBACK_STYLE
     else:
-        style_prompt = preset["prompt"]
-        _framing  = FRAMING_VARIANTS.get(framing or preset.get("framing", "three_quarters"),
-                                          FRAMING_VARIANTS["three_quarters"])
-        _pose     = POSE_LIBRARY.get(pose_key or preset.get("pose", "front_cradle"),
-                                      POSE_LIBRARY["front_cradle"])
-        _expr     = EXPRESSION_LIBRARY.get(expression_key or preset.get("expression", "warm"),
-                                            EXPRESSION_LIBRARY["warm"])
-        _lens     = LENS_PRESETS.get(lens_type or preset.get("lens", "portrait"),
-                                      LENS_PRESETS["portrait"])
+        style = preset
+
+    if framing:
+        framing_part = FRAMING_VARIANTS.get(framing, style["framing"])
+    else:
+        framing_part = style["framing"]
+
+    if lens_type:
+        lens_part = LENS_PRESETS.get(lens_type, style["camera"])
+    else:
+        lens_part = style["camera"]
+
+    pose_parts = []
+    if pose_key:
+        pose_parts.append(POSE_LIBRARY.get(pose_key, style["pose"]))
+    else:
+        pose_parts.append(style["pose"])
+    if expression_key:
+        expr_text = EXPRESSION_LIBRARY.get(expression_key, "")
+        if expr_text:
+            pose_parts.append(expr_text)
+    pose_part = ", ".join(pose_parts)
 
     parts = []
-
-    # 1. Identity anchor — OPEN (most important, gpt-image-2 reads first)
     if use_identity_text:
-        parts.append(IDENTITY_OPEN)
-
-    # 2. Style — the physical set, outfit, and lighting
-    parts.append(style_prompt)
-
-    # 3. Composition details
-    parts.append(_framing)
-    parts.append(_pose)
-    parts.append(_expr)
-
-    # 4. Optional subject details from user input
+        parts.append(IDENTITY_TEXT)
+    parts.append(style["scene"])
+    parts.append(style["lighting"])
+    parts.append(style["outfit"])
+    parts.append(pose_part)
+    parts.append(framing_part)
+    parts.append(lens_part)
+    parts.append(style["processing"])
     if subject_description:
-        parts.append(f"Additional details: {subject_description}")
+        parts.append(f"Subject: {subject_description}")
 
-    # 5. Technical lens info
-    parts.append(_lens)
+    final = " ".join(parts)
+    final = " ".join(final.split())
 
-    # 6. Identity anchor — CLOSE (reinforces at end, combats drift on long prompts)
-    if use_identity_text:
-        parts.append(IDENTITY_CLOSE)
-
-    final_prompt = " ".join(parts)
-    # Normalize whitespace
-    final_prompt = " ".join(final_prompt.split())
-
-    if len(final_prompt) > MAX_PROMPT_LENGTH:
+    if len(final) > MAX_PROMPT_LENGTH:
         logger.warning(
-            f"Prompt exceeded {MAX_PROMPT_LENGTH} chars ({len(final_prompt)}). Truncating."
+            f"Prompt exceeded {MAX_PROMPT_LENGTH} chars ({len(final)}). Truncating."
         )
-        final_prompt = final_prompt[:MAX_PROMPT_LENGTH].rstrip()
+        final = final[:MAX_PROMPT_LENGTH].rstrip()
 
-    logger.info(f"Prompt built: style='{tipo_ensaio}' | {len(final_prompt)} chars")
-    return final_prompt
+    logger.info(f"Prompt built: style='{tipo_ensaio}' | {len(final)} chars")
+    return final
 
 
 def generate_negative_prompt() -> str:

@@ -13,7 +13,7 @@ class TestPromptEngine:
 
     def test_generate_prompt_unknown_style(self):
         result = generate_prompt(tipo_ensaio="estilo_inexistente")
-        assert "Professional maternity portrait" in result
+        assert "Professional studio" in result
 
     def test_generate_prompt_respects_max_length(self):
         result = generate_prompt(tipo_ensaio="classic")
