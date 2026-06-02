@@ -155,7 +155,7 @@ def queue_generation(user_id: str, image_urls: list = None, tipo_ensaio: str = N
         # Modo EAGER: roda em background thread para não travar o HTTP request
         logger.info(f"[EAGER] Job {job_id} executando em background thread...")
         t = threading.Thread(
-            target=generate_image_task.run,
+            target=generate_image_task,
             args=(job_id, image_urls, tipo_ensaio, prompt, user.id),
             daemon=True,
         )
