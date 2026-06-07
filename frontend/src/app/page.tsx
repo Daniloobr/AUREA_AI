@@ -109,11 +109,11 @@ const testimonials = [
 
 const galleryImages = [
   { src: '/landing/gallery1.png', alt: 'Ensaio maternidade estúdio lunar' },
-  { src: '/ensaios/floral.png', alt: 'Ensaio maternidade floral' },
+  { src: '/landing/gallery5.png', alt: 'Ensaio maternidade floral' },
   { src: '/landing/gallery3.png', alt: 'Ensaio maternidade clássico' },
   { src: '/landing/gallery4.png', alt: 'Ensaio maternidade editorial' },
   { src: '/landing/gallery2.png', alt: 'Ensaio maternidade azul' },
-  { src: '/ensaios/editorial.png', alt: 'Ensaio maternidade editorial luxo' },
+  { src: '/landing/gallery6.png', alt: 'Ensaio maternidade editorial luxo' },
 ];
 
 /* ═══════════════════════════════════════════════════════════════════════════
