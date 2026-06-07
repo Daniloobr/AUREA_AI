@@ -72,7 +72,7 @@ const features = [
   {
     icon: Zap,
     title: 'Entrega Rápida',
-    desc: 'Seu ensaio pronto em até 24 horas.',
+    desc: 'Ensaio pronto em minutos.',
   },
 ];
 
