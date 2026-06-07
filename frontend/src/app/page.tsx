@@ -151,20 +151,14 @@ export default function LandingPage() {
 
             {/* Título */}
             <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-serif font-semibold tracking-tight leading-[1.0]">
-              Sua essência.
+              Crie seu ensaio gestante
               <br />
-              Eternizada com
-              <br />
-              <span className="bg-gradient-to-r from-[#748FCC] to-[#9FB3E6] bg-clip-text text-transparent">
-                tecnologia.
-              </span>
+              sem sair de casa.
             </h1>
 
             {/* Subtítulo */}
             <p className="text-lg sm:text-xl text-[#B8BCC4] font-light max-w-lg leading-relaxed">
-              Ensaio fotográfico para gestantes gerado por IA.
-              <br />
-              Imagens realistas, emocionantes e atemporais.
+              Transforme suas fotos em um ensaio fotográfico profissional usando inteligência artificial.
             </p>
 
             {/* CTAs */}
