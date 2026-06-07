@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import MetaPixel from "@/components/MetaPixel";
 
 // ─── Tipografia ───────────────────────────────────────────────────────────────
 // Cormorant Garamond: títulos serifados elegantes
@@ -68,6 +69,7 @@ export default function RootLayout({
       <body
         className={`${montserrat.variable} ${cormorant.variable} antialiased bg-black text-white min-h-screen flex flex-col font-sans`}
       >
+        <MetaPixel />
         <AuthProvider>
           <Navbar />
           <main className="flex-1 w-full pt-16">

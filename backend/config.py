@@ -30,7 +30,7 @@ class Config:
     # Email (Brevo)
     # ──────────────────────────────────────────────
     BREVO_API_KEY = os.environ.get('BREVO_API_KEY')
-    BREVO_SENDER_EMAIL = os.environ.get('BREVO_SENDER_EMAIL', 'contato@aureaia.com')
+    BREVO_SENDER_EMAIL = os.environ.get('BREVO_SENDER_EMAIL', 'aureai.contato@outlook.com')
     BREVO_SENDER_NAME = os.environ.get('BREVO_SENDER_NAME', 'AureaIA')
 
     # ──────────────────────────────────────────────

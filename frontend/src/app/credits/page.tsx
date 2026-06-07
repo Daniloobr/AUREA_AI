@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, Suspense, useCallback } from 'react';
+import React, { useState, useEffect, useRef, Suspense, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Check, Sparkles, ShieldCheck, Gem, Star, Zap,
@@ -12,6 +12,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { apiService } from '@/services/api';
+import { purchase as metaPurchase } from '@/lib/metaPixel';
 
 const PACKAGES = [
   {
@@ -51,16 +52,28 @@ function CreditsContent() {
   const [pixCopied, setPixCopied] = useState(false);
   const [cardPaymentId, setCardPaymentId] = useState<string | null>(null);
   const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
+  const pendingPurchase = useRef<{ value: number; transactionId: string } | null>(null);
+  const purchaseFired = useRef(false);
+
+  const firePurchase = useCallback((value: number, transactionId: string) => {
+    if (purchaseFired.current) return;
+    purchaseFired.current = true;
+    metaPurchase(value, transactionId);
+  }, []);
 
   useEffect(() => {
     if (searchParams.get('success') === 'true') {
       setNotification({ message: 'Pagamento confirmado! Atualizando saldo...', type: 'success' });
+      if (pendingPurchase.current) {
+        firePurchase(pendingPurchase.current.value, pendingPurchase.current.transactionId);
+        pendingPurchase.current = null;
+      }
       refreshUser().then(() => {
         setNotification({ message: 'Créditos atualizados com sucesso!', type: 'success' });
       });
       router.replace('/credits');
     }
-  }, [searchParams, refreshUser, router]);
+  }, [searchParams, refreshUser, router, firePurchase]);
 
   useEffect(() => {
     if (notification) {
@@ -81,6 +94,10 @@ function CreditsContent() {
       try {
         const res = await apiService.get(`/payment-status/${pixPaymentId}`, token || '');
         if (res?.status === 'RECEIVED' || res?.status === 'CONFIRMED') {
+          if (pendingPurchase.current) {
+            firePurchase(pendingPurchase.current.value, pendingPurchase.current.transactionId);
+            pendingPurchase.current = null;
+          }
           setSelectedPkg(null);
           setPixPaymentId(null);
           setQrCodeBase64('');
@@ -97,7 +114,7 @@ function CreditsContent() {
     };
     const initialDelay = setTimeout(poll, 1000);
     return () => clearTimeout(initialDelay);
-  }, [pixPaymentId, token, refreshUser]);
+  }, [pixPaymentId, token, refreshUser, firePurchase]);
 
   useEffect(() => {
     if (!cardPaymentId) return;
@@ -111,6 +128,10 @@ function CreditsContent() {
       try {
         const res = await apiService.get(`/payment-status/${cardPaymentId}`, token || '');
         if (res?.status === 'RECEIVED' || res?.status === 'CONFIRMED') {
+          if (pendingPurchase.current) {
+            firePurchase(pendingPurchase.current.value, pendingPurchase.current.transactionId);
+            pendingPurchase.current = null;
+          }
           setSelectedPkg(null);
           setCardPaymentId(null);
           setCheckoutUrl(null);
@@ -127,7 +148,7 @@ function CreditsContent() {
     };
     const initialDelay = setTimeout(poll, 1000);
     return () => clearTimeout(initialDelay);
-  }, [cardPaymentId, token, refreshUser]);
+  }, [cardPaymentId, token, refreshUser, firePurchase]);
 
   const notify = useCallback((msg: string, type: 'success' | 'error') => {
     setNotification({ message: msg, type });
@@ -157,6 +178,8 @@ function CreditsContent() {
         description: selectedPkg.name,
       }, token);
       if (res?.success) {
+        pendingPurchase.current = { value: selectedPkg.priceValue, transactionId: res.payment_id };
+        purchaseFired.current = false;
         setQrCodeBase64(res.qr_code_base64 || '');
         setQrCodeText(res.qr_code || '');
         setPixPaymentId(res.payment_id);
@@ -190,6 +213,8 @@ function CreditsContent() {
         description: selectedPkg.name,
       }, token);
       if (res?.success && res.checkout_url) {
+        pendingPurchase.current = { value: selectedPkg.priceValue, transactionId: res.payment_id };
+        purchaseFired.current = false;
         setCardPaymentId(res.payment_id);
         setCheckoutUrl(res.checkout_url);
         window.open(res.checkout_url, '_blank');
