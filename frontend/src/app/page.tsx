@@ -108,12 +108,12 @@ const testimonials = [
 ];
 
 const galleryImages = [
-  { src: '/landing/gallery1.png', alt: 'Ensaio maternidade estúdio lunar' },
-  { src: '/landing/gallery5.png', alt: 'Ensaio maternidade floral' },
-  { src: '/landing/gallery3.png', alt: 'Ensaio maternidade clássico' },
-  { src: '/landing/gallery4.png', alt: 'Ensaio maternidade editorial' },
-  { src: '/landing/gallery2.png', alt: 'Ensaio maternidade azul' },
-  { src: '/landing/gallery6.png', alt: 'Ensaio maternidade editorial luxo' },
+  { src: '/landing/gallery1.png', alt: 'A Essência do Clássico' },
+  { src: '/landing/gallery5.png', alt: 'Maternidade em Estilo Editorial' },
+  { src: '/landing/gallery3.png', alt: 'Delicadeza em Cada Detalhe' },
+  { src: '/landing/gallery4.png', alt: 'Luz, Sorriso e Essência' },
+  { src: '/landing/gallery2.png', alt: 'Serenidade em Branco' },
+  { src: '/landing/gallery6.png', alt: 'Contrastes Atemporais' },
 ];
 
 /* ═══════════════════════════════════════════════════════════════════════════
