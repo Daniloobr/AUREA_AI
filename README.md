@@ -174,7 +174,7 @@ npm run dev
 | `AI_PROVIDER_API_TOKEN` | Token do motor de IA |
 | `SUPABASE_URL` | URL do Supabase |
 | `SUPABASE_KEY` | Anon key do Supabase |
-| `SENDGRID_API_KEY` | (opcional) Email |
+| `BREVO_API_KEY` | API Key do Brevo para e-mail |
 
 ---
 

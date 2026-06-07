@@ -1,29 +1,70 @@
 import re
+import random
 from flask import Blueprint, request, jsonify, make_response, current_app
 import os
 import uuid
-from models.db_models import User, Transaction
+from models.db_models import User, Transaction, EmailVerification
 from database import db
 from utils.auth_utils import generate_token, token_required
 from limiter_instance import limiter
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 
 logger = logging.getLogger(__name__)
 auth_bp = Blueprint('auth', __name__)
+
+def _generate_code():
+    return str(random.randint(100000, 999999))
+
+@auth_bp.route('/send-verification', methods=['POST'])
+@limiter.limit("5 per minute")
+def send_verification():
+    data = request.json
+    if not data or not data.get('email'):
+        return jsonify({"success": False, "error": "E-mail é obrigatório."}), 400
+
+    raw_email = data.get('email', '').lower().strip()
+    name = data.get('name', 'Usuário')
+
+    if not re.match(r'^[^\s@]+@[^\s@]+\.[^\s@]+$', raw_email):
+        return jsonify({"success": False, "error": "Formato de e-mail inválido."}), 400
+
+    user = User.query.filter_by(email=raw_email).first()
+    if user:
+        return jsonify({"success": False, "error": "Este email já possui cadastro."}), 409
+
+    code = _generate_code()
+    expires = datetime.utcnow() + timedelta(minutes=15)
+
+    verification = EmailVerification(email=raw_email, code=code, expires_at=expires)
+    db.session.add(verification)
+    db.session.commit()
+
+    import threading
+    def send_async():
+        try:
+            from services.email_service import email_service
+            email_service.send_verification_code(raw_email, name, code)
+        except Exception as e:
+            logger.warning(f"Failed to send verification code: {e}")
+
+    threading.Thread(target=send_async, daemon=True).start()
+
+    return jsonify({"success": True, "message": "Código de verificação enviado para o e-mail."})
 
 @auth_bp.route('/register', methods=['POST'])
 @limiter.limit("20 per hour")
 def register():
     data = request.json
-    if not data: return jsonify({"success": False, "error": "Dados inválidos. Envie nome, email e senha."}), 400
+    if not data: return jsonify({"success": False, "error": "Dados inválidos. Envie nome, email, senha e código de verificação."}), 400
 
     name = data.get('name')
     raw_email = data.get('email')
     password = data.get('password')
+    code = data.get('code')
 
-    if not name or not raw_email or not password:
-        return jsonify({"success": False, "error": "Todos os campos são obrigatórios"}), 400
+    if not name or not raw_email or not password or not code:
+        return jsonify({"success": False, "error": "Todos os campos são obrigatórios, incluindo o código de verificação."}), 400
 
     email = raw_email.lower().strip()
 
@@ -35,20 +76,29 @@ def register():
 
     logger.info(f"Tentativa de registro: {email}")
 
-    # Check if user exists
     user = User.query.filter_by(email=email).first()
     if user: 
         logger.warning(f"Tentativa de registro com email já existente: {email}")
         return jsonify({"success": False, "error": "Este email já possui cadastro. Faça login ou recupere sua senha."}), 409
+
+    verification = EmailVerification.query.filter_by(
+        email=email, code=code, is_used=False
+    ).filter(EmailVerification.expires_at > datetime.utcnow()).first()
+
+    if not verification:
+        return jsonify({"success": False, "error": "Código de verificação inválido ou expirado. Solicite um novo código."}), 400
 
     try:
         new_user = User(name=name, email=email, credits_balance=0)
         new_user.set_password(password)
 
         db.session.add(new_user)
+
+        verification.is_used = True
+        EmailVerification.query.filter_by(email=email, is_used=False).delete()
+
         db.session.commit()
 
-        # Send Welcome Email (Async to prevent timeout)
         import threading
         def send_async_email(email, name):
             try:
@@ -302,7 +352,7 @@ def forgot_password():
     # Send Email
     frontend_url = current_app.config.get('FRONTEND_URL', 'http://localhost:3000')
     reset_link = f"{frontend_url}/reset-password?token={token}"
-    email_service.send_password_reset(user.email, reset_link)
+    email_service.send_password_reset_link(user.email, user.name, reset_link)
 
     return jsonify({"success": True, "message": "E-mail de recuperação enviado."})
 

@@ -25,9 +25,8 @@ export default function AuthCallback() {
 
       try {
         // Sync with Flask Backend
-        const response = await apiService.post('/auth/google', {
-          email: user.email,
-          name: user.user_metadata?.full_name || user.email?.split('@')[0]
+        const response = await apiService.post('/auth/google-login', {
+          access_token: session.access_token
         });
 
         if (response.success) {

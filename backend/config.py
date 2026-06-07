@@ -27,6 +27,13 @@ class Config:
     ADMIN_SECRET_KEY = os.environ.get('ADMIN_SECRET_KEY')
 
     # ──────────────────────────────────────────────
+    # Email (Brevo)
+    # ──────────────────────────────────────────────
+    BREVO_API_KEY = os.environ.get('BREVO_API_KEY')
+    BREVO_SENDER_EMAIL = os.environ.get('BREVO_SENDER_EMAIL', 'contato@aureaia.com')
+    BREVO_SENDER_NAME = os.environ.get('BREVO_SENDER_NAME', 'AureaIA')
+
+    # ──────────────────────────────────────────────
     # Security & Production
     # ──────────────────────────────────────────────
     FLASK_ENV = os.environ.get('FLASK_ENV', 'production')

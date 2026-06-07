@@ -11,7 +11,7 @@ def pytest_configure(config):
     os.environ['SUPABASE_URL'] = ''
     os.environ['SUPABASE_KEY'] = ''
     os.environ['SUPABASE_SERVICE_ROLE_KEY'] = ''
-    os.environ['SENDGRID_API_KEY'] = ''
+    os.environ['BREVO_API_KEY'] = ''
     os.environ['ASAAS_API_KEY'] = 'test_asaas_mock_key'
     os.environ['ASAAS_SANDBOX'] = 'False'
     os.environ['ASAAS_WEBHOOK_TOKEN'] = ''
