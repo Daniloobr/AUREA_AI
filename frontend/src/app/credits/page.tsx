@@ -267,14 +267,15 @@ function CreditsContent() {
           {PACKAGES.map((pkg, idx) => (
             <motion.div key={pkg.id} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }} className="flex w-full">
-              <div className={`flex-1 flex flex-col rounded-[28px] overflow-hidden transition-all duration-500 relative ${pkg.popular
-                ? 'bg-gradient-to-b from-[#748FCC]/20 to-[#0D0D0D] border-2 border-[#748FCC]/50 shadow-2xl scale-[1.02]'
-                : 'bg-[#121417] border border-[#1F2329] hover:border-[#748FCC]/20'}`}>
+              <div className={`flex-1 flex flex-col relative ${pkg.popular
+                ? 'border-2 border-[#748FCC]/50 shadow-2xl scale-[1.02]'
+                : 'border border-[#1F2329] hover:border-[#748FCC]/20'}`}>
                 {pkg.badge && (
-                  <div className={`absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[10px] font-bold uppercase tracking-widest px-5 py-1.5 rounded-full z-10 ${pkg.popular ? 'bg-[#748FCC] text-[#F5F5F7]' : 'bg-white/10 text-[#F5F5F7]/80'}`}>
+                  <div className={`absolute -top-3 left-1/2 -translate-x-1/2 text-[10px] font-bold uppercase tracking-widest px-5 py-1.5 rounded-full z-10 whitespace-nowrap ${pkg.popular ? 'bg-[#748FCC] text-[#F5F5F7]' : 'bg-white/10 text-[#F5F5F7]/80'}`}>
                     {pkg.badge}
                   </div>
                 )}
+                <div className={`flex-1 flex flex-col rounded-[28px] overflow-hidden transition-all duration-500 ${pkg.popular ? 'bg-gradient-to-b from-[#748FCC]/20 to-[#0D0D0D]' : 'bg-[#121417]'}`}>
                 <div className="p-10 flex flex-col flex-1">
                   <div className="mb-6 sm:mb-8">
                     <div className="w-14 h-14 rounded-2xl bg-[#748FCC]/10 border border-[#748FCC]/20 flex items-center justify-center mb-4">
@@ -307,6 +308,7 @@ function CreditsContent() {
                     <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
                   </Button>
                 </div>
+              </div>
               </div>
             </motion.div>
           ))}
